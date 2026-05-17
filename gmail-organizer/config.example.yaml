@@ -1,0 +1,78 @@
+# Gmail Organizer 設定檔
+# 複製成 config.yaml 後依照自己需求調整
+
+# === 廣告信自動歸檔 (archive-promos) ===
+archive_promos:
+  # Gmail 內建的「促銷內容」分類
+  use_category_promotions: true
+  # 額外的關鍵字 (出現在主旨或寄件人即視為廣告)
+  extra_keywords:
+    - "電子報"
+    - "newsletter"
+    - "優惠"
+    - "限時"
+    - "折扣"
+    - "unsubscribe"
+  # 只處理超過幾天的信 (避免剛收到的還沒看就被歸檔)
+  older_than_days: 3
+  # 同時標記為已讀
+  mark_as_read: true
+
+# === 老舊未讀信清理 (cleanup-old) ===
+cleanup_old:
+  # 多久沒互動視為「老舊」
+  older_than_days: 365
+  # 只清未讀的 (已讀的代表你看過，可能有用)
+  unread_only: true
+  # 排除這些 label (重要信件保護)
+  exclude_labels:
+    - "IMPORTANT"
+    - "STARRED"
+  # 排除這些寄件人 (永遠不刪)
+  exclude_senders:
+    - "boss@company.com"
+  # 動作: trash (丟垃圾桶, 30天後自動清) 或 delete (永久刪除, 危險)
+  action: trash
+
+# === 信用卡帳單下載 (download-statements) ===
+statements:
+  # 下載到哪個資料夾
+  output_dir: "./statements"
+  # 要找多久之前到現在的帳單
+  lookback_days: 730
+  # 開啟 PDF 附件密碼解鎖提示 (常見銀行帳單會用身分證/生日加密)
+  # 此工具不會自動解密, 只會把檔案下載下來
+  # 寄件人網域 (台灣常見銀行 + 主要國際發卡行)
+  issuer_domains:
+    - "cathaybk.com.tw"
+    - "cathayholdings.com"
+    - "ctbcbank.com"
+    - "esunbank.com.tw"
+    - "taishinbank.com.tw"
+    - "fubon.com"
+    - "sinopac.com"
+    - "hsbc.com.tw"
+    - "citibank.com.tw"
+    - "sc.com"
+    - "standardchartered.com.tw"
+    - "americanexpress.com"
+    - "aexp.com"
+    - "firstbank.com.tw"
+    - "megabank.com.tw"
+    - "bot.com.tw"
+    - "landbank.com.tw"
+    - "tcb-bank.com.tw"
+    - "scsb.com.tw"
+    - "kgibank.com"
+  # 主旨關鍵字 (任一命中即視為帳單)
+  subject_keywords:
+    - "信用卡"
+    - "電子帳單"
+    - "對帳單"
+    - "繳款通知"
+    - "e-Statement"
+    - "eStatement"
+    - "Statement"
+    - "credit card"
+  # 下載後在 Gmail 加上這個 label (沒有會自動建立)
+  apply_label: "Statements/Downloaded"

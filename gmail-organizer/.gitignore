@@ -1,0 +1,21 @@
+# 機敏檔案
+credentials.json
+token.json
+config.yaml
+
+# 下載的帳單
+statements/
+*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.python-version
+
+# 編輯器
+.vscode/
+.idea/
+.DS_Store
