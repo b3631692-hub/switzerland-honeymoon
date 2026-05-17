@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇨🇭 瑞士蜜月旅行 2025</title>
+<style>
+:root {
+  --red: #D32027;
+  --red-dark: #a81a1f;
+  --red-light: #f5e6e7;
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --blue: #1d4ed8;
+  --green: #15803d;
+  --amber: #d97706;
+  --purple: #7c3aed;
+  --teal: #0f766e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Helvetica Neue', '微軟正黑體', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  line-height: 1.6;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #c8102e 0%, #8B0000 50%, #2d0a0a 100%);
+  color: white;
+  text-align: center;
+  padding: 60px 20px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='2' fill='rgba(255,255,255,0.06)'/%3E%3C/svg%3E");
+}
+.hero-flag { font-size: 64px; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(28px, 5vw, 52px); font-weight: 800; letter-spacing: -0.5px; position: relative; }
+.hero-sub { font-size: clamp(14px, 2.5vw, 18px); opacity: 0.85; margin-top: 10px; position: relative; }
+.hero-stats {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;
+  margin-top: 32px; position: relative;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 14px;
+}
+.hero-stat strong { display: block; font-size: 22px; font-weight: 800; }
+
+/* ── NAV ── */
+.nav-wrap {
+  position: sticky; top: 0; z-index: 100;
+  background: white;
+  border-bottom: 2px solid var(--red);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.nav {
+  display: flex; overflow-x: auto;
+  max-width: 1100px; margin: 0 auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  flex-shrink: 0;
+  padding: 14px 22px;
+  border: none; background: none; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: var(--gray-500);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-btn:hover { color: var(--red); }
+.nav-btn.active { color: var(--red); border-bottom-color: var(--red); }
+
+/* ── CONTAINER ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-size: 22px; font-weight: 800; color: var(--red);
+  border-left: 5px solid var(--red); padding-left: 14px;
+  margin-bottom: 24px;
+}
+
+/* ── OVERVIEW CARDS ── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin-bottom: 32px;
+}
+.ov-card {
+  background: white; border-radius: 14px; padding: 20px;
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+}
+.ov-card .icon { font-size: 28px; margin-bottom: 8px; }
+.ov-card .label { font-size: 12px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; }
+.ov-card .value { font-size: 18px; font-weight: 700; margin-top: 4px; color: var(--gray-900); }
+.ov-card .value small { font-size: 13px; font-weight: 400; color: var(--gray-500); }
+
+/* ── ROUTE MAP ── */
+.route-wrap {
+  background: white; border-radius: 14px; padding: 24px;
+  border: 1px solid var(--gray-200); margin-bottom: 32px;
+}
+.route-title { font-size: 15px; font-weight: 700; color: var(--gray-700); margin-bottom: 16px; }
+.route-flow {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+}
+.route-stop {
+  background: var(--gray-100); border-radius: 20px;
+  padding: 6px 14px; font-size: 13px; font-weight: 600;
+  color: var(--gray-700); white-space: nowrap;
+}
+.route-stop.hub { background: var(--red); color: white; }
+.route-arrow { color: var(--gray-500); font-size: 16px; font-weight: 700; }
+
+/* ── IMPORTANT NOTES ── */
+.alert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.alert {
+  border-radius: 10px; padding: 14px 16px;
+  font-size: 13.5px; border-left: 4px solid;
+}
+.alert-red { background: #fef2f2; border-color: var(--red); }
+.alert-amber { background: #fffbeb; border-color: var(--amber); }
+.alert-blue { background: #eff6ff; border-color: var(--blue); }
+.alert-green { background: #f0fdf4; border-color: var(--green); }
+.alert strong { display: block; margin-bottom: 3px; }
+
+/* ── DAY CARDS ── */
+.base-section {
+  background: white; border-radius: 14px; margin-bottom: 24px;
+  border: 1px solid var(--gray-200); overflow: hidden;
+}
+.base-header {
+  padding: 14px 20px; font-size: 15px; font-weight: 800;
+  display: flex; align-items: center; gap: 10px; color: white;
+}
+.base-engadin { background: linear-gradient(90deg, #1a6b3c, #2d9d5e); }
+.base-zermatt { background: linear-gradient(90deg, #8B0000, #c8102e); }
+.base-bern { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+.base-zug { background: linear-gradient(90deg, #0f766e, #14b8a6); }
+.base-zurich { background: linear-gradient(90deg, #374151, #6b7280); }
+
+.day-card {
+  border-bottom: 1px solid var(--gray-100);
+  padding: 20px;
+}
+.day-card:last-child { border-bottom: none; }
+.day-header {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  align-items: flex-start; margin-bottom: 14px;
+}
+.day-date {
+  background: var(--red); color: white;
+  border-radius: 8px; padding: 4px 12px;
+  font-size: 13px; font-weight: 700; white-space: nowrap;
+}
+.day-loc {
+  font-size: 17px; font-weight: 800; color: var(--gray-900);
+  flex: 1; min-width: 160px;
+}
+.day-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.badge {
+  font-size: 11px; font-weight: 600; padding: 3px 9px;
+  border-radius: 20px; white-space: nowrap;
+}
+.badge-photo { background: #fef3c7; color: #92400e; }
+.badge-free { background: #d1fae5; color: #065f46; }
+.badge-stp { background: #dbeafe; color: #1e40af; }
+.badge-honey { background: #fce7f3; color: #9d174d; }
+.badge-warning { background: #fee2e2; color: #991b1b; }
+
+.day-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media(max-width: 640px) { .day-grid { grid-template-columns: 1fr; } }
+
+.day-col-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--gray-500); margin-bottom: 6px;
+}
+.day-text { font-size: 13.5px; color: var(--gray-700); white-space: pre-line; }
+
+.hotel-box {
+  background: var(--gray-50); border-radius: 8px; padding: 10px 12px;
+  font-size: 13px; color: var(--gray-700);
+}
+.hotel-box strong { color: var(--gray-900); display: block; margin-bottom: 2px; }
+
+.photo-box {
+  background: #fffbeb; border-radius: 8px; padding: 10px 12px;
+  font-size: 13px; color: #78350f; white-space: pre-line;
+  border-left: 3px solid #f59e0b;
+}
+
+.cost-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #f0fdf4; color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px; padding: 4px 10px; font-size: 12px; font-weight: 600;
+  margin-top: 6px;
+}
+.cost-pill.paid { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+
+/* ── BUDGET ── */
+.budget-summary {
+  background: white; border-radius: 14px; padding: 24px;
+  border: 1px solid var(--gray-200); margin-bottom: 24px;
+}
+.budget-total {
+  text-align: center; padding: 20px;
+  background: linear-gradient(135deg, #c8102e, #8B0000);
+  border-radius: 12px; color: white; margin-bottom: 24px;
+}
+.budget-total .amount { font-size: 36px; font-weight: 900; letter-spacing: -1px; }
+.budget-total .per-person { font-size: 16px; opacity: 0.85; margin-top: 4px; }
+
+.budget-bars { display: flex; flex-direction: column; gap: 12px; }
+.budget-row { display: flex; align-items: center; gap: 12px; }
+.budget-label { width: 120px; font-size: 13px; font-weight: 600; color: var(--gray-700); flex-shrink: 0; }
+.budget-bar-wrap { flex: 1; background: var(--gray-100); border-radius: 6px; height: 20px; overflow: hidden; }
+.budget-bar { height: 100%; border-radius: 6px; transition: width 1s ease; }
+.budget-amount { width: 90px; font-size: 13px; font-weight: 700; text-align: right; flex-shrink: 0; }
+
+.budget-table {
+  width: 100%; border-collapse: collapse; font-size: 13.5px;
+}
+.budget-table th {
+  background: var(--gray-100); text-align: left;
+  padding: 10px 12px; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-500);
+}
+.budget-table td { padding: 10px 12px; border-bottom: 1px solid var(--gray-100); }
+.budget-table tr:last-child td { border-bottom: none; }
+.budget-table .cat-header td {
+  background: var(--gray-50); font-weight: 800; color: var(--gray-700);
+  font-size: 13px;
+}
+.tag-confirmed { color: #15803d; font-weight: 700; font-size: 12px; }
+.tag-estimate { color: #d97706; font-weight: 700; font-size: 12px; }
+.tag-free { color: #7c3aed; font-weight: 700; font-size: 12px; }
+.amount-cell { font-weight: 700; text-align: right; }
+
+/* ── PHOTO GUIDE ── */
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.photo-card {
+  background: white; border-radius: 14px;
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+}
+.photo-card-header {
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.rank-badge {
+  font-size: 22px; font-weight: 900; color: var(--red);
+  width: 44px; flex-shrink: 0; text-align: center;
+}
+.photo-name { font-size: 15px; font-weight: 800; }
+.photo-base { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+.photo-card-body { padding: 0 16px 16px; font-size: 13px; color: var(--gray-700); }
+.photo-timing {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fef3c7; color: #92400e;
+  border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600;
+  margin-top: 8px;
+}
+
+/* ── STP GUIDE ── */
+.stp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.stp-card {
+  border-radius: 12px; padding: 18px;
+  border: 2px solid;
+}
+.stp-free { background: #f0fdf4; border-color: #bbf7d0; }
+.stp-half { background: #eff6ff; border-color: #bfdbfe; }
+.stp-extra { background: #fff7ed; border-color: #fed7aa; }
+.stp-booking { background: #f5f3ff; border-color: #ddd6fe; }
+.stp-card h3 { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+.stp-card ul { list-style: none; padding: 0; }
+.stp-card li { font-size: 13px; padding: 3px 0; display: flex; gap: 6px; }
+.stp-card li::before { content: '•'; flex-shrink: 0; }
+
+/* ── REMINDERS ── */
+.reminder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.reminder-card {
+  background: white; border-radius: 12px; padding: 18px;
+  border: 1px solid var(--gray-200);
+}
+.reminder-card h3 { font-size: 14px; font-weight: 800; margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.reminder-card ul { list-style: none; padding: 0; }
+.reminder-card li { font-size: 13px; padding: 4px 0; border-bottom: 1px solid var(--gray-100); display: flex; gap: 8px; }
+.reminder-card li:last-child { border-bottom: none; }
+
+/* ── CHECKLIST ── */
+.checklist { background: white; border-radius: 14px; padding: 24px; border: 1px solid var(--gray-200); }
+.checklist h3 { font-size: 15px; font-weight: 800; margin-bottom: 14px; color: var(--gray-700); }
+.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px; }
+.check-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; padding: 6px 10px; border-radius: 6px;
+  background: var(--gray-50); cursor: pointer;
+  user-select: none;
+}
+.check-item input[type=checkbox] { accent-color: var(--red); width: 15px; height: 15px; flex-shrink: 0; }
+.check-item.done { text-decoration: line-through; color: var(--gray-500); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; padding: 32px 16px;
+  font-size: 13px; color: var(--gray-500);
+  border-top: 1px solid var(--gray-200); background: white;
+  margin-top: 16px;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width: 480px) {
+  .budget-label { width: 80px; font-size: 12px; }
+  .budget-amount { width: 75px; font-size: 12px; }
+  .hero { padding: 40px 16px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-flag">🇨🇭</div>
+  <h1>瑞士蜜月旅行</h1>
+  <p class="hero-sub">2025年6月16日 – 7月1日 ｜ 兩人同行 ｜ 16天15晚</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>16</strong>天行程</div>
+    <div class="hero-stat"><strong>6</strong>個基地城市</div>
+    <div class="hero-stat"><strong>15</strong>日 STP Pass</div>
+    <div class="hero-stat"><strong>~31.7萬</strong>總預算(雙人)</div>
+    <div class="hero-stat"><strong>TOP 10</strong>攝影景點</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showTab('overview')">🗺️ 行程總覽</button>
+    <button class="nav-btn" onclick="showTab('itinerary')">📅 每日行程</button>
+    <button class="nav-btn" onclick="showTab('budget')">💰 費用預算</button>
+    <button class="nav-btn" onclick="showTab('photo')">📸 攝影指南</button>
+    <button class="nav-btn" onclick="showTab('stp')">🚂 STP Pass</button>
+    <button class="nav-btn" onclick="showTab('reminders')">⚠️ 重要提醒</button>
+  </nav>
+</div>
+
+<div class="container">
+
+<!-- ────── 行程總覽 ────── -->
+<div id="tab-overview" class="section active">
+  <div class="sec-title">行程總覽</div>
+
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="icon">✈️</div>
+      <div class="label">出發</div>
+      <div class="value">6/16 00:30 <small>桃園機場</small></div>
+    </div>
+    <div class="ov-card">
+      <div class="icon">🏠</div>
+      <div class="label">回程</div>
+      <div class="value">7/1 22:00 <small>蘇黎世起飛</small></div>
+    </div>
+    <div class="ov-card">
+      <div class="icon">🚂</div>
+      <div class="label">Swiss Travel Pass</div>
+      <div class="value">6/17 – 7/1 <small>15日二等艙</small></div>
+    </div>
+    <div class="ov-card">
+      <div class="icon">📷</div>
+      <div class="label">相機</div>
+      <div class="value">Sony A7R5 <small>+ 多顆鏡頭</small></div>
+    </div>
+  </div>
+
+  <!-- Route Flow -->
+  <div class="route-wrap">
+    <div class="route-title">🗺️ 旅遊路線</div>
+    <div class="route-flow">
+      <span class="route-stop">台灣</span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop hub">蘇黎世機場<br><small>6/16</small></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop hub">聖莫里茲<br><small>6/17–6/21（4晚）</small></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop">庫爾 6/21</span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop hub">策馬特<br><small>6/21–6/24（3晚）</small></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop">Kandersteg</span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop hub">伯恩<br><small>6/24–6/26（2晚）</small></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop hub">楚格<br><small>6/26–6/29（3晚）</small></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop hub">蘇黎世<br><small>6/29–7/1（2晚）</small></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop">台灣</span>
+    </div>
+  </div>
+
+  <!-- Quick Reminders -->
+  <div class="sec-title" style="font-size:17px">📌 出發前確認清單</div>
+  <div class="alert-grid">
+    <div class="alert alert-red">
+      <strong>⚠️ 截止期限快到</strong>
+      Chalet Achat（策馬特）— 已付款，需填寫 pre-checkin 資料<br>
+      Hotel Zugertor 取消期限：6/20（出發後！提前確認）<br>
+      Ibis Budget 取消期限：6/27（出發後！提前確認）
+    </div>
+    <div class="alert alert-amber">
+      <strong>⚠️ 需提前預約</strong>
+      飛行傘 FlyZermatt（策馬特 6/23）<br>
+      Restaurant Schäferstube — 蜜月慶祝特餐（6/23）<br>
+      Fex Valley 馬車 Coretti：+41 81 826 56 73（6/20）
+    </div>
+    <div class="alert alert-blue">
+      <strong>🚂 需提前購買</strong>
+      冰河列車訂位費 CHF 13/人（Chur→Zermatt，6/21）<br>
+      Swiss Travel Pass（建議台灣購買，比當地便宜10–15%）
+    </div>
+    <div class="alert alert-green">
+      <strong>✅ 已確認付款</strong>
+      來回機票 ｜ 所有住宿（含Chalet Achat付清）<br>
+      Swiss Travel Pass ｜ 上網SIM卡 2支
+    </div>
+  </div>
+</div>
+
+<!-- ────── 每日行程 ────── -->
+<div id="tab-itinerary" class="section">
+  <div class="sec-title">每日行程</div>
+
+  <!-- 台灣 → 蘇黎世 -->
+  <div class="base-section">
+    <div class="base-header base-zurich">✈️ 出發日 ｜ 台灣 → 蘇黎世機場</div>
+
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/16 (一)</span>
+        <div>
+          <div class="day-loc">台灣 → 蘇黎世機場</div>
+          <div class="day-badges">
+            <span class="badge badge-photo">📸 機場攝影</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">🕛 00:30 桃園國際機場出發
+🕑 13:20 抵達蘇黎世機場
+入住機場附近飯店 check-in
+
+★ 機場周邊活動（不進城）：
+• Observation Deck B（Terminal B頂樓）
+  搭纜車眺望飛機起降，CHF 10/人
+• Pistenende 跑道端（Bus 510）
+  Blauherstasse 拍機角度，約15分
+• The Circle 商場：餐廳+機場夜景
+
+🍽️ 午餐：機場Migros/Coop超市
+🍽️ 晚餐：The Circle餐廳
+⚠️ 隔天早起，22:00前返飯店</div>
+        </div>
+        <div>
+          <div class="day-col-title">住宿 / 交通 / 費用</div>
+          <div class="hotel-box">
+            <strong>Trip Inn Jet Hotel Zürich Airport</strong>
+            機場旁，步行可達
+            <br>⚠️ 取消期限：6/14 23:59（免費取消）
+          </div>
+          <span class="cost-pill">ZVV 機場周邊 約 TWD 300</span>
+          <span class="cost-pill">Observation Deck B TWD 700（雙人）</span>
+          <br><br>
+          <div class="photo-box">📸 機場攝影
+①Observation Deck B：飛機起降俯瞰
+②Pistenende：降落正面來機
+  帶 200–300mm 鏡頭
+③The Circle 夜景：燈光建築
+⚠️ Deck B 夏季 10:00 開放</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 恩加丁基地 -->
+  <div class="base-section">
+    <div class="base-header base-engadin">🏔️ 恩加丁基地 ｜ 聖莫里茲 (Pontresina) ｜ 6/17–6/21（4晚）｜ Hotel Station Pontresina + Engadin Inclusive Card</div>
+
+    <!-- 6/17 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/17 (二)</span>
+        <div>
+          <div class="day-loc">蘇黎世 → Pontresina → Muottas Muragl</div>
+          <div class="day-badges">
+            <span class="badge badge-stp">STP 啟用第1天</span>
+            <span class="badge badge-free">Card 免費纜車</span>
+            <span class="badge badge-photo">📸 三湖全景</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">早餐後退房，搭火車前往 Pontresina
+★ STP 啟用第1天（6/17起）
+Check-in，向飯店領取 Engadin Inclusive Card
+
+輕裝至 Punt Muragl 站
+搭纜車上 Muottas Muragl（2,454m）
+★ Card 免費！俯瞰恩加丁三湖+夕陽
+
+🍽️ 午餐：火車上
+🍽️ 晚餐：Pontresina 市區
+⚠️ 確認末班纜車時間再上山</div>
+        </div>
+        <div>
+          <div class="day-col-title">住宿 / 交通 / 費用</div>
+          <div class="hotel-box">
+            <strong>Hotel Station Pontresina</strong>
+            Via dalla Staziun，含 Engadin Inclusive Card（4晚）
+            <br>⚠️ 取消期限：6/9（已過，確認訂單）
+          </div>
+          <span class="cost-pill">STP 火車全免</span>
+          <span class="cost-pill">Muottas Muragl 纜車：Card 免費！（省 TWD 2,975）</span>
+          <br><br>
+          <div class="photo-box">📸 Muottas Muragl (2,454m)
+Silsersee + Silvaplana + St.Moritz 三湖連拍
+光線：傍晚側光最佳
+⚠️ 纜車從 Punt Muragl 站搭
+⚠️ Check-in 記得領 Engadin Card</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/18 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/18 (三)</span>
+        <div>
+          <div class="day-loc">Diavolezza 冰川 + Alp Languard + 婚紗攝影</div>
+          <div class="day-badges">
+            <span class="badge badge-free">Card 免費纜車</span>
+            <span class="badge badge-photo">📸 冰川攝影</span>
+            <span class="badge badge-honey">💍 婚紗拍攝</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">步行至 Pontresina 車站
+STP 火車至 Diavolezza 站
+★ Card 免費纜車上 Diavolezza（2,978m）
+冰川體驗步道（約1.5小時環形）
+近距離欣賞 Pers 冰川 + Piz Bernina
+山頂餐廳午餐
+
+下午返回，搭吊椅纜車上 Alp Languard
+★ Card 免費！俯瞰 Pontresina 村+野生羱羊
+⚠️ 吊椅末班 17:30，務必準時下山
+
+★ 傍晚婚紗攝影（約 18:00）
+Pontresina 村內石板街道
+Lej da Staz 小湖湖畔
+⚠️ 日落約 21:00，傍晚光線極佳
+
+🍽️ 午餐：Diavolezza 山頂餐廳
+🍽️ 晚餐：Pontresina 市區</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">STP 火車全免</span>
+          <span class="cost-pill">Diavolezza 纜車：Card 免費（省 TWD 2,660）</span>
+          <span class="cost-pill">Alp Languard：Card 免費（省 TWD 2,030）</span>
+          <br><br>
+          <div class="photo-box">📸 Diavolezza 冰川
+Pers 冰川 + Piz Bernina(4,049m) 全景
+冰川體驗步道冰磧石地形
+⚠️ 6月可能殘雪，穿登山鞋
+
+📸 Alp Languard
+Pontresina 村俯瞰+野生羱羊
+⚠️ 吊椅末班 17:30！</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/19 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/19 (四)</span>
+        <div>
+          <div class="day-loc">Ospizio Bernina → Alp Grüm → Brusio 螺旋橋 → Tirano</div>
+          <div class="day-badges">
+            <span class="badge badge-free">STP 完全免費</span>
+            <span class="badge badge-photo">📸 UNESCO 鐵道</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">搭 Regio 區間車沿 UNESCO 鐵道南下
+
+★ 中途停 Ospizio Bernina（2,253m）
+  Lago Bianco 白色高山湖泊拍攝
+
+繼續至 Alp Grüm（2,091m）
+★ 俯瞰 Palü 冰川，百年老餐廳露台午餐
+
+繼續至 Brusio
+★ Brusio 螺旋橋（全歐稀有）
+
+繼續至 Tirano（義大利）
+★ 義大利晚餐 🍝
+
+⚠️ 各站需主動下車，司機不提醒
+⚠️ 確認末班 Regio 返回時間
+
+🍽️ 午餐：Alp Grüm 百年餐廳（強烈推薦）
+🍽️ 晚餐：Tirano 義式料理 Ristorante Valtellinese</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">STP Regio 全程免費 0元！無需訂位費</span>
+          <br><br>
+          <div class="photo-box">📸 四個攝影重點
+①Ospizio Bernina：Lago Bianco 白色湖+鐵道
+②Alp Grüm：Palü 冰川俯瞰+百年站台
+③Brusio 螺旋橋：仰拍/俯拍螺旋結構
+④Tirano：義大利人文街拍+鐘樓
+⚠️ 各站需主動按鈴準備下車</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/20 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/20 (五)</span>
+        <div>
+          <div class="day-loc">Corvatsch（3,303m）+ Sils Maria + Fex Valley 馬車</div>
+          <div class="day-badges">
+            <span class="badge badge-free">Card 免費纜車</span>
+            <span class="badge badge-photo">📸 五湖全景</span>
+            <span class="badge badge-honey">💍 馬車蜜月</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">STP 巴士至 Surlej
+★ Card 免費纜車上 Corvatsch（3,303m）
+  俯瞰恩加丁五湖全景
+  Murtèl 中站健行至 Fuorcla Surlej
+  Biancograt 山脊倒映高山小湖
+⚠️ 14:00 前下山（馬車四點收工）
+
+下午 STP 巴士至 Sils Maria
+Silsersee 湖畔漫步
+★ Fex Valley 馬車體驗（需提前預約）
+  無車山谷，中世紀農莊，蜜月感十足
+  馬車預約：Coretti +41 81 826 56 73
+
+★ 傍晚黃金時刻（19:30–20:30）
+  Silsersee 湖畔架腳架等光線
+
+🍽️ 午餐：Corvatsch 山頂 Restaurant 3303
+🍽️ 晚餐：Pontresina 市區（最後一晚）</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">STP 巴士全免</span>
+          <span class="cost-pill">Corvatsch 纜車：Card 免費（省 TWD 4,900）</span>
+          <span class="cost-pill paid">馬車費用另計（需預約）</span>
+          <br><br>
+          <div class="photo-box">📸 Corvatsch (3,303m)
+①3,303m 山頂：五湖全景俯瞰
+②Fuorcla Surlej：Biancograt 倒影小湖
+  與 Diavolezza 視角完全互補！
+
+📸 Fex Valley
+中世紀農莊+無車山谷牧野風光
+⚠️ 馬車提前預約！旺季易滿</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 策馬特基地 -->
+  <div class="base-section">
+    <div class="base-header base-zermatt">⛰️ 策馬特基地 ｜ Zermatt ｜ 6/21–6/24（3晚）｜ Chalet Achat by Zermatt Premium（已付清）</div>
+
+    <!-- 6/21 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/21 (六)</span>
+        <div>
+          <div class="day-loc">聖莫里茲 → 庫爾(Chur) → 冰河列車 → 策馬特</div>
+          <div class="day-badges">
+            <span class="badge badge-stp">冰河列車一等艙</span>
+            <span class="badge badge-photo">📸 窗景攝影</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">⚠️ 建議 11:00 前退房出發
+STP 火車 Pontresina → Chur（約1小時）
+
+庫爾老城午餐+散步（約1.5小時）
+羅馬式主教座堂、石板老街
+
+14:00 搭冰河列車一等艙出發
+Chur → Zermatt（約8小時）
+沿途：萊茵峽谷、安德馬特、隆河峽谷
+
+晚上抵達策馬特 check-in
+
+🍽️ 午餐：庫爾老城餐廳
+🍽️ 晚餐：策馬特市區</div>
+        </div>
+        <div>
+          <div class="day-col-title">住宿 / 費用</div>
+          <div class="hotel-box">
+            <strong>Chalet Achat by Zermatt Premium</strong>
+            ✅ 已付款完畢
+            <br>⚠️ 需填寫 pre-checkin 資料（請盡快完成）
+          </div>
+          <span class="cost-pill">STP 車資全免</span>
+          <span class="cost-pill paid">冰河列車訂位費 CHF 13/人 → TWD 1,000（雙人）</span>
+          <br><br>
+          <div class="photo-box">📸 冰河列車窗景
+萊茵峽谷（坐右側）/隆河谷地/高架橋
+貼窗拍，避免玻璃反光
+抵達後：馬特洪峰夜景初拍</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/22 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/22 (日)</span>
+        <div>
+          <div class="day-loc">Riffelsee + Gornergrat（上午）→ Stellisee（下午）</div>
+          <div class="day-badges">
+            <span class="badge badge-photo">📸 攝影精華日</span>
+            <span class="badge badge-honey">💍 倒影婚紗</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">⭐ 攝影精華日！首班登山鐵路出發
+
+【上午 07:00】首班 Gornergrat 登山鐵路
+★ Rotenboden 站下車（非終點站）
+  步行 10 分 → Riffelsee 高山湖
+  馬特洪峰倒影最著名構圖
+  ⚠️ 早晨無風，倒影最完整
+繼續搭至 Gornergrat（3,089m）
+  俯瞰 Gorner 冰川 + Monte Rosa
+  沿途可能遇到黑面羊
+
+【下午】
+午餐後下山
+搭 Sunnegga Express 纜車
+至 Blauherd 站，步行至 Stellisee
+★ 五湖中倒影最完整且人最少
+  Marmot Trail 有土撥鼠！
+  帶長焦鏡頭，輕聲慢行
+傍晚側光拍婚紗倒影
+
+🍽️ 午餐：Gornergrat 山頂餐廳
+🍽️ 晚餐：策馬特市區</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill paid">Gornergrat STP 50%折扣：CHF 66/人 → TWD 4,620（雙人）</span>
+          <span class="cost-pill paid">Sunnegga + Blauherd STP 折扣：約 TWD 1,000（雙人）</span>
+          <br><br>
+          <div class="photo-box">📸 策馬特攝影精華（頂尖 TOP 1+2）
+①Riffelsee：馬特洪峰完美倒影
+  早晨首班，風小水靜最佳
+②Gornergrat：冰川全景+黑面羊同框
+③Stellisee：傍晚側光倒影+土撥鼠
+⚠️ 首班鐵路 07:00 出發
+⚠️ 帶長焦拍土撥鼠和黑面羊</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/23 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/23 (一)</span>
+        <div>
+          <div class="day-loc">飛行傘 🪂 + Schwarzsee 婚紗 + 蜜月慶祝晚餐</div>
+          <div class="day-badges">
+            <span class="badge badge-honey">💍 蜜月體驗日</span>
+            <span class="badge badge-photo">📸 空拍馬特洪峰</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">【上午】飛行傘 Tandem Paragliding
+🪂 FlyZermatt（需提前預約）
+鎮上集合→教練接駁上山→起飛
+馬特洪峰空中俯瞰，蜜月首選體驗
+飛行約 20–25 分鐘
+教練 GoPro 全程錄影
+★ 可帶 A7R5+24-70mm（安全固定）
+⚠️ 天氣取消可退款
+
+【下午】午餐後
+搭纜車至 Schwarzsee（2,583m）
+★ 最接近馬特洪峰的婚紗拍攝點！
+  山頂直下馬特洪峰，構圖震撼
+  湖景+草地+峰頂，架腳架慢慢拍
+
+【晚上】蜜月慶祝特餐
+🍽️ Restaurant Schäferstube（需預約）
+
+🍽️ 午餐：策馬特市區</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill paid">飛行傘 CHF 200/人 → TWD 14,000（雙人）</span>
+          <span class="cost-pill paid">Schwarzsee 纜車 STP 折扣 → 約 TWD 1,000（雙人）</span>
+          <br><br>
+          <div class="photo-box">📸 蜜月攝影重點
+①飛行傘：馬特洪峰空拍視角
+  A7R5+24-70mm，快門 1/1000s+
+  連續追焦
+②Schwarzsee：馬特洪峰最近距離婚紗
+  湖景+草地，架腳架從容構圖
+⚠️ 相機用斜背帶+安全繩固定
+⚠️ 飛行傘提前確認天氣（可退款）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 伯恩基地 -->
+  <div class="base-section">
+    <div class="base-header base-bern">🏛️ 伯恩基地 ｜ Bern ｜ 6/24–6/26（2晚）｜ Swissôtel Kursaal Bern ｜ UNESCO 古城</div>
+
+    <!-- 6/24 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/24 (二)</span>
+        <div>
+          <div class="day-loc">策馬特 → Kandersteg → Oeschinensee → Spiez → 伯恩</div>
+          <div class="day-badges">
+            <span class="badge badge-photo">📸 冰川湖</span>
+            <span class="badge badge-free">Spiez 城堡免費</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">早上退房
+STP 火車走 Lötschberg 山岳路線
+★ 中途停 Kandersteg（約2小時）
+  行李放車站置物櫃（CHF 5）
+  STP 纜車上 Oeschinensee（STP 50%折扣）
+  UNESCO 世遺冰川湖，土耳其藍絕景
+  野餐+婚紗拍攝
+  野生羱羊(Ibex) 出沒機率高
+  ⚠️ 夏季纜車開放至 18:00
+
+🍽️ 午餐：Oeschinensee 山上餐廳
+
+★ Spiez 城堡（Schloss Spiez）
+  1300 年歷史，STP 免費參觀
+  圖恩湖畔城堡+葡萄園婚紗絕景
+  約 1.5 小時
+
+STP 火車抵達伯恩（約 18:00）
+Swissôtel check-in
+傍晚玫瑰園黃金時刻（19:30）
+藍調時刻老城區燈光（約 21:00）
+
+🍽️ 晚餐：伯恩老城餐廳</div>
+        </div>
+        <div>
+          <div class="day-col-title">住宿 / 費用</div>
+          <div class="hotel-box">
+            <strong>Swissôtel Kursaal Bern</strong>
+            ⚠️ 取消期限：6/24 18:00前（免費取消）
+          </div>
+          <span class="cost-pill">STP 火車全免</span>
+          <span class="cost-pill paid">Oeschinensee 纜車 STP 折後：TWD 1,400（雙人）</span>
+          <span class="cost-pill">Spiez 城堡：STP 免費</span>
+          <span class="cost-pill paid">置物櫃 CHF 5 → TWD 180</span>
+          <br><br>
+          <div class="photo-box">📸 移動日攝影精華
+①Oeschinensee：土耳其藍+Blüemlisalp 倒影
+  野生羱羊帶長焦鏡頭
+②Spiez 城堡：湖畔城堡+葡萄園婚紗
+③伯恩玫瑰園：黃金時刻俯瞰老城
+  19:30–20:43 側光最美</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/25 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/25 (三)</span>
+        <div>
+          <div class="day-loc">伯恩老城深度遊（UNESCO 世界遺產）</div>
+          <div class="day-badges">
+            <span class="badge badge-free">全程步行免費</span>
+            <span class="badge badge-photo">📸 UNESCO 古城</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">★ Zytglogge 天文鐘樓
+  整點前卡位拍機關人偶表演（免費）
+  登塔導覽 CHF 6/人（百年機械+頂部俯瞰）
+
+愛因斯坦故居（Kramgasse 49）
+  愛因斯坦發現相對論的地方
+
+聯邦議會大廈（Bundeshaus）
+  外觀對稱構圖+後方露台俯瞰阿勒河
+
+Bundesplatz 廣場 26 個噴泉
+熊公園（免費）
+6km 拱廊街漫遊
+
+★ 傍晚玫瑰園（Rosengarten）
+  黃金時刻：19:30–20:43
+  藍調時刻：約 21:00
+
+🍽️ 午餐：老城咖啡館 Café du Commerce
+🍽️ 晚餐：★ Altes Tramdepot（需預約）
+  舊電車廠改建啤酒廠餐廳，約 TWD 2,500</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">全程步行，STP 不需用</span>
+          <span class="cost-pill paid">Zytglogge 登塔：CHF 6/人 → TWD 420（雙人）</span>
+          <br><br>
+          <div class="photo-box">📸 伯恩攝影重點
+①玫瑰園黃金時刻：老城+阿爾卑斯山
+  19:30–20:43 側光最美
+②Zytglogge：整點前10分卡位
+  登塔從頂部俯瞰老城
+③聯邦議會後方露台：阿勒河俯瞰
+④拱廊街藍調：約 21:00 燈光透視
+⑤Bundesplatz 噴泉：廣角仰拍</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 楚格基地 -->
+  <div class="base-section">
+    <div class="base-header base-zug">🌊 楚格基地 ｜ Zug ｜ 6/26–6/29（3晚）｜ Hotel Zugertor ｜ 湖畔悠閒</div>
+
+    <!-- 6/26 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/26 (四)</span>
+        <div>
+          <div class="day-loc">伯恩 Gurten 山丘 → 楚格</div>
+          <div class="day-badges">
+            <span class="badge badge-photo">📸 全城鳥瞰</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">退房（行李暫存 Swissôtel 前台，免費）
+
+★ 輕裝前往 Gurten 山丘（858m）
+  STP 折扣搭纜車
+  俯瞰伯恩全城+遠眺阿爾卑斯山
+  約2小時
+  ⚠️ 設定 12:15 下山鬧鐘
+
+回飯店取行李
+STP 火車至楚格（約1.5小時）
+
+下午抵達楚格：
+Hotel Zugertor check-in
+休息後楚格湖畔散步
+Zytturm 鐘塔老城
+楚格湖夕陽倒影攝影
+
+🍽️ 午餐：Gurten 山上 或 伯恩市區
+🍽️ 晚餐：楚格市區</div>
+        </div>
+        <div>
+          <div class="day-col-title">住宿 / 費用</div>
+          <div class="hotel-box">
+            <strong>Hotel Zugertor, Zug</strong>
+            ⚠️ 取消期限：6/20（已在旅途中，出發前確認）
+          </div>
+          <span class="cost-pill paid">Gurten 纜車 STP 折扣：約 TWD 350</span>
+          <span class="cost-pill">Bern→Zug STP 全免</span>
+          <br><br>
+          <div class="photo-box">📸 楚格攝影
+①Gurten：伯恩全城鳥瞰+雪山背景
+②楚格老城：Zytturm 鐘塔+中世紀建築
+③楚格湖：夕陽水面倒影
+⚠️ Gurten 山頂設 12:15 下山鬧鐘</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/27 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/27 (五)</span>
+        <div>
+          <div class="day-loc">楚格 → 琉森 → 卡貝爾橋藍調時刻</div>
+          <div class="day-badges">
+            <span class="badge badge-free">STP 完全免費</span>
+            <span class="badge badge-photo">📸 藍調橋燈</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">STP 火車至琉森（約20分）
+
+★ 卡貝爾橋（Kapellbrücke）+ 水塔
+  歐洲最古老有頂木橋（1333年）
+獅子紀念碑（Löwendenkmal）
+琉森湖畔漫步
+市區午餐+咖啡
+下午自由探索老城
+
+★ 傍晚留至藍調時刻
+  日落後 20–30 分（約 22:00）
+  卡貝爾橋燈光倒影最夢幻
+
+✅ 末班火車返楚格約 00:20
+  可安心留至藍調後再回
+
+⚠️ 6/27 週五，晚上人潮多
+  建議提早去卡貝爾橋卡位架腳架
+
+🍽️ 午餐：Wirtshaus Galliker（推薦）
+🍽️ 晚餐：楚格市區 或 琉森藍調後再回</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">STP 全免（來回火車 0 元）</span>
+          <br><br>
+          <div class="photo-box">📸 琉森攝影重點
+①卡貝爾橋：清晨/藍調時刻最佳
+②★ 藍調時刻（約 22:00）：
+  橋燈倒影+少遊客，夢幻必拍
+③獅子紀念碑：長焦壓縮構圖
+⚠️ 搭末班車前確認 SBB App</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/28 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/28 (六)</span>
+        <div>
+          <div class="day-loc">瑞吉山（輪船上山）→ Tierpark → Lauerzersee 野餐</div>
+          <div class="day-badges">
+            <span class="badge badge-free">STP 全程免費省 TWD 6,000</span>
+            <span class="badge badge-photo">📸 360度全景</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">STP 火車至琉森
+★ STP 輪船渡湖至 Vitznau（紅色齒軌，湖景更美）
+★ STP 登山鐵路至瑞吉山頂（1,797m）
+  全程 STP 完全免費！省 TWD 6,000
+  山頂俯瞰琉森湖+周邊山脈全景
+
+🍽️ 午餐：瑞吉山頂餐廳
+
+★ 下山改走 Arth-Goldau 方向（藍色齒軌）
+  森林+農莊+山谷，完全不同景色
+
+★ Tierpark Goldau 自然動物公園
+  步行 5–10 分從 Arth-Goldau 站
+  熊、狼、猞猁（圍欄安全）
+  鹿、盤羊自由走動可近距離拍攝
+  ⚠️ 開放至 18:00
+
+傍晚：Coop 買野餐食材
+★ Lauerzersee 湖畔野餐
+  瑞吉山+Mythen 雙峰入鏡
+  人少，草地開闊，層次豐富
+
+STP 火車回楚格（約15分）</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">★ STP 全程完全免費！省下約 TWD 6,000（雙人）</span>
+          <span class="cost-pill paid">Tierpark 入場：約 TWD 700</span>
+          <span class="cost-pill paid">Coop 野餐食材：約 TWD 700</span>
+          <br><br>
+          <div class="photo-box">📸 瑞吉+動物+湖畔
+①輪船上：琉森湖晨霧+倒影
+②瑞吉山頂：360度全景俯瞰
+③Tierpark：鹿/盤羊近距離拍攝
+  帶長焦，輕聲接近
+④Lauerzersee：野餐草地+瑞吉山倒影
+  人少，傍晚光線極佳
+⚠️ Tierpark 開放至 18:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 蘇黎世基地 -->
+  <div class="base-section">
+    <div class="base-header base-zurich">✈️ 蘇黎世基地 ｜ 6/29–7/1（2晚）｜ Ibis Budget Zurich Airport ｜ 自然奇觀+都會收尾</div>
+
+    <!-- 6/29 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/29 (日)</span>
+        <div>
+          <div class="day-loc">楚格 → 蘇黎世市區</div>
+          <div class="day-badges">
+            <span class="badge badge-stp">STP</span>
+            <span class="badge badge-photo">📸 舊城俯瞰</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">退房（行李帶上）
+★ STP 火車至蘇黎世機場
+  Ibis Budget check-in 或寄放行李
+  (Check-in 通常 15:00，可先寄放)
+  輕鬆後再進市區
+
+蘇黎世市區半日遊：
+林登霍夫（Lindenhof）俯瞰雙塔教堂
+老城區石板巷道+噴泉
+蘇黎世湖畔散步
+班霍夫大街（最後購物機會）
+
+傍晚蘇黎世湖黃金時刻
+
+🍽️ 午餐：蘇黎世市區
+🍽️ 晚餐：★ Quai 61（湖畔蜜月晚餐）</div>
+        </div>
+        <div>
+          <div class="day-col-title">住宿 / 費用</div>
+          <div class="hotel-box">
+            <strong>Ibis Budget Zurich Airport</strong>
+            ⚠️ 取消期限：6/27（在旅途中，提前確認）
+          </div>
+          <span class="cost-pill">STP 全免</span>
+          <br><br>
+          <div class="photo-box">📸 蘇黎世攝影
+①林登霍夫：舊城區全景俯瞰
+  聖彼得教堂+聖母大教堂雙塔
+②蘇黎世湖：夕陽映水面
+③班霍夫大街：人流/建築街拍
+⚠️ 機場→市區火車約 10–12 分</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/30 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">6/30 (一)</span>
+        <div>
+          <div class="day-loc">萊茵瀑布 → 沙夫豪森 → Stein am Rhein → Konstanz → Winterthur → 機場</div>
+          <div class="day-badges">
+            <span class="badge badge-free">不走回頭路圓形路線</span>
+            <span class="badge badge-photo">📸 歐洲最大瀑布</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">★ 早班火車出發（約 07:30）
+機場 → 萊茵瀑布（S24直達，約45分）
+
+★ 萊茵瀑布（約2小時）
+  歐洲流量最大瀑布
+  北岸免費觀景台
+  ★ 搭小船路線4（CHF 8/人，約15分）
+    靠近瀑布，最划算
+    ⚠️ 豐水期6月會被水花濺濕
+  南岸勞芬城堡觀景台（CHF 5/人）
+  從上往下走步道，不走回頭路
+
+★ 沙夫豪森（有時間再去）
+  Munot 要塞，老城區，搭 S12 約 10 分
+
+★ Stein am Rhein（午餐+約2小時）
+  中世紀彩繪壁畫小鎮
+  Rathausplatz 市政廳廣場
+
+★ Konstanz 德國（備選，視時間）
+  波登湖湖畔+德國老城
+  德式晚餐（比瑞士便宜）
+
+S29 → Winterthur → 機場回飯店</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">STP 全程免費</span>
+          <span class="cost-pill paid">瀑布小船路線4：CHF 8/人 → TWD 560（雙人）</span>
+          <span class="cost-pill paid">南岸城堡：CHF 5/人 → TWD 350（雙人）</span>
+          <br><br>
+          <div class="photo-box">📸 自然奇觀攝影
+①萊茵瀑布：早班到達人少
+  搭小船至中央岩石仰拍最震撼
+  帶 ND 濾鏡拍流水長曝
+  ⚠️ 下午順光拍北岸最佳
+②Stein am Rhein：彩繪壁畫建築
+  下午側光最美，遊客少
+③Konstanz：波登湖湖畔
+⚠️ 瀑布水花多，帶備用毛巾</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7/1 -->
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-date">7/1 (二)</span>
+        <div>
+          <div class="day-loc">蘇黎世市區 → 搭機返台</div>
+          <div class="day-badges">
+            <span class="badge badge-stp">STP 最後一天</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-grid">
+        <div>
+          <div class="day-col-title">行程說明</div>
+          <div class="day-text">退房後行李寄放機場
+
+★ STP 最後一天！用好用滿
+瑞士國家博物館（火車站旁）
+林登山丘最後俯瞰
+班霍夫大街最後伴手禮
+
+16:00 前往機場
+22:00 搭機返台 ✈️
+
+🍽️ 午餐：蘇黎世市區
+🍽️ 晚餐：機場候機室</div>
+        </div>
+        <div>
+          <div class="day-col-title">費用</div>
+          <span class="cost-pill">STP 全免（第15天最後一天）</span>
+          <span class="cost-pill">行李寄飯店前台免費</span>
+          <br><br>
+          <div class="photo-box">📸 最後攝影機會
+①瑞士國家博物館外觀+倒影池
+②林登山丘：蘇黎世最後全景
+帶好拍，圓滿收尾！</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ────── 費用預算 ────── -->
+<div id="tab-budget" class="section">
+  <div class="sec-title">費用預算</div>
+
+  <div class="budget-summary">
+    <div class="budget-total">
+      <div style="font-size:14px;opacity:0.8;margin-bottom:6px">🏆 旅遊總預算（雙人）</div>
+      <div class="amount">TWD 316,613</div>
+      <div class="per-person">每人平均 ≈ TWD 158,307</div>
+    </div>
+
+    <div class="budget-bars">
+      <div class="budget-row">
+        <div class="budget-label">✈️ 機票</div>
+        <div class="budget-bar-wrap">
+          <div class="budget-bar" style="width:19.4%;background:#c8102e"></div>
+        </div>
+        <div class="budget-amount">61,388</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">🏠 住宿</div>
+        <div class="budget-bar-wrap">
+          <div class="budget-bar" style="width:38%;background:#7c3aed"></div>
+        </div>
+        <div class="budget-amount">120,233</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">🚂 交通</div>
+        <div class="budget-bar-wrap">
+          <div class="budget-bar" style="width:13.3%;background:#1d4ed8"></div>
+        </div>
+        <div class="budget-amount">42,062</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">🎿 景點纜車</div>
+        <div class="budget-bar-wrap">
+          <div class="budget-bar" style="width:8%;background:#d97706"></div>
+        </div>
+        <div class="budget-amount">25,350</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">🍽️ 餐飲</div>
+        <div class="budget-bar-wrap">
+          <div class="budget-bar" style="width:15.8%;background:#15803d"></div>
+        </div>
+        <div class="budget-amount">50,000</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-label">🛍️ 購物雜支</div>
+        <div class="budget-bar-wrap">
+          <div class="budget-bar" style="width:5.6%;background:#0f766e"></div>
+        </div>
+        <div class="budget-amount">17,580</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Table -->
+  <div class="budget-summary">
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>說明</th>
+          <th style="text-align:right">TWD（雙人）</th>
+          <th>狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 機票 -->
+        <tr class="cat-header"><td colspan="4">✈️ 機票</td></tr>
+        <tr>
+          <td>來回機票（2人）</td>
+          <td>台灣 ⇄ 蘇黎世 來回</td>
+          <td class="amount-cell">61,388</td>
+          <td><span class="tag-confirmed">已確認</span></td>
+        </tr>
+        <!-- 住宿 -->
+        <tr class="cat-header"><td colspan="4">🏠 住宿（全部已確認）</td></tr>
+        <tr><td>Trip Inn Jet Hotel Zürich Airport</td><td>蘇黎世機場 6/16–6/17（1晚）</td><td class="amount-cell">5,045</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <tr><td>Hotel Station Pontresina</td><td>Pontresina 6/17–6/21（4晚）含 Engadin Inclusive Card</td><td class="amount-cell">32,625</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <tr><td>Chalet Achat by Zermatt Premium</td><td>策馬特 6/21–6/24（3晚）</td><td class="amount-cell">27,000</td><td><span class="tag-confirmed">已付清</span></td></tr>
+        <tr><td>Swissôtel Kursaal Bern</td><td>伯恩 6/24–6/26（2晚）</td><td class="amount-cell">15,640</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <tr><td>Hotel Zugertor, Zug</td><td>楚格 6/26–6/29（3晚）</td><td class="amount-cell">29,138</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <tr><td>Ibis Budget Zurich Airport</td><td>蘇黎世機場 6/29–7/1（2晚）</td><td class="amount-cell">10,785</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <!-- 交通 -->
+        <tr class="cat-header"><td colspan="4">🚂 交通</td></tr>
+        <tr><td>Swiss Travel Pass（2人）</td><td>15日券 6/17–7/1，火車/巴士/輪船全免</td><td class="amount-cell">39,562</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <tr><td>冰河列車訂位費（2人）</td><td>Chur→Zermatt 6/21，CHF 13/人</td><td class="amount-cell">1,000</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>ZVV 機場周邊交通</td><td>6/16 機場周邊（含 Observation Deck）</td><td class="amount-cell">1,000</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>機場接送雜費</td><td></td><td class="amount-cell">500</td><td><span class="tag-estimate">估算</span></td></tr>
+        <!-- 景點 -->
+        <tr class="cat-header"><td colspan="4">🎿 景點 / 纜車 / 活動</td></tr>
+        <tr><td>Muottas Muragl + Diavolezza + Corvatsch</td><td>Pontresina，Engadin Inclusive Card 全免</td><td class="amount-cell">0</td><td><span class="tag-free">Card 免費！</span></td></tr>
+        <tr><td>Gornergrat 登山鐵路（2人）</td><td>策馬特，STP 50% 折扣，CHF 66/人</td><td class="amount-cell">4,620</td><td><span class="tag-confirmed">確認</span></td></tr>
+        <tr><td>Klein Matterhorn 纜車（2人）</td><td>策馬特，STP 50% 折扣</td><td class="amount-cell">4,000</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>🪂 飛行傘體驗（2人）</td><td>策馬特 tandem paragliding，約 CHF 200/人</td><td class="amount-cell">14,000</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>Oeschinensee 纜車（2人）</td><td>Kandersteg，STP 50% 折扣</td><td class="amount-cell">1,400</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>萊茵瀑布小船（2人）</td><td>路線4，CHF 8/人</td><td class="amount-cell">560</td><td><span class="tag-confirmed">確認</span></td></tr>
+        <tr><td>Gurten 纜車（2人）</td><td>伯恩，STP 折扣</td><td class="amount-cell">350</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>Zytglogge 登塔（2人）</td><td>伯恩，CHF 6/人</td><td class="amount-cell">420</td><td><span class="tag-confirmed">確認</span></td></tr>
+        <!-- 餐飲 -->
+        <tr class="cat-header"><td colspan="4">🍽️ 餐飲</td></tr>
+        <tr><td>餐飲費用（2人）</td><td>全程16天，外食+部分超市採買</td><td class="amount-cell">50,000</td><td><span class="tag-confirmed">確認預算</span></td></tr>
+        <!-- 購物 -->
+        <tr class="cat-header"><td colspan="4">🛍️ 購物 / 雜支</td></tr>
+        <tr><td>購物及伴手禮</td><td>瑞士巧克力、鐘錶、紀念品</td><td class="amount-cell">12,000</td><td><span class="tag-estimate">備用預算</span></td></tr>
+        <tr><td>旅遊保險（2人）</td><td>建議出發前加保</td><td class="amount-cell">3,000</td><td><span class="tag-estimate">估算</span></td></tr>
+        <tr><td>上網費/SIM卡（2人）</td><td>每人 TWD 1,200</td><td class="amount-cell">2,400</td><td><span class="tag-confirmed">已確認</span></td></tr>
+        <tr><td>置物櫃/雜費</td><td>Kandersteg 置物櫃 CHF 5；Ibis 飯店免費寄放</td><td class="amount-cell">180</td><td><span class="tag-estimate">估算</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ────── 攝影指南 ────── -->
+<div id="tab-photo" class="section">
+  <div class="sec-title">攝影 TOP 10 景點</div>
+
+  <div class="photo-grid">
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#1</div>
+        <div>
+          <div class="photo-name">Riffelsee 馬特洪峰倒影</div>
+          <div class="photo-base">📍 策馬特 ｜ Rotenboden 站步行 10 分</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        馬特洪峰最完美倒影，全球攝影師朝聖地。早晨首班登山鐵路出發，風小水面靜，倒影最完整。
+        <div><span class="photo-timing">⏰ 早晨首班 07:00，無風最佳</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#2</div>
+        <div>
+          <div class="photo-name">Stellisee 馬特洪峰倒影</div>
+          <div class="photo-base">📍 策馬特 ｜ Five Lakes Walk 途中</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        五湖中倒影最完整且人最少。Marmot Trail 沿途有土撥鼠，帶長焦輕聲慢行。傍晚側光+婚紗倒影絕配。
+        <div><span class="photo-timing">⏰ 傍晚日落前1小時，側光柔美</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#3</div>
+        <div>
+          <div class="photo-name">Oeschinensee 冰川湖</div>
+          <div class="photo-base">📍 Kandersteg ｜ STP 纜車折扣</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        UNESCO 世界遺產，土耳其藍湖水+Blüemlisalp 峰倒影。野生羱羊（Ibex）出沒機率高，帶長焦。
+        <div><span class="photo-timing">⏰ 早晨無風，野生動物清晨/傍晚</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#4</div>
+        <div>
+          <div class="photo-name">Ospizio Bernina 鐵道湖</div>
+          <div class="photo-base">📍 伯尼納線 ｜ STP 區間車免費</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        全線最高點（2,253m），Lago Bianco 白色高山湖+鐵道構圖獨特。免費停靠，無需另外購票。
+        <div><span class="photo-timing">⏰ 全天可拍，無雲早晨最佳</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#5</div>
+        <div>
+          <div class="photo-name">Brusio 螺旋橋</div>
+          <div class="photo-base">📍 伯尼納線 ｜ STP 區間車免費</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        全歐洲稀有螺旋高架橋（Viadotto Elicoidale），鐵道攝影聖地。可仰拍或俯拍螺旋結構。
+        <div><span class="photo-timing">⏰ 任何時間，火車過橋時連拍</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#6</div>
+        <div>
+          <div class="photo-name">Muottas Muragl 三湖全景</div>
+          <div class="photo-base">📍 聖莫里茲 ｜ Engadin Card 免費</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        俯瞰 Silsersee + Silvaplana + St.Moritz 三湖同框，恩加丁最具代表性全景。Card 免費省 TWD 2,975。
+        <div><span class="photo-timing">⏰ 傍晚 16:00–19:00 側光最美</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#7</div>
+        <div>
+          <div class="photo-name">Diavolezza 冰川</div>
+          <div class="photo-base">📍 聖莫里茲 ｜ Engadin Card 免費</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        Pers 冰川全景+Piz Bernina（4,049m）山峰，冰川退縮環境紀錄。早上雲最少視野最清。Card 免費省 TWD 2,660。
+        <div><span class="photo-timing">⏰ 早上 09:00 前，雲最少</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#8</div>
+        <div>
+          <div class="photo-name">Corvatsch 山頂全景</div>
+          <div class="photo-base">📍 Pontresina ｜ Engadin Card 免費</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        3,303m 俯瞰五湖+冰川，Biancograt 倒影小湖。Card 免費省 TWD 4,900。⚠️ 14:00 前下山（馬車收工）。
+        <div><span class="photo-timing">⏰ 上午 09:00 出發，午後下山</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#9</div>
+        <div>
+          <div class="photo-name">琉森藍調時刻</div>
+          <div class="photo-base">📍 楚格基地 ｜ STP 火車免費來回</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        卡貝爾橋（歐洲最古老有頂木橋）日落後 20–30 分，橋燈倒影最夢幻。末班火車 00:20 返楚格。
+        <div><span class="photo-timing">⏰ 藍調時刻 約 22:00，架腳架必備</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-card-header">
+        <div class="rank-badge">#10</div>
+        <div>
+          <div class="photo-name">萊茵瀑布中央岩石</div>
+          <div class="photo-base">📍 蘇黎世近郊 ｜ STP 火車+小船 CHF 8</div>
+        </div>
+      </div>
+      <div class="photo-card-body">
+        歐洲流量最大瀑布，搭小船至中央岩石仰拍最震撼。帶 ND 濾鏡拍長曝流水+彩虹。⚠️ 6月豐水期水花多。
+        <div><span class="photo-timing">⏰ 早班 08:00 到，逆光+彩虹機率高</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bonus -->
+  <div style="margin-top:24px">
+    <div class="sec-title" style="font-size:17px">🎁 蜜月限定攝影加碼</div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <div class="photo-card-header">
+          <div class="rank-badge">💍</div>
+          <div>
+            <div class="photo-name">Schwarzsee 婚紗</div>
+            <div class="photo-base">📍 策馬特（6/23 下午）</div>
+          </div>
+        </div>
+        <div class="photo-card-body">
+          最接近馬特洪峰的拍攝點（2,583m），湖景+草地+峰頂直下，架腳架從容構圖。與飛行傘分工：GoPro 記錄飛行，A7R5 拍婚紗。
+          <div><span class="photo-timing">⏰ 下午飛行傘結束後</span></div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-header">
+          <div class="rank-badge">💍</div>
+          <div>
+            <div class="photo-name">Pontresina 婚紗+Lej da Staz</div>
+            <div class="photo-base">📍 聖莫里茲（6/18 傍晚）</div>
+          </div>
+        </div>
+        <div class="photo-card-body">
+          Alp Languard 下山後（約 18:00），Pontresina 村內石板街道婚紗拍攝，再步行至 Lej da Staz 小湖。日落約 21:00，傍晚光線極佳。
+          <div><span class="photo-timing">⏰ 18:00–21:00 黃金時刻</span></div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-header">
+          <div class="rank-badge">🪂</div>
+          <div>
+            <div class="photo-name">飛行傘空拍馬特洪峰</div>
+            <div class="photo-base">📍 策馬特（6/23 上午）</div>
+          </div>
+        </div>
+        <div class="photo-card-body">
+          tandem paragliding，FlyZermatt 預約。A7R5+24-70mm，快門 1/1000s 以上連續追焦。相機用斜背帶+安全繩固定。教練 GoPro 全程錄影。
+          <div><span class="photo-timing">⏰ 天氣視情況，天氣取消可退款</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ────── STP PASS ────── -->
+<div id="tab-stp" class="section">
+  <div class="sec-title">Swiss Travel Pass 使用指南</div>
+
+  <div class="alert alert-blue" style="margin-bottom:20px">
+    <strong>🚂 Swiss Travel Pass 15日二等艙 ｜ 使用期間：2025/6/17（二）– 7/1（二）</strong>
+    啟用即可搭乘所有 SBB 火車二等艙、PostAuto 郵政巴士、琉森湖輪船。共 15 天，全程大幅節省交通費用。
+  </div>
+
+  <div class="stp-grid">
+    <div class="stp-card stp-free">
+      <h3>✅ 完全免費（STP 涵蓋）</h3>
+      <ul>
+        <li>所有 SBB 國鐵二等艙（全線）</li>
+        <li>PostAuto 郵政巴士（全國）</li>
+        <li>琉森湖輪船（Vitznau 路線）</li>
+        <li>瑞吉山登山鐵路（全程）</li>
+        <li>Regio 區間車（伯尼納線）</li>
+        <li>Konstanz 邊境站（S1 延伸）</li>
+        <li>Stein am Rhein / Winterthur 路線</li>
+      </ul>
+    </div>
+    <div class="stp-card stp-half">
+      <h3>🔖 STP 折扣 50%</h3>
+      <ul>
+        <li>Gornergrat 登山鐵路（策馬特）</li>
+        <li>Klein Matterhorn 纜車（策馬特）</li>
+        <li>Schwarzsee 纜車（策馬特）</li>
+        <li>Sunnegga Express（策馬特）</li>
+        <li>Oeschinensee 纜車（Kandersteg）</li>
+        <li>Gurten 纜車（伯恩）</li>
+        <li>Spiez 城堡 — STP 免費參觀</li>
+      </ul>
+    </div>
+    <div class="stp-card stp-extra">
+      <h3>❌ 需另購（STP 不含）</h3>
+      <ul>
+        <li>🪂 飛行傘 CHF 200/人</li>
+        <li>萊茵瀑布小船路線4 CHF 8/人</li>
+        <li>Tierpark Goldau 入場 ~CHF 10/人</li>
+        <li>Zytglogge 登塔 CHF 6/人（伯恩）</li>
+        <li>勞芬城堡觀景台 CHF 5/人</li>
+        <li>Observation Deck B CHF 10/人（6/16，STP未啟用）</li>
+      </ul>
+    </div>
+    <div class="stp-card stp-booking">
+      <h3>⚠️ 需訂位費（另計）</h3>
+      <ul>
+        <li>冰河列車 CHF 13/人（車資 STP 免費）</li>
+        <li>伯尼納快車改搭 Regio 區間車 = 0 元免訂位</li>
+      </ul>
+      <br>
+      <h3>💡 購買建議</h3>
+      <ul>
+        <li>台灣向 KKday / KLOOK / 飛達旅遊購買</li>
+        <li>比瑞士當地便宜約 10–15%</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Engadin Card -->
+  <div class="sec-title" style="font-size:17px">🏔️ Engadin Inclusive Card（恩加丁免費卡）</div>
+  <div class="alert alert-green" style="margin-bottom:16px">
+    <strong>入住 Hotel Station Pontresina 自動附贈！Check-in 時向飯店領取。</strong>
+    涵蓋 6/17–6/21 共 4 晚，可免費搭乘聖莫里茲地區主要纜車。
+  </div>
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="icon">🚡</div>
+      <div class="label">Muottas Muragl 纜車</div>
+      <div class="value"><del style="color:#999;font-weight:400">TWD 2,975</del> <span style="color:var(--green)">免費！</span></div>
+    </div>
+    <div class="ov-card">
+      <div class="icon">🏔️</div>
+      <div class="label">Diavolezza 纜車</div>
+      <div class="value"><del style="color:#999;font-weight:400">TWD 2,660</del> <span style="color:var(--green)">免費！</span></div>
+    </div>
+    <div class="ov-card">
+      <div class="icon">🦌</div>
+      <div class="label">Alp Languard 吊椅纜車</div>
+      <div class="value"><del style="color:#999;font-weight:400">TWD 2,030</del> <span style="color:var(--green)">免費！</span></div>
+    </div>
+    <div class="ov-card">
+      <div class="icon">⛷️</div>
+      <div class="label">Corvatsch 纜車</div>
+      <div class="value"><del style="color:#999;font-weight:400">TWD 4,900</del> <span style="color:var(--green)">免費！</span></div>
+    </div>
+  </div>
+  <div style="text-align:center;font-size:14px;color:var(--green);font-weight:700;margin-top:8px">
+    🎉 Engadin Card 合計省下 TWD 12,565（雙人）
+  </div>
+</div>
+
+<!-- ────── 重要提醒 ────── -->
+<div id="tab-reminders" class="section">
+  <div class="sec-title">重要提醒 ＆ 待辦事項</div>
+
+  <div class="reminder-grid">
+    <div class="reminder-card">
+      <h3>🔴 緊急：出發前必辦</h3>
+      <ul>
+        <li><span>⚠️</span>Chalet Achat 填寫 pre-checkin 資料（已付清，盡快完成）</li>
+        <li><span>⚠️</span>預約飛行傘 FlyZermatt（6/23，視天氣調整）</li>
+        <li><span>⚠️</span>預約 Restaurant Schäferstube 蜜月晚餐（6/23）</li>
+        <li><span>⚠️</span>預約 Fex Valley 馬車 +41 81 826 56 73（6/20）</li>
+        <li><span>⚠️</span>購買冰河列車訂位費 CHF 13/人（6/21 Chur→Zermatt）</li>
+      </ul>
+    </div>
+
+    <div class="reminder-card">
+      <h3>🟡 旅途中需確認</h3>
+      <ul>
+        <li><span>📅</span>Hotel Zugertor 取消期限 6/20（在旅途中，出發前先確認）</li>
+        <li><span>📅</span>Ibis Budget 取消期限 6/27（在旅途中，出發前先確認）</li>
+        <li><span>📅</span>Trip Inn Jet Hotel 取消期限 6/14（出發前2天）</li>
+        <li><span>📅</span>Hotel Station Pontresina 取消期限 6/9（已過，確認訂單）</li>
+        <li><span>📅</span>Swissôtel Bern 取消期限 6/24 18:00（抵達當天！）</li>
+      </ul>
+    </div>
+
+    <div class="reminder-card">
+      <h3>⏰ 末班車時間警示</h3>
+      <ul>
+        <li><span>🚡</span>Muottas Muragl 纜車：上山前確認末班時間</li>
+        <li><span>🚡</span>Alp Languard 吊椅：末班 17:30（務必準時下山）</li>
+        <li><span>🚡</span>Diavolezza 纜車：末班下山約 17:00</li>
+        <li><span>🚡</span>Oeschinensee 纜車：夏季開放至 18:00</li>
+        <li><span>🚡</span>Tierpark Goldau：開放至 18:00</li>
+        <li><span>🚆</span>琉森末班返楚格：約 00:20（SBB App確認）</li>
+      </ul>
+    </div>
+
+    <div class="reminder-card">
+      <h3>📸 攝影注意事項</h3>
+      <ul>
+        <li><span>🎒</span>登山鞋：6月 Diavolezza 可能殘雪</li>
+        <li><span>📷</span>飛行傘：相機用斜背帶+安全繩固定</li>
+        <li><span>🔭</span>長焦鏡頭（200–300mm）：土撥鼠、羱羊、黑面羊</li>
+        <li><span>⚫</span>ND 濾鏡：萊茵瀑布長曝必備</li>
+        <li><span>🌊</span>萊茵瀑布：6月豐水期，帶備用毛巾+鏡頭蓋</li>
+        <li><span>🕑</span>Riffelsee 倒影：首班 07:00，無風效果最佳</li>
+      </ul>
+    </div>
+
+    <div class="reminder-card">
+      <h3>🚂 搭車注意事項</h3>
+      <ul>
+        <li><span>🔔</span>Regio 區間車（伯尼納線）各站需主動按鈴下車</li>
+        <li><span>🎫</span>冰河列車一等艙：車資 STP 免費，訂位費另計</li>
+        <li><span>📱</span>SBB App：查詢時刻、末班車、臨時誤點</li>
+        <li><span>📱</span>ZVV App：6/16 機場周邊（STP 尚未啟用）</li>
+        <li><span>💺</span>冰河列車：坐右側窗口（萊茵峽谷最佳）</li>
+      </ul>
+    </div>
+
+    <div class="reminder-card">
+      <h3>🍽️ 美食推薦</h3>
+      <ul>
+        <li><span>🇮🇹</span>Tirano：Ristorante Valtellinese（義式料理）</li>
+        <li><span>🏔️</span>Alp Grüm：百年老餐廳露台（冰川景觀）</li>
+        <li><span>🇨🇭</span>伯恩：Altes Tramdepot 啤酒廠（需預約）</li>
+        <li><span>🍺</span>伯恩午餐：Café du Commerce</li>
+        <li><span>🍽️</span>琉森：Wirtshaus Galliker</li>
+        <li><span>🌊</span>蘇黎世：Quai 61（湖畔蜜月晚餐）</li>
+        <li><span>💍</span>策馬特：Restaurant Schäferstube（蜜月慶祝，需預約）</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Packing Checklist -->
+  <div style="margin-top:28px">
+    <div class="sec-title" style="font-size:17px">🎒 打包清單</div>
+    <div class="checklist">
+      <h3>攝影器材</h3>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox"> Sony A7R5 機身</label>
+        <label class="check-item"><input type="checkbox"> 24-70mm 鏡頭</label>
+        <label class="check-item"><input type="checkbox"> 200-300mm 長焦鏡頭</label>
+        <label class="check-item"><input type="checkbox"> ND 濾鏡（萊茵瀑布）</label>
+        <label class="check-item"><input type="checkbox"> 腳架</label>
+        <label class="check-item"><input type="checkbox"> 備用電池 x2</label>
+        <label class="check-item"><input type="checkbox"> 備用記憶卡</label>
+        <label class="check-item"><input type="checkbox"> 相機斜背帶+安全繩（飛行傘用）</label>
+        <label class="check-item"><input type="checkbox"> 清潔布/吹塵球</label>
+      </div>
+      <h3 style="margin-top:20px">衣物 / 裝備</h3>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox"> 登山鞋（冰川殘雪）</label>
+        <label class="check-item"><input type="checkbox"> 保暖外套（山頂低溫）</label>
+        <label class="check-item"><input type="checkbox"> 防水外套</label>
+        <label class="check-item"><input type="checkbox"> 備用毛巾（瀑布水花）</label>
+        <label class="check-item"><input type="checkbox"> 太陽眼鏡+防曬</label>
+        <label class="check-item"><input type="checkbox"> 婚紗/禮服</label>
+      </div>
+      <h3 style="margin-top:20px">旅行文件 / 票券</h3>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox"> 護照（有效期2年以上）</label>
+        <label class="check-item"><input type="checkbox"> Swiss Travel Pass</label>
+        <label class="check-item"><input type="checkbox"> 冰河列車訂位確認單</label>
+        <label class="check-item"><input type="checkbox"> 所有住宿確認信</label>
+        <label class="check-item"><input type="checkbox"> 旅遊保險證明</label>
+        <label class="check-item"><input type="checkbox"> SIM 卡（2支）</label>
+        <label class="check-item"><input type="checkbox"> 瑞士法郎現金（備用）</label>
+        <label class="check-item"><input type="checkbox"> 信用卡（VISA/Mastercard）</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  🇨🇭 瑞士蜜月旅行 2025 ｜ 6/16 – 7/1 ｜ 兩人同行，一生難忘 💍<br>
+  <span style="font-size:11px;color:#9ca3af">資料整理自行程規劃表，部分費用為估算，以當地實際為準</span>
+</footer>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Checklist persistence
+document.querySelectorAll('.check-item input').forEach((cb, i) => {
+  const key = 'swiss_check_' + i;
+  cb.checked = localStorage.getItem(key) === '1';
+  cb.parentElement.classList.toggle('done', cb.checked);
+  cb.addEventListener('change', () => {
+    localStorage.setItem(key, cb.checked ? '1' : '0');
+    cb.parentElement.classList.toggle('done', cb.checked);
+  });
+});
+</script>
+</body>
+</html>
