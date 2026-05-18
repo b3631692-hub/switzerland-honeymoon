@@ -76,3 +76,28 @@ statements:
     - "credit card"
   # 下載後在 Gmail 加上這個 label (沒有會自動建立)
   apply_label: "Statements/Downloaded"
+
+# === PDF 帳單解密 (decrypt-statements) ===
+# ⚠️ 警告: 這個區段包含密碼/身分證等敏感資訊
+# config.yaml 已在 .gitignore, 但請確認不要意外 commit / 傳給別人
+decrypt:
+  # 來源資料夾 (通常就是 statements.output_dir)
+  input_dir: "./statements"
+  # 解密後輸出資料夾 (會保持原本的 年/銀行/ 結構)
+  output_dir: "./statements_decrypted"
+  # 全域密碼候選清單, 由上到下依序嘗試
+  # 常見格式: 身分證 (大寫) / 生日 YYYYMMDD / 生日 MMDD / 卡號末4碼
+  passwords:
+    - "A123456789"
+    - "19900101"
+    - "0101"
+  # 各發卡行專屬密碼 (key 對應 statements 下載時的 issuer 資料夾名)
+  # 會先試這裡的, 再 fallback 到全域 passwords
+  per_issuer:
+    # cathaybk:
+    #   - "A123456789"
+    # ctbcbank:
+    #   - "19900101"
+    {}
+  # 找不到密碼時, 是否把檔案複製過去 (false 就跳過)
+  copy_on_failure: false

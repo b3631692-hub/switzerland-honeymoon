@@ -5,6 +5,7 @@
 1. **`archive-promos`** — 把廣告/促銷信從收件匣歸檔（不刪除，只是離開收件匣）
 2. **`cleanup-old`** — 把長時間沒互動的未讀信丟到垃圾桶（30 天後自動清掉，期間可救回）
 3. **`download-statements`** — 搜尋信用卡帳單，下載 PDF 附件、依年份／發卡銀行分類，並產生一份 `index.csv` 給後續分析
+4. **`decrypt-statements`** — 批次解開上一步下載的加密 PDF（台灣銀行帳單常用身分證/生日加密）
 
 > ⚠️ 這個工具會在你自己的電腦上執行，需要你自己到 Google Cloud Console 開一個 OAuth client。Google 不允許第三方拿到你 Gmail 的存取權，這是正常設計。
 
@@ -112,6 +113,28 @@ df = pd.read_csv("statements/index.csv")
 df.groupby(["issuer", df["date"].str[:7]]).size()
 ```
 
+### 解密 PDF 帳單
+
+在 `config.yaml` 的 `decrypt` 區段填入候選密碼（身分證、生日 YYYYMMDD、生日 MMDD、卡號末四碼…）。
+不同銀行用不同密碼可以填到 `per_issuer`，會優先試該銀行的，再 fallback 到全域清單。
+
+```bash
+# 看會解開幾個、用哪組密碼 (不會寫檔)
+python -m gmail_organizer.cli decrypt-statements
+
+# 實際輸出到 statements_decrypted/
+python -m gmail_organizer.cli decrypt-statements --apply
+```
+
+輸出標記：
+- `✓` 成功解密（顯示用第幾組密碼，**不顯示密碼本身**）
+- `·` 原本就沒加密
+- `✗` 試過所有密碼都不行（會在最後列出，方便補密碼）
+- `-` 目標檔已存在，跳過（重跑不會重做）
+- `!` 讀取/寫入錯誤
+
+> 解密後的 PDF 沒有密碼保護，請放在安全的位置，不要意外上傳/分享。
+
 ---
 
 ## 安全與隱私
@@ -123,9 +146,9 @@ df.groupby(["issuer", df["date"].str[:7]]).size()
 
 ## 注意事項
 
-- 台灣銀行的帳單 PDF 多半有密碼（身分證、生日等），這個工具**不會自動解密**，下載下來的 PDF 還是會是加密狀態。要做數值分析的話，先用 `qpdf` 或 `pikepdf` 解密：
-  ```bash
-  qpdf --password=A123456789 --decrypt input.pdf output.pdf
-  ```
-- 第一次跑前面兩個指令前，**強烈建議先 dry-run 看名單**，特別是 `cleanup-old`。
+- 第一次跑前面三個 Gmail 指令前，**強烈建議先 dry-run 看名單**，特別是 `cleanup-old`。
 - 大信箱（10 萬封以上）第一次跑可能要幾分鐘，Gmail API 有 rate limit，工具會自動處理分頁但不會自動 backoff——如果遇到 429 錯誤，等一分鐘再跑。
+- `decrypt-statements` 不需要網路、也不會碰 Gmail，純粹在本機跑 `pikepdf`，安裝它需要先有 `qpdf` 系統套件：
+  - macOS: `brew install qpdf`
+  - Ubuntu/Debian: `sudo apt install qpdf`
+  - Windows: 通常 `pip install pikepdf` 會自帶 wheel，不用裝

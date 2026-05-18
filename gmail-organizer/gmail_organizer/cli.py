@@ -8,7 +8,7 @@ from typing import Any
 import click
 import yaml
 
-from . import archive, cleanup, statements
+from . import archive, cleanup, decrypt, statements
 from .auth import DEFAULT_CREDENTIALS_PATH, DEFAULT_TOKEN_PATH, get_service
 from .gmail_client import GmailClient
 
@@ -92,6 +92,18 @@ def download_statements_cmd(
     config = _load_config(ctx.obj["config_path"]).get("statements", {})
     client = _make_client(ctx.obj["credentials"], ctx.obj["token"])
     statements.run(client, config, dry_run=not apply_changes, limit=limit)
+
+
+@cli.command("decrypt-statements")
+@click.option("--apply", "apply_changes", is_flag=True, help="實際執行 (預設 dry-run).")
+@click.option("--limit", type=int, default=None, help="最多處理幾個檔案 (測試用).")
+@click.pass_context
+def decrypt_statements_cmd(
+    ctx: click.Context, apply_changes: bool, limit: int | None
+) -> None:
+    """批次解密下載下來的信用卡帳單 PDF (不需要 Gmail 授權)."""
+    config = _load_config(ctx.obj["config_path"]).get("decrypt", {})
+    decrypt.run(config, dry_run=not apply_changes, limit=limit)
 
 
 @cli.command("auth")
