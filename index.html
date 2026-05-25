@@ -440,6 +440,85 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   inset: 0;
   background: linear-gradient(to bottom, transparent 45%, rgba(13,5,8,0.45));
 }
+.route-map-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+.day-sel-wrap {
+  padding: 12px 14px 10px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.day-sel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.day-sel-label {
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.day-sel-reset {
+  font-size: 11px;
+  color: var(--text-sub);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.day-sel-reset:hover { color: var(--primary); border-color: var(--primary); }
+.day-sel-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.day-btn {
+  min-width: 38px;
+  height: 34px;
+  padding: 0 4px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: white;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--text-sub);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  gap: 1px;
+}
+.day-btn:hover { transform: scale(1.08); border-color: var(--primary); }
+.day-btn.dm-active { color: white !important; border-color: transparent !important; transform: scale(1.1); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.day-btn .db-num { font-size: 12px; font-weight: 700; }
+.day-btn .db-date { font-size: 9px; opacity: 0.8; }
+.map-info-bar {
+  padding: 10px 16px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  min-height: 46px;
+}
+.mib-day { font-size: 13.5px; font-weight: 600; color: var(--text); }
+.mib-note { font-size: 12.5px; color: var(--text-sub); }
+@keyframes markerPulse {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(255,255,255,0.6); }
+  50%  { transform: scale(1.18); box-shadow: 0 0 0 8px rgba(255,255,255,0);   }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(255,255,255,0);   }
+}
+.dm-pulse { animation: markerPulse 1.6s ease-in-out infinite; }
 .day-card {
   display: grid;
   grid-template-columns: 72px 1fr;
@@ -1257,8 +1336,19 @@ footer small {
 
     <!-- ─── 互動式路線地圖 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🗺 互動式路線地圖</div>
-    <div class="mb-24" style="border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border)">
-      <div id="routeMap" style="height:420px;width:100%"></div>
+    <div class="route-map-card mb-24">
+      <div class="day-sel-wrap">
+        <div class="day-sel-top">
+          <span class="day-sel-label">選擇第幾天查看行程</span>
+          <button class="day-sel-reset" id="mapReset" onclick="mapResetView()">全覽</button>
+        </div>
+        <div class="day-sel-row" id="daySel"></div>
+      </div>
+      <div id="routeMap" style="height:440px;width:100%"></div>
+      <div class="map-info-bar">
+        <span class="mib-day" id="mibDay">點選上方按鈕查看當天行程</span>
+        <span class="mib-note" id="mibNote"></span>
+      </div>
     </div>
 
     <!-- Alerts -->
@@ -2882,72 +2972,162 @@ window.addEventListener('load', () => {
   loop();
 })();
 
-var _routeMap;
+var _routeMap, _mapMarkers = {}, _activeCity = null;
+
 /* ── ROUTE MAP ── */
 window.addEventListener('load', function() {
-  if (typeof L === 'undefined') return;
+  if (typeof L === 'undefined') { console.warn('Leaflet not loaded'); return; }
   var el = document.getElementById('routeMap');
   if (!el) return;
+
+  // City overnight stops
+  var cities = [
+    { id:'airport', n:'蘇黎世機場',  sub:'6/16 · 1晚',      lat:47.464, lng:8.549, c:'#78716C', zoom:12 },
+    { id:'engadin', n:'Pontresina', sub:'恩加丁 · 6/17–6/20 · 4晚', lat:46.494, lng:9.899, c:'#2D8C58', zoom:12 },
+    { id:'zermatt', n:'策馬特',     sub:'6/21–6/23 · 3晚',  lat:46.021, lng:7.749, c:'#C8102E', zoom:13 },
+    { id:'bern',    n:'伯恩',       sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447, c:'#7C3AED', zoom:13 },
+    { id:'zug',     n:'楚格',       sub:'6/26–6/28 · 3晚',  lat:47.166, lng:8.516, c:'#0F766E', zoom:13 },
+    { id:'zurich',  n:'蘇黎世',     sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542, c:'#2563EB', zoom:13 },
+  ];
+
+  // Day → city mapping
+  var days = [
+    { d:1,  date:'6/16', city:'airport', note:'✈️ 抵達蘇黎世機場' },
+    { d:2,  date:'6/17', city:'engadin', note:'🏔 Muottas Muragl 三湖全景' },
+    { d:3,  date:'6/18', city:'engadin', note:'🏔 Diavolezza 冰川婚紗' },
+    { d:4,  date:'6/19', city:'engadin', note:'🚂 Bernina / Brusio 螺旋橋' },
+    { d:5,  date:'6/20', city:'engadin', note:'⛷ Corvatsch 3,303m' },
+    { d:6,  date:'6/21', city:'zermatt', note:'🚂 冰河列車 → 策馬特入住' },
+    { d:7,  date:'6/22', city:'zermatt', note:'🏔 Riffelsee 馬特洪峰倒影' },
+    { d:8,  date:'6/23', city:'zermatt', note:'💍 Schwarzsee 婚紗攝影' },
+    { d:9,  date:'6/24', city:'bern',    note:'🦢 Oeschinensee → 伯恩入住' },
+    { d:10, date:'6/25', city:'bern',    note:'🏛 伯恩老城（UNESCO）' },
+    { d:11, date:'6/26', city:'zug',     note:'💒 Lauterbrunnen 婚紗 → 楚格' },
+    { d:12, date:'6/27', city:'zug',     note:'⛵ 琉森 Kapellbrücke 藍調' },
+    { d:13, date:'6/28', city:'zug',     note:'🚂 瑞吉山 輪船上山' },
+    { d:14, date:'6/29', city:'zurich',  note:'🏙 楚格 → 蘇黎世入住' },
+    { d:15, date:'6/30', city:'zurich',  note:'💧 萊茵瀑布 → Stein am Rhein' },
+    { d:16, date:'7/1',  city:'airport', note:'✈️ 返台' },
+  ];
+
+  // Init map
   _routeMap = L.map('routeMap', {
-    center: [46.85, 8.1], zoom: 7,
-    scrollWheelZoom: false, zoomControl: true
+    center: [46.7, 8.2], zoom: 7,
+    scrollWheelZoom: false, zoomControl: true,
+    zoomAnimation: true
   });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
     maxZoom: 18
   }).addTo(_routeMap);
 
-  var stops = [
-    { n:'蘇黎世機場',        s:'6/16 · 1晚',      lat:47.464, lng:8.549, c:'#78716C' },
-    { n:'恩加丁 Pontresina', s:'6/17–6/21 · 4晚', lat:46.494, lng:9.899, c:'#2D8C58' },
-    { n:'策馬特',            s:'6/21–6/24 · 3晚', lat:46.021, lng:7.749, c:'#C8102E' },
-    { n:'伯恩',              s:'6/24–6/26 · 2晚', lat:46.948, lng:7.447, c:'#7C3AED' },
-    { n:'楚格',              s:'6/26–6/29 · 3晚', lat:47.166, lng:8.516, c:'#0F766E' },
-    { n:'蘇黎世',            s:'6/29–7/1 · 2晚',  lat:47.377, lng:8.542, c:'#2563EB' },
-  ];
+  // Route polyline
+  L.polyline(cities.map(function(c){ return [c.lat, c.lng]; }),
+    { color:'#C8102E', weight:3, opacity:0.45, dashArray:'8 6' }).addTo(_routeMap);
 
-  // Route line
-  L.polyline(stops.map(function(s){return[s.lat,s.lng];}),
-    { color:'#C8102E', weight:2.5, opacity:0.5, dashArray:'8 5' }).addTo(_routeMap);
+  // Markers
+  function makeMarkerHtml(city, idx, active) {
+    var pulse = active ? ' dm-pulse' : '';
+    var scale = active ? 'transform:scale(1.25);' : '';
+    return '<div class="dm-marker' + pulse + '" style="background:' + city.c +
+      ';color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;' +
+      'justify-content:center;font-size:14px;font-weight:800;box-shadow:0 3px 12px rgba(0,0,0,0.32);' +
+      'border:3px solid #fff;' + scale + 'transition:transform 0.35s">' + (idx+1) + '</div>';
+  }
 
-  // Numbered city markers
-  stops.forEach(function(s, i) {
+  cities.forEach(function(city, i) {
     var ico = L.divIcon({
-      html: '<div style="background:'+s.c+';color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,0.28);border:2.5px solid #fff">'+(i+1)+'</div>',
-      className:'', iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-18]
+      html: makeMarkerHtml(city, i, false),
+      className: '', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
     });
-    L.marker([s.lat, s.lng], {icon:ico})
-     .bindPopup('<b style="font-size:13.5px">'+s.n+'</b><br><span style="color:#888;font-size:12px">'+s.s+'</span>')
-     .addTo(_routeMap);
+    _mapMarkers[city.id] = L.marker([city.lat, city.lng], {icon:ico})
+      .bindPopup(
+        '<b style="font-size:14px;color:' + city.c + '">' + city.n + '</b>' +
+        '<br><span style="color:#888;font-size:11.5px">' + city.sub + '</span>'
+      ).addTo(_routeMap);
   });
 
-  // Key attraction dots (gold)
-  var spots = [
-    { n:'Riffelsee 馬特洪峰倒影',   lat:45.986, lng:7.720 },
-    { n:'Klein Matterhorn 3,883m', lat:45.977, lng:7.734 },
-    { n:'Schwarzsee 婚紗攝影',      lat:46.030, lng:7.707 },
-    { n:'Diavolezza 冰川',          lat:46.411, lng:9.969 },
-    { n:'Corvatsch 3,303m',         lat:46.448, lng:9.828 },
-    { n:'Muottas Muragl',           lat:46.519, lng:9.876 },
-    { n:'Brusio 螺旋橋',            lat:46.248, lng:10.126 },
-    { n:'Tirano 義大利',            lat:46.215, lng:10.175 },
-    { n:'Lauterbrunnen 婚紗 No.1',  lat:46.595, lng:7.909 },
-    { n:'Oeschinensee 冰川湖',      lat:46.495, lng:7.727 },
-    { n:'Spiez 城堡',               lat:46.685, lng:7.651 },
-    { n:'瑞吉山 1,797m',            lat:47.055, lng:8.485 },
-    { n:'琉森 Kapellbrücke',        lat:47.051, lng:8.307 },
-    { n:'萊茵瀑布',                 lat:47.677, lng:8.615 },
-    { n:'Stein am Rhein',           lat:47.659, lng:8.858 },
-  ];
-  var gIco = L.divIcon({
-    html: '<div style="background:#C9944A;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.35)"></div>',
-    className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8]
-  });
-  spots.forEach(function(s){
-    L.marker([s.lat, s.lng], {icon:gIco})
-     .bindPopup('<span style="font-size:12.5px">📍 '+s.n+'</span>')
-     .addTo(_routeMap);
-  });
+  // Build day selector buttons
+  var selEl = document.getElementById('daySel');
+  if (selEl) {
+    days.forEach(function(d) {
+      var city = cities.find(function(c){ return c.id === d.city; });
+      var btn = document.createElement('button');
+      btn.className = 'day-btn';
+      btn.id = 'dbtn-' + d.d;
+      btn.innerHTML = '<span class="db-num">D' + d.d + '</span><span class="db-date">' + d.date + '</span>';
+      btn.style.borderColor = city.c + '55';
+      btn.title = d.note;
+      btn.addEventListener('click', function() { mapSelectDay(d.d); });
+      selEl.appendChild(btn);
+    });
+  }
+
+  // Select a day: fly to city, highlight marker, update info bar
+  window.mapSelectDay = function(dayNum) {
+    var d = days.find(function(x){ return x.d === dayNum; });
+    if (!d) return;
+    var city = cities.find(function(c){ return c.id === d.city; });
+    if (!city) return;
+
+    // Buttons
+    document.querySelectorAll('.day-btn').forEach(function(b) {
+      b.classList.remove('dm-active');
+      b.style.background = '';
+      b.style.color = '';
+    });
+    var ab = document.getElementById('dbtn-' + dayNum);
+    if (ab) { ab.classList.add('dm-active'); ab.style.background = city.c; ab.style.color = '#fff'; }
+
+    // Update marker icons (remove old pulse, add to active city)
+    cities.forEach(function(c, i) {
+      var m = _mapMarkers[c.id];
+      if (!m) return;
+      var active = (c.id === d.city);
+      m.setIcon(L.divIcon({
+        html: makeMarkerHtml(c, i, active),
+        className: '', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
+      }));
+    });
+
+    // Fly animation
+    _routeMap.flyTo([city.lat, city.lng], city.zoom, { duration: 1.4, easeLinearity: 0.2 });
+
+    // Info bar
+    var dayEl = document.getElementById('mibDay');
+    var noteEl = document.getElementById('mibNote');
+    if (dayEl) dayEl.innerHTML =
+      'Day ' + dayNum + ' <span style="color:' + city.c + ';font-weight:700">' + city.n + '</span>' +
+      ' <span style="color:var(--text-light);font-weight:400;font-size:12px">(' + d.date + ')</span>';
+    if (noteEl) noteEl.textContent = d.note;
+
+    // Open popup after fly
+    setTimeout(function() {
+      if (_mapMarkers[city.id]) _mapMarkers[city.id].openPopup();
+    }, 1450);
+    _activeCity = d.city;
+  };
+
+  // Reset to full Switzerland view
+  window.mapResetView = function() {
+    document.querySelectorAll('.day-btn').forEach(function(b) {
+      b.classList.remove('dm-active'); b.style.background = ''; b.style.color = '';
+    });
+    cities.forEach(function(c, i) {
+      var m = _mapMarkers[c.id];
+      if (m) m.setIcon(L.divIcon({
+        html: makeMarkerHtml(c, i, false),
+        className:'', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
+      }));
+    });
+    _routeMap.flyTo([46.7, 8.2], 7, { duration: 1.2 });
+    var dayEl = document.getElementById('mibDay');
+    var noteEl = document.getElementById('mibNote');
+    if (dayEl) dayEl.textContent = '點選上方按鈕查看當天行程';
+    if (noteEl) noteEl.textContent = '';
+    _activeCity = null;
+  };
+
   setTimeout(function(){ _routeMap.invalidateSize(); }, 300);
 });
 
