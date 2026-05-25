@@ -107,6 +107,9 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .hero-canvas {
   position: absolute; inset: 0;
   pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .hero-glow {
   position: absolute;
@@ -125,6 +128,8 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   position: relative; z-index: 2;
   text-align: center;
   max-width: 560px;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 .hero-flag {
   font-size: 56px;
@@ -159,12 +164,14 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   opacity: 0;
 }
 .hero-sub {
-  font-size: clamp(13px, 3vw, 16px);
+  font-size: clamp(12px, 3vw, 16px);
   color: rgba(255,255,255,0.65);
-  letter-spacing: 1.5px;
+  letter-spacing: 0.5px;
   animation: fadeSlideDown 0.8s ease both;
   animation-delay: 0.7s;
   opacity: 0;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 .hero-stats {
   display: flex; flex-wrap: wrap;
@@ -896,6 +903,214 @@ footer small {
 .text-xs { font-size: 11.5px; }
 .text-sub { color: var(--text-sub); }
 
+
+/* ═══════════════════════════════════════
+   HERO COUNTDOWN
+═══════════════════════════════════════ */
+.hero-countdown {
+  display: flex; align-items: flex-end; justify-content: center; gap: 8px;
+  margin-top: 28px;
+  animation: fadeSlideDown 0.8s ease both;
+  animation-delay: 1.1s;
+  opacity: 0;
+}
+.hcd-item {
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  padding: 12px 18px;
+  min-width: 68px;
+}
+.hcd-item span {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 30px; font-weight: 600;
+  color: var(--gold); line-height: 1;
+  letter-spacing: -1px;
+}
+.hcd-item small {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  letter-spacing: 1.5px; margin-top: 4px; display: block;
+}
+.hcd-sep {
+  font-size: 24px; color: rgba(255,255,255,0.2);
+  padding-bottom: 16px; line-height: 1;
+}
+.hcd-label {
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  letter-spacing: 3px; text-transform: uppercase;
+  text-align: center; margin-top: 10px;
+  animation: fadeSlideDown 0.8s ease both;
+  animation-delay: 1.25s; opacity: 0;
+}
+
+/* ═══════════════════════════════════════
+   CITY CARDS
+═══════════════════════════════════════ */
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px; margin-bottom: 28px;
+}
+.city-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 16px 16px;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden;
+}
+.city-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.cc-airport::before { background: linear-gradient(90deg,#44403C,#78716C); }
+.cc-engadin::before { background: linear-gradient(90deg,#1B5E3B,#2D8C58); }
+.cc-zermatt::before { background: linear-gradient(90deg,#9B0C23,#C8102E); }
+.cc-bern::before    { background: linear-gradient(90deg,#5B21B6,#7C3AED); }
+.cc-zug::before     { background: linear-gradient(90deg,#0F5C58,#0F766E); }
+.cc-zurich::before  { background: linear-gradient(90deg,#1E3A5F,#2563EB); }
+.city-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.cc-badge  { font-size: 28px; display: block; margin-bottom: 10px; }
+.cc-name   { font-family: var(--font-serif); font-size: 18px; font-weight: 600; font-style: italic; color: var(--text); }
+.cc-en     { font-size: 10.5px; color: var(--text-light); letter-spacing: 0.8px; margin-bottom: 8px; }
+.cc-nights {
+  display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 700;
+  background: var(--rose-lt); color: var(--primary);
+  border-radius: 100px; padding: 2px 10px; margin-bottom: 10px;
+}
+.cc-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.cc-meta span {
+  font-size: 11px; color: var(--text-sub);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 2px 7px;
+}
+.cc-highlights { list-style: none; padding: 0; margin: 0; }
+.cc-highlights li {
+  font-size: 12.5px; color: var(--text-sub);
+  padding: 3px 0; display: flex; gap: 7px; align-items: flex-start; line-height: 1.4;
+}
+.cc-highlights li::before {
+  content: '✦'; color: var(--gold); font-size: 8px;
+  flex-shrink: 0; margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════
+   CLIMATE
+═══════════════════════════════════════ */
+.climate-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.climate-row:last-child { border-bottom: none; }
+.climate-city {
+  width: 88px; flex-shrink: 0;
+  font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3;
+}
+.climate-alt { display: block; font-size: 10.5px; color: var(--text-light); font-weight: 400; }
+.climate-bar-wrap { flex: 1; }
+.climate-bar { height: 7px; border-radius: 4px; margin-bottom: 4px; }
+.climate-temp { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
+.climate-icons { flex-shrink: 0; font-size: 15px; }
+
+/* ═══════════════════════════════════════
+   PRACTICAL INFO
+═══════════════════════════════════════ */
+.prac-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 12px; margin-bottom: 28px;
+}
+.prac-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px 14px;
+  text-align: center; box-shadow: var(--shadow);
+}
+.prac-icon { font-size: 26px; margin-bottom: 8px; }
+.prac-title {
+  font-size: 11.5px; font-weight: 800; color: var(--text);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.prac-body { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; }
+.prac-body strong { color: var(--primary); font-weight: 700; }
+.prac-body em { color: #16A34A; font-style: normal; font-weight: 600; }
+
+/* ═══════════════════════════════════════
+   EMERGENCY
+═══════════════════════════════════════ */
+.em-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px; margin-bottom: 14px;
+}
+.em-card {
+  background: #FEF2F2; border: 1.5px solid #FECACA;
+  border-radius: var(--radius-sm); padding: 14px 10px; text-align: center;
+}
+.em-num {
+  font-family: var(--font-serif);
+  font-size: 24px; font-weight: 600; color: #DC2626; line-height: 1;
+}
+.em-label { font-size: 11px; color: #7F1D1D; margin-top: 4px; line-height: 1.4; }
+
+/* ═══════════════════════════════════════
+   APPS
+═══════════════════════════════════════ */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 10px; margin-bottom: 24px;
+}
+.app-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.app-icon { font-size: 24px; flex-shrink: 0; }
+.app-info { flex: 1; }
+.app-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.app-type { font-size: 10.5px; color: var(--text-light); margin-bottom: 3px; }
+.app-desc { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
+
+/* ═══════════════════════════════════════
+   PHRASES
+═══════════════════════════════════════ */
+.phrase-table { width: 100%; border-collapse: collapse; }
+.phrase-table tr { border-bottom: 1px solid var(--border); }
+.phrase-table tr:last-child { border-bottom: none; }
+.phrase-table td { padding: 8px 12px; vertical-align: middle; }
+.ph-zh  { font-size: 13.5px; font-weight: 600; color: var(--text); width: 28%; }
+.ph-de  { font-size: 13.5px; color: var(--primary); font-style: italic; width: 40%; }
+.ph-pron{ font-size: 12px; color: var(--text-light); }
+
+/* ═══════════════════════════════════════
+   HOTEL HIGHLIGHT CARDS
+═══════════════════════════════════════ */
+.hotel-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+  gap: 14px; margin-bottom: 28px;
+}
+.hh-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px;
+  box-shadow: var(--shadow);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.hh-icon { font-size: 28px; flex-shrink: 0; }
+.hh-body {}
+.hh-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.hh-loc  { font-size: 11.5px; color: var(--text-light); margin-bottom: 6px; }
+.hh-desc { font-size: 12.5px; color: var(--text-sub); line-height: 1.5; }
+.hh-badge {
+  display: inline-flex; font-size: 11px; font-weight: 700;
+  padding: 2px 9px; border-radius: 100px; margin-top: 7px;
+}
+.hh-badge-paid { background: #EFF6FF; color: #1D4ED8; }
+.hh-badge-ok   { background: #F0FDF4; color: #15803D; }
+
 </style>
 </head>
 <body>
@@ -921,6 +1136,14 @@ footer small {
       <div class="hero-stat"><strong>STP</strong>15日二等艙</div>
       <div class="hero-stat"><strong>~30.7萬</strong>總預算</div>
     </div>
+    <div class="hero-countdown" id="heroCountdown">
+      <div class="hcd-item"><span id="cdDays">---</span><small>天</small></div>
+      <div class="hcd-sep">:</div>
+      <div class="hcd-item"><span id="cdHours">--</span><small>時</small></div>
+      <div class="hcd-sep">:</div>
+      <div class="hcd-item"><span id="cdMins">--</span><small>分</small></div>
+    </div>
+    <p class="hcd-label">距出發倒數</p>
   </div>
   <svg class="hero-mountain" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0,120 L0,80 L120,30 L200,60 L320,10 L420,50 L560,5 L660,45 L780,15 L880,55 L1000,20 L1100,60 L1220,25 L1320,65 L1440,30 L1440,120 Z" fill="#FFF8F5"/>
@@ -1048,6 +1271,247 @@ footer small {
         <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px">Staubbachfall 300m 直落瀑布 + 石灰岩絕壁 + 翠綠牧野，6 月鮮花盛開，STP 全免</div>
       </div>
     </div>
+    <!-- ─── 六大基地城市 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:32px">✦ 六大基地城市</div>
+    <div class="city-grid">
+
+      <div class="city-card cc-airport reveal">
+        <span class="cc-badge">✈️</span>
+        <div class="cc-name">蘇黎世機場</div>
+        <div class="cc-en">ZÜRICH AIRPORT</div>
+        <div class="cc-nights">6/16 抵達 · 1晚</div>
+        <div class="cc-meta"><span>🌡 12–22°C</span><span>海拔 432m</span></div>
+        <ul class="cc-highlights">
+          <li>Observation Deck B 飛機俯瞰</li>
+          <li>Pistenende 跑道端拍機聖地</li>
+          <li>The Circle 商場夜景晚餐</li>
+        </ul>
+      </div>
+
+      <div class="city-card cc-engadin reveal">
+        <span class="cc-badge">🏔</span>
+        <div class="cc-name">恩加丁</div>
+        <div class="cc-en">ENGADIN · PONTRESINA</div>
+        <div class="cc-nights">6/17–6/21 · 4晚</div>
+        <div class="cc-meta"><span>🌡 8–18°C</span><span>海拔 1,800m</span><span>日落 21:00</span></div>
+        <ul class="cc-highlights">
+          <li>Engadin Card 免費四大纜車</li>
+          <li>伯尼納 UNESCO 世界遺產鐵道</li>
+          <li>Pers 冰川 ＋ Piz Bernina 4,049m</li>
+          <li>Fex Valley 中世紀無車山谷馬車</li>
+          <li>Tirano 義大利街拍午餐</li>
+        </ul>
+      </div>
+
+      <div class="city-card cc-zermatt reveal">
+        <span class="cc-badge">⛰</span>
+        <div class="cc-name">策馬特</div>
+        <div class="cc-en">ZERMATT</div>
+        <div class="cc-nights">6/21–6/24 · 3晚</div>
+        <div class="cc-meta"><span>🌡 5–15°C</span><span>海拔 1,620m</span><span>無車城市</span></div>
+        <ul class="cc-highlights">
+          <li>Riffelsee 馬特洪峰完美倒影</li>
+          <li>Klein Matterhorn 3,883m 歐洲最高纜車站</li>
+          <li>冰宮 Ice Palace 冰藍世界</li>
+          <li>蜜月慶祝晚餐 Restaurant Schäferstube</li>
+          <li>Schwarzsee 婚紗攝影聖地</li>
+        </ul>
+      </div>
+
+      <div class="city-card cc-bern reveal">
+        <span class="cc-badge">🏛</span>
+        <div class="cc-name">伯恩</div>
+        <div class="cc-en">BERN · UNESCO OLD CITY</div>
+        <div class="cc-nights">6/24–6/26 · 2晚</div>
+        <div class="cc-meta"><span>🌡 12–22°C</span><span>海拔 540m</span><span>首都</span></div>
+        <ul class="cc-highlights">
+          <li>Zytglogge 天文鐘 ＋ 6km 拱廊街</li>
+          <li>Oeschinensee UNESCO 土耳其藍冰川湖</li>
+          <li>Spiez 1300 年古城堡 ＋ 葡萄園婚紗</li>
+          <li>玫瑰園俯瞰阿爾卑斯黃金時刻</li>
+          <li>Altes Tramdepot 百年啤酒廠晚餐</li>
+        </ul>
+      </div>
+
+      <div class="city-card cc-zug reveal">
+        <span class="cc-badge">🌊</span>
+        <div class="cc-name">楚格</div>
+        <div class="cc-en">ZUG · LAKESIDE</div>
+        <div class="cc-nights">6/26–6/29 · 3晚</div>
+        <div class="cc-meta"><span>🌡 14–24°C</span><span>海拔 425m</span><span>湖畔</span></div>
+        <ul class="cc-highlights">
+          <li>Lauterbrunnen 全瑞士 No.1 婚紗地</li>
+          <li>琉森 Kapellbrücke 1333年木橋藍調</li>
+          <li>瑞吉山 1,797m 輪船 ＋ 齒軌鐵路</li>
+          <li>Lauerzersee 湖畔野餐夕陽</li>
+        </ul>
+      </div>
+
+      <div class="city-card cc-zurich reveal">
+        <span class="cc-badge">🏙</span>
+        <div class="cc-name">蘇黎世</div>
+        <div class="cc-en">ZÜRICH</div>
+        <div class="cc-nights">6/29–7/1 · 2晚</div>
+        <div class="cc-meta"><span>🌡 14–24°C</span><span>海拔 408m</span></div>
+        <ul class="cc-highlights">
+          <li>萊茵瀑布歐洲最大流量</li>
+          <li>Stein am Rhein 中世紀彩繪壁畫小鎮</li>
+          <li>林登霍夫俯瞰雙塔教堂老城</li>
+          <li>班霍夫大街最後伴手禮採購</li>
+          <li>Quai 61 湖畔蜜月最後晚餐</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ─── 六月氣候 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🌤 六月氣候指南</div>
+    <div class="card reveal mb-24">
+      <div class="climate-row">
+        <div class="climate-city">恩加丁<span class="climate-alt">海拔 1,800m</span></div>
+        <div class="climate-bar-wrap">
+          <div class="climate-bar" style="width:38%;background:linear-gradient(90deg,#60A5FA,#34D399)"></div>
+          <div class="climate-temp">早晨 8°C ～ 白天 18°C ｜ 日夜溫差大，外套必備；山頂低至 0°C</div>
+        </div>
+        <div class="climate-icons">🧥❄️</div>
+      </div>
+      <div class="climate-row">
+        <div class="climate-city">策馬特<span class="climate-alt">海拔 1,620m</span></div>
+        <div class="climate-bar-wrap">
+          <div class="climate-bar" style="width:28%;background:linear-gradient(90deg,#818CF8,#60A5FA)"></div>
+          <div class="climate-temp">早晨 5°C ～ 白天 15°C ｜ Klein Matterhorn 山頂約 -5°C，保暖外套必帶</div>
+        </div>
+        <div class="climate-icons">🧣🧤</div>
+      </div>
+      <div class="climate-row">
+        <div class="climate-city">伯恩<span class="climate-alt">海拔 540m</span></div>
+        <div class="climate-bar-wrap">
+          <div class="climate-bar" style="width:63%;background:linear-gradient(90deg,#34D399,#FBBF24)"></div>
+          <div class="climate-temp">早晨 12°C ～ 白天 22°C ｜ 舒適宜人，薄外套備用</div>
+        </div>
+        <div class="climate-icons">🌤👕</div>
+      </div>
+      <div class="climate-row">
+        <div class="climate-city">楚格<span class="climate-alt">海拔 425m</span></div>
+        <div class="climate-bar-wrap">
+          <div class="climate-bar" style="width:70%;background:linear-gradient(90deg,#34D399,#FBBF24)"></div>
+          <div class="climate-temp">早晨 14°C ～ 白天 24°C ｜ 湖畔涼爽，偶有午後雷陣雨</div>
+        </div>
+        <div class="climate-icons">⛅🌂</div>
+      </div>
+      <div class="climate-row">
+        <div class="climate-city">蘇黎世<span class="climate-alt">海拔 408m</span></div>
+        <div class="climate-bar-wrap">
+          <div class="climate-bar" style="width:70%;background:linear-gradient(90deg,#34D399,#FBBF24)"></div>
+          <div class="climate-temp">早晨 14°C ～ 白天 24°C ｜ 日照長，約 21:20 日落</div>
+        </div>
+        <div class="climate-icons">☀️🕶</div>
+      </div>
+    </div>
+
+    <!-- ─── 住宿概覽 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🏨 住宿概覽</div>
+    <div class="hotel-highlight-grid">
+      <div class="hh-card reveal">
+        <div class="hh-icon">✈️</div>
+        <div class="hh-body">
+          <div class="hh-name">Trip Inn Jet Hotel</div>
+          <div class="hh-loc">蘇黎世機場 · 6/16（1晚）</div>
+          <div class="hh-desc">機場步行可達，方便抵達首夜休息。</div>
+          <span class="hh-badge hh-badge-ok">已確認</span>
+        </div>
+      </div>
+      <div class="hh-card reveal">
+        <div class="hh-icon">🏔</div>
+        <div class="hh-body">
+          <div class="hh-name">Hotel Station Pontresina</div>
+          <div class="hh-loc">Pontresina · 6/17–6/21（4晚）</div>
+          <div class="hh-desc">含 Engadin Inclusive Card，4大纜車全免，省 TWD 12,565。</div>
+          <span class="hh-badge hh-badge-ok">已確認</span>
+        </div>
+      </div>
+      <div class="hh-card reveal">
+        <div class="hh-icon">💍</div>
+        <div class="hh-body">
+          <div class="hh-name">Chalet Achat by Zermatt Premium</div>
+          <div class="hh-loc">策馬特 · 6/21–6/24（3晚）</div>
+          <div class="hh-desc">蜜月精品 Chalet，馬特洪峰近距離，已付清。需盡快填寫 pre-checkin。</div>
+          <span class="hh-badge hh-badge-paid">已付清</span>
+        </div>
+      </div>
+      <div class="hh-card reveal">
+        <div class="hh-icon">🏛</div>
+        <div class="hh-body">
+          <div class="hh-name">Swissôtel Kursaal Bern</div>
+          <div class="hh-loc">伯恩 · 6/24–6/26（2晚）</div>
+          <div class="hh-desc">五星連鎖，UNESCO 古城核心，眺望阿爾卑斯山。⚠️ 取消期限 6/24 18:00。</div>
+          <span class="hh-badge hh-badge-ok">已確認</span>
+        </div>
+      </div>
+      <div class="hh-card reveal">
+        <div class="hh-icon">🌊</div>
+        <div class="hh-body">
+          <div class="hh-name">Hotel Zugertor</div>
+          <div class="hh-loc">楚格 · 6/26–6/29（3晚）</div>
+          <div class="hh-desc">楚加湖畔，步行即達老城 Zytturm，位置絕佳。⚠️ 取消期限 6/20。</div>
+          <span class="hh-badge hh-badge-ok">已確認</span>
+        </div>
+      </div>
+      <div class="hh-card reveal">
+        <div class="hh-icon">🛫</div>
+        <div class="hh-body">
+          <div class="hh-name">Ibis Budget Zurich Airport</div>
+          <div class="hh-loc">蘇黎世機場 · 6/29–7/1（2晚）</div>
+          <div class="hh-desc">機場步行可達，末日返程前最後基地。⚠️ 取消期限 6/27。</div>
+          <span class="hh-badge hh-badge-ok">已確認</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 旅行實用資訊 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🧭 旅行實用資訊</div>
+    <div class="prac-grid">
+      <div class="prac-card reveal">
+        <div class="prac-icon">💱</div>
+        <div class="prac-title">匯率</div>
+        <div class="prac-body"><strong>CHF 1 ≈ TWD 35</strong><br>CHF 10 ≈ TWD 350<br>CHF 100 ≈ TWD 3,500</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">🔌</div>
+        <div class="prac-title">電壓插座</div>
+        <div class="prac-body"><strong>230V / Type J</strong><br>三圓孔插座<br>需攜帶轉接頭</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">💶</div>
+        <div class="prac-title">小費文化</div>
+        <div class="prac-body">非強制性<br><em>帳單圓整即可</em><br>約 5–10%</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">🚰</div>
+        <div class="prac-title">飲用水</div>
+        <div class="prac-body"><em>自來水可直飲</em><br>全瑞士水質優良<br>不需買礦泉水</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">🕐</div>
+        <div class="prac-title">時差</div>
+        <div class="prac-body"><strong>台灣 − 6 小時</strong><br>夏令時間 UTC+2<br>台灣 14:00 = 瑞士 08:00</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">🗣</div>
+        <div class="prac-title">語言</div>
+        <div class="prac-body">旅遊區以<strong>德語</strong>為主<br>觀光景點英語通用<br>義大利語區近 Tirano</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">🏪</div>
+        <div class="prac-title">商店時間</div>
+        <div class="prac-body">一般 09:00–18:30<br>週日多數<strong>不開門</strong><br>Coop / Migros 例外</div>
+      </div>
+      <div class="prac-card reveal">
+        <div class="prac-icon">💳</div>
+        <div class="prac-title">付款方式</div>
+        <div class="prac-body">VISA / Mastercard 廣泛接受<br><em>備少量現金</em><br>高山小店可能需現金</div>
+      </div>
+    </div>
   </div>
 
   <!-- 行程 -->
@@ -1061,7 +1525,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/16</span><span class="db-day">一</span></div>
+            <div class="date-badge"><span class="db-date">6/16</span><span class="db-day">二</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">台灣 → 蘇黎世機場</h3>
@@ -1105,7 +1569,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/17</span><span class="db-day">二</span></div>
+            <div class="date-badge"><span class="db-date">6/17</span><span class="db-day">三</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">蘇黎世 → Pontresina → Muottas Muragl</h3>
@@ -1142,7 +1606,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/18</span><span class="db-day">三</span></div>
+            <div class="date-badge"><span class="db-date">6/18</span><span class="db-day">四</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">Alp Languard（上午）→ Diavolezza 冰川（下午）→ 婚紗攝影（傍晚）</h3>
@@ -1187,7 +1651,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/19</span><span class="db-day">四</span></div>
+            <div class="date-badge"><span class="db-date">6/19</span><span class="db-day">五</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">UNESCO 鐵道：Ospizio Bernina → Alp Grüm → Brusio 螺旋橋 → Tirano</h3>
@@ -1223,7 +1687,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/20</span><span class="db-day">五</span></div>
+            <div class="date-badge"><span class="db-date">6/20</span><span class="db-day">六</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">Corvatsch（3,303m）→ Sils Maria → Fex Valley 馬車</h3>
@@ -1269,7 +1733,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/21</span><span class="db-day">六</span></div>
+            <div class="date-badge"><span class="db-date">6/21</span><span class="db-day">日</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">聖莫里茲 → 庫爾 → 冰河列車 → 策馬特</h3>
@@ -1279,7 +1743,7 @@ footer small {
             </div>
             <div class="db">
               <p>⚠️ 建議 11:00 前退房出發</p>
-              <p>STP 火車 Pontresina → Chur（約 1 小時）</p>
+              <p>STP 火車 Pontresina → Chur（約 2 小時，RhB Albula 山岳線）</p>
               <p>庫爾老城午餐 ＋ 散步（約 1.5 小時）：羅馬式主教座堂、石板老街</p>
               <p class="star">★ 14:32 搭冰河列車一等艙出發</p>
               <p>Chur → Zermatt（<span class="hl">約 5.5 小時</span>，從庫爾搭非全程 8 小時）</p>
@@ -1307,7 +1771,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/22</span><span class="db-day">日</span></div>
+            <div class="date-badge"><span class="db-date">6/22</span><span class="db-day">一</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">Riffelsee ＋ Gornergrat（上午）→ Stellisee（下午）</h3>
@@ -1342,7 +1806,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/23</span><span class="db-day">一</span></div>
+            <div class="date-badge"><span class="db-date">6/23</span><span class="db-day">二</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">Klein Matterhorn（3,883m）→ Schwarzsee 婚紗 → 蜜月慶祝晚餐</h3>
@@ -1393,7 +1857,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/24</span><span class="db-day">二</span></div>
+            <div class="date-badge"><span class="db-date">6/24</span><span class="db-day">三</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">策馬特 → Kandersteg → Oeschinensee → Spiez 城堡 → 伯恩</h3>
@@ -1435,7 +1899,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/25</span><span class="db-day">三</span></div>
+            <div class="date-badge"><span class="db-date">6/25</span><span class="db-day">四</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">伯恩老城深度遊（UNESCO 世界遺產）</h3>
@@ -1478,7 +1942,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/26</span><span class="db-day">四</span></div>
+            <div class="date-badge"><span class="db-date">6/26</span><span class="db-day">五</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">Lauterbrunnen 瀑布山谷婚紗（上午）→ 楚格</h3>
@@ -1516,7 +1980,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/27</span><span class="db-day">五</span></div>
+            <div class="date-badge"><span class="db-date">6/27</span><span class="db-day">六</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">楚格 → 琉森 ＋ 藍調時刻</h3>
@@ -1547,7 +2011,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/28</span><span class="db-day">六</span></div>
+            <div class="date-badge"><span class="db-date">6/28</span><span class="db-day">日</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">瑞吉山（輪船上山）→ Tierpark → Lauerzersee 野餐</h3>
@@ -1593,7 +2057,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/29</span><span class="db-day">日</span></div>
+            <div class="date-badge"><span class="db-date">6/29</span><span class="db-day">一</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">楚格 → 蘇黎世市區</h3>
@@ -1624,7 +2088,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">6/30</span><span class="db-day">一</span></div>
+            <div class="date-badge"><span class="db-date">6/30</span><span class="db-day">二</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">萊茵瀑布 → 沙夫豪森 → Stein am Rhein → Konstanz（備選）→ 機場</h3>
@@ -1664,7 +2128,7 @@ footer small {
 
         <div class="day-card reveal">
           <div class="day-left">
-            <div class="date-badge"><span class="db-date">7/1</span><span class="db-day">二</span></div>
+            <div class="date-badge"><span class="db-date">7/1</span><span class="db-day">三</span></div>
           </div>
           <div class="day-right">
             <h3 class="day-title">蘇黎世市區 → 22:00 搭機返台</h3>
@@ -1846,8 +2310,10 @@ footer small {
 
           <tr class="cat-row"><td colspan="4">🎿 景點 ／ 纜車 ／ 活動</td></tr>
           <tr><td>Engadin Card 纜車（4項）</td><td>Muottas Muragl / Diavolezza / Alp Languard / Corvatsch</td><td class="amount-cell">0</td><td><span class="tag-free">Card 全免</span></td></tr>
-          <tr><td>Gornergrat 登山鐵路</td><td>策馬特，STP 50% 折扣，CHF 66/人</td><td class="amount-cell">4,620</td><td><span class="tag-ok">確認</span></td></tr>
-          <tr><td>Klein Matterhorn 纜車</td><td>策馬特，STP 50% 折扣，約 CHF 57/人</td><td class="amount-cell">4,000</td><td><span class="tag-est">估算</span></td></tr>
+          <tr><td>Gornergrat 登山鐵路</td><td>策馬特（6/22），STP 50% 折扣，CHF 66/人</td><td class="amount-cell">4,620</td><td><span class="tag-ok">確認</span></td></tr>
+          <tr><td>Sunnegga Express</td><td>策馬特（6/22），STP 折扣</td><td class="amount-cell">1,000</td><td><span class="tag-est">估算</span></td></tr>
+          <tr><td>Klein Matterhorn 纜車</td><td>策馬特（6/23），STP 50% 折扣，約 CHF 57/人</td><td class="amount-cell">4,000</td><td><span class="tag-est">估算</span></td></tr>
+          <tr><td>Schwarzsee 纜車</td><td>策馬特（6/23），STP 折扣</td><td class="amount-cell">1,000</td><td><span class="tag-est">估算</span></td></tr>
           <tr><td>Oeschinensee 纜車</td><td>Kandersteg，STP 50% 折扣</td><td class="amount-cell">1,400</td><td><span class="tag-est">估算</span></td></tr>
           <tr><td>萊茵瀑布小船路線 4</td><td>CHF 8/人</td><td class="amount-cell">560</td><td><span class="tag-ok">確認</span></td></tr>
           <tr><td>勞芬城堡觀景台</td><td>CHF 5/人</td><td class="amount-cell">350</td><td><span class="tag-ok">確認</span></td></tr>
@@ -2070,6 +2536,109 @@ footer small {
       </div>
     </div>
 
+
+    <!-- ─── 緊急聯絡 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🆘 緊急聯絡</div>
+    <div class="em-grid">
+      <div class="em-card reveal">
+        <div class="em-num">112</div>
+        <div class="em-label">歐洲統一緊急救援</div>
+      </div>
+      <div class="em-card reveal">
+        <div class="em-num">144</div>
+        <div class="em-label">瑞士救護車</div>
+      </div>
+      <div class="em-card reveal">
+        <div class="em-num">117</div>
+        <div class="em-label">瑞士警察</div>
+      </div>
+      <div class="em-card reveal">
+        <div class="em-num">118</div>
+        <div class="em-label">瑞士消防</div>
+      </div>
+      <div class="em-card reveal">
+        <div class="em-num">1414</div>
+        <div class="em-label">REGA 山難救援直升機</div>
+      </div>
+    </div>
+    <div class="alert alert-blue reveal" style="font-size:12.5px;margin-bottom:28px">
+      <strong>🇹🇼 台灣駐瑞士代表處緊急聯絡</strong>
+      緊急電話：+41 78 631 32 10（24小時）｜ 一般：+41 31 382 23 35<br>
+      地址：Alpenstrasse 29, 3006 Bern
+    </div>
+
+    <!-- ─── 必備 App ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">📱 旅途必備 App</div>
+    <div class="app-grid">
+      <div class="app-card reveal">
+        <div class="app-icon">🚂</div>
+        <div class="app-info">
+          <div class="app-name">SBB Mobile</div>
+          <div class="app-type">iOS / Android · 免費</div>
+          <div class="app-desc">瑞士國鐵時刻、末班車、即時誤點，旅途必裝 No.1</div>
+        </div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">🗺</div>
+        <div class="app-info">
+          <div class="app-name">Google Maps</div>
+          <div class="app-type">iOS / Android · 免費</div>
+          <div class="app-desc">出發前下載瑞士離線地圖，省流量、無網路可用</div>
+        </div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">💱</div>
+        <div class="app-info">
+          <div class="app-name">XE Currency</div>
+          <div class="app-type">iOS / Android · 免費</div>
+          <div class="app-desc">即時 CHF／TWD 匯率，購物換算必備</div>
+        </div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">🌤</div>
+        <div class="app-info">
+          <div class="app-name">MeteoSwiss</div>
+          <div class="app-type">iOS / Android · 免費</div>
+          <div class="app-desc">瑞士官方氣象，登山天氣最準確，有小時預報</div>
+        </div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">🌐</div>
+        <div class="app-info">
+          <div class="app-name">Google 翻譯</div>
+          <div class="app-type">iOS / Android · 免費</div>
+          <div class="app-desc">下載德語離線包，拍照翻譯菜單超方便</div>
+        </div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">⛰</div>
+        <div class="app-info">
+          <div class="app-name">SchweizMobil</div>
+          <div class="app-type">iOS / Android · 免費</div>
+          <div class="app-desc">瑞士官方健行地圖，標注步道難度與時間</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 德語常用語 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🇩🇪 德語旅遊常用語</div>
+    <div class="card reveal" style="overflow-x:auto">
+      <table class="phrase-table">
+        <tr><td class="ph-zh">早安</td><td class="ph-de">Guten Morgen</td><td class="ph-pron">古頓 莫根</td></tr>
+        <tr><td class="ph-zh">你好</td><td class="ph-de">Hallo / Grüezi</td><td class="ph-pron">哈囉 / 古艾茨（瑞士德語）</td></tr>
+        <tr><td class="ph-zh">謝謝</td><td class="ph-de">Danke schön</td><td class="ph-pron">當克 雄</td></tr>
+        <tr><td class="ph-zh">請 ／ 不客氣</td><td class="ph-de">Bitte</td><td class="ph-pron">比特</td></tr>
+        <tr><td class="ph-zh">抱歉 ／ 請問</td><td class="ph-de">Entschuldigung</td><td class="ph-pron">恩舒油根</td></tr>
+        <tr><td class="ph-zh">您說英語嗎？</td><td class="ph-de">Sprechen Sie Englisch?</td><td class="ph-pron">斯普雷欣 齊 英利西</td></tr>
+        <tr><td class="ph-zh">在哪裡？</td><td class="ph-de">Wo ist …?</td><td class="ph-pron">沃 伊斯特</td></tr>
+        <tr><td class="ph-zh">火車站</td><td class="ph-de">Bahnhof</td><td class="ph-pron">班霍夫</td></tr>
+        <tr><td class="ph-zh">廁所</td><td class="ph-de">Toilette / WC</td><td class="ph-pron">圖阿萊特 ／ 維采</td></tr>
+        <tr><td class="ph-zh">買單</td><td class="ph-de">Die Rechnung, bitte</td><td class="ph-pron">笛 瑞希農 比特</td></tr>
+        <tr><td class="ph-zh">乾杯！</td><td class="ph-de">Prost!</td><td class="ph-pron">普羅斯特</td></tr>
+        <tr><td class="ph-zh">好吃！</td><td class="ph-de">Sehr lecker!</td><td class="ph-pron">賽爾 雷克</td></tr>
+      </table>
+    </div>
+
     <!-- Checklist -->
     <div class="sec-title" style="font-size:20px;margin-top:8px">🎒 打包清單</div>
     <div class="checklist reveal">
@@ -2224,6 +2793,32 @@ window.addEventListener('load', () => {
     requestAnimationFrame(loop);
   }
   loop();
+})();
+
+/* ── COUNTDOWN ── */
+(function() {
+  var target = new Date('2026-06-16T00:30:00+08:00').getTime();
+  function update() {
+    var now  = Date.now();
+    var diff = target - now;
+    var el   = document.getElementById('heroCountdown');
+    if (!el) return;
+    if (diff <= 0) {
+      el.innerHTML = '<div style="color:var(--gold);font-family:var(--font-serif);font-size:22px;letter-spacing:2px;padding:12px">✈️ 出發了！</div>';
+      return;
+    }
+    var days  = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins  = Math.floor((diff % 3600000)  / 60000);
+    var d = document.getElementById('cdDays');
+    var h = document.getElementById('cdHours');
+    var m = document.getElementById('cdMins');
+    if (d) d.textContent = String(days).padStart(3,'0');
+    if (h) h.textContent = String(hours).padStart(2,'0');
+    if (m) m.textContent = String(mins).padStart(2,'0');
+  }
+  update();
+  setInterval(update, 30000);
 })();
 
 /* ── SCROLL ANIMATIONS ── */
