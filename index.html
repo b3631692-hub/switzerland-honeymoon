@@ -1111,6 +1111,32 @@ footer small {
 .hh-badge-paid { background: #EFF6FF; color: #1D4ED8; }
 .hh-badge-ok   { background: #F0FDF4; color: #15803D; }
 
+
+/* ═══════════════════════════════════════
+   PHOTO OVERLAYS (city cards + pg cards)
+═══════════════════════════════════════ */
+.cc-photo {
+  height: 115px;
+  background-size: cover;
+  background-position: center;
+  margin: -18px -16px 14px -16px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  position: relative;
+  flex-shrink: 0;
+}
+.cc-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.04) 50%, rgba(0,0,0,0.25) 100%);
+  border-radius: inherit;
+}
+.pg-img {
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
 </style>
 </head>
 <body>
@@ -1214,6 +1240,12 @@ footer small {
       </div>
     </div>
 
+    <!-- ─── 互動式路線地圖 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🗺 互動式路線地圖</div>
+    <div class="reveal mb-24" style="border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border)">
+      <div id="routeMap" style="height:400px"></div>
+    </div>
+
     <!-- Alerts -->
     <div class="sec-title" style="font-size:20px;margin-top:8px">出發前確認</div>
 
@@ -1276,6 +1308,7 @@ footer small {
     <div class="city-grid">
 
       <div class="city-card cc-airport reveal">
+        <div class="cc-photo" style="background-image:url('https://images.unsplash.com/photo-1573137785546-9d19e4f33f87?w=420&q=80&fit=crop')"></div>
         <span class="cc-badge">✈️</span>
         <div class="cc-name">蘇黎世機場</div>
         <div class="cc-en">ZÜRICH AIRPORT</div>
@@ -1289,6 +1322,7 @@ footer small {
       </div>
 
       <div class="city-card cc-engadin reveal">
+        <div class="cc-photo" style="background-image:url('https://images.unsplash.com/photo-1547980562-3c008cd4b769?w=420&q=80&fit=crop')"></div>
         <span class="cc-badge">🏔</span>
         <div class="cc-name">恩加丁</div>
         <div class="cc-en">ENGADIN · PONTRESINA</div>
@@ -1304,6 +1338,7 @@ footer small {
       </div>
 
       <div class="city-card cc-zermatt reveal">
+        <div class="cc-photo" style="background-image:url('https://images.unsplash.com/photo-1662553897502-e056c6fd2e51?w=420&q=80&fit=crop')"></div>
         <span class="cc-badge">⛰</span>
         <div class="cc-name">策馬特</div>
         <div class="cc-en">ZERMATT</div>
@@ -1319,6 +1354,7 @@ footer small {
       </div>
 
       <div class="city-card cc-bern reveal">
+        <div class="cc-photo" style="background-image:url('https://images.unsplash.com/photo-1477271706509-fecda7438b68?w=420&q=80&fit=crop')"></div>
         <span class="cc-badge">🏛</span>
         <div class="cc-name">伯恩</div>
         <div class="cc-en">BERN · UNESCO OLD CITY</div>
@@ -1334,6 +1370,7 @@ footer small {
       </div>
 
       <div class="city-card cc-zug reveal">
+        <div class="cc-photo" style="background-image:url('https://images.unsplash.com/photo-1518079521743-d5f88b127929?w=420&q=80&fit=crop')"></div>
         <span class="cc-badge">🌊</span>
         <div class="cc-name">楚格</div>
         <div class="cc-en">ZUG · LAKESIDE</div>
@@ -1348,6 +1385,7 @@ footer small {
       </div>
 
       <div class="city-card cc-zurich reveal">
+        <div class="cc-photo" style="background-image:url('https://images.unsplash.com/photo-1657137436880-e906b111b040?w=420&q=80&fit=crop')"></div>
         <span class="cc-badge">🏙</span>
         <div class="cc-name">蘇黎世</div>
         <div class="cc-en">ZÜRICH</div>
@@ -2342,6 +2380,7 @@ footer small {
 
     <div class="photo-grid">
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1662553897502-e056c6fd2e51?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#1</div>
           <div><div class="pg-name">Riffelsee 馬特洪峰倒影</div><div class="pg-loc">📍 策馬特 ｜ Rotenboden 站步行 10 分</div></div>
@@ -2350,6 +2389,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1611186269812-eaaae17c4e7a?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#2</div>
           <div><div class="pg-name">Stellisee 馬特洪峰倒影</div><div class="pg-loc">📍 策馬特 ｜ Five Lakes Walk 途中</div></div>
@@ -2358,6 +2398,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1692986956626-70715c8f2a62?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#3</div>
           <div><div class="pg-name">Oeschinensee 冰川湖</div><div class="pg-loc">📍 Kandersteg ｜ STP 纜車折扣</div></div>
@@ -2366,6 +2407,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1690482574889-8043b3de5a98?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#4</div>
           <div><div class="pg-name">Ospizio Bernina 鐵道湖</div><div class="pg-loc">📍 伯尼納線 ｜ STP 區間車免費</div></div>
@@ -2374,6 +2416,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1616935404551-2ce0b9b13489?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#5</div>
           <div><div class="pg-name">Brusio 螺旋橋</div><div class="pg-loc">📍 伯尼納線 ｜ STP 區間車免費</div></div>
@@ -2382,6 +2425,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1547980562-3c008cd4b769?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#6</div>
           <div><div class="pg-name">Muottas Muragl 三湖全景</div><div class="pg-loc">📍 聖莫里茲 ｜ Engadin Card 免費</div></div>
@@ -2390,6 +2434,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1501828230590-042a32fea1ff?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#7</div>
           <div><div class="pg-name">Diavolezza 冰川</div><div class="pg-loc">📍 聖莫里茲 ｜ Engadin Card 免費</div></div>
@@ -2398,6 +2443,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1735605519058-422b509e0821?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#8</div>
           <div><div class="pg-name">Corvatsch 山頂全景</div><div class="pg-loc">📍 Pontresina ｜ Engadin Card 免費</div></div>
@@ -2406,6 +2452,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1658093271921-199c7a03edc6?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#9</div>
           <div><div class="pg-name">琉森藍調時刻</div><div class="pg-loc">📍 楚格基地 ｜ STP 全免</div></div>
@@ -2414,6 +2461,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1595144528598-328b19aace20?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank">#10</div>
           <div><div class="pg-name">萊茵瀑布中央岩石</div><div class="pg-loc">📍 蘇黎世近郊 ｜ STP ＋ 小船 CHF 8</div></div>
@@ -2426,6 +2474,7 @@ footer small {
     <div class="sec-title" style="font-size:20px;margin-top:32px">💍 蜜月婚紗加碼</div>
     <div class="photo-grid">
       <div class="pg-card reveal" style="border-top:3px solid var(--rose)">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank" style="color:var(--rose)">💍</div>
           <div><div class="pg-name">Lauterbrunnen 瀑布山谷</div><div class="pg-loc">📍 6/26 上午 ｜ 全瑞士 No.1 婚紗地</div></div>
@@ -2434,6 +2483,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal" style="border-top:3px solid var(--rose)">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1662553897502-e056c6fd2e51?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank" style="color:var(--rose)">💍</div>
           <div><div class="pg-name">Schwarzsee 馬特洪峰婚紗</div><div class="pg-loc">📍 6/23 下午 ｜ 策馬特</div></div>
@@ -2442,6 +2492,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal" style="border-top:3px solid var(--rose)">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1692986956626-70715c8f2a62?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank" style="color:var(--rose)">💍</div>
           <div><div class="pg-name">Pontresina 村 ＋ Lej da Staz</div><div class="pg-loc">📍 6/18 傍晚 ｜ 聖莫里茲</div></div>
@@ -2450,6 +2501,7 @@ footer small {
       </div>
 
       <div class="pg-card reveal" style="border-top:3px solid var(--gold)">
+        <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1690482574889-8043b3de5a98?w=420&q=80&fit=crop')"></div>
         <div class="pg-card-top">
           <div class="pg-rank" style="color:var(--gold)">🏔</div>
           <div><div class="pg-name">Klein Matterhorn 3,883m</div><div class="pg-loc">📍 6/23 上午 ｜ 歐洲最高纜車站</div></div>
@@ -2720,6 +2772,9 @@ function showTab(name, btn) {
   });
   window.scrollTo({ top: document.querySelector('.top-nav')?.offsetTop || 0, behavior: 'smooth' });
   if (name === 'budget') animateBudget();
+  if (name === 'overview' && typeof _routeMap !== 'undefined' && _routeMap) {
+    setTimeout(function(){ _routeMap.invalidateSize(); }, 80);
+  }
 }
 
 /* ── LOADING ── */
@@ -2793,6 +2848,74 @@ window.addEventListener('load', () => {
     requestAnimationFrame(loop);
   }
   loop();
+})();
+
+var _routeMap;
+/* ── ROUTE MAP ── */
+(function() {
+  if (typeof L === 'undefined') return;
+  var el = document.getElementById('routeMap');
+  if (!el) return;
+  _routeMap = L.map('routeMap', {
+    center: [46.85, 8.1], zoom: 7,
+    scrollWheelZoom: false, zoomControl: true
+  });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(_routeMap);
+
+  var stops = [
+    { n:'蘇黎世機場',        s:'6/16 · 1晚',      lat:47.464, lng:8.549, c:'#78716C' },
+    { n:'恩加丁 Pontresina', s:'6/17–6/21 · 4晚', lat:46.494, lng:9.899, c:'#2D8C58' },
+    { n:'策馬特',            s:'6/21–6/24 · 3晚', lat:46.021, lng:7.749, c:'#C8102E' },
+    { n:'伯恩',              s:'6/24–6/26 · 2晚', lat:46.948, lng:7.447, c:'#7C3AED' },
+    { n:'楚格',              s:'6/26–6/29 · 3晚', lat:47.166, lng:8.516, c:'#0F766E' },
+    { n:'蘇黎世',            s:'6/29–7/1 · 2晚',  lat:47.377, lng:8.542, c:'#2563EB' },
+  ];
+
+  // Route line
+  L.polyline(stops.map(function(s){return[s.lat,s.lng];}),
+    { color:'#C8102E', weight:2.5, opacity:0.5, dashArray:'8 5' }).addTo(_routeMap);
+
+  // Numbered city markers
+  stops.forEach(function(s, i) {
+    var ico = L.divIcon({
+      html: '<div style="background:'+s.c+';color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,0.28);border:2.5px solid #fff">'+(i+1)+'</div>',
+      className:'', iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-18]
+    });
+    L.marker([s.lat, s.lng], {icon:ico})
+     .bindPopup('<b style="font-size:13.5px">'+s.n+'</b><br><span style="color:#888;font-size:12px">'+s.s+'</span>')
+     .addTo(_routeMap);
+  });
+
+  // Key attraction dots (gold)
+  var spots = [
+    { n:'Riffelsee 馬特洪峰倒影',   lat:45.986, lng:7.720 },
+    { n:'Klein Matterhorn 3,883m', lat:45.977, lng:7.734 },
+    { n:'Schwarzsee 婚紗攝影',      lat:46.030, lng:7.707 },
+    { n:'Diavolezza 冰川',          lat:46.411, lng:9.969 },
+    { n:'Corvatsch 3,303m',         lat:46.448, lng:9.828 },
+    { n:'Muottas Muragl',           lat:46.519, lng:9.876 },
+    { n:'Brusio 螺旋橋',            lat:46.248, lng:10.126 },
+    { n:'Tirano 義大利',            lat:46.215, lng:10.175 },
+    { n:'Lauterbrunnen 婚紗 No.1',  lat:46.595, lng:7.909 },
+    { n:'Oeschinensee 冰川湖',      lat:46.495, lng:7.727 },
+    { n:'Spiez 城堡',               lat:46.685, lng:7.651 },
+    { n:'瑞吉山 1,797m',            lat:47.055, lng:8.485 },
+    { n:'琉森 Kapellbrücke',        lat:47.051, lng:8.307 },
+    { n:'萊茵瀑布',                 lat:47.677, lng:8.615 },
+    { n:'Stein am Rhein',           lat:47.659, lng:8.858 },
+  ];
+  var gIco = L.divIcon({
+    html: '<div style="background:#C9944A;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.35)"></div>',
+    className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8]
+  });
+  spots.forEach(function(s){
+    L.marker([s.lat, s.lng], {icon:gIco})
+     .bindPopup('<span style="font-size:12.5px">📍 '+s.n+'</span>')
+     .addTo(_routeMap);
+  });
 })();
 
 /* ── COUNTDOWN ── */
