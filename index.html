@@ -14,21 +14,21 @@
    VARIABLES
 ═══════════════════════════════════════ */
 :root {
-  --hero-bg:    #0D0508;
-  --primary:    #C8102E;
-  --primary-dk: #9B0C23;
-  --rose:       #D4516C;
-  --rose-lt:    #FDF0F3;
+  --hero-bg:    #071828;
+  --primary:    #1B6CA8;
+  --primary-dk: #0F4A78;
+  --rose:       #2A7A50;
+  --rose-lt:    #E6F4ED;
   --gold:       #C9944A;
   --gold-lt:    #FDF5E8;
-  --bg:         #FFF8F5;
+  --bg:         #F2F7FB;
   --card:       #FFFFFF;
-  --text:       #2D1820;
-  --text-sub:   #7D5060;
-  --text-light: #B09099;
-  --border:     #EED8D0;
-  --shadow:     0 4px 24px rgba(200,16,46,0.08);
-  --shadow-lg:  0 12px 48px rgba(200,16,46,0.14);
+  --text:       #1C3347;
+  --text-sub:   #3E6275;
+  --text-light: #7A9BAD;
+  --border:     #C8DDE8;
+  --shadow:     0 4px 24px rgba(27,108,168,0.10);
+  --shadow-lg:  0 12px 48px rgba(27,108,168,0.16);
   --radius:     16px;
   --radius-sm:  10px;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -76,7 +76,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .loading-heart {
   font-size: 52px;
   animation: heartbeat 0.9s ease-in-out infinite;
-  filter: drop-shadow(0 0 16px rgba(212,81,108,0.6));
+  filter: drop-shadow(0 0 16px rgba(80,160,255,0.55));
 }
 .loading-text {
   font-family: var(--font-serif);
@@ -116,7 +116,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   position: absolute;
   width: 600px; height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,16,46,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(80,160,255,0.14) 0%, transparent 70%);
   top: 50%; left: 50%;
   transform: translate(-50%, -60%);
   animation: glowPulse 4s ease-in-out infinite;
@@ -158,7 +158,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 }
 .hero-divider {
   width: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--gold) 30%, rgba(100,180,255,0.6) 70%, transparent);
   margin: 20px auto;
   animation: fadeSlideDown 0.8s ease both;
   animation-delay: 0.6s;
@@ -218,7 +218,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   height: var(--nav-h);
-  box-shadow: 0 2px 16px rgba(200,16,46,0.06);
+  box-shadow: 0 2px 16px rgba(27,108,168,0.08);
 }
 .top-nav-inner {
   display: flex; gap: 4px;
@@ -342,7 +342,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   white-space: nowrap;
 }
 .chip-photo  { background: #FEF3C7; color: #92400E; }
-.chip-honey  { background: var(--rose-lt); color: #9B1E3E; }
+.chip-honey  { background: #F3EEFF; color: #6D28D9; }
 .chip-free   { background: #D1FAE5; color: #065F46; }
 .chip-stp    { background: #DBEAFE; color: #1E40AF; }
 .chip-warn   { background: #FEE2E2; color: #991B1B; }
@@ -554,7 +554,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   font-size: 11px; font-weight: 700;
   line-height: 1.2;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(200,16,46,0.35);
+  box-shadow: 0 2px 8px rgba(27,108,168,0.35);
   z-index: 1;
 }
 .date-badge .db-date { font-size: 13px; }
@@ -674,7 +674,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 }
 .jt-panel { border-right: 1px solid var(--border); display: flex; flex-direction: column; }
 .jt-hdr {
-  background: linear-gradient(120deg, #1A0A0E 0%, #2D1820 100%);
+  background: linear-gradient(120deg, #071828 0%, #0F2D48 100%);
   padding: 13px 15px;
   display: flex; align-items: center; justify-content: space-between;
   flex-shrink: 0;
@@ -715,7 +715,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .jt-dur   { background:#F5F5F5; color:#555;    border:1px solid #DDD; }
 .jt-trs   { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; }
 .jt-swiss-blk {
-  background: linear-gradient(135deg, var(--rose-lt), white);
+  background: linear-gradient(135deg, var(--rose-lt), #F8FCFF);
   border: 1px solid var(--border); border-radius: 8px;
   padding: 9px 11px; margin-top: 2px;
 }
@@ -963,7 +963,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--border);
-  box-shadow: 0 -4px 24px rgba(200,16,46,0.08);
+  box-shadow: 0 -4px 24px rgba(27,108,168,0.08);
   padding-bottom: env(safe-area-inset-bottom);
 }
 .bottom-nav-inner {
@@ -983,7 +983,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .bnav-btn .bn-icon { font-size: 20px; transition: transform 0.2s ease; }
 .bnav-btn:hover .bn-icon { transform: translateY(-2px); }
 .bnav-btn.active { color: var(--primary); }
-.bnav-btn.active .bn-icon { transform: translateY(-2px); filter: drop-shadow(0 2px 4px rgba(200,16,46,0.4)); }
+.bnav-btn.active .bn-icon { transform: translateY(-2px); filter: drop-shadow(0 2px 4px rgba(27,108,168,0.4)); }
 .bnav-btn.active::before {
   content: '';
   position: absolute; top: 0; left: 20%; right: 20%;
@@ -1301,7 +1301,7 @@ footer small {
     <p class="hcd-label">距出發倒數</p>
   </div>
   <svg class="hero-mountain" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,120 L0,80 L120,30 L200,60 L320,10 L420,50 L560,5 L660,45 L780,15 L880,55 L1000,20 L1100,60 L1220,25 L1320,65 L1440,30 L1440,120 Z" fill="#FFF8F5"/>
+    <path d="M0,120 L0,80 L120,30 L200,60 L320,10 L420,50 L560,5 L660,45 L780,15 L880,55 L1000,20 L1100,60 L1220,25 L1320,65 L1440,30 L1440,120 Z" fill="#F2F7FB"/>
   </svg>
 </section>
 
@@ -2569,12 +2569,12 @@ footer small {
       <div class="budget-bars">
         <div class="bb-row">
           <div class="bb-label">✈️ 機票</div>
-          <div class="bb-track"><div class="bb-fill" data-w="20%" style="background:#C8102E"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="20%" style="background:#1B6CA8"></div></div>
           <div class="bb-val">61,388</div>
         </div>
         <div class="bb-row">
           <div class="bb-label">🏠 住宿</div>
-          <div class="bb-track"><div class="bb-fill" data-w="39%" style="background:#D4516C"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="39%" style="background:#2A7A50"></div></div>
           <div class="bb-val">120,233</div>
         </div>
         <div class="bb-row">
@@ -2594,7 +2594,7 @@ footer small {
         </div>
         <div class="bb-row">
           <div class="bb-label">🛍 購物</div>
-          <div class="bb-track"><div class="bb-fill" data-w="6%" style="background:#9B6B8A"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="6%" style="background:#5A7A8A"></div></div>
           <div class="bb-val">17,580</div>
         </div>
       </div>
@@ -3079,7 +3079,7 @@ window.addEventListener('load', () => {
   window.addEventListener('resize', resize);
   resize();
 
-  const HEARTS = ['♥', '♡', '✦', '✧', '·'];
+  const HEARTS = ['♥', '♡', '❄', '✦', '✧', '·', '❅'];
   function Particle() {
     this.reset();
   }
@@ -3093,8 +3093,8 @@ window.addEventListener('load', () => {
     this.char  = HEARTS[Math.floor(Math.random() * HEARTS.length)];
     this.isHeart = Math.random() > 0.55;
     this.color = this.isHeart
-      ? `hsl(${340 + Math.random()*20},80%,${65+Math.random()*15}%)`
-      : `hsl(${40 + Math.random()*10},80%,${65+Math.random()*15}%)`;
+      ? `hsl(${340 + Math.random()*20},75%,${70+Math.random()*15}%)`
+      : `hsl(${195 + Math.random()*30},75%,${78+Math.random()*15}%)`;
     this.life  = 0;
     this.maxLife = 180 + Math.random() * 120;
   };
