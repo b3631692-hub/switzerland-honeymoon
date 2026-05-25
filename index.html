@@ -657,37 +657,72 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .stat-card .sc-val   { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--primary); }
 .stat-card .sc-label { font-size: 11.5px; color: var(--text-light); margin-top: 2px; }
 
-/* Route flow */
-.route-wrap {
-  background: var(--card);
-  border: 1px solid var(--border);
+/* Journey Card */
+.journey-card {
+  display: grid;
+  grid-template-columns: 290px 1fr;
   border-radius: var(--radius);
-  padding: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  background: var(--card);
   margin-bottom: 24px;
 }
-.route-title {
-  font-size: 13px; font-weight: 700;
-  color: var(--text-sub); text-transform: uppercase;
-  letter-spacing: 1px; margin-bottom: 14px;
+@media (max-width: 680px) {
+  .journey-card { grid-template-columns: 1fr; }
+  #worldMap { border-left: none !important; border-top: 1px solid var(--border); }
 }
-.route-flow {
-  display: flex; flex-wrap: wrap;
-  align-items: center; gap: 6px;
+.jt-panel { border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+.jt-hdr {
+  background: linear-gradient(120deg, #1A0A0E 0%, #2D1820 100%);
+  padding: 13px 15px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
 }
-.route-stop {
-  font-size: 12.5px; font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 100px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text-sub);
+.jt-hdr-brand { font-size: 15px; font-weight: 800; color: #D71921; letter-spacing: 1.5px; }
+.jt-hdr-ref   { font-size: 10px; color: rgba(255,255,255,0.45); margin-top:1px; }
+.jt-hdr-right { text-align:right; }
+.jt-hdr-cls   { font-size: 11px; font-weight:600; color: rgba(255,255,255,0.75); }
+.jt-hdr-bag   { font-size: 10px; color: rgba(255,255,255,0.4); margin-top:1px; }
+.jt-scroll {
+  padding: 12px 12px 12px 8px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 460px;
 }
-.route-stop.hub {
-  background: var(--rose-lt);
-  border-color: var(--rose);
-  color: var(--primary);
+.jt-seg {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-light);
+  padding-left: 34px; margin: 10px 0 8px;
 }
-.route-arr { color: var(--border); font-size: 14px; }
+.jt-seg:first-child { margin-top: 2px; }
+.jt-row { display: flex; }
+.jt-lft { width: 34px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; }
+.jt-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0; z-index: 1;
+}
+.jt-vl { flex:1; width:2px; background:var(--border); min-height:10px; }
+.jt-rgt { flex:1; padding: 2px 0 14px 9px; min-width:0; }
+.jt-row:last-of-type .jt-rgt { padding-bottom: 4px; }
+.jt-code  { font-size:15px; font-weight:800; color:var(--text); letter-spacing:.5px; line-height:1; }
+.jt-place { font-size:10.5px; color:var(--text-sub); margin-top:1px; line-height:1.35; }
+.jt-time  { font-size:11.5px; font-weight:600; color:var(--primary); margin-top:3px; }
+.jt-tags  { display:flex; flex-wrap:wrap; gap:3px; margin-top:5px; }
+.jt-tag   { font-size:10px; padding:1.5px 6px; border-radius:10px; font-weight:600; }
+.jt-ek    { background:#FFF0F0; color:#C8102E; border:1px solid #FFCCCC; }
+.jt-dur   { background:#F5F5F5; color:#555;    border:1px solid #DDD; }
+.jt-trs   { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; }
+.jt-swiss-blk {
+  background: linear-gradient(135deg, var(--rose-lt), white);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 9px 11px; margin-top: 2px;
+}
+.jsb-ttl  { font-size:13px; font-weight:700; color:var(--primary); }
+.jsb-sub  { font-size:10.5px; color:var(--text-light); margin-top:1px; }
+.jsb-wrap { display:flex; flex-wrap:wrap; gap:4px; margin-top:7px; }
+.jsb-c    { font-size:10px; background:white; border:1px solid var(--border); border-radius:20px; padding:2px 7px; color:var(--text-sub); white-space:nowrap; }
 
 /* ═══════════════════════════════════════
    BUDGET
@@ -1312,27 +1347,148 @@ footer small {
       </div>
     </div>
 
-    <!-- Route -->
-    <div class="route-wrap reveal">
-      <div class="route-title">✦ 旅遊路線</div>
-      <div class="route-flow">
-        <span class="route-stop">台灣</span>
-        <span class="route-arr">›</span>
-        <span class="route-stop hub">蘇黎世機場<br><small>6/16</small></span>
-        <span class="route-arr">›</span>
-        <span class="route-stop hub">聖莫里茲<br><small>6/17–6/21 (4晚)</small></span>
-        <span class="route-arr">›</span>
-        <span class="route-stop hub">策馬特<br><small>6/21–6/24 (3晚)</small></span>
-        <span class="route-arr">›</span>
-        <span class="route-stop hub">伯恩<br><small>6/24–6/26 (2晚)</small></span>
-        <span class="route-arr">›</span>
-        <span class="route-stop hub">楚格<br><small>6/26–6/29 (3晚)</small></span>
-        <span class="route-arr">›</span>
-        <span class="route-stop hub">蘇黎世<br><small>6/29–7/1 (2晚)</small></span>
-        <span class="route-arr">›</span>
-        <span class="route-stop">台灣</span>
-      </div>
-    </div>
+    <!-- ─── 旅遊路線 ─── -->
+    <div class="sec-title reveal" style="font-size:20px">✈ 旅遊路線 ＆ 航班資訊</div>
+    <div class="journey-card reveal">
+      <!-- 左側：時間軸 -->
+      <div class="jt-panel">
+        <div class="jt-hdr">
+          <div>
+            <div class="jt-hdr-brand">EMIRATES</div>
+            <div class="jt-hdr-ref">Booking: DURAF2</div>
+          </div>
+          <div class="jt-hdr-right">
+            <div class="jt-hdr-cls">Economy Saver</div>
+            <div class="jt-hdr-bag">行李 25 kg × 2</div>
+          </div>
+        </div>
+        <div class="jt-scroll">
+
+          <!-- 去程 -->
+          <div class="jt-seg">去程 OUTBOUND</div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:#FFF0F0;border:2px solid #C8102E">🛫</div>
+              <div class="jt-vl"></div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-code">TPE 台北</div>
+              <div class="jt-place">桃園國際機場 Terminal 2</div>
+              <div class="jt-time">6/16（二）00:30 出發</div>
+              <div class="jt-tags">
+                <span class="jt-tag jt-ek">EK 387</span>
+                <span class="jt-tag jt-dur">飛行 6h 45m</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:#FFFBEB;border:2px solid #D97706">⏱</div>
+              <div class="jt-vl"></div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-code">DXB 杜拜</div>
+              <div class="jt-place">Dubai International Airport T3</div>
+              <div class="jt-time">05:15 抵達・08:40 出發</div>
+              <div class="jt-tags">
+                <span class="jt-tag jt-trs">轉機 3h 25m</span>
+                <span class="jt-tag jt-ek">EK 087</span>
+                <span class="jt-tag jt-dur">飛行 6h 40m</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:#F0FFF4;border:2px solid #2D8C58">🛬</div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-code">ZRH 蘇黎世</div>
+              <div class="jt-place">Zürich-Kloten Airport</div>
+              <div class="jt-time">6/16（二）13:20 抵達</div>
+            </div>
+          </div>
+
+          <!-- 蜜月行程 -->
+          <div class="jt-seg">蜜月行程 HONEYMOON</div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:var(--rose-lt);border:2px solid var(--rose);font-size:15px">🇨🇭</div>
+              <div class="jt-vl" style="min-height:36px"></div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-swiss-blk">
+                <div class="jsb-ttl">15 晚 · 6 城市</div>
+                <div class="jsb-sub">6/16 — 7/1</div>
+                <div class="jsb-wrap">
+                  <span class="jsb-c">蘇黎世機場 1晚</span>
+                  <span class="jsb-c">Pontresina 4晚</span>
+                  <span class="jsb-c">策馬特 3晚</span>
+                  <span class="jsb-c">伯恩 2晚</span>
+                  <span class="jsb-c">楚格 3晚</span>
+                  <span class="jsb-c">蘇黎世 2晚</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 回程 -->
+          <div class="jt-seg">回程 RETURN</div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:#F0FFF4;border:2px solid #2D8C58">🛫</div>
+              <div class="jt-vl"></div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-code">ZRH 蘇黎世</div>
+              <div class="jt-place">Zürich-Kloten Airport</div>
+              <div class="jt-time">7/1（三）22:00 出發</div>
+              <div class="jt-tags">
+                <span class="jt-tag jt-ek">EK 086</span>
+                <span class="jt-tag jt-dur">飛行 7h 10m</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:#FFFBEB;border:2px solid #D97706">⏱</div>
+              <div class="jt-vl"></div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-code">DXB 杜拜</div>
+              <div class="jt-place">Dubai International Airport T3</div>
+              <div class="jt-time">7/2（四）06:10 抵達・08:45 出發</div>
+              <div class="jt-tags">
+                <span class="jt-tag jt-trs">轉機 2h 35m</span>
+                <span class="jt-tag jt-ek">EK 386</span>
+                <span class="jt-tag jt-dur">飛行 7h 35m</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="jt-row">
+            <div class="jt-lft">
+              <div class="jt-dot" style="background:#FFF0F0;border:2px solid #C8102E">🛬</div>
+            </div>
+            <div class="jt-rgt">
+              <div class="jt-code">TPE 台北</div>
+              <div class="jt-place">桃園國際機場 Terminal 2</div>
+              <div class="jt-time">7/2（四）21:20 抵達</div>
+            </div>
+          </div>
+
+        </div><!-- .jt-scroll -->
+      </div><!-- .jt-panel -->
+
+      <!-- 右側：世界地圖 -->
+      <div id="worldMap" style="min-height:460px;border-left:1px solid var(--border)"></div>
+
+    </div><!-- .journey-card -->
 
     <!-- ─── 互動式路線地圖 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🗺 互動式路線地圖</div>
@@ -2894,8 +3050,11 @@ function showTab(name, btn) {
   });
   window.scrollTo({ top: document.querySelector('.top-nav')?.offsetTop || 0, behavior: 'smooth' });
   if (name === 'budget') animateBudget();
-  if (name === 'overview' && typeof _routeMap !== 'undefined' && _routeMap) {
-    setTimeout(function(){ _routeMap.invalidateSize(); }, 200);
+  if (name === 'overview') {
+    setTimeout(function(){
+      if (typeof _routeMap !== 'undefined' && _routeMap) _routeMap.invalidateSize();
+      if (typeof _worldMap !== 'undefined' && _worldMap) _worldMap.invalidateSize();
+    }, 200);
   }
 }
 
@@ -3129,6 +3288,83 @@ window.addEventListener('load', function() {
   };
 
   setTimeout(function(){ _routeMap.invalidateSize(); }, 300);
+});
+
+var _worldMap;
+/* ── WORLD MAP (flight route) ── */
+window.addEventListener('load', function() {
+  if (typeof L === 'undefined') return;
+  var el = document.getElementById('worldMap');
+  if (!el) return;
+
+  _worldMap = L.map('worldMap', {
+    scrollWheelZoom: false, zoomControl: true, attributionControl: true
+  });
+
+  // CartoDB Positron — clean minimal look
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 19
+  }).addTo(_worldMap);
+
+  // Great-circle interpolation
+  function gc(la1,lo1,la2,lo2) {
+    var n=80;
+    var r1=la1*Math.PI/180, o1=lo1*Math.PI/180;
+    var r2=la2*Math.PI/180, o2=lo2*Math.PI/180;
+    var d=Math.acos(Math.min(1,Math.sin(r1)*Math.sin(r2)+Math.cos(r1)*Math.cos(r2)*Math.cos(o2-o1)));
+    if(d<0.0001)return[[la1,lo1],[la2,lo2]];
+    var pts=[];
+    for(var i=0;i<=n;i++){
+      var f=i/n, A=Math.sin((1-f)*d)/Math.sin(d), B=Math.sin(f*d)/Math.sin(d);
+      var x=A*Math.cos(r1)*Math.cos(o1)+B*Math.cos(r2)*Math.cos(o2);
+      var y=A*Math.cos(r1)*Math.sin(o1)+B*Math.cos(r2)*Math.sin(o2);
+      var z=A*Math.sin(r1)+B*Math.sin(r2);
+      pts.push([Math.atan2(z,Math.sqrt(x*x+y*y))*180/Math.PI, Math.atan2(y,x)*180/Math.PI]);
+    }
+    return pts;
+  }
+
+  var TPE=[25.08,121.23], DXB=[25.20,55.36], ZRH=[47.45,8.55];
+
+  // Going arcs: solid Emirates red
+  L.polyline(gc(TPE[0],TPE[1],DXB[0],DXB[1]),{color:'#C8102E',weight:2.8,opacity:0.82}).addTo(_worldMap);
+  L.polyline(gc(DXB[0],DXB[1],ZRH[0],ZRH[1]),{color:'#C8102E',weight:2.8,opacity:0.82}).addTo(_worldMap);
+  // Return arcs: dashed lighter
+  L.polyline(gc(ZRH[0],ZRH[1],DXB[0],DXB[1]),{color:'#C8102E',weight:1.8,opacity:0.32,dashArray:'6 5'}).addTo(_worldMap);
+  L.polyline(gc(DXB[0],DXB[1],TPE[0],TPE[1]),{color:'#C8102E',weight:1.8,opacity:0.32,dashArray:'6 5'}).addTo(_worldMap);
+
+  // City markers
+  function wm(la,lo,flag,code,col,pop) {
+    L.marker([la,lo],{icon:L.divIcon({
+      html:'<div style="background:'+col+';color:#fff;width:42px;height:42px;border-radius:50%;'+
+           'display:flex;flex-direction:column;align-items:center;justify-content:center;'+
+           'box-shadow:0 3px 14px rgba(0,0,0,0.30);border:2.5px solid #fff;gap:0px;line-height:1">'+
+           '<span style="font-size:14px">'+flag+'</span>'+
+           '<span style="font-size:9px;font-weight:800;letter-spacing:0.3px">'+code+'</span></div>',
+      className:'',iconSize:[42,42],iconAnchor:[21,21],popupAnchor:[0,-26]
+    })}).bindPopup(pop).addTo(_worldMap);
+  }
+
+  wm(TPE[0],TPE[1],'🇹🇼','TPE','#C8102E',
+    '<b style="font-size:13px">台北 桃園國際機場</b><br>'+
+    '<span style="color:#888;font-size:12px">Terminal 2</span><br>'+
+    '<div style="margin-top:5px;font-size:12px">去程 <b>6/16 00:30</b> 出發</div>'+
+    '<div style="font-size:12px">回程 <b>7/2 21:20</b> 抵達</div>');
+  wm(DXB[0],DXB[1],'🇦🇪','DXB','#C9944A',
+    '<b style="font-size:13px">杜拜 Dubai International</b><br>'+
+    '<span style="color:#888;font-size:12px">Terminal 3</span><br>'+
+    '<div style="margin-top:5px;font-size:12px">去程轉機 <b>3h 25m</b></div>'+
+    '<div style="font-size:12px">回程轉機 <b>2h 35m</b></div>');
+  wm(ZRH[0],ZRH[1],'🇨🇭','ZRH','#2D8C58',
+    '<b style="font-size:13px">蘇黎世 Zürich-Kloten</b><br>'+
+    '<span style="color:#888;font-size:12px">Zürich-Kloten Airport</span><br>'+
+    '<div style="margin-top:5px;font-size:12px">抵達 <b>6/16 13:20</b></div>'+
+    '<div style="font-size:12px">出發 <b>7/1 22:00</b></div>'+
+    '<div style="font-size:12px;color:#C8102E;font-weight:600;margin-top:2px">🇨🇭 15晚蜜月旅行</div>');
+
+  _worldMap.fitBounds([TPE, DXB, ZRH], {padding:[40,40]});
+  setTimeout(function(){ _worldMap.invalidateSize(); }, 300);
 });
 
 /* ── COUNTDOWN ── */
