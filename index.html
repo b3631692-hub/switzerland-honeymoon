@@ -6,6 +6,7 @@
 <title>🇨🇭 瑞士蜜月旅行 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 
@@ -425,6 +426,20 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   overflow: hidden;
 }
 
+.day-img {
+  height: 145px;
+  background-size: cover;
+  background-position: center;
+  margin: -20px -18px 14px -12px;
+  position: relative;
+  overflow: hidden;
+}
+.day-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 45%, rgba(13,5,8,0.45));
+}
 .day-card {
   display: grid;
   grid-template-columns: 72px 1fr;
@@ -1566,6 +1581,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/16</span><span class="db-day">二</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1573137785546-9d19e4f33f87?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">台灣 → 蘇黎世機場</h3>
             <div class="day-chips"><span class="chip chip-photo">📸 機場攝影</span></div>
             <div class="db">
@@ -1610,6 +1626,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/17</span><span class="db-day">三</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1547980562-3c008cd4b769?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">蘇黎世 → Pontresina → Muottas Muragl</h3>
             <div class="day-chips">
               <span class="chip chip-stp">STP 啟用第1天</span>
@@ -1647,6 +1664,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/18</span><span class="db-day">四</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1692986956626-70715c8f2a62?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">Alp Languard（上午）→ Diavolezza 冰川（下午）→ 婚紗攝影（傍晚）</h3>
             <div class="day-chips">
               <span class="chip chip-free">Card 免費纜車</span>
@@ -1692,6 +1710,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/19</span><span class="db-day">五</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1501828230590-042a32fea1ff?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">UNESCO 鐵道：Ospizio Bernina → Alp Grüm → Brusio 螺旋橋 → Tirano</h3>
             <div class="day-chips">
               <span class="chip chip-free">STP 完全免費</span>
@@ -1728,6 +1747,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/20</span><span class="db-day">六</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1690482574889-8043b3de5a98?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">Corvatsch（3,303m）→ Sils Maria → Fex Valley 馬車</h3>
             <div class="day-chips">
               <span class="chip chip-free">Card 免費纜車</span>
@@ -1774,6 +1794,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/21</span><span class="db-day">日</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1735605519058-422b509e0821?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">聖莫里茲 → 庫爾 → 冰河列車 → 策馬特</h3>
             <div class="day-chips">
               <span class="chip chip-stp">冰河列車一等艙</span>
@@ -1812,6 +1833,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/22</span><span class="db-day">一</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1662553897502-e056c6fd2e51?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">Riffelsee ＋ Gornergrat（上午）→ Stellisee（下午）</h3>
             <div class="day-chips">
               <span class="chip chip-photo">📸 攝影精華日</span>
@@ -1847,6 +1869,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/23</span><span class="db-day">二</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1611186269812-eaaae17c4e7a?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">Klein Matterhorn（3,883m）→ Schwarzsee 婚紗 → 蜜月慶祝晚餐</h3>
             <div class="day-chips">
               <span class="chip chip-honey">💍 蜜月體驗日</span>
@@ -1898,6 +1921,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/24</span><span class="db-day">三</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1658093271921-199c7a03edc6?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">策馬特 → Kandersteg → Oeschinensee → Spiez 城堡 → 伯恩</h3>
             <div class="day-chips">
               <span class="chip chip-photo">📸 冰川湖</span>
@@ -1940,6 +1964,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/25</span><span class="db-day">四</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1477271706509-fecda7438b68?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">伯恩老城深度遊（UNESCO 世界遺產）</h3>
             <div class="day-chips">
               <span class="chip chip-free">全程步行免費</span>
@@ -1983,6 +2008,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/26</span><span class="db-day">五</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1616935404551-2ce0b9b13489?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">Lauterbrunnen 瀑布山谷婚紗（上午）→ 楚格</h3>
             <div class="day-chips">
               <span class="chip chip-honey">💍 全瑞士 No.1 婚紗地</span>
@@ -2021,6 +2047,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/27</span><span class="db-day">六</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1518079521743-d5f88b127929?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">楚格 → 琉森 ＋ 藍調時刻</h3>
             <div class="day-chips">
               <span class="chip chip-free">STP 完全免費</span>
@@ -2052,6 +2079,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/28</span><span class="db-day">日</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">瑞吉山（輪船上山）→ Tierpark → Lauerzersee 野餐</h3>
             <div class="day-chips">
               <span class="chip chip-free">STP 全程免費省 TWD 6,000</span>
@@ -2098,6 +2126,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/29</span><span class="db-day">一</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1657137436880-e906b111b040?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">楚格 → 蘇黎世市區</h3>
             <div class="day-chips">
               <span class="chip chip-stp">STP</span>
@@ -2129,6 +2158,7 @@ footer small {
             <div class="date-badge"><span class="db-date">6/30</span><span class="db-day">二</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1595144528598-328b19aace20?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">萊茵瀑布 → 沙夫豪森 → Stein am Rhein → Konstanz（備選）→ 機場</h3>
             <div class="day-chips">
               <span class="chip chip-free">不走回頭路圓形路線</span>
@@ -2169,6 +2199,7 @@ footer small {
             <div class="date-badge"><span class="db-date">7/1</span><span class="db-day">三</span></div>
           </div>
           <div class="day-right">
+            <div class="day-img" style="background-image:url('https://images.unsplash.com/photo-1657137436880-e906b111b040?w=800&q=80&fit=crop')"></div>
             <h3 class="day-title">蘇黎世市區 → 22:00 搭機返台</h3>
             <div class="day-chips">
               <span class="chip chip-stp">STP 最後一天</span>
@@ -2756,6 +2787,7 @@ footer small {
   </div>
 </nav>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WPeE=" crossorigin=""></script>
 <script>
 /* ── TAB SWITCHING ── */
 function showTab(name, btn) {
