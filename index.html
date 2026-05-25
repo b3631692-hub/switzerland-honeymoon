@@ -3131,156 +3131,316 @@ window.addEventListener('load', () => {
   loop();
 })();
 
-var _routeMap, _mapMarkers = {}, _activeCity = null;
+var _routeMap, _mapMarkers = {}, _activeCity = null, _dayLayers = [];
 
-/* ── ROUTE MAP ── */
+/* ── ROUTE MAP (每日行程版) ── */
 window.addEventListener('load', function() {
   if (typeof L === 'undefined') { console.warn('Leaflet not loaded'); return; }
   var el = document.getElementById('routeMap');
   if (!el) return;
 
-  // City overnight stops
+  // ─ 6 大基地城市 ─────────────────────────────────────────────────────────────
   var cities = [
-    { id:'airport', n:'蘇黎世機場',  sub:'6/16 · 1晚',      lat:47.464, lng:8.549, c:'#78716C', zoom:12 },
-    { id:'engadin', n:'Pontresina', sub:'恩加丁 · 6/17–6/20 · 4晚', lat:46.494, lng:9.899, c:'#2D8C58', zoom:12 },
-    { id:'zermatt', n:'策馬特',     sub:'6/21–6/23 · 3晚',  lat:46.021, lng:7.749, c:'#C8102E', zoom:13 },
-    { id:'bern',    n:'伯恩',       sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447, c:'#7C3AED', zoom:13 },
-    { id:'zug',     n:'楚格',       sub:'6/26–6/28 · 3晚',  lat:47.166, lng:8.516, c:'#0F766E', zoom:13 },
-    { id:'zurich',  n:'蘇黎世',     sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542, c:'#2563EB', zoom:13 },
+    { id:'airport', n:'蘇黎世機場',  sub:'6/16 · 1晚',      lat:47.464, lng:8.549,  c:'#78716C' },
+    { id:'engadin', n:'Pontresina', sub:'恩加丁 · 4晚',      lat:46.494, lng:9.899,  c:'#2D8C58' },
+    { id:'zermatt', n:'策馬特',     sub:'6/21–6/23 · 3晚',  lat:46.021, lng:7.749,  c:'#C8102E' },
+    { id:'bern',    n:'伯恩',       sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447,  c:'#7C3AED' },
+    { id:'zug',     n:'楚格',       sub:'6/26–6/28 · 3晚',  lat:47.166, lng:8.516,  c:'#0F766E' },
+    { id:'zurich',  n:'蘇黎世',     sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542,  c:'#1B6CA8' },
   ];
 
-  // Day → city mapping
-  var days = [
-    { d:1,  date:'6/16', city:'airport', note:'✈️ 抵達蘇黎世機場' },
-    { d:2,  date:'6/17', city:'engadin', note:'🏔 Muottas Muragl 三湖全景' },
-    { d:3,  date:'6/18', city:'engadin', note:'🏔 Diavolezza 冰川婚紗' },
-    { d:4,  date:'6/19', city:'engadin', note:'🚂 Bernina / Brusio 螺旋橋' },
-    { d:5,  date:'6/20', city:'engadin', note:'⛷ Corvatsch 3,303m' },
-    { d:6,  date:'6/21', city:'zermatt', note:'🚂 冰河列車 → 策馬特入住' },
-    { d:7,  date:'6/22', city:'zermatt', note:'🏔 Riffelsee 馬特洪峰倒影' },
-    { d:8,  date:'6/23', city:'zermatt', note:'💍 Schwarzsee 婚紗攝影' },
-    { d:9,  date:'6/24', city:'bern',    note:'🦢 Oeschinensee → 伯恩入住' },
-    { d:10, date:'6/25', city:'bern',    note:'🏛 伯恩老城（UNESCO）' },
-    { d:11, date:'6/26', city:'zug',     note:'💒 Lauterbrunnen 婚紗 → 楚格' },
-    { d:12, date:'6/27', city:'zug',     note:'⛵ 琉森 Kapellbrücke 藍調' },
-    { d:13, date:'6/28', city:'zug',     note:'🚂 瑞吉山 輪船上山' },
-    { d:14, date:'6/29', city:'zurich',  note:'🏙 楚格 → 蘇黎世入住' },
-    { d:15, date:'6/30', city:'zurich',  note:'💧 萊茵瀑布 → Stein am Rhein' },
-    { d:16, date:'7/1',  city:'airport', note:'✈️ 返台' },
+  // ─ 每日行程資料（真實路線點）────────────────────────────────────────────────
+  // t 類型：'main'=當天主要景點, 'spot'=次要景點, 'honey'=婚紗/蜜月, 'via'=途經, 'from'=出發, 'hotel'=住宿
+  var dayPlans = [
+    { d:1,  date:'6/16', city:'airport', note:'✈️ 台北→杜拜→蘇黎世抵達 · 機場周邊活動',
+      pts:[
+        { lat:47.464, lng:8.549, n:'蘇黎世機場 ZRH', t:'hotel' },
+        { lat:47.469, lng:8.543, n:'Observation Deck B · 飛機俯瞰', t:'main' },
+        { lat:47.443, lng:8.555, n:'Pistenende · 降落正面來機', t:'spot' },
+        { lat:47.452, lng:8.566, n:'The Circle 商場 · 夜景', t:'spot' },
+      ]
+    },
+    { d:2,  date:'6/17', city:'engadin', note:'🚂 蘇黎世 → Pontresina（3.5h）→ Muottas Muragl 三湖全景',
+      pts:[
+        { lat:47.378, lng:8.540, n:'蘇黎世 HB 出發', t:'from' },
+        { lat:46.852, lng:9.531, n:'庫爾 Chur · 換車', t:'via' },
+        { lat:46.528, lng:9.869, n:'薩梅丹 Samedan', t:'via' },
+        { lat:46.494, lng:9.899, n:'Pontresina · Check-in', t:'hotel' },
+        { lat:46.519, lng:9.876, n:'Muottas Muragl 2,454m · 三湖全景', t:'main' },
+      ]
+    },
+    { d:3,  date:'6/18', city:'engadin', note:'🏔 Alp Languard（上午）→ Diavolezza 冰川（下午）→ 婚紗攝影',
+      pts:[
+        { lat:46.494, lng:9.899, n:'Pontresina 出發', t:'from' },
+        { lat:46.486, lng:9.908, n:'Alp Languard 2,330m · 俯瞰村莊＋羱羊', t:'main' },
+        { lat:46.418, lng:9.962, n:'Diavolezza 纜車站', t:'via' },
+        { lat:46.411, lng:9.969, n:'Diavolezza 2,978m · Pers 冰川體驗', t:'main' },
+        { lat:46.440, lng:9.940, n:'Morteratsch 冰川 · 婚紗攝影', t:'honey' },
+      ]
+    },
+    { d:4,  date:'6/19', city:'engadin', note:'🚂 UNESCO Bernina Express → Alp Grüm → Brusio 螺旋橋 → Tirano',
+      pts:[
+        { lat:46.494, lng:9.899, n:'Pontresina 出發', t:'from' },
+        { lat:46.409, lng:10.008, n:'Ospizio Bernina 2,253m', t:'main' },
+        { lat:46.278, lng:10.059, n:'Alp Grüm 2,091m · 義大利方向展望', t:'main' },
+        { lat:46.326, lng:10.060, n:'Poschiavo · 義式小鎮', t:'spot' },
+        { lat:46.248, lng:10.126, n:'Brusio 螺旋橋 · UNESCO', t:'main' },
+        { lat:46.215, lng:10.175, n:'Tirano · 義大利邊境', t:'spot' },
+        { lat:46.494, lng:9.899, n:'返回 Pontresina', t:'via' },
+      ]
+    },
+    { d:5,  date:'6/20', city:'engadin', note:'⛷ Corvatsch 3,303m → Sils Maria → Fex Valley 馬車',
+      pts:[
+        { lat:46.494, lng:9.899, n:'Pontresina 出發', t:'from' },
+        { lat:46.447, lng:9.823, n:'Silvaplana · Corvatsch 纜車站', t:'via' },
+        { lat:46.448, lng:9.828, n:'Corvatsch 3,303m · 冰川全景', t:'main' },
+        { lat:46.434, lng:9.762, n:'Sils Maria · Nietzsche 故居', t:'spot' },
+        { lat:46.425, lng:9.780, n:'Fex Valley · 馬車漫遊', t:'main' },
+      ]
+    },
+    { d:6,  date:'6/21', city:'zermatt', note:'🚂 冰河列車全程 8h：St. Moritz → 穿越阿爾卑斯 → Zermatt',
+      pts:[
+        { lat:46.498, lng:9.836, n:'聖莫里茲 St. Moritz · 上車', t:'from' },
+        { lat:46.672, lng:9.686, n:'Filisur · 阿爾布拉高架橋', t:'spot' },
+        { lat:46.852, lng:9.531, n:'庫爾 Chur', t:'via' },
+        { lat:46.773, lng:9.204, n:'Ilanz · 萊茵峽谷', t:'spot' },
+        { lat:46.709, lng:8.850, n:'Disentis / Mustér', t:'via' },
+        { lat:46.635, lng:8.594, n:'Andermatt · 峠越え', t:'spot' },
+        { lat:46.452, lng:8.208, n:'Realp · Furka Tunnel', t:'via' },
+        { lat:46.317, lng:7.988, n:'Brig · 換方向', t:'via' },
+        { lat:46.294, lng:7.881, n:'Visp', t:'via' },
+        { lat:46.021, lng:7.749, n:'策馬特 Zermatt · 抵達 Check-in', t:'hotel' },
+      ]
+    },
+    { d:7,  date:'6/22', city:'zermatt', note:'🏔 Riffelsee 馬特洪峰倒影 → Gornergrat → Stellisee',
+      pts:[
+        { lat:46.021, lng:7.749, n:'策馬特出發', t:'from' },
+        { lat:45.988, lng:7.748, n:'Riffelberg 2,582m', t:'via' },
+        { lat:45.986, lng:7.720, n:'Riffelsee · 馬特洪峰倒影 No.1', t:'honey' },
+        { lat:45.984, lng:7.786, n:'Gornergrat 3,089m · Monte Rosa 展望', t:'main' },
+        { lat:46.004, lng:7.740, n:'Stellisee · 5湖倒影', t:'main' },
+      ]
+    },
+    { d:8,  date:'6/23', city:'zermatt', note:'💍 Klein Matterhorn 3,883m（歐洲最高纜車）→ Schwarzsee 婚紗',
+      pts:[
+        { lat:46.021, lng:7.749, n:'策馬特出發', t:'from' },
+        { lat:45.983, lng:7.740, n:'Trockener Steg 2,939m', t:'via' },
+        { lat:45.977, lng:7.734, n:'Klein Matterhorn 3,883m · 歐洲最高', t:'main' },
+        { lat:46.030, lng:7.707, n:'Schwarzsee 2,583m · 婚紗攝影', t:'honey' },
+        { lat:46.021, lng:7.749, n:'策馬特 · 蜜月晚餐', t:'spot' },
+      ]
+    },
+    { d:9,  date:'6/24', city:'bern', note:'🦢 策馬特 → Kandersteg → Oeschinensee 冰川湖 → Spiez → 伯恩',
+      pts:[
+        { lat:46.021, lng:7.749, n:'策馬特出發', t:'from' },
+        { lat:46.294, lng:7.881, n:'Visp · 換車', t:'via' },
+        { lat:46.497, lng:7.675, n:'Kandersteg · 轉纜車', t:'via' },
+        { lat:46.495, lng:7.727, n:'Oeschinensee 1,578m · 冰川湖', t:'main' },
+        { lat:46.685, lng:7.651, n:'Spiez · 中世紀城堡', t:'spot' },
+        { lat:46.948, lng:7.447, n:'伯恩 · Check-in', t:'hotel' },
+      ]
+    },
+    { d:10, date:'6/25', city:'bern', note:'🏛 伯恩老城深度遊（UNESCO 世界遺產）',
+      pts:[
+        { lat:46.948, lng:7.447, n:'伯恩市區', t:'from' },
+        { lat:46.947, lng:7.444, n:'聯邦議會大廈 Bundeshaus', t:'main' },
+        { lat:46.946, lng:7.439, n:'鐘塔 Zytglogge', t:'spot' },
+        { lat:46.947, lng:7.452, n:'伯恩大教堂 Münster', t:'main' },
+        { lat:46.948, lng:7.449, n:'熊公園 Bärenpark', t:'spot' },
+        { lat:46.953, lng:7.460, n:'玫瑰園 Rosengarten · 全城眺望', t:'main' },
+        { lat:46.952, lng:7.439, n:'歷史拱廊長廊 Lauben', t:'spot' },
+      ]
+    },
+    { d:11, date:'6/26', city:'zug', note:'💒 Lauterbrunnen 瀑布谷婚紗（上午）→ 楚格入住',
+      pts:[
+        { lat:46.948, lng:7.447, n:'伯恩出發', t:'from' },
+        { lat:46.686, lng:7.863, n:'Interlaken Ost · 換車', t:'via' },
+        { lat:46.595, lng:7.909, n:'Lauterbrunnen · 婚紗攝影', t:'honey' },
+        { lat:46.594, lng:7.909, n:'Staubbach Falls 297m', t:'main' },
+        { lat:46.686, lng:7.863, n:'返回 Interlaken', t:'via' },
+        { lat:46.944, lng:7.449, n:'伯恩 · 轉車', t:'via' },
+        { lat:47.166, lng:8.516, n:'楚格 Zug · Check-in', t:'hotel' },
+      ]
+    },
+    { d:12, date:'6/27', city:'zug', note:'⛵ 楚格 → 琉森 Kapellbrücke · 藍調時刻',
+      pts:[
+        { lat:47.166, lng:8.516, n:'楚格出發', t:'from' },
+        { lat:47.051, lng:8.307, n:'琉森 Lucerne', t:'main' },
+        { lat:47.052, lng:8.308, n:'Kapellbrücke · 木橋花盒', t:'main' },
+        { lat:47.057, lng:8.313, n:'獅子紀念碑 Löwendenkmal', t:'spot' },
+        { lat:47.052, lng:8.299, n:'琉森老城廣場', t:'spot' },
+        { lat:47.043, lng:8.302, n:'琉森湖畔 · 藍調時刻', t:'honey' },
+        { lat:47.166, lng:8.516, n:'返回楚格', t:'via' },
+      ]
+    },
+    { d:13, date:'6/28', city:'zug', note:'🚂 瑞吉山（輪船上山 + 登山火車）→ Lauerzersee 野餐',
+      pts:[
+        { lat:47.166, lng:8.516, n:'楚格出發', t:'from' },
+        { lat:47.051, lng:8.307, n:'琉森 · 搭輪船', t:'via' },
+        { lat:47.006, lng:8.483, n:'Vitznau · 換登山火車', t:'via' },
+        { lat:47.055, lng:8.485, n:'瑞吉山頂 Rigi Kulm 1,797m', t:'main' },
+        { lat:47.101, lng:8.541, n:'Lauerzersee · 野餐', t:'spot' },
+        { lat:47.166, lng:8.516, n:'返回楚格', t:'via' },
+      ]
+    },
+    { d:14, date:'6/29', city:'zurich', note:'🏙 楚格 → 蘇黎世市區 · 入住＋初探老城',
+      pts:[
+        { lat:47.166, lng:8.516, n:'楚格出發', t:'from' },
+        { lat:47.377, lng:8.542, n:'蘇黎世 · Check-in', t:'hotel' },
+        { lat:47.373, lng:8.537, n:'蘇黎世舊城 Altstadt', t:'main' },
+        { lat:47.376, lng:8.541, n:'班霍夫大街 Bahnhofstrasse', t:'spot' },
+        { lat:47.371, lng:8.544, n:'林登霍夫山丘 Lindenhügel', t:'spot' },
+      ]
+    },
+    { d:15, date:'6/30', city:'zurich', note:'💧 萊茵瀑布 → Schaffhausen → Stein am Rhein · 萊茵河一日遊',
+      pts:[
+        { lat:47.377, lng:8.542, n:'蘇黎世出發', t:'from' },
+        { lat:47.677, lng:8.615, n:'萊茵瀑布 Rheinfall · 歐洲最大', t:'main' },
+        { lat:47.696, lng:8.635, n:'沙夫豪森 Schaffhausen · 中世紀古城', t:'spot' },
+        { lat:47.659, lng:8.858, n:'Stein am Rhein · 彩繪外牆', t:'main' },
+        { lat:47.377, lng:8.542, n:'返回蘇黎世', t:'via' },
+      ]
+    },
+    { d:16, date:'7/1',  city:'airport', note:'✈️ 蘇黎世市區 → 22:00 EK086 搭機返台',
+      pts:[
+        { lat:47.377, lng:8.542, n:'蘇黎世市區早上遊覽', t:'from' },
+        { lat:47.353, lng:8.527, n:'蘇黎世湖 · 最後留影', t:'main' },
+        { lat:47.372, lng:8.541, n:'蘇黎世大教堂 Grossmünster', t:'spot' },
+        { lat:47.464, lng:8.549, n:'蘇黎世機場 · 22:00 出發', t:'hotel' },
+      ]
+    },
   ];
 
-  // Init map
+  // ─ 初始化地圖 ──────────────────────────────────────────────────────────────
   _routeMap = L.map('routeMap', {
     center: [46.7, 8.2], zoom: 7,
-    scrollWheelZoom: false, zoomControl: true,
-    zoomAnimation: true
+    scrollWheelZoom: false, zoomControl: true, zoomAnimation: true
   });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
     maxZoom: 18
   }).addTo(_routeMap);
 
-  // Route polyline
+  // ─ 6城市底層連線（半透明虛線）──────────────────────────────────────────────
   L.polyline(cities.map(function(c){ return [c.lat, c.lng]; }),
-    { color:'#C8102E', weight:3, opacity:0.45, dashArray:'8 6' }).addTo(_routeMap);
+    { color:'#1B6CA8', weight:2, opacity:0.25, dashArray:'7 6' }).addTo(_routeMap);
 
-  // Markers
-  function makeMarkerHtml(city, idx, active) {
-    var pulse = active ? ' dm-pulse' : '';
-    var scale = active ? 'transform:scale(1.25);' : '';
-    return '<div class="dm-marker' + pulse + '" style="background:' + city.c +
-      ';color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;' +
-      'justify-content:center;font-size:14px;font-weight:800;box-shadow:0 3px 12px rgba(0,0,0,0.32);' +
-      'border:3px solid #fff;' + scale + 'transition:transform 0.35s">' + (idx+1) + '</div>';
+  // ─ 城市標記建立 ─────────────────────────────────────────────────────────────
+  function cityIconHtml(city, idx, active) {
+    var s = active ? 38 : 30, fs = active ? 13 : 11, op = active ? 1 : 0.55;
+    return '<div style="background:'+city.c+';color:#fff;width:'+s+'px;height:'+s+'px;border-radius:50%;'+
+      'display:flex;align-items:center;justify-content:center;font-size:'+fs+'px;font-weight:800;'+
+      'box-shadow:0 3px 12px rgba(0,0,0,'+(active?0.38:0.18)+');border:'+(active?3:2)+'px solid #fff;'+
+      'opacity:'+op+';transition:all 0.3s'+(active?';animation:markerPulse 1.6s ease-in-out infinite':'')+'">'+(idx+1)+'</div>';
   }
-
   cities.forEach(function(city, i) {
-    var ico = L.divIcon({
-      html: makeMarkerHtml(city, i, false),
-      className: '', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
-    });
-    _mapMarkers[city.id] = L.marker([city.lat, city.lng], {icon:ico})
-      .bindPopup(
-        '<b style="font-size:14px;color:' + city.c + '">' + city.n + '</b>' +
-        '<br><span style="color:#888;font-size:11.5px">' + city.sub + '</span>'
-      ).addTo(_routeMap);
+    var ico = L.divIcon({ html:cityIconHtml(city,i,false), className:'', iconSize:[30,30], iconAnchor:[15,15], popupAnchor:[0,-18] });
+    _mapMarkers[city.id] = L.marker([city.lat,city.lng], {icon:ico})
+      .bindPopup('<b style="color:'+city.c+'">'+city.n+'</b><br><small style="color:#888">'+city.sub+'</small>')
+      .addTo(_routeMap);
   });
 
-  // Build day selector buttons
+  // ─ 景點圖示 ──────────────────────────────────────────────────────────────────
+  var dotIcon = {
+    main:  L.divIcon({ html:'<div style="background:#1B6CA8;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">★</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
+    honey: L.divIcon({ html:'<div style="background:#7C3AED;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">💍</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
+    spot:  L.divIcon({ html:'<div style="background:#C9944A;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
+    hotel: L.divIcon({ html:'<div style="background:#2A7A50;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">🏨</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
+    from:  L.divIcon({ html:'<div style="background:#6B7280;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
+    via:   L.divIcon({ html:'<div style="background:#CBD5E1;width:7px;height:7px;border-radius:50%;border:1.5px solid #fff"></div>', className:'', iconSize:[7,7], iconAnchor:[3,3], popupAnchor:[0,-6] }),
+  };
+
+  // ─ 建立日期選擇按鈕 ─────────────────────────────────────────────────────────
   var selEl = document.getElementById('daySel');
   if (selEl) {
-    days.forEach(function(d) {
+    dayPlans.forEach(function(d) {
       var city = cities.find(function(c){ return c.id === d.city; });
       var btn = document.createElement('button');
-      btn.className = 'day-btn';
-      btn.id = 'dbtn-' + d.d;
-      btn.innerHTML = '<span class="db-num">D' + d.d + '</span><span class="db-date">' + d.date + '</span>';
-      btn.style.borderColor = city.c + '55';
+      btn.className = 'day-btn'; btn.id = 'dbtn-' + d.d;
+      btn.innerHTML = '<span class="db-num">D'+d.d+'</span><span class="db-date">'+d.date+'</span>';
+      btn.style.borderColor = city ? city.c+'66' : '#ccc';
       btn.title = d.note;
-      btn.addEventListener('click', function() { mapSelectDay(d.d); });
+      btn.addEventListener('click', function(){ mapSelectDay(d.d); });
       selEl.appendChild(btn);
     });
   }
 
-  // Select a day: fly to city, highlight marker, update info bar
+  function clearDayLayers() {
+    _dayLayers.forEach(function(l){ _routeMap.removeLayer(l); });
+    _dayLayers = [];
+  }
+
+  // ─ 選擇某天 ─────────────────────────────────────────────────────────────────
   window.mapSelectDay = function(dayNum) {
-    var d = days.find(function(x){ return x.d === dayNum; });
-    if (!d) return;
-    var city = cities.find(function(c){ return c.id === d.city; });
-    if (!city) return;
+    var plan = dayPlans.find(function(x){ return x.d === dayNum; });
+    if (!plan) return;
+    var city = cities.find(function(c){ return c.id === plan.city; });
 
-    // Buttons
-    document.querySelectorAll('.day-btn').forEach(function(b) {
-      b.classList.remove('dm-active');
-      b.style.background = '';
-      b.style.color = '';
+    // 按鈕高亮
+    document.querySelectorAll('.day-btn').forEach(function(b){
+      b.classList.remove('dm-active'); b.style.background=''; b.style.color='';
     });
-    var ab = document.getElementById('dbtn-' + dayNum);
-    if (ab) { ab.classList.add('dm-active'); ab.style.background = city.c; ab.style.color = '#fff'; }
+    var ab = document.getElementById('dbtn-'+dayNum);
+    if (ab && city){ ab.classList.add('dm-active'); ab.style.background=city.c; ab.style.color='#fff'; }
 
-    // Update marker icons (remove old pulse, add to active city)
-    cities.forEach(function(c, i) {
-      var m = _mapMarkers[c.id];
-      if (!m) return;
-      var active = (c.id === d.city);
+    // 更新城市標記
+    cities.forEach(function(c,i){
+      var m = _mapMarkers[c.id]; if(!m) return;
+      var active = c.id === plan.city;
       m.setIcon(L.divIcon({
-        html: makeMarkerHtml(c, i, active),
-        className: '', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
+        html: cityIconHtml(c,i,active), className:'',
+        iconSize: active?[38,38]:[30,30], iconAnchor: active?[19,19]:[15,15], popupAnchor:[0,-20]
       }));
     });
 
-    // Fly animation
-    _routeMap.flyTo([city.lat, city.lng], city.zoom, { duration: 1.4, easeLinearity: 0.2 });
+    clearDayLayers();
 
-    // Info bar
-    var dayEl = document.getElementById('mibDay');
+    // 畫路線
+    var routePts = plan.pts.map(function(p){ return [p.lat,p.lng]; });
+    var line = L.polyline(routePts, {
+      color: city?city.c:'#1B6CA8', weight:3.5, opacity:0.88,
+      lineJoin:'round', lineCap:'round'
+    });
+    line.addTo(_routeMap); _dayLayers.push(line);
+
+    // 畫景點標記
+    plan.pts.forEach(function(p){
+      var ico = dotIcon[p.t] || dotIcon['spot'];
+      var m = L.marker([p.lat,p.lng],{icon:ico})
+        .bindPopup('<span style="font-size:12.5px;line-height:1.5">'+p.n+'</span>');
+      m.addTo(_routeMap); _dayLayers.push(m);
+    });
+
+    // fitBounds（排除 'via' 以免過度縮放偏遠途經點，但保留）
+    var fitPts = plan.pts.filter(function(p){ return p.t !== 'via'; });
+    if (fitPts.length < 2) fitPts = plan.pts;
+    var bounds = fitPts.map(function(p){ return [p.lat,p.lng]; });
+    _routeMap.fitBounds(bounds, { padding:[55,55], maxZoom:15 });
+
+    // 資訊列
+    var dayEl  = document.getElementById('mibDay');
     var noteEl = document.getElementById('mibNote');
-    if (dayEl) dayEl.innerHTML =
-      'Day ' + dayNum + ' <span style="color:' + city.c + ';font-weight:700">' + city.n + '</span>' +
-      ' <span style="color:var(--text-light);font-weight:400;font-size:12px">(' + d.date + ')</span>';
-    if (noteEl) noteEl.textContent = d.note;
-
-    // Open popup after fly
-    setTimeout(function() {
-      if (_mapMarkers[city.id]) _mapMarkers[city.id].openPopup();
-    }, 1450);
-    _activeCity = d.city;
+    if (dayEl) dayEl.innerHTML = 'Day '+dayNum+
+      ' <span style="color:'+(city?city.c:'#1B6CA8')+';font-weight:700">'+(city?city.n:'')+'</span>'+
+      ' <span style="color:var(--text-light);font-weight:400;font-size:12px">('+plan.date+')</span>';
+    if (noteEl) noteEl.textContent = plan.note;
+    _activeCity = plan.city;
   };
 
-  // Reset to full Switzerland view
+  // ─ 重置全覽 ─────────────────────────────────────────────────────────────────
   window.mapResetView = function() {
-    document.querySelectorAll('.day-btn').forEach(function(b) {
-      b.classList.remove('dm-active'); b.style.background = ''; b.style.color = '';
+    document.querySelectorAll('.day-btn').forEach(function(b){
+      b.classList.remove('dm-active'); b.style.background=''; b.style.color='';
     });
-    cities.forEach(function(c, i) {
-      var m = _mapMarkers[c.id];
-      if (m) m.setIcon(L.divIcon({
-        html: makeMarkerHtml(c, i, false),
-        className:'', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
+    cities.forEach(function(c,i){
+      var m = _mapMarkers[c.id]; if(!m) return;
+      m.setIcon(L.divIcon({
+        html:cityIconHtml(c,i,false), className:'', iconSize:[30,30], iconAnchor:[15,15], popupAnchor:[0,-22]
       }));
     });
-    _routeMap.flyTo([46.7, 8.2], 7, { duration: 1.2 });
-    var dayEl = document.getElementById('mibDay');
+    clearDayLayers();
+    _routeMap.flyTo([46.7,8.2], 7, {duration:1.2});
+    var dayEl  = document.getElementById('mibDay');
     var noteEl = document.getElementById('mibNote');
     if (dayEl) dayEl.textContent = '點選上方按鈕查看當天行程';
     if (noteEl) noteEl.textContent = '';
