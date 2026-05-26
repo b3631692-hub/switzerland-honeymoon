@@ -446,10 +446,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   box-shadow: 0 8px 32px rgba(90,65,30,.14);
   border: 2px solid #D4C09A;
 }
-/* Hand-drawn map tile filter */
-#routeMap .leaflet-tile-container img {
-  filter: sepia(0.12) saturate(0.85) brightness(1.08) contrast(0.88);
-}
+
 .day-sel-wrap {
   padding: 12px 14px 10px;
   background: #FDF8EE;
@@ -1564,7 +1561,69 @@ footer small {
         </div>
         <div class="day-sel-row" id="daySel"></div>
       </div>
-      <div id="routeMap" style="height:440px;width:100%"></div>
+      <svg id="routeMap" viewBox="0 0 760 460" style="width:100%;height:440px;display:block" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="svgRough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="5" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <filter id="svgShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="rgba(50,30,10,0.28)"/>
+          </filter>
+          <radialGradient id="svgParch" cx="45%" cy="40%" r="72%">
+            <stop offset="0%" stop-color="#FFFCF0"/>
+            <stop offset="100%" stop-color="#EDE0B8"/>
+          </radialGradient>
+          <linearGradient id="svgWater" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#C5E5F2"/>
+            <stop offset="100%" stop-color="#92C9DC"/>
+          </linearGradient>
+        </defs>
+        <!-- Parchment background -->
+        <rect width="760" height="460" fill="url(#svgParch)"/>
+        <!-- Decorative frame -->
+        <rect x="7" y="7" width="746" height="446" fill="none" stroke="#C4A86A" stroke-width="1.5" stroke-dasharray="8 4" rx="3"/>
+        <!-- Switzerland terrain -->
+        <path fill="#E4D49A" stroke="#9A7A3A" stroke-width="2" stroke-linejoin="round" filter="url(#svgRough)"
+          d="M 40,366 L 162,394 L 315,404 L 377,373 L 500,438 L 543,331 L 635,299 L 723,266 L 583,205 L 582,159 L 557,98 L 526,52 L 440,42 L 276,71 L 193,100 L 125,178 L 84,289 Z"/>
+        <!-- Lakes -->
+        <ellipse cx="106" cy="303" rx="55" ry="11" fill="url(#svgWater)" opacity="0.82"/>
+        <ellipse cx="399" cy="188" rx="18" ry="11" fill="url(#svgWater)" opacity="0.82"/>
+        <ellipse cx="453" cy="136" rx="15" ry="7"  fill="url(#svgWater)" opacity="0.82"/>
+        <ellipse cx="162" cy="208" rx="6"  ry="27" fill="url(#svgWater)" opacity="0.82"/>
+        <ellipse cx="303" cy="251" rx="13" ry="6"  fill="url(#svgWater)" opacity="0.82"/>
+        <!-- Mountain triangles -->
+        <g fill="#8B6030" font-family="Georgia,serif" text-anchor="middle">
+          <text x="303" y="377" font-size="19" opacity="0.62">▲</text>
+          <text x="336" y="272" font-size="15" opacity="0.52">▲</text>
+          <text x="363" y="254" font-size="13" opacity="0.46">△</text>
+          <text x="409" y="232" font-size="11" opacity="0.42">△</text>
+          <text x="573" y="282" font-size="14" opacity="0.52">▲</text>
+          <text x="612" y="297" font-size="11" opacity="0.42">△</text>
+        </g>
+        <!-- Snow caps -->
+        <g fill="#EDF5F8" font-family="Georgia,serif" text-anchor="middle">
+          <text x="303" y="370" font-size="9" opacity="0.72">❄</text>
+          <text x="336" y="265" font-size="8" opacity="0.65">❄</text>
+        </g>
+        <!-- Map label -->
+        <text x="370" y="244" text-anchor="middle" font-size="10.5" fill="#8B6A30" font-family="Georgia,serif" font-style="italic" opacity="0.3" letter-spacing="3">SWITZERLAND</text>
+        <!-- Journey backbone -->
+        <path d="M 427,91 L 641,294 L 301,393 L 253,199 L 422,154 L 426,110 Z" fill="none" stroke="#B09050" stroke-width="1" stroke-dasharray="5 6" opacity="0.22"/>
+        <!-- Compass rose -->
+        <g transform="translate(714,46)">
+          <circle r="16" fill="#FDF8EE" stroke="#C4A86A" stroke-width="1"/>
+          <text y="-20" text-anchor="middle" font-size="9" fill="#8B6A30" font-family="Georgia,serif" font-weight="700">N</text>
+          <polygon points="0,-12 -3.5,0 0,3.5 3.5,0" fill="#8B6A30"/>
+          <polygon points="0,12 -3.5,0 0,-3.5 3.5,0" fill="#C4A86A" opacity="0.6"/>
+          <text y="22" text-anchor="middle" font-size="8" fill="#9A7A40" font-family="Georgia,serif">S</text>
+        </g>
+        <!-- Watermark -->
+        <text x="750" y="452" text-anchor="end" font-size="8.5" fill="#9A8050" font-style="italic" font-family="Georgia,serif">♡ 2026 Switzerland</text>
+        <!-- Dynamic layers (JS-populated) -->
+        <g id="svgRoutePaths"></g>
+        <g id="svgCityMarkers"></g>
+      </svg>
       <div class="map-info-bar">
         <span class="mib-day" id="mibDay">點選上方按鈕查看當天行程</span>
         <span class="mib-note" id="mibNote"></span>
@@ -3195,22 +3254,32 @@ window.addEventListener('load', () => {
   loop();
 })();
 
-var _routeMap, _mapMarkers = {}, _activeCity = null, _dayLayers = [];
+var _routeMap = { invalidateSize: function(){} };
 
-/* ── ROUTE MAP (每日行程版) ── */
+/* ── ROUTE MAP (SVG 插畫版) ── */
 window.addEventListener('load', function() {
-  if (typeof L === 'undefined') { console.warn('Leaflet not loaded'); return; }
-  var el = document.getElementById('routeMap');
-  if (!el) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  function mk(tag, attrs, txt) {
+    var el = document.createElementNS(NS, tag);
+    if (attrs) for (var k in attrs) el.setAttribute(k, attrs[k]);
+    if (txt !== undefined) el.textContent = txt;
+    return el;
+  }
+  function proj(lat, lng) {
+    return { x: (lng - 5.85) / 4.80 * 760, y: (47.90 - lat) / 2.20 * 460 };
+  }
 
-  // ─ 6 大基地城市 ─────────────────────────────────────────────────────────────
+  var markersG = document.getElementById('svgCityMarkers');
+  var routeG   = document.getElementById('svgRoutePaths');
+  if (!markersG || !routeG) return;
+
   var cities = [
-    { id:'airport', n:'蘇黎世機場',  sub:'6/16 · 1晚',      lat:47.464, lng:8.549,  c:'#78716C' },
-    { id:'engadin', n:'Pontresina', sub:'恩加丁 · 4晚',      lat:46.494, lng:9.899,  c:'#2D8C58' },
-    { id:'zermatt', n:'策馬特',     sub:'6/21–6/23 · 3晚',  lat:46.021, lng:7.749,  c:'#C8102E' },
-    { id:'bern',    n:'伯恩',       sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447,  c:'#7C3AED' },
-    { id:'zug',     n:'楚格',       sub:'6/26–6/28 · 3晚',  lat:47.166, lng:8.516,  c:'#0F766E' },
-    { id:'zurich',  n:'蘇黎世',     sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542,  c:'#1B6CA8' },
+    { id:'airport', n:'✈ 機場',  full:'蘇黎世機場',  sub:'6/16 · 1晚',      lat:47.464, lng:8.549, c:'#78716C', num:1 },
+    { id:'engadin', n:'恩加丁',  full:'Pontresina', sub:'恩加丁 · 4晚',      lat:46.494, lng:9.899, c:'#2D8C58', num:2 },
+    { id:'zermatt', n:'策馬特',  full:'策馬特',      sub:'6/21–6/23 · 3晚',  lat:46.021, lng:7.749, c:'#C8102E', num:3 },
+    { id:'bern',    n:'伯恩',    full:'伯恩',        sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447, c:'#7C3AED', num:4 },
+    { id:'zug',     n:'楚格',    full:'楚格',        sub:'6/26–6/28 · 3晚',  lat:47.166, lng:8.516, c:'#0F766E', num:5 },
+    { id:'zurich',  n:'蘇黎世',  full:'蘇黎世市區',  sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542, c:'#1B6CA8', num:6 },
   ];
 
   // ─ 每日行程資料（真實路線點）────────────────────────────────────────────────
@@ -3375,44 +3444,20 @@ window.addEventListener('load', function() {
     },
   ];
 
-  // ─ 初始化地圖 ──────────────────────────────────────────────────────────────
-  _routeMap = L.map('routeMap', {
-    center: [46.7, 8.2], zoom: 7,
-    scrollWheelZoom: false, zoomControl: true, zoomAnimation: true
+  // ─ 建立城市標記 ──────────────────────────────────────────────────────────────
+  var cityEls = {};
+  cities.forEach(function(city) {
+    var p = proj(city.lat, city.lng);
+    var g = mk('g', { style:'cursor:pointer' });
+    var ring = mk('circle', { cx:p.x.toFixed(1), cy:p.y.toFixed(1), r:21, fill:'none', stroke:city.c, 'stroke-width':2, opacity:0, id:'svgring-'+city.id });
+    var bg   = mk('circle', { cx:p.x.toFixed(1), cy:p.y.toFixed(1), r:13, fill:'#FFFAF0', stroke:city.c, 'stroke-width':2.5, filter:'url(#svgShadow)' });
+    var num  = mk('text', { x:p.x.toFixed(1), y:(p.y+1).toFixed(1), 'text-anchor':'middle', 'dominant-baseline':'middle', 'font-family':'Georgia,serif', 'font-size':11, 'font-weight':700, fill:city.c, 'pointer-events':'none' }, String(city.num));
+    var lbl  = mk('text', { x:p.x.toFixed(1), y:(p.y+25).toFixed(1), 'text-anchor':'middle', 'font-family':'Georgia,serif', 'font-size':9, 'font-weight':600, fill:city.c, 'pointer-events':'none' }, city.n);
+    var tip  = mk('title', {}, city.full + ' · ' + city.sub);
+    g.appendChild(tip); g.appendChild(ring); g.appendChild(bg); g.appendChild(num); g.appendChild(lbl);
+    markersG.appendChild(g);
+    cityEls[city.id] = { ring:ring, bg:bg };
   });
-  L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> | © <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a>',
-    maxZoom: 17
-  }).addTo(_routeMap);
-
-  // ─ 6城市底層連線（手繪墨水風虛線）──────────────────────────────────────────────
-  L.polyline(cities.map(function(c){ return [c.lat, c.lng]; }),
-    { color:'#7A5C38', weight:1.5, opacity:0.22, dashArray:'5 7', lineCap:'round', lineJoin:'round' }).addTo(_routeMap);
-
-  // ─ 城市標記建立 ─────────────────────────────────────────────────────────────
-  function cityIconHtml(city, idx, active) {
-    var s = active ? 38 : 30, fs = active ? 13 : 11, op = active ? 1 : 0.62;
-    return '<div style="background:#fffaf0;color:'+city.c+';width:'+s+'px;height:'+s+'px;border-radius:50%;'+
-      'display:flex;align-items:center;justify-content:center;font-size:'+fs+'px;font-weight:900;font-family:serif;'+
-      'box-shadow:0 3px 12px rgba(80,50,10,'+(active?0.4:0.2)+');border:'+(active?3:2.5)+'px solid '+city.c+';'+
-      'opacity:'+op+';transition:all 0.3s'+(active?';animation:markerPulse 1.6s ease-in-out infinite':'')+'">'+(idx+1)+'</div>';
-  }
-  cities.forEach(function(city, i) {
-    var ico = L.divIcon({ html:cityIconHtml(city,i,false), className:'', iconSize:[30,30], iconAnchor:[15,15], popupAnchor:[0,-18] });
-    _mapMarkers[city.id] = L.marker([city.lat,city.lng], {icon:ico})
-      .bindPopup('<b style="color:'+city.c+'">'+city.n+'</b><br><small style="color:#888">'+city.sub+'</small>')
-      .addTo(_routeMap);
-  });
-
-  // ─ 景點圖示 ──────────────────────────────────────────────────────────────────
-  var dotIcon = {
-    main:  L.divIcon({ html:'<div style="background:#fff;color:#4A3520;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;box-shadow:0 2px 8px rgba(80,50,10,.35);border:2.5px solid #7A5C38;font-family:serif">★</div>', className:'', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-14] }),
-    honey: L.divIcon({ html:'<div style="background:#fffaf0;color:#7C3AED;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 8px rgba(80,50,10,.3);border:2.5px solid #A07BE0">💍</div>', className:'', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-14] }),
-    spot:  L.divIcon({ html:'<div style="background:#C9944A;width:11px;height:11px;border-radius:50%;border:2px solid #fffaf0;box-shadow:0 1px 5px rgba(80,50,10,.4)"></div>', className:'', iconSize:[11,11], iconAnchor:[5,5], popupAnchor:[0,-8] }),
-    hotel: L.divIcon({ html:'<div style="background:#fffaf0;color:#2A7A50;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(80,50,10,.3);border:2.5px solid #2A7A50">🏨</div>', className:'', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-14] }),
-    from:  L.divIcon({ html:'<div style="background:#B09070;width:10px;height:10px;border-radius:50%;border:2px solid #fffaf0;box-shadow:0 1px 4px rgba(80,50,10,.25)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
-    via:   L.divIcon({ html:'<div style="background:#D4B896;width:7px;height:7px;border-radius:50%;border:1.5px solid #fffaf0"></div>', className:'', iconSize:[7,7], iconAnchor:[3,3], popupAnchor:[0,-6] }),
-  };
 
   // ─ 建立日期選擇按鈕 ─────────────────────────────────────────────────────────
   var selEl = document.getElementById('daySel');
@@ -3424,14 +3469,16 @@ window.addEventListener('load', function() {
       btn.innerHTML = '<span class="db-num">D'+d.d+'</span><span class="db-date">'+d.date+'</span>';
       btn.style.borderColor = city ? city.c+'66' : '#ccc';
       btn.title = d.note;
-      btn.addEventListener('click', function(){ mapSelectDay(d.d); });
+      btn.addEventListener('click', function(){ window.mapSelectDay(d.d); });
       selEl.appendChild(btn);
     });
   }
 
-  function clearDayLayers() {
-    _dayLayers.forEach(function(l){ _routeMap.removeLayer(l); });
-    _dayLayers = [];
+  var _rpath = null, _rdots = [];
+  function clearRoute() {
+    if (_rpath) { routeG.removeChild(_rpath); _rpath = null; }
+    _rdots.forEach(function(el){ routeG.removeChild(el); });
+    _rdots = [];
   }
 
   // ─ 選擇某天 ─────────────────────────────────────────────────────────────────
@@ -3440,56 +3487,70 @@ window.addEventListener('load', function() {
     if (!plan) return;
     var city = cities.find(function(c){ return c.id === plan.city; });
 
-    // 按鈕高亮
     document.querySelectorAll('.day-btn').forEach(function(b){
       b.classList.remove('dm-active'); b.style.background=''; b.style.color='';
     });
     var ab = document.getElementById('dbtn-'+dayNum);
     if (ab && city){ ab.classList.add('dm-active'); ab.style.background=city.c; ab.style.color='#fff'; }
 
-    // 更新城市標記
-    cities.forEach(function(c,i){
-      var m = _mapMarkers[c.id]; if(!m) return;
+    cities.forEach(function(c){
+      var els = cityEls[c.id]; if(!els) return;
       var active = c.id === plan.city;
-      m.setIcon(L.divIcon({
-        html: cityIconHtml(c,i,active), className:'',
-        iconSize: active?[38,38]:[30,30], iconAnchor: active?[19,19]:[15,15], popupAnchor:[0,-20]
-      }));
+      els.ring.setAttribute('opacity', active ? 0.55 : 0);
+      els.bg.setAttribute('r', active ? 17 : 13);
+      els.bg.setAttribute('stroke-width', active ? 3.5 : 2.5);
     });
 
-    clearDayLayers();
+    clearRoute();
 
-    // 畫路線
-    var routePts = plan.pts.map(function(p){ return [p.lat,p.lng]; });
-    var line = L.polyline(routePts, {
-      color: city?city.c:'#7A5C38', weight:4, opacity:0.82,
-      lineJoin:'round', lineCap:'round',
-      dashArray: null
+    var d = plan.pts.map(function(p,i){
+      var c = proj(p.lat, p.lng);
+      return (i===0?'M':'L') + c.x.toFixed(1) + ',' + c.y.toFixed(1);
+    }).join(' ');
+    var pathEl = mk('path', { d:d, fill:'none', stroke:city?city.c:'#7A5C38',
+      'stroke-width':3.5, 'stroke-linecap':'round', 'stroke-linejoin':'round', opacity:0.87 });
+    pathEl.style.strokeDasharray = '3000';
+    pathEl.style.strokeDashoffset = '3000';
+    pathEl.style.transition = 'stroke-dashoffset 1.2s ease-out';
+    routeG.appendChild(pathEl);
+    setTimeout(function(){ pathEl.style.strokeDashoffset = '0'; }, 30);
+    _rpath = pathEl;
+
+    var dotCfg = {
+      main:  function(cc){ return { r:6.5, fill:'#fff',      stroke:cc,        sw:2 }; },
+      honey: function(){   return { r:6.5, fill:'#F3E8FF',   stroke:'#7C3AED', sw:2 }; },
+      hotel: function(){   return { r:6,   fill:'#D1FAE5',   stroke:'#065F46', sw:2 }; },
+      spot:  function(cc){ return { r:4,   fill:cc,          stroke:'none',    sw:0 }; },
+      via:   function(){   return { r:2.5, fill:'#BFA86A',   stroke:'none',    sw:0 }; },
+      from:  function(){   return { r:3,   fill:'#A09070',   stroke:'none',    sw:0 }; },
+    };
+
+    plan.pts.forEach(function(pt){
+      var cp = proj(pt.lat, pt.lng);
+      var cfg = (dotCfg[pt.t] || dotCfg.spot)(city ? city.c : '#C9944A');
+      var dot = mk('circle', { cx:cp.x.toFixed(1), cy:cp.y.toFixed(1), r:cfg.r,
+        fill:cfg.fill, stroke:cfg.stroke, 'stroke-width':cfg.sw, opacity:0.92 });
+      dot.appendChild(mk('title', {}, pt.n));
+      routeG.appendChild(dot); _rdots.push(dot);
+
+      if (pt.t === 'main' || pt.t === 'honey' || pt.t === 'hotel') {
+        var lx = cp.x > 620 ? cp.x - 9 : cp.x + 9;
+        var anchor = cp.x > 620 ? 'end' : 'start';
+        var lbl = mk('text', { x:lx.toFixed(1), y:(cp.y+3.5).toFixed(1),
+          'text-anchor':anchor, 'font-family':'Georgia,serif', 'font-size':8.5,
+          fill: pt.t==='honey' ? '#7C3AED' : (city ? city.c : '#5A3C18'),
+          'font-weight': pt.t==='main' ? 600 : 400 },
+          pt.n.length > 13 ? pt.n.slice(0,13)+'…' : pt.n);
+        routeG.appendChild(lbl); _rdots.push(lbl);
+      }
     });
-    line.addTo(_routeMap); _dayLayers.push(line);
 
-    // 畫景點標記
-    plan.pts.forEach(function(p){
-      var ico = dotIcon[p.t] || dotIcon['spot'];
-      var m = L.marker([p.lat,p.lng],{icon:ico})
-        .bindPopup('<span style="font-size:12.5px;line-height:1.5">'+p.n+'</span>');
-      m.addTo(_routeMap); _dayLayers.push(m);
-    });
-
-    // fitBounds（排除 'via' 以免過度縮放偏遠途經點，但保留）
-    var fitPts = plan.pts.filter(function(p){ return p.t !== 'via'; });
-    if (fitPts.length < 2) fitPts = plan.pts;
-    var bounds = fitPts.map(function(p){ return [p.lat,p.lng]; });
-    _routeMap.fitBounds(bounds, { padding:[55,55], maxZoom:15 });
-
-    // 資訊列
     var dayEl  = document.getElementById('mibDay');
     var noteEl = document.getElementById('mibNote');
     if (dayEl) dayEl.innerHTML = 'Day '+dayNum+
-      ' <span style="color:'+(city?city.c:'#1B6CA8')+';font-weight:700">'+(city?city.n:'')+'</span>'+
+      ' <span style="color:'+(city?city.c:'#1B6CA8')+';font-weight:700">'+(city?city.full:'')+'</span>'+
       ' <span style="color:var(--text-light);font-weight:400;font-size:12px">('+plan.date+')</span>';
     if (noteEl) noteEl.textContent = plan.note;
-    _activeCity = plan.city;
   };
 
   // ─ 重置全覽 ─────────────────────────────────────────────────────────────────
@@ -3497,22 +3558,18 @@ window.addEventListener('load', function() {
     document.querySelectorAll('.day-btn').forEach(function(b){
       b.classList.remove('dm-active'); b.style.background=''; b.style.color='';
     });
-    cities.forEach(function(c,i){
-      var m = _mapMarkers[c.id]; if(!m) return;
-      m.setIcon(L.divIcon({
-        html:cityIconHtml(c,i,false), className:'', iconSize:[30,30], iconAnchor:[15,15], popupAnchor:[0,-22]
-      }));
+    cities.forEach(function(c){
+      var els = cityEls[c.id]; if(!els) return;
+      els.ring.setAttribute('opacity', 0);
+      els.bg.setAttribute('r', 13);
+      els.bg.setAttribute('stroke-width', 2.5);
     });
-    clearDayLayers();
-    _routeMap.flyTo([46.7,8.2], 7, {duration:1.2});
+    clearRoute();
     var dayEl  = document.getElementById('mibDay');
     var noteEl = document.getElementById('mibNote');
     if (dayEl) dayEl.textContent = '點選上方按鈕查看當天行程';
     if (noteEl) noteEl.textContent = '';
-    _activeCity = null;
   };
-
-  setTimeout(function(){ _routeMap.invalidateSize(); }, 300);
 });
 
 var _worldMap;
