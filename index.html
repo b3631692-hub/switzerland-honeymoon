@@ -3377,9 +3377,9 @@ window.addEventListener('load', function() {
     center: [46.7, 8.2], zoom: 7,
     scrollWheelZoom: false, zoomControl: true, zoomAnimation: true
   });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-    maxZoom: 18
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> © <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 19
   }).addTo(_routeMap);
 
   // ─ 6城市底層連線（半透明虛線）──────────────────────────────────────────────
