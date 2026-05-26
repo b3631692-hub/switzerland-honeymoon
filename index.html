@@ -443,13 +443,17 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .route-map-card {
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(90,65,30,.14);
+  border: 2px solid #D4C09A;
+}
+/* Hand-drawn map tile filter */
+#routeMap .leaflet-tile-container img {
+  filter: sepia(0.12) saturate(0.85) brightness(1.08) contrast(0.88);
 }
 .day-sel-wrap {
   padding: 12px 14px 10px;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
+  background: #FDF8EE;
+  border-bottom: 1px solid #D4C09A;
 }
 .day-sel-top {
   display: flex;
@@ -459,7 +463,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 }
 .day-sel-label {
   font-size: 11px;
-  color: var(--text-light);
+  color: #8B7050;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   font-weight: 500;
@@ -3376,21 +3380,21 @@ window.addEventListener('load', function() {
     center: [46.7, 8.2], zoom: 7,
     scrollWheelZoom: false, zoomControl: true, zoomAnimation: true
   });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-    maxZoom: 18
+  L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> | © <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a>',
+    maxZoom: 17
   }).addTo(_routeMap);
 
-  // ─ 6城市底層連線（半透明虛線）──────────────────────────────────────────────
+  // ─ 6城市底層連線（手繪墨水風虛線）──────────────────────────────────────────────
   L.polyline(cities.map(function(c){ return [c.lat, c.lng]; }),
-    { color:'#1B6CA8', weight:2, opacity:0.25, dashArray:'7 6' }).addTo(_routeMap);
+    { color:'#7A5C38', weight:1.5, opacity:0.22, dashArray:'5 7', lineCap:'round', lineJoin:'round' }).addTo(_routeMap);
 
   // ─ 城市標記建立 ─────────────────────────────────────────────────────────────
   function cityIconHtml(city, idx, active) {
-    var s = active ? 38 : 30, fs = active ? 13 : 11, op = active ? 1 : 0.55;
-    return '<div style="background:'+city.c+';color:#fff;width:'+s+'px;height:'+s+'px;border-radius:50%;'+
-      'display:flex;align-items:center;justify-content:center;font-size:'+fs+'px;font-weight:800;'+
-      'box-shadow:0 3px 12px rgba(0,0,0,'+(active?0.38:0.18)+');border:'+(active?3:2)+'px solid #fff;'+
+    var s = active ? 38 : 30, fs = active ? 13 : 11, op = active ? 1 : 0.62;
+    return '<div style="background:#fffaf0;color:'+city.c+';width:'+s+'px;height:'+s+'px;border-radius:50%;'+
+      'display:flex;align-items:center;justify-content:center;font-size:'+fs+'px;font-weight:900;font-family:serif;'+
+      'box-shadow:0 3px 12px rgba(80,50,10,'+(active?0.4:0.2)+');border:'+(active?3:2.5)+'px solid '+city.c+';'+
       'opacity:'+op+';transition:all 0.3s'+(active?';animation:markerPulse 1.6s ease-in-out infinite':'')+'">'+(idx+1)+'</div>';
   }
   cities.forEach(function(city, i) {
@@ -3402,12 +3406,12 @@ window.addEventListener('load', function() {
 
   // ─ 景點圖示 ──────────────────────────────────────────────────────────────────
   var dotIcon = {
-    main:  L.divIcon({ html:'<div style="background:#1B6CA8;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">★</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
-    honey: L.divIcon({ html:'<div style="background:#7C3AED;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">💍</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
-    spot:  L.divIcon({ html:'<div style="background:#C9944A;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
-    hotel: L.divIcon({ html:'<div style="background:#2A7A50;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">🏨</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
-    from:  L.divIcon({ html:'<div style="background:#6B7280;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
-    via:   L.divIcon({ html:'<div style="background:#CBD5E1;width:7px;height:7px;border-radius:50%;border:1.5px solid #fff"></div>', className:'', iconSize:[7,7], iconAnchor:[3,3], popupAnchor:[0,-6] }),
+    main:  L.divIcon({ html:'<div style="background:#fff;color:#4A3520;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;box-shadow:0 2px 8px rgba(80,50,10,.35);border:2.5px solid #7A5C38;font-family:serif">★</div>', className:'', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-14] }),
+    honey: L.divIcon({ html:'<div style="background:#fffaf0;color:#7C3AED;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 8px rgba(80,50,10,.3);border:2.5px solid #A07BE0">💍</div>', className:'', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-14] }),
+    spot:  L.divIcon({ html:'<div style="background:#C9944A;width:11px;height:11px;border-radius:50%;border:2px solid #fffaf0;box-shadow:0 1px 5px rgba(80,50,10,.4)"></div>', className:'', iconSize:[11,11], iconAnchor:[5,5], popupAnchor:[0,-8] }),
+    hotel: L.divIcon({ html:'<div style="background:#fffaf0;color:#2A7A50;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(80,50,10,.3);border:2.5px solid #2A7A50">🏨</div>', className:'', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-14] }),
+    from:  L.divIcon({ html:'<div style="background:#B09070;width:10px;height:10px;border-radius:50%;border:2px solid #fffaf0;box-shadow:0 1px 4px rgba(80,50,10,.25)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
+    via:   L.divIcon({ html:'<div style="background:#D4B896;width:7px;height:7px;border-radius:50%;border:1.5px solid #fffaf0"></div>', className:'', iconSize:[7,7], iconAnchor:[3,3], popupAnchor:[0,-6] }),
   };
 
   // ─ 建立日期選擇按鈕 ─────────────────────────────────────────────────────────
@@ -3458,8 +3462,9 @@ window.addEventListener('load', function() {
     // 畫路線
     var routePts = plan.pts.map(function(p){ return [p.lat,p.lng]; });
     var line = L.polyline(routePts, {
-      color: city?city.c:'#1B6CA8', weight:3.5, opacity:0.88,
-      lineJoin:'round', lineCap:'round'
+      color: city?city.c:'#7A5C38', weight:4, opacity:0.82,
+      lineJoin:'round', lineCap:'round',
+      dashArray: null
     });
     line.addTo(_routeMap); _dayLayers.push(line);
 
