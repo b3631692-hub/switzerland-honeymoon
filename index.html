@@ -1870,6 +1870,30 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .dl-pct  { font-weight: 700; color: var(--text); }
 .dl-amt  { font-size: 11.5px; color: var(--text-light); margin-left: 4px; }
 
+/* ── 購物退稅速查 ── */
+.vat-card { padding: 16px 16px 14px; }
+.vat-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.vat-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+@media (max-width: 400px) { .vat-cols { grid-template-columns: 1fr; } }
+.vat-col-hdr {
+  font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px;
+  margin-bottom: 6px;
+}
+.vat-col-hdr.blue { background: #EFF6FF; color: #1D4ED8; }
+.vat-col-hdr.green { background: #DCFCE7; color: #15803D; }
+body.dark-mode .vat-col-hdr.blue  { background: #1D3A6B; color: #60A5FA; }
+body.dark-mode .vat-col-hdr.green { background: #062A14; color: #34D399; }
+.vat-items { display: flex; flex-direction: column; gap: 4px; }
+.vat-item { font-size: 11px; color: var(--text-sub); line-height: 1.5; padding-left: 12px; position: relative; }
+.vat-item::before { content: '·'; position: absolute; left: 3px; color: var(--primary); font-weight: 700; }
+.vat-item strong { color: var(--text); }
+.vat-steps { background: var(--bg); border-radius: 8px; padding: 8px 10px; margin-top: 10px; }
+.vat-steps-title { font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+.vat-step { display: flex; gap: 7px; align-items: flex-start; font-size: 11px; color: var(--text-sub); padding: 2px 0; }
+.vat-step-num { font-size: 10px; font-weight: 800; background: var(--primary); color: #fff; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.vat-best { border: 1px solid #FDE68A; background: #FFFBEB; border-radius: 8px; padding: 6px 10px; margin-top: 8px; font-size: 11px; color: #92400E; }
+body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #FCD34D; }
+
 /* ── 每日平均費用 ── */
 .daily-avg-row {
   display: grid; grid-template-columns: repeat(3, 1fr);
@@ -4647,6 +4671,43 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       </div>
       <div class="st-total-bar"><div class="st-total-fill" id="stTotalFill"></div></div>
       <div class="st-pct-label" id="stPctLabel">已使用 0%</div>
+    </div>
+
+    <!-- ── 購物退稅 × 台灣海關速查 ── -->
+    <div class="card vat-card reveal">
+      <div class="vat-title">🛍 購物退稅 × 台灣海關速查</div>
+      <div class="vat-cols">
+        <div>
+          <div class="vat-col-hdr blue">🇨🇭 瑞士 Tax Free 退稅</div>
+          <div class="vat-items">
+            <div class="vat-item">最低消費 <strong>CHF 300／單店單次</strong></div>
+            <div class="vat-item">退稅率約 <strong>5.7%</strong>（標準稅率 8.1% 扣手續費後）</div>
+            <div class="vat-item">CHF 500 購物 → 可退約 <strong>CHF 28</strong></div>
+            <div class="vat-item">退稅商：Global Blue / Planet</div>
+            <div class="vat-item">結帳時索取退稅單（Tax Free Form）</div>
+            <div class="vat-item">蘇黎世機場 T1 海關蓋章 → 退稅亭領現金</div>
+          </div>
+        </div>
+        <div>
+          <div class="vat-col-hdr green">🛃 台灣海關免稅額度</div>
+          <div class="vat-items">
+            <div class="vat-item">個人攜帶物品免稅 <strong>TWD 20,000</strong>（每人）</div>
+            <div class="vat-item">酒類：每人 <strong>1 公升</strong>（1 瓶 750ml 内免稅）</div>
+            <div class="vat-item">菸草：200 支香菸或雪茄 25 支</div>
+            <div class="vat-item">現金：超過 <strong>NTD 10 萬 / USD 1 萬</strong>需申報</div>
+            <div class="vat-item">黃金：超過 TWD 20 萬需申報</div>
+            <div class="vat-item">食品類一般不可帶肉製品入台</div>
+          </div>
+        </div>
+      </div>
+      <div class="vat-steps">
+        <div class="vat-steps-title">✅ 退稅流程（蘇黎世機場 T1）</div>
+        <div class="vat-step"><span class="vat-step-num">1</span><span>結帳時告知店員「Tax Free please」，填表格（護照備用）</span></div>
+        <div class="vat-step"><span class="vat-step-num">2</span><span>機場 <strong>報到前</strong>，至海關（Security 前）憑退稅單 + 購物袋 + 護照蓋章</span></div>
+        <div class="vat-step"><span class="vat-step-num">3</span><span>退稅亭（Global Blue / Planet）選現金 CHF 或信用卡退款</span></div>
+        <div class="vat-step"><span class="vat-step-num">4</span><span>也可先報到再找退稅亭（位於 Airside，安檢後亦有）</span></div>
+      </div>
+      <div class="vat-best">💡 <strong>最值得買：</strong>瑞士刀（Victorinox 原廠 Ibach）、Lindt 巧克力塔（ZRH 機場）、Laderach 手工巧克力、Toblerone 全家福裝（Coop 超市最便宜）、手錶（Bucherer 蘇黎世）。⚠️ 上機前記得把瑞士刀放托運行李！</div>
     </div>
   </div>
 
