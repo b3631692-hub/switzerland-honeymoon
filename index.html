@@ -4228,6 +4228,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <div id="tab-itinerary" class="section">
     <div class="sec-title">每日行程</div>
 
+    <!-- 今日天氣建議橫幅 (JS 動態填入) -->
+    <div id="itinWxBanner" style="display:none;border-radius:10px;padding:10px 14px 10px 12px;margin-bottom:12px;font-size:11.5px;line-height:1.5;position:relative"></div>
+
     <!-- 今明兩日快覽 (JS 動態填入) -->
     <div id="quick2DayWrap" style="display:none;margin-bottom:16px"></div>
 
@@ -7814,6 +7817,51 @@ updateCategoryProgress();
     if (name !== 'itinerary') fab.classList.remove('vis');
     else updateFabLabel();
   };
+})();
+
+/* ── 今日天氣建議橫幅 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var DATE_WX = {
+    '6/16':0,'6/17':1,'6/18':1,'6/19':1,'6/20':1,
+    '6/21':2,'6/22':2,'6/23':2,'6/24':3,'6/25':3,
+    '6/26':4,'6/27':4,'6/28':4,'6/29':0,'6/30':0,'7/1':0
+  };
+  var RAIN_TIP = {
+    0: '備傘，蘇黎世市區地鐵室內活動多，大雨可改逛美術館或購物街',
+    1: '備傘，大雨可改 Engadin Museum 或溫泉，Diavolezza 霧天有奇特雲海效果',
+    2: '備傘，雨天可去 Matterhorn Museum Zermatlantis（地下博物館）暖身等天晴',
+    3: '備傘，伯恩有 6km 拱廊街遮雨，雨天也適合逛老城、愛因斯坦故居',
+    4: '備傘，楚格市中心有遮雨廊，琉森雨後水面倒影反而更美'
+  };
+  var SNOW_TIP = '⚠️ 注意高山降雪，確認纜車是否正常運行，備多層保暖衣物';
+
+  function renderBanner(wxData) {
+    var banner = document.getElementById('itinWxBanner');
+    if (!banner) return;
+    var now = Date.now();
+    if (now < DEPART.getTime() || now > RETURN.getTime()) { banner.style.display='none'; return; }
+    var m = new Date().getMonth()+1, d = new Date().getDate();
+    var dateKey = m+'/'+d;
+    var cityIdx = DATE_WX[dateKey];
+    if (cityIdx === undefined || !wxData || !wxData[cityIdx] || !wxData[cityIdx].current) return;
+    var data = wxData[cityIdx];
+    var wmo = data.current.weather_code;
+    var rain = data.daily && data.daily.precipitation_probability_max ? (data.daily.precipitation_probability_max[0]||0) : 0;
+    if (rain >= 50 || (wmo >= 61 && wmo <= 82)) {
+      banner.style.cssText = 'display:block;border-radius:10px;padding:10px 36px 10px 12px;margin-bottom:12px;font-size:11.5px;line-height:1.5;position:relative;background:#FEF3C7;border:1.5px solid #F59E0B;color:#92400E';
+      banner.innerHTML = '<strong>☔ 今日降雨機率 '+rain+'%</strong><br>'+RAIN_TIP[cityIdx]
+        +'<button onclick="this.parentElement.style.display=\'none\'" style="position:absolute;top:6px;right:10px;background:none;border:none;font-size:16px;color:#92400E;cursor:pointer;padding:0;line-height:1">✕</button>';
+    } else if (wmo >= 71 && wmo <= 77) {
+      banner.style.cssText = 'display:block;border-radius:10px;padding:10px 36px 10px 12px;margin-bottom:12px;font-size:11.5px;line-height:1.5;position:relative;background:#EFF6FF;border:1.5px solid #93C5FD;color:#1E40AF';
+      banner.innerHTML = '<strong>❄️ 今日可能降雪</strong><br>'+SNOW_TIP
+        +'<button onclick="this.parentElement.style.display=\'none\'" style="position:absolute;top:6px;right:10px;background:none;border:none;font-size:16px;color:#1E40AF;cursor:pointer;padding:0;line-height:1">✕</button>';
+    } else { banner.style.display='none'; }
+  }
+  try { var c=JSON.parse(localStorage.getItem('wx_cache5')); if(c&&c.data) renderBanner(c.data); } catch(e){}
+  window._wxReadyCbs = window._wxReadyCbs || [];
+  window._wxReadyCbs.push(function(d){ renderBanner(d); });
 })();
 
 /* ── 今明兩日快覽 ── */
