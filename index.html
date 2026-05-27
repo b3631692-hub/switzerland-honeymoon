@@ -3686,7 +3686,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
         <div class="sb-row">
           <span class="sb-icon">✅</span>
           <span class="sb-label">行前待辦</span>
-          <span class="sb-val" id="sbPredep">0 / 16</span>
+          <span class="sb-val" id="sbPredep">0 / 18</span>
           <div class="sb-bar"><div class="sb-fill" id="sbPredepFill"></div></div>
         </div>
         <div class="sb-row">
@@ -10327,9 +10327,9 @@ window.shareItinerary = function() {
     // Show card when within 30 days of departure
     if (daysTo <= 30) {
       // Count pending pre-departure items
-      var pdPending = 0, pdTotal = 16;
+      var pdPending = 0, pdTotal = 18;
       var firstUnchecked = null;
-      for (var i = 0; i <= 15; i++) {
+      for (var i = 0; i <= 17; i++) {
         var cb = document.getElementById('pd' + i);
         if (cb && !cb.checked) {
           pdPending++;
@@ -10873,7 +10873,7 @@ window.shareItinerary = function() {
   var KEY = 'predep_v1';
   function save() {
     var data = {};
-    for (var i = 0; i <= 15; i++) {
+    for (var i = 0; i <= 17; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb) data[i] = cb.checked;
     }
@@ -10882,7 +10882,7 @@ window.shareItinerary = function() {
   function restore() {
     var data = {};
     try { data = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
-    for (var i = 0; i <= 15; i++) {
+    for (var i = 0; i <= 17; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb && data[i]) cb.checked = true;
     }
@@ -10894,7 +10894,7 @@ window.shareItinerary = function() {
     var daysTo = Math.ceil((DEPART_D - Date.now()) / 86400000);
     if (daysTo <= 0 || daysTo > 30) { badge.style.display = 'none'; return; }
     var unchecked = 0;
-    for (var i = 0; i <= 15; i++) {
+    for (var i = 0; i <= 17; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb && !cb.checked) unchecked++;
     }
@@ -11093,9 +11093,9 @@ window.shareItinerary = function() {
     var now = Date.now();
 
     // Predep
-    var predepTotal = 16;
+    var predepTotal = 18;
     var predepDone = 0;
-    for (var i = 0; i <= 15; i++) {
+    for (var i = 0; i <= 17; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb && cb.checked) predepDone++;
     }
