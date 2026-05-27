@@ -2021,6 +2021,14 @@ body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #F
 }
 .tcc-remain { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 6px; }
 .tcc-urgent { color: #FCD34D; font-weight: 700; }
+.tcc-gear { margin-top: 10px; text-align: left; }
+.tcc-gear-title { font-size: 10px; letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-bottom: 5px; text-transform: uppercase; }
+.tcc-gear-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.tcc-gear-item {
+  font-size: 10.5px; font-weight: 600;
+  background: rgba(255,255,255,0.1); border-radius: 5px;
+  padding: 2px 8px; color: rgba(255,255,255,0.8);
+}
 
 /* ── 取消期限倒數 ── */
 .cancel-dl-card {
@@ -7043,6 +7051,24 @@ window.shareItinerary = function() {
   var now = new Date();
   var html = '';
 
+  var DAILY_GEAR = {
+    '6/17': ['STP 首次啟用', '登山鞋', '防水外套', 'Engadin Card（飯店領取）'],
+    '6/18': ['防水登山鞋（殘雪）', 'CPL 濾鏡', '備用電池×3', '防曬霜 SPF50+'],
+    '6/19': ['STP Pass', '長焦 200–600mm（螺旋橋）', '輕便背包'],
+    '6/20': ['Engadin Card', 'STP Pass', '廣角 ＋ 長焦兩支鏡'],
+    '6/21': ['冰河列車訂位票 CHF 13/人', '廣角鏡頭', '坐右側座位'],
+    '6/22': ['三腳架（Riffelsee 必備）', 'STP Pass', '防風外套', '早起 06:40 出門'],
+    '6/23': ['手套', '保暖帽', '備用電池放口袋（-5°C）', 'STP Pass'],
+    '6/24': ['STP Pass', '登山鞋（Oeschinensee）', 'ND 濾鏡'],
+    '6/25': ['STP Pass', '廣角鏡頭', '舒適步行鞋（老城石板路）'],
+    '6/26': ['STP Pass', '備用毛巾（瀑布水霧必帶）', '鏡頭蓋×2', '婚紗裝'],
+    '6/27': ['STP Pass', '三腳架（橋藍調 22:00）', '保暖薄外套'],
+    '6/28': ['STP Pass（輪船免費）', '長焦（動物攝影）', '野餐食物'],
+    '6/29': ['大行李提前送機場', 'STP Pass', '廣角鏡頭（市區）'],
+    '6/30': ['STP Pass', 'ND10 濾鏡', '三腳架', '備用毛巾（瀑布）'],
+    '7/1':  ['護照（22:00 登機）', '⚠️ 瑞士刀放托運！', 'STP 最後一天用好用滿']
+  };
+
   if (now >= DEPART && now <= RETURN) {
     // During trip
     var daysIn = Math.floor((now - DEPART) / 86400000) + 1;
@@ -7052,10 +7078,18 @@ window.shareItinerary = function() {
     var titleEl = todayCard ? todayCard.querySelector('.day-title') : null;
     var baseText = baseHdr ? baseHdr.textContent.replace(/[^一-鿿\w\s·|]/g, '').trim().split('|')[0].trim().substring(0, 20) : '';
     var titleText = titleEl ? titleEl.textContent.replace('▾','').trim().substring(0, 35) : '';
+    var m = now.getMonth() + 1;
+    var d = now.getDate();
+    var gearKey = m + '/' + d;
+    var gear = DAILY_GEAR[gearKey] || [];
+    var gearHtml = gear.length ? ('<div class="tcc-gear"><div class="tcc-gear-title">今日必帶</div><div class="tcc-gear-list">'
+      + gear.map(function(g) { return '<span class="tcc-gear-item">' + g + '</span>'; }).join('')
+      + '</div></div>') : '';
     html = '<div class="tcc-state tcc-live">旅程進行中</div>'
       + '<div class="tcc-day-num">第 ' + daysIn + ' 天</div>'
       + (baseText ? '<div class="tcc-city-name">' + baseText + '</div>' : '')
       + (titleText ? '<div class="tcc-activity">' + titleText + '</div>' : '')
+      + gearHtml
       + (daysLeft > 0 ? '<div class="tcc-remain">距返台還有 ' + daysLeft + ' 天</div>' : '<div class="tcc-remain tcc-urgent">今天回家了！</div>');
     card.classList.add('visible');
   } else if (now < DEPART) {
