@@ -5434,6 +5434,12 @@ body.dark-mode .food-city-spec { background: #1A1108; }
     <!-- ── 城市花費分析 ── -->
     <div class="card city-spend-card reveal" id="citySpendCard"></div>
 
+    <!-- ── 付費景點票價速查 ── -->
+    <div class="card reveal" id="ticketPriceCard" style="padding:16px 16px 14px;margin-bottom:20px">
+      <div style="font-size:12px;font-weight:800;color:var(--text-sub);margin-bottom:10px">🎫 付費景點票價速查 <span style="font-size:9.5px;font-weight:600;color:var(--text-light);margin-left:4px">（即時匯率換算）</span></div>
+      <div id="ticketPriceRows" style="display:flex;flex-direction:column;gap:4px"></div>
+    </div>
+
     <!-- ── 購物退稅 × 台灣海關速查 ── -->
     <div class="card vat-card reveal">
       <div class="vat-title">🛍 購物退稅 × 台灣海關速查</div>
@@ -9827,6 +9833,54 @@ window.shareItinerary = function() {
       + (pending.length > 4 ? '<div class="sr-more">另有 '+(pending.length-4)+' 項待辦</div>' : '');
   };
   updateSmartRemind();
+})();
+
+/* ── 付費景點票價速查 ── */
+(function(){
+  var el = document.getElementById('ticketPriceRows');
+  if (!el) return;
+
+  // Tickets: name, chf per person, note, stp
+  var TICKETS = [
+    { name: 'Klein Matterhorn 纜車', chf: 57, note: '6/23 · STP 50%↓', stp: '折扣' },
+    { name: 'Oeschinensee 纜車', chf: 35, note: '6/24 · STP 25%↓', stp: '折扣' },
+    { name: '冰河列車訂位費', chf: 13, note: '6/21 · 一等艙升等', stp: '付費' },
+    { name: '萊茵瀑布小船（路線4）', chf: 8, note: '6/30 · 最近瀑布', stp: '付費' },
+    { name: '勞芬城堡觀景台', chf: 5, note: '6/30 · 南岸視角', stp: '付費' },
+    { name: 'ZRH Observation Deck B', chf: 10, note: '6/16 · T2 頂樓', stp: '付費' },
+    { name: 'Zytglogge 天文鐘塔', chf: 6, note: '6/25 · 含導覽', stp: '付費' },
+    { name: 'Tierpark Goldau', chf: 10, note: '6/28 · 野生動物', stp: '付費' },
+    { name: 'Schwarzsee 纜車', chf: 20, note: '6/23 · STP 折扣', stp: '折扣' },
+  ];
+
+  function render() {
+    var rate = window._fxRate || 35;
+    var html = '';
+    TICKETS.forEach(function(t) {
+      var twd = Math.round(t.chf * rate);
+      var sClass = t.stp === '折扣' ? 'color:#16A34A' : 'color:var(--text-sub)';
+      html += '<div style="display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border)">'
+        + '<div><div style="font-size:11px;font-weight:600;color:var(--text)">' + t.name + '</div>'
+        + '<div style="font-size:9.5px;color:var(--text-light)">' + t.note + '</div></div>'
+        + '<div style="font-size:10px;font-weight:700;color:var(--primary);white-space:nowrap">CHF ' + t.chf + '</div>'
+        + '<div style="font-size:9.5px;color:var(--text-sub);white-space:nowrap">≈' + twd.toLocaleString() + '</div>'
+        + '<div style="font-size:8.5px;font-weight:700;white-space:nowrap;' + sClass + '">' + t.stp + '</div>'
+        + '</div>';
+    });
+    el.innerHTML = html;
+  }
+
+  render();
+  // Re-render when rate updates
+  var origRate = window._fxRate;
+  Object.defineProperty(window, '_fxRate', {
+    get: function() { return origRate; },
+    set: function(v) {
+      origRate = v;
+      render();
+    },
+    configurable: true
+  });
 })();
 
 /* ── 旅行狀態看板 ── */
