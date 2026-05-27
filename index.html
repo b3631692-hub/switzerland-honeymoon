@@ -1452,6 +1452,20 @@ footer small {
 /* ═══════════════════════════════════════
    APPS
 ═══════════════════════════════════════ */
+/* ── 瑞士文化小知識 ── */
+.culture-card { padding: 16px 16px 14px; margin-bottom: 20px; }
+.culture-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.culture-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+@media (max-width: 400px) { .culture-grid { grid-template-columns: 1fr; } }
+.culture-item {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 7px 8px; border-radius: 8px; background: var(--bg);
+}
+.culture-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.culture-name { font-size: 11.5px; font-weight: 700; color: var(--text-sub); }
+.culture-desc { font-size: 10.5px; color: var(--text-light); line-height: 1.45; margin-top: 1px; }
+body.dark-mode .culture-item { background: #0D1A24; }
+
 .app-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
@@ -5453,6 +5467,54 @@ body.dark-mode .food-city-spec { background: #1A1108; }
           <div class="app-name">SchweizMobil</div>
           <div class="app-type">iOS / Android · 免費</div>
           <div class="app-desc">瑞士官方健行地圖，標注步道難度與時間</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 瑞士旅遊文化小知識 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🇨🇭 瑞士旅遊文化小知識</div>
+    <div class="card culture-card reveal">
+      <div class="culture-title">初次訪瑞 10 件必知小事</div>
+      <div class="culture-grid">
+        <div class="culture-item">
+          <span class="culture-icon">🕐</span>
+          <div><div class="culture-name">精準守時</div><div class="culture-desc">瑞士人視準時為基本禮儀，火車誤點 3 分鐘即算延誤。約好的事絕對準時。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">🤫</span>
+          <div><div class="culture-name">夜間安靜</div><div class="culture-desc">22:00 後保持安靜，飯店走廊、戶外不大聲交談，尊重鄰居習慣。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">🚶</span>
+          <div><div class="culture-name">斑馬線禮讓</div><div class="culture-desc">車輛會主動停讓行人，可大方過馬路。但仍勿亂闖紅燈。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">💰</span>
+          <div><div class="culture-name">小費文化</div><div class="culture-desc">非強制。通常取整數（CHF 18.5 → 付 CHF 20）；帳單已含服務費則不必再給。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">💧</span>
+          <div><div class="culture-name">免費飲水</div><div class="culture-desc">瑞士自來水品質絕佳可直飲，路邊 Trinkwasser 噴泉可免費補充，省買水錢。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">🛒</span>
+          <div><div class="culture-name">週日關店</div><div class="culture-desc">多數商店週日休息。機場、車站、Migros / Coop 超市週日照常，是補給首選。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">🏔</span>
+          <div><div class="culture-name">健行打招呼</div><div class="culture-desc">遇到對向健行者說 "Grüezi"（古艾茨），是基本禮儀，對方必微笑回應。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">🔇</span>
+          <div><div class="culture-name">大眾運輸禮儀</div><div class="culture-desc">車廂內壓低音量，通話戴耳機，音樂不外放。對號座請禮讓。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">💳</span>
+          <div><div class="culture-name">刷卡現金</div><div class="culture-desc">大多數地方可刷卡，但山頂小屋 / 農家可能只收現金，建議帶 CHF 200–300 備用。</div></div>
+        </div>
+        <div class="culture-item">
+          <span class="culture-icon">🗑</span>
+          <div><div class="culture-name">環保意識</div><div class="culture-desc">垃圾帶走，不隨地丟棄。健行步道尤其重要，保持瑞士自然環境潔淨。</div></div>
         </div>
       </div>
     </div>
