@@ -1204,12 +1204,17 @@ footer small {
 .em-card {
   background: #FEF2F2; border: 1.5px solid #FECACA;
   border-radius: var(--radius-sm); padding: 14px 10px; text-align: center;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  display: block; text-decoration: none; color: inherit;
 }
+.em-card:active { transform: scale(0.96); box-shadow: none; }
+.em-card:hover { box-shadow: 0 4px 16px rgba(220,38,38,0.2); border-color: #FCA5A5; }
 .em-num {
-  font-family: var(--font-serif);
-  font-size: 24px; font-weight: 600; color: #DC2626; line-height: 1;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 24px; font-weight: 800; color: #DC2626; line-height: 1; letter-spacing: -0.5px;
 }
 .em-label { font-size: 11px; color: #7F1D1D; margin-top: 4px; line-height: 1.4; }
+.em-call-hint { font-size: 10px; color: #DC2626; opacity: 0.6; margin-top: 5px; letter-spacing: 0.5px; }
 
 /* ═══════════════════════════════════════
    APPS
@@ -3480,26 +3485,31 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
     <!-- ─── 緊急聯絡 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🆘 緊急聯絡</div>
     <div class="em-grid">
-      <div class="em-card reveal">
+      <a href="tel:112" class="em-card reveal">
         <div class="em-num">112</div>
         <div class="em-label">歐洲統一緊急救援</div>
-      </div>
-      <div class="em-card reveal">
+        <div class="em-call-hint">點擊撥打</div>
+      </a>
+      <a href="tel:144" class="em-card reveal">
         <div class="em-num">144</div>
         <div class="em-label">瑞士救護車</div>
-      </div>
-      <div class="em-card reveal">
+        <div class="em-call-hint">點擊撥打</div>
+      </a>
+      <a href="tel:117" class="em-card reveal">
         <div class="em-num">117</div>
         <div class="em-label">瑞士警察</div>
-      </div>
-      <div class="em-card reveal">
+        <div class="em-call-hint">點擊撥打</div>
+      </a>
+      <a href="tel:118" class="em-card reveal">
         <div class="em-num">118</div>
         <div class="em-label">瑞士消防</div>
-      </div>
-      <div class="em-card reveal">
+        <div class="em-call-hint">點擊撥打</div>
+      </a>
+      <a href="tel:1414" class="em-card reveal">
         <div class="em-num">1414</div>
         <div class="em-label">REGA 山難救援直升機</div>
-      </div>
+        <div class="em-call-hint">點擊撥打</div>
+      </a>
     </div>
     <div class="alert alert-blue reveal" style="font-size:12.5px;margin-bottom:28px">
       <strong>🇹🇼 台灣駐瑞士代表處緊急聯絡</strong>
@@ -4575,6 +4585,49 @@ document.addEventListener('change', function(e) {
       moveLightbox(dx < 0 ? 1 : -1);
     }
   }, { passive: true });
+})();
+
+/* ── 標籤頁左右滑動切換 ── */
+(function() {
+  var TABS = ['overview','itinerary','budget','photo','reminders'];
+  var tx = 0, ty = 0;
+  var main = document.querySelector('.main');
+  if (!main) return;
+  main.addEventListener('touchstart', function(e) {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+  }, { passive: true });
+  main.addEventListener('touchend', function(e) {
+    if (document.getElementById('gallery-lb').classList.contains('open')) return;
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) < 64 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
+    var cur = document.querySelector('.section.active');
+    if (!cur) return;
+    var idx = TABS.indexOf(cur.id.replace('tab-',''));
+    var next = idx + (dx < 0 ? 1 : -1);
+    if (next < 0 || next >= TABS.length) return;
+    var tname = TABS[next];
+    var btn = Array.from(document.querySelectorAll('.bnav-btn')).find(function(b) {
+      return b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'" + tname + "'") > -1;
+    });
+    if (btn) showTab(tname, btn);
+  }, { passive: true });
+})();
+
+/* ── STP 日曆今日高亮 ── */
+(function() {
+  var now = new Date();
+  var m = now.getMonth() + 1;
+  var d = now.getDate();
+  var todayStr = m + '/' + d;
+  document.querySelectorAll('.stp-day').forEach(function(el) {
+    var dateEl = el.querySelector('.stp-day-date');
+    if (dateEl && dateEl.textContent.trim() === todayStr) {
+      el.style.outline = '2.5px solid var(--primary)';
+      el.style.outlineOffset = '1px';
+    }
+  });
 })();
 
 /* ── 行程 TAB 切換時自動滾至今日 ── */
