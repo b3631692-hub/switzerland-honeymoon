@@ -709,6 +709,31 @@ body.dark-mode .hotel-nav-btn { background: rgba(44,95,138,0.15); border-color: 
 .db-dist.dbd-near  { color: var(--primary); }
 .db-dist.dbd-past  { opacity: 0.45; }
 
+/* ── 全行程城市時間軸 ── */
+.ttl-title { font-size: 10.5px; font-weight: 700; color: var(--text-sub); margin-bottom: 10px; }
+.ttl-wrap { overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.ttl-wrap::-webkit-scrollbar { display: none; }
+.ttl-inner { display: flex; align-items: flex-end; gap: 0; min-width: max-content; padding: 14px 0 4px; }
+.ttl-item { display: flex; flex-direction: column; align-items: center; width: 38px; position: relative; }
+.ttl-item:last-child .ttl-line { display: none; }
+.ttl-line { position: absolute; top: 22px; left: 50%; width: 38px; height: 2px; background: var(--border); z-index: 0; }
+.ttl-city-lbl { font-size: 7px; font-weight: 800; letter-spacing: 0.4px; text-align: center;
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  color: var(--text-sub); }
+.ttl-dot { width: 20px; height: 20px; border-radius: 50%; z-index: 1; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7.5px; font-weight: 800; color: rgba(255,255,255,0.9); box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
+.ttl-dot.past { opacity: 0.28; }
+.ttl-dot.today { width: 26px; height: 26px; font-size: 8.5px;
+  box-shadow: 0 0 0 3px var(--gold), 0 0 0 5px rgba(201,169,110,0.2), 0 2px 8px rgba(0,0,0,0.2); }
+.ttl-date { font-size: 8px; color: var(--text-light); margin-top: 4px; text-align: center; line-height: 1; }
+.ttl-date.today { color: var(--gold); font-weight: 800; font-size: 8.5px; }
+.ttl-date.past { opacity: 0.35; }
+.ttl-legend { display: flex; flex-wrap: wrap; gap: 6px 10px; margin-top: 10px; padding-top: 8px;
+  border-top: 1px solid var(--border); }
+.ttl-leg { display: flex; align-items: center; gap: 4px; font-size: 9px; color: var(--text-sub); }
+.ttl-leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
 /* ── 行程卡片天氣微徽章 ── */
 .day-wx-mini { font-size: 12px; margin-top: 5px; text-align: center; line-height: 1; }
 .day-wx-mini-row { font-size: 7.5px; font-weight: 700; text-align: center;
@@ -3474,6 +3499,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <div style="font-size:11px;font-weight:800;color:var(--text-sub);margin-bottom:8px">🌤 今日各基地城市天氣</div>
       <div class="ov-wx-strip" id="ovWxStrip"><div style="font-size:11px;color:var(--text-light);padding:6px">載入中…</div></div>
     </div>
+
+    <!-- 全行程城市時間軸 (JS 動態填入) -->
+    <div id="tripTimelineCard" class="card reveal" style="padding:14px 16px 10px;margin-bottom:20px;overflow:hidden;display:none"></div>
 
     <!-- 行前準備度儀表板 (JS 動態填入) -->
     <div id="prepDashCard" class="card prep-dash-card reveal" style="display:none"></div>
@@ -6758,6 +6786,89 @@ window.addEventListener('load', () => {
     document.getElementById('loading').classList.add('hidden');
   }, 1400);
 });
+
+/* ── 全行程城市時間軸 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var DAYS = [
+    { date:'6/16', d:'16', city:'ZRH', color:'#2C5F8A' },
+    { date:'6/17', d:'17', city:'SMO', color:'#16A34A' },
+    { date:'6/18', d:'18', city:'SMO', color:'#16A34A' },
+    { date:'6/19', d:'19', city:'SMO', color:'#16A34A' },
+    { date:'6/20', d:'20', city:'SMO', color:'#16A34A' },
+    { date:'6/21', d:'21', city:'ZMT', color:'#C9A96E' },
+    { date:'6/22', d:'22', city:'ZMT', color:'#C9A96E' },
+    { date:'6/23', d:'23', city:'ZMT', color:'#C9A96E' },
+    { date:'6/24', d:'24', city:'KDR', color:'#8B5CF6' },
+    { date:'6/25', d:'25', city:'BRN', color:'#8B5CF6' },
+    { date:'6/26', d:'26', city:'ZUG', color:'#0891B2' },
+    { date:'6/27', d:'27', city:'ZUG', color:'#0891B2' },
+    { date:'6/28', d:'28', city:'ZUG', color:'#0891B2' },
+    { date:'6/29', d:'29', city:'ZRH', color:'#2C5F8A' },
+    { date:'6/30', d:'30', city:'ZRH', color:'#2C5F8A' },
+    { date:'7/1',  d:'7/1', city:'ZRH', color:'#2C5F8A' }
+  ];
+  var LEGENDS = [
+    { label:'蘇黎世', color:'#2C5F8A' },
+    { label:'聖莫里茲', color:'#16A34A' },
+    { label:'策馬特', color:'#C9A96E' },
+    { label:'伯恩/坎德', color:'#8B5CF6' },
+    { label:'楚格', color:'#0891B2' }
+  ];
+
+  var card = document.getElementById('tripTimelineCard');
+  if (!card) return;
+  var now = new Date();
+  var daysTo = Math.ceil((DEPART - now) / 86400000);
+  if (daysTo > 60 && now > RETURN) return;
+  card.style.display = '';
+
+  var todayM = now.getMonth()+1, todayD = now.getDate();
+  var todayStr = todayM + '/' + todayD;
+
+  var inner = '';
+  var lastCity = '';
+  DAYS.forEach(function(day, i) {
+    var isToday = (day.date === todayStr);
+    var parts = day.date.split('/');
+    var dayDate = new Date(2026, parseInt(parts[0])-1, parseInt(parts[1]));
+    var today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var isPast = (dayDate < today0);
+    var cityLbl = (day.city !== lastCity) ? '<span class="ttl-city-lbl" style="color:' + day.color + '">' + day.city + '</span>' : '';
+    lastCity = day.city;
+    var dotClass = 'ttl-dot' + (isPast ? ' past' : '') + (isToday ? ' today' : '');
+    var dateClass = 'ttl-date' + (isPast ? ' past' : '') + (isToday ? ' today' : '');
+    var dStr = i === 15 ? '7/1' : day.d;
+    inner += '<div class="ttl-item">'
+      + (i < DAYS.length-1 ? '<div class="ttl-line"></div>' : '')
+      + cityLbl
+      + '<div class="' + dotClass + '" style="background:' + day.color + '">' + (i+1) + '</div>'
+      + '<div class="' + dateClass + '">' + dStr + '</div>'
+      + '</div>';
+  });
+
+  var legHtml = LEGENDS.map(function(l) {
+    return '<div class="ttl-leg"><div class="ttl-leg-dot" style="background:' + l.color + '"></div>' + l.label + '</div>';
+  }).join('');
+
+  var tripState = now >= DEPART && now <= RETURN
+    ? '旅途第 ' + (Math.floor((now-DEPART)/86400000)+1) + ' 天'
+    : (daysTo > 0 ? '距出發 ' + daysTo + ' 天' : '旅程圓滿結束 ✨');
+
+  card.innerHTML = '<div class="ttl-title">✦ 旅程城市時間軸　<span style="font-weight:500;color:var(--text-light)">' + tripState + '</span></div>'
+    + '<div class="ttl-wrap"><div class="ttl-inner">' + inner + '</div></div>'
+    + '<div class="ttl-legend">' + legHtml + '</div>';
+
+  // scroll today into view
+  if (now >= DEPART && now <= RETURN) {
+    var todayIdx = DAYS.findIndex ? DAYS.findIndex(function(d){ return d.date === todayStr; }) : -1;
+    if (todayIdx !== -1) {
+      var wrap = card.querySelector('.ttl-wrap');
+      if (wrap) setTimeout(function(){ wrap.scrollLeft = Math.max(0, todayIdx * 38 - 80); }, 200);
+    }
+  }
+})();
 
 /* ── Tab 狀態還原 ── */
 (function(){
