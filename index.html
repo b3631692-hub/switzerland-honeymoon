@@ -75,6 +75,28 @@ body.dark-mode tr:nth-child(even) { background: #162535; }
 body.dark-mode .cat-row td { background: #0F1E2B; }
 body.dark-mode .dj-chip { background: #152233; }
 body.dark-mode .bc-card { background: #152233; }
+body.dark-mode .bottom-nav { background: rgba(13,26,36,0.97); border-color: #1D3348; }
+body.dark-mode .journey-card,
+body.dark-mode .stp-section,
+body.dark-mode .day-card { background: #152233; border-color: #1D3348; }
+body.dark-mode .base-header { color: var(--text-sub); }
+body.dark-mode .spend-tracker,
+body.dark-mode .cancel-dl-wrap,
+body.dark-mode .phrase-card { background: #152233; }
+body.dark-mode .cancel-row.cr-safe   { background: #0A1F14; }
+body.dark-mode .cancel-row.cr-warn   { background: #1A1407; }
+body.dark-mode .cancel-row.cr-urgent { background: #1F0E0E; }
+body.dark-mode .cancel-row.cr-passed { background: transparent; }
+body.dark-mode .cancel-row.cr-paid   { background: #0A1A2A; }
+body.dark-mode .donut-svg circle[stroke="var(--bg)"] { stroke: #1D3348; }
+body.dark-mode .footer { background: #060F16; color: var(--text-light); }
+body.dark-mode .hero-mountains-svg path { fill: var(--bg) !important; }
+body.dark-mode .gh-card { background: linear-gradient(135deg,#0F1E2B 0%,#071828 100%); }
+body.dark-mode .tcc-state, body.dark-mode .today-ctx-card { background: #152233; }
+body.dark-mode .stat-card { background: #152233; border-color: #1D3348; }
+body.dark-mode .da-card { background: #152233; border-color: #1D3348; }
+body.dark-mode .hh-info { background: #152233; }
+body.dark-mode .day-note-area { background: #0D1A24; color: var(--text); border-color: #1D3348; }
 
 /* 深色模式切換鈕 */
 #darkToggle {
@@ -4474,7 +4496,12 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ── TAB SWITCHING ── */
+function haptic(ms) {
+  if (navigator.vibrate) navigator.vibrate(ms || 7);
+}
+
 function showTab(name, btn) {
+  haptic(8);
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
   document.querySelectorAll('.tnav-btn, .bnav-btn').forEach(b => b.classList.remove('active'));
@@ -5114,6 +5141,7 @@ function animateBudget() {
   }
   function bindCb(cb) {
     cb.addEventListener('change', function() {
+      haptic(cb.checked ? 12 : 6);
       cb.closest('.check-item').classList.toggle('done', cb.checked);
       saveState();
       var grid = cb.closest('.check-grid');
@@ -5508,6 +5536,7 @@ showTab = function(name, btn) {
   document.querySelectorAll('#tab-itinerary .day-title').forEach(function(h) {
     h.addEventListener('click', function(e) {
       e.stopPropagation();
+      haptic(6);
       var card = h.closest('.day-card');
       if (card) card.classList.toggle('dc-open');
     });
@@ -5617,6 +5646,7 @@ window.toggleAllDays = function() {
 /* ── 地圖攝影景點圖層 ── */
 /* ── 短句複製 + 切換 ── */
 window.copyPhrase = function(text) {
+  haptic(8);
   var tmp = document.createElement('textarea');
   tmp.value = text; document.body.appendChild(tmp);
   tmp.select(); document.execCommand('copy'); document.body.removeChild(tmp);
@@ -5829,7 +5859,7 @@ window.shareItinerary = function() {
       if (cb && data[i]) cb.checked = true;
     }
   }
-  window.savePredep = save;
+  window.savePredep = function() { haptic(10); save(); };
   restore();
 })();
 
@@ -6011,6 +6041,7 @@ window.clearItinSearch = function() {
     chip.className = 'dj-chip' + (isToday ? ' today-chip' : '');
     chip.innerHTML = '<span class="dj-num">D' + (idx + 1) + '</span><span class="dj-date">' + txt + '</span>';
     chip.addEventListener('click', function() {
+      haptic(6);
       // Update active state
       row.querySelectorAll('.dj-chip').forEach(function(c) { c.classList.remove('active'); });
       chip.classList.add('active');
