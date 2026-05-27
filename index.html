@@ -1929,6 +1929,30 @@ body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #F
 .da-val { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--primary); }
 .da-label { font-size: 11px; color: var(--text-light); margin-top: 3px; }
 
+/* ── 旅途預算健康指標 ── */
+.bh-indicator { padding: 16px; margin-bottom: 24px; }
+.bhi-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.bhi-status {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.bhi-icon { font-size: 28px; }
+.bhi-label { font-size: 15px; font-weight: 700; }
+.bhi-label.ok { color: #16A34A; }
+.bhi-label.warn { color: #D97706; }
+.bhi-label.over { color: #DC2626; }
+.bhi-label.pre { color: var(--primary); }
+.bhi-detail { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
+.bhi-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.bhi-row {
+  background: var(--bg); border-radius: 8px; padding: 8px 10px;
+}
+.bhi-row-label { font-size: 10px; color: var(--text-light); margin-bottom: 2px; }
+.bhi-row-val { font-size: 14px; font-weight: 700; color: var(--text); }
+.bhi-row-val.green { color: #16A34A; }
+.bhi-row-val.amber { color: #D97706; }
+.bhi-row-val.red { color: #DC2626; }
+body.dark-mode .bhi-row { background: #0D1A24; }
+
 /* ── 旅途進行中 flip-clock 替代畫面 ── */
 .fc-trip-live { padding: 4px 0 8px; }
 .fc-trip-day {
@@ -3538,6 +3562,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             <div class="hh-loc">蘇黎世機場 · 6/16（1晚）</div>
             <div class="hh-desc">機場步行可達，方便抵達首夜休息。</div>
             <span class="hh-badge hh-badge-ok">已確認</span>
+            <a class="hh-nav-btn" href="https://www.google.com/maps/search/?api=1&query=Trip+Inn+Jet+Hotel+Zurich" target="_blank" rel="noopener">📍 地圖導航</a>
           </div>
         </div>
       </div>
@@ -3550,6 +3575,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             <div class="hh-loc">Pontresina · 6/17–6/21（4晚）</div>
             <div class="hh-desc">含 Engadin Inclusive Card，4大纜車全免，省 TWD 12,565。</div>
             <span class="hh-badge hh-badge-ok">已確認</span>
+            <a class="hh-nav-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel+Station+Pontresina" target="_blank" rel="noopener">📍 地圖導航</a>
           </div>
         </div>
       </div>
@@ -3562,6 +3588,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             <div class="hh-loc">策馬特 · 6/21–6/24（3晚）</div>
             <div class="hh-desc">蜜月精品 Chalet，馬特洪峰近距離，已付清。需盡快填寫 pre-checkin。</div>
             <span class="hh-badge hh-badge-paid">已付清</span>
+            <a class="hh-nav-btn" href="https://www.google.com/maps/search/?api=1&query=Chalet+Achat+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
           </div>
         </div>
       </div>
@@ -3574,6 +3601,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             <div class="hh-loc">伯恩 · 6/24–6/26（2晚）</div>
             <div class="hh-desc">五星連鎖，UNESCO 古城核心，眺望阿爾卑斯山。⚠️ 取消期限 6/24 18:00。</div>
             <span class="hh-badge hh-badge-ok">已確認</span>
+            <a class="hh-nav-btn" href="https://www.google.com/maps/search/?api=1&query=Swissôtel+Kursaal+Bern" target="_blank" rel="noopener">📍 地圖導航</a>
           </div>
         </div>
       </div>
@@ -3586,6 +3614,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             <div class="hh-loc">楚格 · 6/26–6/29（3晚）</div>
             <div class="hh-desc">楚加湖畔，步行即達老城 Zytturm，位置絕佳。⚠️ 取消期限 6/20。</div>
             <span class="hh-badge hh-badge-ok">已確認</span>
+            <a class="hh-nav-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel+Zugertor+Zug" target="_blank" rel="noopener">📍 地圖導航</a>
           </div>
         </div>
       </div>
@@ -3598,6 +3627,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             <div class="hh-loc">蘇黎世機場 · 6/29–7/1（2晚）</div>
             <div class="hh-desc">機場步行可達，末日返程前最後基地。⚠️ 取消期限 6/27。</div>
             <span class="hh-badge hh-badge-ok">已確認</span>
+            <a class="hh-nav-btn" href="https://www.google.com/maps/search/?api=1&query=Ibis+Budget+Zurich+Airport" target="_blank" rel="noopener">📍 地圖導航</a>
           </div>
         </div>
       </div>
@@ -4630,6 +4660,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         </div>
       </div>
     </div>
+
+    <!-- 旅途預算健康指標 -->
+    <div class="card bh-indicator reveal" id="budgetHealthCard"></div>
 
     <div class="card reveal" style="overflow-x:auto;margin-top:24px">
       <table class="budget-table">
@@ -7130,6 +7163,87 @@ window.toggleAllDays = function() {
     }
   }
   updateSpend();
+})();
+
+/* ── 旅途預算健康指標 ── */
+(function() {
+  var card = document.getElementById('budgetHealthCard');
+  if (!card) return;
+
+  var TOTAL_BUDGET = 306613;
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var TRIP_DAYS = 16;
+  var now = new Date();
+
+  function getActualSpend() {
+    try {
+      var s = JSON.parse(localStorage.getItem('spend_v1')) || {};
+      var sum = 0;
+      for (var k in s) { if (s.hasOwnProperty(k) && s[k] > 0) sum += s[k]; }
+      return sum;
+    } catch(e) { return 0; }
+  }
+
+  function fmt(n) { return n.toLocaleString('zh-TW', {maximumFractionDigits: 0}); }
+
+  var html = '';
+
+  if (now >= DEPART && now <= RETURN) {
+    var daysElapsed = Math.max(1, Math.floor((now - DEPART) / 86400000) + 1);
+    var daysLeft = Math.max(0, Math.ceil((RETURN - now) / 86400000));
+    var expectedByNow = Math.round(TOTAL_BUDGET * daysElapsed / TRIP_DAYS);
+    var actualSpend = getActualSpend();
+    var diff = actualSpend - expectedByNow;
+    var remaining = TOTAL_BUDGET - actualSpend;
+    var dailyAllowance = daysLeft > 0 ? Math.round(remaining / daysLeft) : 0;
+
+    var statusIcon, statusLabel, statusClass;
+    if (actualSpend === 0) {
+      statusIcon = '📊'; statusLabel = '尚未記錄花費'; statusClass = 'pre';
+    } else if (diff < -5000) {
+      statusIcon = '✅'; statusLabel = '非常節省！低於預期'; statusClass = 'ok';
+    } else if (diff < 0) {
+      statusIcon = '👍'; statusLabel = '節省中，略低於預算'; statusClass = 'ok';
+    } else if (diff < 5000) {
+      statusIcon = '⚡'; statusLabel = '稍微超出預期步調'; statusClass = 'warn';
+    } else {
+      statusIcon = '⚠️'; statusLabel = '花費超過預算步調'; statusClass = 'over';
+    }
+
+    var diffText = diff >= 0 ? ('多花 TWD ' + fmt(diff)) : ('省下 TWD ' + fmt(-diff));
+    var dailyColor = dailyAllowance >= 15000 ? 'green' : (dailyAllowance >= 10000 ? 'amber' : 'red');
+
+    html = '<div class="bhi-title">💸 旅途預算健康指標</div>'
+      + '<div class="bhi-status"><span class="bhi-icon">' + statusIcon + '</span>'
+      + '<div><div class="bhi-label ' + statusClass + '">' + statusLabel + '</div>'
+      + '<div class="bhi-detail">第 ' + daysElapsed + ' 天 · 預期累計 TWD ' + fmt(expectedByNow) + '，' + diffText + '</div></div></div>'
+      + '<div class="bhi-rows">'
+      + '<div class="bhi-row"><div class="bhi-row-label">實際花費</div><div class="bhi-row-val">' + (actualSpend > 0 ? 'TWD ' + fmt(actualSpend) : '尚未記錄') + '</div></div>'
+      + '<div class="bhi-row"><div class="bhi-row-label">剩餘預算</div><div class="bhi-row-val ' + (remaining < 50000 ? 'amber' : 'green') + '">TWD ' + fmt(remaining) + '</div></div>'
+      + '<div class="bhi-row"><div class="bhi-row-label">剩餘天數</div><div class="bhi-row-val">' + daysLeft + ' 天</div></div>'
+      + '<div class="bhi-row"><div class="bhi-row-label">每日可用</div><div class="bhi-row-val ' + dailyColor + '">' + (daysLeft > 0 ? 'TWD ' + fmt(dailyAllowance) : '歸途中') + '</div></div>'
+      + '</div>';
+  } else if (now < DEPART) {
+    var daysTo = Math.ceil((DEPART - now) / 86400000);
+    html = '<div class="bhi-title">💸 預算概覽</div>'
+      + '<div class="bhi-status"><span class="bhi-icon">🗓</span>'
+      + '<div><div class="bhi-label pre">出發前準備中</div>'
+      + '<div class="bhi-detail">距出發 ' + daysTo + ' 天 · 旅途中可在此追蹤每日花費狀況</div></div></div>'
+      + '<div class="bhi-rows">'
+      + '<div class="bhi-row"><div class="bhi-row-label">兩人總預算</div><div class="bhi-row-val green">TWD ' + fmt(TOTAL_BUDGET) + '</div></div>'
+      + '<div class="bhi-row"><div class="bhi-row-label">每日均攤</div><div class="bhi-row-val">TWD ' + fmt(Math.round(TOTAL_BUDGET / TRIP_DAYS)) + '</div></div>'
+      + '<div class="bhi-row"><div class="bhi-row-label">已確認付清</div><div class="bhi-row-val green">機票 + 所有住宿</div></div>'
+      + '<div class="bhi-row"><div class="bhi-row-label">現場預算</div><div class="bhi-row-val amber">TWD ~125,013</div></div>'
+      + '</div>';
+  } else {
+    html = '<div class="bhi-title">💸 旅途預算健康指標</div>'
+      + '<div class="bhi-status"><span class="bhi-icon">🏠</span>'
+      + '<div><div class="bhi-label ok">旅程已圓滿結束</div>'
+      + '<div class="bhi-detail">感謝美好的瑞士蜜月旅行回憶 ✨</div></div></div>';
+  }
+
+  card.innerHTML = html;
 })();
 
 /* ── 地圖攝影景點圖層 ── */
