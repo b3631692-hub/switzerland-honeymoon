@@ -2037,6 +2037,18 @@ body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #F
   background: rgba(255,255,255,0.1); border-radius: 5px;
   padding: 2px 8px; color: rgba(255,255,255,0.8);
 }
+.tcc-wx-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 3px 12px;
+  margin: 5px 0 3px; color: rgba(255,255,255,0.85);
+  letter-spacing: 0.2px;
+}
+.tcc-wx-chip.cold { border-color: rgba(147,197,253,0.4); }
+.tcc-wx-chip.warm { border-color: rgba(251,191,36,0.35); }
+.tcc-wx-rain { color: #93C5FD; margin-left: 2px; font-size: 11px; }
 
 /* ── 取消期限倒數 ── */
 .cancel-dl-card {
@@ -6552,6 +6564,7 @@ window._fetchWeather = (function() {
     try { cached = JSON.parse(localStorage.getItem('wx_cache4')); } catch(e){}
     if (cached && cached.ts && Date.now() - cached.ts < 1800000) {
       CITIES.forEach(function(c,i) { if (cached.data[i]) updateCard(c, cached.data[i]); });
+      if (window._wxReadyCbs) window._wxReadyCbs.forEach(function(fn){ try{fn(cached.data);}catch(e){} });
       return;
     }
     var results = new Array(CITIES.length);
@@ -6568,6 +6581,7 @@ window._fetchWeather = (function() {
         done++;
         if (done === CITIES.length) {
           try { localStorage.setItem('wx_cache4', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
+          if (window._wxReadyCbs) window._wxReadyCbs.forEach(function(fn){ try{fn(results);}catch(e){} });
         }
       }).catch(function() {
         var el = document.getElementById(city.id);
@@ -7146,6 +7160,52 @@ window.shareItinerary = function() {
     '7/1':  ['護照（22:00 登機）', '⚠️ 瑞士刀放托運！', 'STP 最後一天用好用滿']
   };
 
+  // Date → weather city index (0=Zurich, 1=St.Moritz, 2=Zermatt, 3=Bern)
+  var DATE_WX = {
+    '6/16':0,'6/17':1,'6/18':1,'6/19':1,'6/20':1,
+    '6/21':2,'6/22':2,'6/23':2,'6/24':3,'6/25':3,
+    '6/26':0,'6/27':0,'6/28':0,'6/29':0,'6/30':0,'7/1':0
+  };
+  var TCC_WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+    51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
+    71:'❄️',73:'❄️',75:'❄️',80:'🌦',81:'🌧',95:'⛈',99:'⛈'};
+  var CITY_LABELS = {0:'蘇黎世',1:'聖莫里茲',2:'策馬特',3:'伯恩'};
+
+  function buildWxChip(wxData, dateKey, chipId) {
+    var idx = DATE_WX[dateKey];
+    if (idx === undefined || !wxData || !wxData[idx] || !wxData[idx].current) {
+      return '<div class="tcc-wx-chip" id="' + chipId + '" style="display:none"></div>';
+    }
+    var d = wxData[idx];
+    var icon = TCC_WMO[d.current.weather_code] || '🌡';
+    var temp = Math.round(d.current.temperature_2m);
+    var rain = d.daily && d.daily.precipitation_probability_max ? d.daily.precipitation_probability_max[0] : null;
+    var cls = temp < 10 ? ' cold' : (temp > 22 ? ' warm' : '');
+    var rainHtml = rain != null ? ' <span class="tcc-wx-rain">☂ ' + rain + '%</span>' : '';
+    return '<div class="tcc-wx-chip' + cls + '" id="' + chipId + '">'
+      + icon + ' ' + temp + '°C' + rainHtml + '</div>';
+  }
+
+  function readWxCache() {
+    try { return JSON.parse(localStorage.getItem('wx_cache4')); } catch(e) { return null; }
+  }
+
+  function refreshWxChip(wxData, dateKey, chipId) {
+    var chip = document.getElementById(chipId);
+    if (!chip) return;
+    var idx = DATE_WX[dateKey];
+    if (idx === undefined || !wxData || !wxData[idx] || !wxData[idx].current) return;
+    var d = wxData[idx];
+    var icon = TCC_WMO[d.current.weather_code] || '🌡';
+    var temp = Math.round(d.current.temperature_2m);
+    var rain = d.daily && d.daily.precipitation_probability_max ? d.daily.precipitation_probability_max[0] : null;
+    var cls = temp < 10 ? ' cold' : (temp > 22 ? ' warm' : '');
+    var rainHtml = rain != null ? ' <span class="tcc-wx-rain">☂ ' + rain + '%</span>' : '';
+    chip.className = 'tcc-wx-chip' + cls;
+    chip.innerHTML = icon + ' ' + temp + '°C' + rainHtml;
+    chip.style.display = 'inline-flex';
+  }
+
   if (now >= DEPART && now <= RETURN) {
     // During trip
     var daysIn = Math.floor((now - DEPART) / 86400000) + 1;
@@ -7164,14 +7224,19 @@ window.shareItinerary = function() {
       + '</div></div>') : '';
     var hotel = HOTEL_REMINDER[gearKey] || '';
     var hotelHtml = hotel ? ('<div class="tcc-action" style="margin-top:8px;display:block">' + hotel + '</div>') : '';
+    var wxCache = readWxCache();
+    var wxHtml = buildWxChip(wxCache && wxCache.data, gearKey, 'tccWxChip');
     html = '<div class="tcc-state tcc-live">旅程進行中</div>'
       + '<div class="tcc-day-num">第 ' + daysIn + ' 天</div>'
       + (baseText ? '<div class="tcc-city-name">' + baseText + '</div>' : '')
+      + wxHtml
       + (titleText ? '<div class="tcc-activity">' + titleText + '</div>' : '')
       + gearHtml
       + hotelHtml
       + (daysLeft > 0 ? '<div class="tcc-remain">距返台還有 ' + daysLeft + ' 天</div>' : '<div class="tcc-remain tcc-urgent">今天回家了！</div>');
     card.classList.add('visible');
+    window._wxReadyCbs = window._wxReadyCbs || [];
+    window._wxReadyCbs.push(function(wxData) { refreshWxChip(wxData, gearKey, 'tccWxChip'); });
   } else if (now < DEPART) {
     var daysTo = Math.ceil((DEPART - now) / 86400000);
     // Show card when within 30 days of departure
@@ -7185,14 +7250,19 @@ window.shareItinerary = function() {
         }
       }
       var urgentClass = daysTo <= 7 ? ' tcc-urgent' : '';
+      var wxCache2 = readWxCache();
+      var wxPreHtml = buildWxChip(wxCache2 && wxCache2.data, '6/16', 'tccWxPre');
       html = '<div class="tcc-state">出發倒數</div>'
         + '<div class="tcc-day-num' + urgentClass + '">' + daysTo + ' 天</div>'
         + '<div class="tcc-city-name">出發日：6/16 00:30 桃園 ✈️</div>'
+        + wxPreHtml
         + (firstUnchecked ? '<div class="tcc-action">👉 ' + firstUnchecked.substring(0, 30) + (firstUnchecked.length > 30 ? '...' : '') + '</div>' : '<div class="tcc-action">✅ 行前待辦已全部完成！</div>');
       card.classList.add('visible');
+      window._wxReadyCbs = window._wxReadyCbs || [];
+      window._wxReadyCbs.push(function(wxData) { refreshWxChip(wxData, '6/16', 'tccWxPre'); });
     }
   }
-  // Don't show card if trip hasn't started yet and > 14 days away (or after trip)
+  // Don't show card if trip hasn't started yet and > 30 days away (or after trip)
 })();
 
 /* ── 重要時刻倒數 ── */
