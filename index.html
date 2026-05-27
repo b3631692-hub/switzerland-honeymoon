@@ -2560,6 +2560,29 @@ body.dark-mode .dlc-inp { background: #0D1A24; border-color: #1D3348; }
   font-size: 8px; color: var(--primary); font-weight: 700; background: var(--card);
   padding: 0 2px; line-height: 1; }
 
+/* ── 下一班交通卡片 ── */
+.ntc-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.ntc-label { font-size: 11px; font-weight: 800; color: var(--text-sub); flex: 1; }
+.ntc-today-badge { font-size: 9px; font-weight: 800; background: var(--primary); color: #fff;
+  border-radius: 5px; padding: 2px 6px; }
+.ntc-row { display: grid; grid-template-columns: 46px 1fr auto; align-items: start;
+  gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.ntc-row:last-child { border-bottom: none; }
+.ntc-row.ntc-next { background: rgba(44,95,138,0.06); border-radius: 9px;
+  padding: 10px 10px; border-bottom: none; margin-bottom: 4px; }
+body.dark-mode .ntc-row.ntc-next { background: rgba(44,95,138,0.12); }
+.ntc-date { text-align: center; }
+.ntc-d { font-size: 13px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+.ntc-wd { font-size: 9px; color: var(--text-sub); }
+.ntc-route { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.ntc-note { font-size: 10px; color: var(--text-sub); line-height: 1.4; }
+.ntc-tags { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; }
+.ntc-tag { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
+.ntc-tag.stp { background: rgba(44,95,138,0.15); color: var(--primary); }
+.ntc-tag.paid { background: rgba(201,169,110,0.18); color: var(--gold); }
+.ntc-tag.urgent { background: rgba(220,38,38,0.12); color: #DC2626; }
+.ntc-countdown { font-size: 9.5px; font-weight: 700; color: var(--gold); text-align: right; }
+
 /* ── 蜜月小語卡片 ── */
 #loveQuoteCard { padding: 14px 16px 12px; margin-bottom: 16px;
   background: linear-gradient(135deg, rgba(44,95,138,0.10) 0%, rgba(201,169,110,0.10) 100%);
@@ -3394,6 +3417,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
 
     <!-- 重要時刻倒數 (JS 動態填入) -->
     <div class="card milestone-card reveal" id="milestoneCard" style="display:none"></div>
+
+    <!-- 下一班關鍵交通 (JS 動態填入) -->
+    <div id="nextTransCard" style="display:none" class="card reveal"></div>
 
     <!-- ── 關鍵跨城交通速查 ── -->
     <div class="card transport-card reveal">
@@ -9019,6 +9045,63 @@ window.shareItinerary = function() {
   html += '</div>';
   card.innerHTML = html;
   card.style.display = 'block';
+})();
+
+/* ── 下一班關鍵交通 ── */
+(function(){
+  var el = document.getElementById('nextTransCard');
+  if (!el) return;
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var now = new Date();
+  if (now < DEPART || now > RETURN) return;
+
+  // Key cross-city transports (local Swiss time = UTC+2 CEST)
+  var TRAINS = [
+    { dt:'2026-06-17T09:35:00+02:00', d:'6/17', wd:'三', route:'ZRH HB → Pontresina', note:'IR 10 + R 直達，約 3.5 小時', stp:true },
+    { dt:'2026-06-19T08:00:00+02:00', d:'6/19', wd:'五', route:'Pontresina → Alp Grüm → Tirano', note:'Bernina Express，UNESCO 世遺鐵道', stp:true },
+    { dt:'2026-06-21T09:35:00+02:00', d:'6/21', wd:'日', route:'St. Moritz → Chur（轉）冰河列車', note:'冰河列車 14:32 Chur 出發，升等一等艙', stp:true, paid:'訂位 CHF 13/人' },
+    { dt:'2026-06-24T11:30:00+02:00', d:'6/24', wd:'三', route:'Zermatt → Kandersteg → Bern', note:'STP 全免，Lötschberg 山隧道，約 3.5h', stp:true },
+    { dt:'2026-06-26T09:00:00+02:00', d:'6/26', wd:'五', route:'Bern → Lauterbrunnen → 楚格', note:'STP 全免，Lauterbrunnen 中途停', stp:true },
+    { dt:'2026-06-29T10:00:00+02:00', d:'6/29', wd:'一', route:'楚格 → 蘇黎世', note:'S3 約 30 分鐘，09:30 前往機場 Airport', stp:true },
+    { dt:'2026-06-30T08:30:00+02:00', d:'6/30', wd:'二', route:'ZRH → Neuhausen（萊茵瀑布）', note:'S-Bahn + 步行，全程 STP', stp:true },
+    { dt:'2026-07-01T22:00:00+02:00', d:'7/1', wd:'三', route:'ZRH 機場 EK386 回台', note:'22:00 起飛，7/2 21:20 桃園 T2 落地', stp:false }
+  ];
+
+  var upcoming = TRAINS.filter(function(t){ return new Date(t.dt) > now; });
+  if (upcoming.length === 0) { el.style.display = 'none'; return; }
+
+  var WD = ['日','一','二','三','四','五','六'];
+
+  function fmtCountdown(dt) {
+    var ms = new Date(dt) - now;
+    var h = Math.floor(ms / 3600000);
+    if (h < 24) return h + ' 小時後';
+    return Math.floor(h/24) + ' 天後';
+  }
+
+  var show = upcoming.slice(0, 3);
+  var html = '<div class="ntc-header"><span class="ntc-label">🚆 下一班跨城交通</span></div>';
+  show.forEach(function(t, idx) {
+    var isNext = idx === 0;
+    var ms = new Date(t.dt) - now;
+    var isToday = ms < 86400000;
+    var rowCls = isNext ? ' ntc-next' : '';
+    var tags = '';
+    if (t.stp) tags += '<span class="ntc-tag stp">STP 全免</span>';
+    if (t.paid) tags += '<span class="ntc-tag paid">' + t.paid + '</span>';
+    if (isToday && isNext) tags += '<span class="ntc-tag urgent">今天！</span>';
+    html += '<div class="ntc-row' + rowCls + '">'
+      + '<div class="ntc-date"><div class="ntc-d">' + t.d + '</div><div class="ntc-wd">' + t.wd + '</div></div>'
+      + '<div><div class="ntc-route">' + t.route + '</div><div class="ntc-note">' + t.note + '</div>'
+      + (isNext ? '<div class="ntc-countdown">' + fmtCountdown(t.dt) + '</div>' : '')
+      + '</div>'
+      + '<div class="ntc-tags">' + tags + '</div>'
+      + '</div>';
+  });
+
+  el.innerHTML = '<div style="padding:14px 16px 12px">' + html + '</div>';
+  el.style.display = 'block';
 })();
 
 /* ── 飯店導航捷徑 ── */
