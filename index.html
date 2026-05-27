@@ -3818,7 +3818,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     </div>
 
     <!-- ─── 即時天氣 ─── -->
-    <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong> <span id="swissDate" style="font-size:10px;opacity:0.7"></span></p>
+    <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong> <span id="swissDate" style="font-size:10px;opacity:0.7"></span> <button id="wxRefreshBtn" onclick="(function(){var b=document.getElementById('wxRefreshBtn');b.textContent='⟳';b.disabled=true;if(typeof _fetchWeather==='function')_fetchWeather();setTimeout(function(){b.textContent='🔄';b.disabled=false;},3000);})()" style="background:none;border:none;cursor:pointer;font-size:11px;opacity:0.5;padding:0 0 0 6px;vertical-align:middle">🔄</button></p>
     <div class="weather-row reveal" id="weatherRow">
       <div class="wx-card" id="wx-zurich">
         <div class="wx-city">蘇黎世</div>
@@ -7097,6 +7097,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     </button>
     <button class="bnav-btn" onclick="showTab('photo',this)">
       <span class="bn-icon">📸</span><span>攝影</span>
+      <span class="bnav-badge" id="pscNavBadge" style="display:none"></span>
     </button>
     <button class="bnav-btn" onclick="showTab('reminders',this)">
       <span class="bn-icon">💌</span><span>提醒</span>
@@ -11154,6 +11155,8 @@ window.spFilter = function(gear, btn){
     var dc = document.getElementById('pscDoneCount');
     if(fill) fill.style.width = pct+'%';
     if(dc) dc.textContent = done;
+    var nb = document.getElementById('pscNavBadge');
+    if(nb){ if(done > 0){ nb.textContent = done+'/'+TOTAL; nb.style.display=''; } else { nb.style.display='none'; } }
   }
   window.togglePsc = function(id){
     var s = load();
