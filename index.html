@@ -1493,6 +1493,25 @@ footer small {
 }
 .em-label { font-size: 11px; color: #7F1D1D; margin-top: 4px; line-height: 1.4; }
 .em-call-hint { font-size: 10px; color: #DC2626; opacity: 0.6; margin-top: 5px; letter-spacing: 0.5px; }
+.em-tw-card { background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: var(--radius-sm);
+  padding: 14px 14px 12px; margin-bottom: 28px; }
+.em-tw-hdr { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 800;
+  color: #1D4ED8; margin-bottom: 10px; }
+.em-tw-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 9px; }
+.em-tw-btn { display: block; text-decoration: none; background: #DBEAFE; border: 1.5px solid #93C5FD;
+  border-radius: 10px; padding: 10px 8px; text-align: center; transition: transform 0.15s; }
+.em-tw-btn:active { transform: scale(0.96); }
+.etb-type { font-size: 9.5px; font-weight: 700; color: #1E40AF; margin-bottom: 3px; }
+.etb-num  { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px;
+  font-weight: 800; color: #1D4ED8; line-height: 1.2; word-break: break-all; }
+.etb-hint { font-size: 9px; color: #3B82F6; opacity: 0.7; margin-top: 3px; }
+.em-tw-addr { font-size: 10.5px; color: #6B7280; }
+body.dark-mode .em-tw-card { background: #0A1929; border-color: #1D3A6B; }
+body.dark-mode .em-tw-hdr { color: #60A5FA; }
+body.dark-mode .em-tw-btn { background: #152233; border-color: #1D3A6B; }
+body.dark-mode .etb-type { color: #93C5FD; }
+body.dark-mode .etb-num  { color: #60A5FA; }
+body.dark-mode .em-tw-addr { color: #94A3B8; }
 
 /* ═══════════════════════════════════════
    APPS
@@ -5941,10 +5960,21 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="em-call-hint">點擊撥打</div>
       </a>
     </div>
-    <div class="alert alert-blue reveal" style="font-size:12.5px;margin-bottom:28px">
-      <strong>🇹🇼 台灣駐瑞士代表處緊急聯絡</strong>
-      緊急電話：+41 78 631 32 10（24小時）｜ 一般：+41 31 382 23 35<br>
-      地址：Alpenstrasse 29, 3006 Bern
+    <div class="em-tw-card reveal">
+      <div class="em-tw-hdr">🇹🇼 台灣駐瑞士代表處</div>
+      <div class="em-tw-btns">
+        <a href="tel:+41786313210" class="em-tw-btn" onclick="haptic(8)">
+          <div class="etb-type">🔴 24 小時緊急</div>
+          <div class="etb-num">+41 78 631 32 10</div>
+          <div class="etb-hint">點擊撥打</div>
+        </a>
+        <a href="tel:+41313822335" class="em-tw-btn" onclick="haptic(8)">
+          <div class="etb-type">📋 一般業務</div>
+          <div class="etb-num">+41 31 382 23 35</div>
+          <div class="etb-hint">點擊撥打</div>
+        </a>
+      </div>
+      <div class="em-tw-addr">📍 Alpenstrasse 29, 3006 Bern</div>
     </div>
 
     <!-- ─── 高山健康速查 ─── -->
