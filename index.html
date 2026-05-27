@@ -156,6 +156,13 @@ body.dark-mode .chk-celebrate {
 body.dark-mode .prac-body em { color: #4ADE80; }
 body.dark-mode .ec-val span  { color: #4ADE80; }
 
+/* ── 剩餘白色背景 / 行程 dots ── */
+body.dark-mode .jsb-c  { background: #1D3348; }
+body.dark-mode .day-btn { background: #152233; }
+body.dark-mode .jt-dot[style] { background: #1D3040 !important; border-color: #2A4560 !important; }
+body.dark-mode .jt-swiss-blk  { background: #0D1A24; }
+body.dark-mode .stp-leg-dot   { filter: brightness(0.48) saturate(0.85); }
+
 /* 深色模式切換鈕 */
 #darkToggle {
   position: fixed; bottom: 80px; right: 14px; z-index: 401;
@@ -3115,7 +3122,7 @@ body.dark-mode .cg-row  { background: #0D1A24; }
               <span class="fx-result" id="fxResult2" style="margin:0">--</span>
               <span class="fx-label">CHF</span>
             </div>
-            <div class="fx-note" style="margin-top:5px">CHF 1 ≈ TWD 35（參考值）</div>
+            <div class="fx-note" style="margin-top:5px">CHF 1 ≈ TWD 35　載入即時匯率…</div>
           </div>
         </div>
       </div>
@@ -5621,9 +5628,19 @@ document.addEventListener('change', function(e) {
   if (e.target.closest && e.target.closest('.checklist')) updateChecklistProgress();
 });
 
-/* ── CHF/TWD CONVERTER (雙向) ── */
+/* ── CHF/TWD CONVERTER（即時匯率版）── */
 (function() {
   var RATE = 35;
+  var FX_CACHE_KEY = 'fx_chf_twd_v1';
+  var FX_TTL = 3600000; // 1h
+
+  function applyRate(rate, label) {
+    RATE = rate;
+    var note = document.querySelector('.fx-note');
+    if (note) note.textContent = 'CHF 1 ≈ TWD ' + rate.toFixed(2) + '　' + (label || '');
+    calcChf('chf');
+  }
+
   window.calcChf = function(dir) {
     if (dir === 'chf') {
       var v = parseFloat(document.getElementById('chfInput').value);
@@ -5635,6 +5652,30 @@ document.addEventListener('change', function(e) {
       if (r2) r2.textContent = isNaN(v2) || v2 < 0 ? '─' : (v2 / RATE).toFixed(2);
     }
   };
+
+  // Load cache
+  try {
+    var cached = JSON.parse(localStorage.getItem(FX_CACHE_KEY));
+    if (cached && Date.now() - cached.ts < FX_TTL && cached.rate > 0) {
+      applyRate(cached.rate, '(緩存)');
+    }
+  } catch(e) {}
+
+  // Fetch live rate
+  fetch('https://api.frankfurter.app/latest?from=CHF&to=TWD')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var rate = data && data.rates && data.rates.TWD;
+      if (!rate || rate <= 0) return;
+      try { localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ rate: rate, ts: Date.now() })); } catch(e) {}
+      var now = new Date();
+      var hhmm = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+      applyRate(rate, '即時 ' + hhmm + ' 更新');
+    })
+    .catch(function() {
+      // Silently keep cached/default value
+    });
+
   calcChf('chf');
 })();
 
