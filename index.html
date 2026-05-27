@@ -3195,6 +3195,21 @@ body.dark-mode .tc-tag.first { background: #201500; color: #FCD34D; }
 body.dark-mode .tc-tag.fee   { background: #200909; color: #FCA5A5; }
 body.dark-mode .tc-tag.ek    { background: #2D0A0A; color: #FCA5A5; }
 
+/* ── 今日光線時段視覺條 ── */
+#photoLightBar { padding: 12px 14px 10px; }
+.plb-title { font-size: 11px; font-weight: 800; color: var(--text-sub); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.plb-bar-outer { position: relative; height: 26px; margin: 10px 0 4px; }
+.plb-bar-inner { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 6px; overflow: hidden; background: #08141E; }
+.plb-seg { position: absolute; top: 0; bottom: 0; }
+.plb-now-line { position: absolute; top: -3px; bottom: -3px; width: 2.5px; border-radius: 2px;
+  background: rgba(255,255,255,0.95); box-shadow: 0 0 6px rgba(255,255,255,0.7); z-index: 2; pointer-events: none; }
+.plb-spot-marker { position: absolute; top: -12px; font-size: 10px; transform: translateX(-50%); z-index: 3; line-height: 1; }
+.plb-time-row { display: flex; justify-content: space-between; margin-top: 2px; }
+.plb-time-lbl { font-size: 7.5px; color: var(--text-light); }
+.plb-status { font-size: 10.5px; font-weight: 700; margin-top: 8px; display: flex; align-items: center; gap: 5px; }
+.plb-countdown { font-size: 9.5px; color: var(--text-sub); }
+body.dark-mode .plb-bar-inner { background: #050E16; }
+
 /* ── 16日攝影規劃總覽 ── */
 .pcc-card { padding: 14px 16px 12px; margin-bottom: 20px; }
 .pcc-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -5591,6 +5606,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
 
     <!-- 今日推薦拍攝 (JS 動態填入) -->
     <div id="todayPhotoCard" style="display:none;margin-bottom:16px"></div>
+
+    <!-- 今日光線時段視覺條 (JS 動態填入) -->
+    <div id="photoLightBar" class="card" style="display:none;margin-bottom:16px"></div>
 
     <!-- 攝影天氣評分卡 -->
     <div id="photoWxCard" class="card photo-wx-card reveal" style="display:none">
@@ -11039,6 +11057,200 @@ window.togglePhotoLayer = (function() {
       }
     }
   });
+})();
+
+/* ── 今日光線時段視覺條 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var bar = document.getElementById('photoLightBar');
+  if (!bar) return;
+
+  var GH = {
+    '6/16':['05:29','21:21'],'6/17':['05:28','21:22'],'6/18':['05:28','21:22'],
+    '6/19':['05:28','21:23'],'6/20':['05:28','21:23'],'6/21':['05:28','21:23'],
+    '6/22':['05:29','21:23'],'6/23':['05:29','21:22'],'6/24':['05:30','21:22'],
+    '6/25':['05:31','21:21'],'6/26':['05:31','21:21'],'6/27':['05:32','21:20'],
+    '6/28':['05:33','21:19'],'6/29':['05:34','21:18'],'6/30':['05:35','21:17'],
+    '7/1' :['05:36','21:16']
+  };
+
+  var DAY_SPOTS_PLB = {
+    '6/16':[{t:'20:30',e:'🛬'}],
+    '6/17':[{t:'07:00',e:'📸'},{t:'17:30',e:'🌇'}],
+    '6/18':[{t:'09:00',e:'📸'},{t:'16:00',e:'🦌'}],
+    '6/19':[{t:'10:30',e:'📸'}],
+    '6/20':[{t:'09:00',e:'📸'},{t:'14:00',e:'📸'}],
+    '6/21':[{t:'08:30',e:'📸'},{t:'15:00',e:'🚂'}],
+    '6/22':[{t:'06:00',e:'🌅'},{t:'17:00',e:'📸'}],
+    '6/23':[{t:'09:00',e:'📸'}],
+    '6/24':[{t:'09:30',e:'📸'}],
+    '6/25':[{t:'07:00',e:'🌅'},{t:'19:30',e:'📸'}],
+    '6/26':[{t:'09:00',e:'📸'},{t:'22:00',e:'🌃'}],
+    '6/27':[{t:'06:00',e:'🌅'},{t:'21:45',e:'🌃'}],
+    '6/28':[{t:'08:30',e:'📸'}],
+    '6/29':[{t:'07:00',e:'🌅'},{t:'18:00',e:'🌇'}],
+    '6/30':[{t:'09:00',e:'📸'}],
+    '7/1' :[{t:'07:30',e:'✈️'}]
+  };
+
+  function toMin(t) { var p = t.split(':'); return +p[0]*60 + +p[1]; }
+  function fmtTime(m) { var h=Math.floor(m/60),mn=m%60; return (h<10?'0':'')+h+':'+(mn<10?'0':'')+mn; }
+
+  function getChNow() {
+    var n = new Date();
+    return new Date(n.getTime() + n.getTimezoneOffset()*60000 + 2*3600000);
+  }
+
+  var WIN_START = 4*60, WIN_END = 23*60, WIN_LEN = WIN_END - WIN_START;
+
+  function pct(m) { return Math.max(0, Math.min(100, (m - WIN_START) / WIN_LEN * 100)); }
+
+  var SEGS_DEF = [
+    { id:'night1', col:'#08141E' },
+    { id:'blue1',  col:'#1B3A5C' },
+    { id:'gold1',  col:'rgba(245,158,11,0.88)' },
+    { id:'day',    col:'rgba(147,197,253,0.32)' },
+    { id:'gold2',  col:'rgba(245,158,11,0.88)' },
+    { id:'blue2',  col:'#1B3A5C' },
+    { id:'night2', col:'#08141E' }
+  ];
+
+  var PHASE_LABELS = {
+    night1:'夜晚', blue1:'藍調晨光', gold1:'⭐黃金日出', day:'白天',
+    gold2:'⭐黃金日落', blue2:'藍調暮光', night2:'夜晚'
+  };
+
+  function buildSegments(srMin, ssMin) {
+    var dawn     = srMin - 45;
+    var ghAMend  = srMin + 60;
+    var ghPMst   = ssMin - 60;
+    var blueEnd  = ssMin + 25;
+    return [
+      { id:'night1', from: WIN_START, to: dawn },
+      { id:'blue1',  from: dawn,      to: srMin },
+      { id:'gold1',  from: srMin,     to: ghAMend },
+      { id:'day',    from: ghAMend,   to: ghPMst },
+      { id:'gold2',  from: ghPMst,    to: ssMin },
+      { id:'blue2',  from: ssMin,     to: blueEnd },
+      { id:'night2', from: blueEnd,   to: WIN_END }
+    ];
+  }
+
+  function currentPhase(segs, nowMin) {
+    for (var i = 0; i < segs.length; i++) {
+      if (nowMin >= segs[i].from && nowMin < segs[i].to) return segs[i];
+    }
+    return null;
+  }
+
+  function nextPhase(segs, nowMin) {
+    for (var i = 0; i < segs.length; i++) {
+      if (segs[i].from > nowMin) return segs[i];
+    }
+    return null;
+  }
+
+  function fmtCountdown(ms) {
+    var m = Math.max(0, Math.round(ms / 60000));
+    if (m < 60) return m + ' 分鐘後';
+    var h = Math.floor(m/60), mm = m%60;
+    return h + '小時' + (mm ? mm + '分' : '') + '後';
+  }
+
+  function getColFor(id) {
+    for (var i = 0; i < SEGS_DEF.length; i++) {
+      if (SEGS_DEF[i].id === id) return SEGS_DEF[i].col;
+    }
+    return '#08141E';
+  }
+
+  function render() {
+    var now = new Date();
+    if (now < DEPART || now > RETURN) { bar.style.display = 'none'; return; }
+
+    var ch = getChNow();
+    var dateKey = (ch.getMonth()+1) + '/' + ch.getDate();
+    var gh = GH[dateKey];
+    if (!gh) { bar.style.display = 'none'; return; }
+
+    var srMin = toMin(gh[0]);
+    var ssMin = toMin(gh[1]);
+    var segs  = buildSegments(srMin, ssMin);
+    var nowMin = ch.getHours()*60 + ch.getMinutes();
+    var nowMs  = ch.getTime();
+
+    var cur  = currentPhase(segs, nowMin);
+    var next = nextPhase(segs, nowMin);
+
+    // bar segments HTML
+    var innerHtml = '';
+    for (var i = 0; i < segs.length; i++) {
+      var s = segs[i];
+      var l = pct(s.from), r = pct(s.to);
+      if (r <= l) continue;
+      innerHtml += '<div class="plb-seg" style="left:' + l.toFixed(2) + '%;width:' + (r-l).toFixed(2) + '%;background:' + getColFor(s.id) + '"></div>';
+    }
+
+    // now line
+    if (nowMin >= WIN_START && nowMin < WIN_END) {
+      var np = pct(nowMin);
+      innerHtml += '<div class="plb-now-line" style="left:' + np.toFixed(2) + '%"></div>';
+    }
+
+    // spot markers — pin just above bar
+    var spots = DAY_SPOTS_PLB[dateKey] || [];
+    var markersHtml = '';
+    for (var j = 0; j < spots.length; j++) {
+      var sp = spots[j];
+      var sm = toMin(sp.t);
+      if (sm < WIN_START || sm > WIN_END) continue;
+      var sp2 = pct(sm);
+      markersHtml += '<div class="plb-spot-marker" style="left:' + sp2.toFixed(2) + '%">' + sp.e + '</div>';
+    }
+
+    // time labels (every 3 hrs: 04,07,10,13,16,19,22)
+    var timeLbls = '';
+    for (var h = 4; h <= 22; h += 3) {
+      var tp = pct(h*60);
+      timeLbls += '<span class="plb-time-lbl" style="position:absolute;left:' + tp.toFixed(1) + '%;transform:translateX(-50%)">' + (h<10?'0':'')+h+':00</span>';
+    }
+
+    // phase status + countdown
+    var phaseName = cur ? PHASE_LABELS[cur.id] : '';
+    var countdownHtml = '';
+    if (next && next.from > nowMin) {
+      var nextMs = (next.from - nowMin) * 60000;
+      var nextLabel = PHASE_LABELS[next.id] || '';
+      countdownHtml = '<span class="plb-countdown">距' + nextLabel + '　' + fmtCountdown(nextMs) + '</span>';
+    }
+
+    var isGolden = cur && (cur.id === 'gold1' || cur.id === 'gold2');
+    var isBlue   = cur && (cur.id === 'blue1'  || cur.id === 'blue2');
+    var dotCol   = isGolden ? '#F59E0B' : isBlue ? '#3B82F6' : 'var(--text-sub)';
+
+    bar.style.display = 'block';
+    bar.innerHTML =
+      '<div class="plb-title">'
+      + '<span>🕐 今日光線時段</span>'
+      + '<span style="font-size:9px;font-weight:400;color:var(--text-light)">' + gh[0] + ' 日出 / ' + gh[1] + ' 日落</span>'
+      + '</div>'
+      + '<div style="position:relative">'
+      + markersHtml
+      + '<div class="plb-bar-outer">'
+      + '<div class="plb-bar-inner">' + innerHtml + '</div>'
+      + '</div>'
+      + '<div class="plb-time-row" style="position:relative;height:14px">' + timeLbls + '</div>'
+      + '</div>'
+      + '<div class="plb-status">'
+      + '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + dotCol + ';flex-shrink:0"></span>'
+      + '<span>' + (phaseName || '行程外') + '</span>'
+      + countdownHtml
+      + '</div>';
+  }
+
+  render();
+  setInterval(render, 60000);
 })();
 
 /* ── 底部導航今日花費 badge ── */
