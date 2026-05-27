@@ -1498,6 +1498,36 @@ footer small {
   #scrollTopBtn { bottom: 24px; right: 24px; }
 }
 
+/* ── 預算甜甜圈圖 ── */
+.donut-card {
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  padding: 22px 20px;
+}
+@media (min-width: 480px) { .donut-card { flex-direction: row; justify-content: center; } }
+.donut-svg { width: 155px; height: 155px; flex-shrink: 0; }
+.donut-legend { display: flex; flex-direction: column; gap: 7px; min-width: 160px; }
+.dl-row {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 13px; cursor: default;
+}
+.dl-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.dl-name { flex: 1; color: var(--text-sub); }
+.dl-pct  { font-weight: 700; color: var(--text); }
+.dl-amt  { font-size: 11.5px; color: var(--text-light); margin-left: 4px; }
+
+/* ── 每日平均費用 ── */
+.daily-avg-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+.da-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 12px; text-align: center;
+  box-shadow: var(--shadow);
+}
+.da-val { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--primary); }
+.da-label { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+
 /* ── 旅途進行中 flip-clock 替代畫面 ── */
 .fc-trip-live { padding: 4px 0 8px; }
 .fc-trip-day {
@@ -1624,6 +1654,9 @@ footer small {
     <p class="fc-outer-lbl">距出發倒數</p>
   </div>
   <svg class="hero-mountain" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 後排山脈（略深） -->
+    <path d="M0,120 L0,90 L80,55 L160,75 L280,35 L370,65 L490,20 L590,55 L700,30 L810,65 L920,35 L1040,70 L1160,40 L1280,72 L1380,48 L1440,55 L1440,120 Z" fill="#E8F2F9" opacity="0.85"/>
+    <!-- 前排山脈（主色） -->
     <path d="M0,120 L0,80 L120,30 L200,60 L320,10 L420,50 L560,5 L660,45 L780,15 L880,55 L1000,20 L1100,60 L1220,25 L1320,65 L1440,30 L1440,120 Z" fill="#F2F7FB"/>
   </svg>
 </section>
@@ -2972,7 +3005,68 @@ footer small {
       </div>
     </div>
 
-    <div class="card reveal" style="overflow-x:auto">
+    <!-- 每日平均費用 -->
+    <div class="daily-avg-row reveal">
+      <div class="da-card">
+        <div class="da-val">19,163</div>
+        <div class="da-label">TWD 每日（雙人）</div>
+      </div>
+      <div class="da-card">
+        <div class="da-val">9,582</div>
+        <div class="da-label">TWD 每日（每人）</div>
+      </div>
+      <div class="da-card">
+        <div class="da-val">CHF 547</div>
+        <div class="da-label">每日雙人（參考）</div>
+      </div>
+    </div>
+
+    <!-- 甜甜圈圖 -->
+    <div class="card reveal" style="overflow:visible">
+      <div class="donut-card">
+        <svg viewBox="0 0 200 200" class="donut-svg">
+          <circle cx="100" cy="100" r="62" fill="none" stroke="var(--bg)" stroke-width="32"/>
+          <!-- 機票 20% offset=0 -->
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#2C5F8A" stroke-width="32"
+            stroke-dasharray="77.9 311.6" stroke-dashoffset="0"
+            transform="rotate(-90 100 100)" class="donut-seg"/>
+          <!-- 住宿 39% offset=-77.9 -->
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#2A7A50" stroke-width="32"
+            stroke-dasharray="151.9 238.0" stroke-dashoffset="-77.9"
+            transform="rotate(-90 100 100)" class="donut-seg"/>
+          <!-- 交通 14% offset=-229.8 -->
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#3B82F6" stroke-width="32"
+            stroke-dasharray="54.6 334.9" stroke-dashoffset="-229.8"
+            transform="rotate(-90 100 100)" class="donut-seg"/>
+          <!-- 景點 5% offset=-284.4 -->
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#C9A96E" stroke-width="32"
+            stroke-dasharray="19.5 370.0" stroke-dashoffset="-284.4"
+            transform="rotate(-90 100 100)" class="donut-seg"/>
+          <!-- 餐飲 16% offset=-303.9 -->
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#16A34A" stroke-width="32"
+            stroke-dasharray="62.3 327.2" stroke-dashoffset="-303.9"
+            transform="rotate(-90 100 100)" class="donut-seg"/>
+          <!-- 購物雜支 6% offset=-366.2 -->
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#6B8FA3" stroke-width="32"
+            stroke-dasharray="23.4 366.2" stroke-dashoffset="-366.2"
+            transform="rotate(-90 100 100)" class="donut-seg"/>
+          <text x="100" y="95" text-anchor="middle" fill="#1C3347"
+            font-size="11" font-family="sans-serif" font-weight="700">兩人合計</text>
+          <text x="100" y="112" text-anchor="middle" fill="#2C5F8A"
+            font-size="9.5" font-family="sans-serif">TWD 306,613</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="dl-row"><div class="dl-dot" style="background:#2C5F8A"></div><span class="dl-name">✈️ 機票</span><span class="dl-pct">20%</span><span class="dl-amt">61,388</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#2A7A50"></div><span class="dl-name">🏠 住宿</span><span class="dl-pct">39%</span><span class="dl-amt">120,233</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#3B82F6"></div><span class="dl-name">🚂 交通</span><span class="dl-pct">14%</span><span class="dl-amt">42,062</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#C9A96E"></div><span class="dl-name">🎿 景點</span><span class="dl-pct">5%</span><span class="dl-amt">15,350</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#16A34A"></div><span class="dl-name">🍽 餐飲</span><span class="dl-pct">16%</span><span class="dl-amt">50,000</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#6B8FA3"></div><span class="dl-name">🛍 購物</span><span class="dl-pct">6%</span><span class="dl-amt">17,580</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="overflow-x:auto;margin-top:24px">
       <table class="budget-table">
         <thead>
           <tr><th>項目</th><th>說明</th><th style="text-align:right">TWD（雙人）</th><th>狀態</th></tr>
