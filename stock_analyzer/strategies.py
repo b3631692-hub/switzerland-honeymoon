@@ -1,6 +1,6 @@
 """Trading strategies with buy/sell signal generation."""
 from typing import List, Dict, Any
-from .indicators import sma, ema, rsi, macd, bollinger_bands, kdj
+from .indicators import sma, ema, rsi, macd, bollinger_bands, kdj, atr, support_resistance
 
 
 class Signal:
@@ -180,6 +180,82 @@ class CompositeStrategy:
         return signals
 
 
+class RiskRewardFilter:
+    """Wraps any strategy and filters signals by risk/reward ratio.
+
+    For BUY signals: only keep if potential reward (nearest resistance - price)
+    divided by risk (ATR * multiplier) >= min_rr.
+    For SELL signals: similar logic using nearest support.
+    """
+
+    def __init__(self, strategy=None, min_rr: float = 2.0, atr_period: int = 14):
+        if strategy is None:
+            strategy = CompositeStrategy()
+        self.strategy = strategy
+        self.min_rr = min_rr
+        self.atr_period = atr_period
+        self.name = f"風險報酬過濾 (RR≥{min_rr}) {strategy.name}"
+
+    def generate_signals(self, closes: List[float]) -> List[Signal]:
+        raw_signals = self.strategy.generate_signals(closes)
+        if len(closes) < self.atr_period + 2:
+            return raw_signals
+
+        # Compute ATR using closes as proxy for highs/lows
+        highs = closes
+        lows = closes
+        atr_values = atr(highs, lows, closes, self.atr_period)
+
+        # Compute support/resistance levels
+        sr_window = min(20, len(closes) // 4) if len(closes) > 8 else 2
+        if sr_window < 2:
+            return raw_signals
+        supports, resistances = support_resistance(closes, sr_window)
+
+        filtered = []
+        for sig in raw_signals:
+            idx = sig.index
+            current_atr = atr_values[idx] if idx < len(atr_values) and atr_values[idx] is not None else None
+            if current_atr is None or current_atr <= 0:
+                # Cannot compute RR, keep signal as-is
+                filtered.append(sig)
+                continue
+
+            price = closes[idx]
+            risk = current_atr
+
+            if sig.action == Signal.BUY:
+                # Find nearest resistance above price
+                above = [r for r in resistances if r > price]
+                if above:
+                    target = min(above)
+                    reward = target - price
+                else:
+                    # No resistance found; estimate reward as 3*ATR
+                    reward = current_atr * 3
+
+                rr = reward / risk if risk > 0 else 0
+                if rr >= self.min_rr:
+                    filtered.append(sig)
+
+            elif sig.action == Signal.SELL:
+                # Find nearest support below price
+                below = [s for s in supports if s < price]
+                if below:
+                    target = max(below)
+                    reward = price - target
+                else:
+                    reward = current_atr * 3
+
+                rr = reward / risk if risk > 0 else 0
+                if rr >= self.min_rr:
+                    filtered.append(sig)
+            else:
+                filtered.append(sig)
+
+        return filtered
+
+
 STRATEGIES = {
     "golden_cross": GoldenCrossStrategy,
     "rsi": RSIStrategy,
@@ -187,4 +263,5 @@ STRATEGIES = {
     "bollinger": BollingerStrategy,
     "kdj": KDJStrategy,
     "composite": CompositeStrategy,
+    "rr_filtered": RiskRewardFilter,
 }

@@ -1,10 +1,12 @@
 """Backtesting engine for strategy evaluation.
 
-Supports: trailing stop, pyramiding, short selling, transaction costs.
+Supports: trailing stop, pyramiding, short selling, transaction costs,
+dynamic position sizing (fixed, kelly, atr).
 """
 import math
 from typing import List, Dict, Any
 from .strategies import Signal
+from .indicators import atr as calc_atr
 
 
 class Trade:
@@ -126,6 +128,10 @@ class Backtester:
         trailing_stop_pct: float | None = None,
         max_positions: int = 1,
         allow_short: bool = False,
+        sizing_mode: str = "fixed",
+        kelly_lookback: int = 20,
+        atr_risk_pct: float = 0.02,
+        atr_stop_multiplier: float = 2.0,
     ):
         self.initial_capital = initial_capital
         self.commission_rate = commission_rate
@@ -137,6 +143,10 @@ class Backtester:
         self.trailing_stop_pct = trailing_stop_pct
         self.max_positions = max(1, max_positions)
         self.allow_short = allow_short
+        self.sizing_mode = sizing_mode  # "fixed", "kelly", "atr"
+        self.kelly_lookback = kelly_lookback
+        self.atr_risk_pct = atr_risk_pct
+        self.atr_stop_multiplier = atr_stop_multiplier
 
     def _close_position(self, pos: Trade, idx: int, price: float, reason: str,
                         capital: float, result: BacktestResult) -> float:
@@ -153,7 +163,38 @@ class Backtester:
         result.trades.append(pos)
         return capital
 
-    def run(self, closes: List[float], signals: List[Signal], dates: List[str] = None) -> BacktestResult:
+    def _calc_kelly_fraction(self, closed_trades: List[Trade]) -> float:
+        """Calculate Kelly fraction from the last N closed trades."""
+        recent = closed_trades[-self.kelly_lookback:] if len(closed_trades) >= self.kelly_lookback else closed_trades
+        if len(recent) < 2:
+            return self.position_size
+        wins = [t for t in recent if t.pnl > 0]
+        losses = [t for t in recent if t.pnl <= 0]
+        if not wins or not losses:
+            return self.position_size
+        win_rate = len(wins) / len(recent)
+        avg_win = sum(abs(t.pnl_pct) for t in wins) / len(wins)
+        avg_loss = sum(abs(t.pnl_pct) for t in losses) / len(losses)
+        if avg_loss == 0:
+            return self.position_size
+        b = avg_win / avg_loss
+        kelly = (b * win_rate - (1 - win_rate)) / b
+        # Half-Kelly for safety, clamped to [0.05, position_size]
+        half_kelly = kelly * 0.5
+        return max(0.05, min(half_kelly, self.position_size))
+
+    def _calc_atr_shares(self, capital: float, price: float, atr_value: float) -> float:
+        """Calculate position size based on ATR: risk atr_risk_pct of capital, stop = atr_stop_multiplier * ATR."""
+        if atr_value <= 0:
+            return 0
+        risk_amount = capital * self.atr_risk_pct
+        stop_distance = atr_value * self.atr_stop_multiplier
+        shares = risk_amount / stop_distance
+        max_shares = (capital * self.position_size) / price
+        return min(shares, max_shares)
+
+    def run(self, closes: List[float], signals: List[Signal], dates: List[str] = None,
+            highs: List[float] = None, lows: List[float] = None) -> BacktestResult:
         result = BacktestResult()
         result.initial_capital = self.initial_capital
 
@@ -162,6 +203,18 @@ class Backtester:
         high_watermarks: Dict[int, float] = {}
         equity_curve: List[float] = []
         ts_history: List[float | None] = []
+
+        # Pre-compute ATR values if needed for ATR sizing
+        atr_values: List[float | None] = [None] * len(closes)
+        if self.sizing_mode == "atr":
+            if highs is not None and lows is not None:
+                atr_values = calc_atr(highs, lows, closes, 14)
+            else:
+                # Fallback: use closes as proxy for highs/lows
+                atr_values = calc_atr(closes, closes, closes, 14)
+
+        # Track closed trades for Kelly sizing
+        closed_trades: List[Trade] = []
 
         signal_map: Dict[int, Signal] = {}
         for sig in signals:
@@ -192,6 +245,7 @@ class Backtester:
                             to_close.append((pos, "trailing_stop"))
                 for pos, reason in to_close:
                     capital = self._close_position(pos, i, price, reason, capital, result)
+                    closed_trades.append(result.trades[-1])
                     if id(pos) in high_watermarks:
                         del high_watermarks[id(pos)]
                     positions.remove(pos)
@@ -210,6 +264,7 @@ class Backtester:
                             to_close.append(pos)
                 for pos in to_close:
                     capital = self._close_position(pos, i, price, "stop_loss", capital, result)
+                    closed_trades.append(result.trades[-1])
                     high_watermarks.pop(id(pos), None)
                     positions.remove(pos)
 
