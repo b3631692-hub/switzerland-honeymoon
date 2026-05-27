@@ -2509,6 +2509,16 @@ body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
 .st-pct-label { text-align: right; font-size: 11px; color: var(--text-light); margin-top: 5px; }
 
 /* ── 每日消費快記 ── */
+.dlc-today-hint { padding: 10px 12px; border-radius: 9px; background: rgba(44,95,138,0.07);
+  border: 1px solid rgba(44,95,138,0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+body.dark-mode .dlc-today-hint { background: rgba(44,95,138,0.12); border-color: rgba(44,95,138,0.3); }
+.dth-item { display: flex; flex-direction: column; gap: 1px; }
+.dth-label { font-size: 9px; color: var(--text-sub); font-weight: 600; }
+.dth-val { font-size: 13px; font-weight: 800; color: var(--text); }
+.dth-val.ok   { color: #16A34A; }
+.dth-val.warn { color: #D97706; }
+.dth-val.over { color: #DC2626; }
+.dth-sub { font-size: 9px; color: var(--text-light); }
 .dlc-dnum { font-size: 8px; color: var(--text-light); line-height: 1; margin-top: 2px; letter-spacing: 0.2px; }
 .dlc-row.dlc-today { border-left: 3px solid var(--gold); padding-left: 5px;
   background: rgba(201,169,110,0.05); border-radius: 4px; }
@@ -5382,6 +5392,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <button class="dlc-clear" onclick="resetDailyLog()">清除</button>
       </div>
       <div class="dlc-sub">旅途中逐日記錄實際花費（TWD），追蹤是否符合日均預算</div>
+      <div id="dlcTodayHint" style="display:none;margin-bottom:12px"></div>
       <div class="dlc-daily-avg">📊 日均預算 TWD 19,163</div>
       <div class="dlc-chart-wrap" id="dlcChartWrap"></div>
       <div class="dlc-rows" id="dlcRows">
@@ -8646,6 +8657,58 @@ window.toggleAllDays = function() {
     }
   }
   updateDailyLog();
+})();
+
+/* ── 費用記帳今日建議花費提示 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var BUDGET = 306613, DAILY_AVG = 19163, TOTAL = 16;
+  var hint = document.getElementById('dlcTodayHint');
+  if (!hint) return;
+
+  function render() {
+    var now = new Date();
+    if (now < DEPART || now > RETURN) { hint.style.display = 'none'; return; }
+
+    // Days elapsed (inclusive) and remaining
+    var daysIn  = Math.min(TOTAL, Math.floor((now - DEPART) / 86400000) + 1);
+    var daysLeft = Math.max(1, TOTAL - daysIn + 1); // including today
+
+    // Total spent so far
+    var total = 0;
+    for (var i = 0; i < TOTAL; i++) {
+      var inp = document.getElementById('dlc-' + i);
+      total += inp ? (parseFloat(inp.value) || 0) : 0;
+    }
+
+    var remaining = BUDGET - total;
+    var suggestToday = Math.round(remaining / daysLeft);
+    var avgSpent = daysIn > 1 ? Math.round(total / (daysIn - 1)) : 0;
+    var diff = avgSpent - DAILY_AVG;
+    var diffCls = diff > 2000 ? 'over' : diff > 0 ? 'warn' : 'ok';
+    var diffStr = diff > 0 ? '▲ 超均值 TWD ' + diff.toLocaleString() : (diff < 0 ? '▼ 省均值 TWD ' + Math.abs(diff).toLocaleString() : '剛好均值');
+    var suggestCls = suggestToday < DAILY_AVG * 0.7 ? 'over' : suggestToday < DAILY_AVG ? 'warn' : 'ok';
+
+    hint.innerHTML = '<div class="dlc-today-hint">'
+      + '<div class="dth-item"><div class="dth-label">第 ' + daysIn + ' 天 · 今日上限</div>'
+      + '<div class="dth-val ' + suggestCls + '">TWD ' + suggestToday.toLocaleString() + '</div>'
+      + '<div class="dth-sub">剩 ' + remaining.toLocaleString() + ' ÷ ' + daysLeft + ' 天</div></div>'
+      + '<div class="dth-item"><div class="dth-label">已記錄均值</div>'
+      + (avgSpent > 0
+        ? '<div class="dth-val ' + diffCls + '">TWD ' + avgSpent.toLocaleString() + '</div><div class="dth-sub">' + diffStr + '</div>'
+        : '<div class="dth-val">—</div><div class="dth-sub">尚未開始記帳</div>')
+      + '</div></div>';
+    hint.style.display = 'block';
+  }
+
+  render();
+  // Re-render when any dlc input changes
+  var _orig = window.updateDailyLog;
+  window.updateDailyLog = function() {
+    _orig();
+    render();
+  };
 })();
 
 /* ── 費用記帳今日高亮 + 日數標示 ── */
