@@ -2000,6 +2000,40 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .fx-spark-wrap { display: flex; align-items: center; gap: 7px; margin-top: 5px; }
 .fx-spark-pct { font-size: 9px; font-weight: 800; white-space: nowrap; }
 
+/* ── CHF 常用金額速查表 ── */
+.fx-ref-wrap { margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--border); }
+.fx-ref-title { font-size: 9.5px; color: var(--text-light); letter-spacing: 0.5px; margin-bottom: 5px; text-transform: uppercase; }
+.fx-ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.fx-ref-item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: var(--bg); border-radius: 7px; padding: 5px 3px;
+  cursor: pointer; transition: background 0.15s;
+}
+.fx-ref-item:active { background: rgba(140,123,110,0.15); }
+.fx-ref-chf { font-size: 9px; color: var(--text-light); }
+.fx-ref-twd { font-size: 12px; font-weight: 800; color: var(--primary); }
+body.dark-mode .fx-ref-item { background: #1C1A16; }
+body.dark-mode .fx-ref-item:active { background: rgba(140,123,110,0.2); }
+
+/* ── 打包清單增強 ── */
+.chk-filter-bar { display: flex; gap: 6px; margin-bottom: 10px; padding: 0 1px; }
+.chk-filter-btn {
+  flex: 1; font-size: 11.5px; font-weight: 700; padding: 8px 6px;
+  border-radius: 9px; border: 1.5px solid var(--border);
+  background: var(--bg); color: var(--text-sub); cursor: pointer; text-align: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.chk-filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.chk-all-sec-btn {
+  font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 5px;
+  border: 1px solid var(--border); background: var(--bg); color: var(--text-sub);
+  cursor: pointer; margin-left: auto; flex-shrink: 0;
+}
+.chk-all-sec-btn:active { opacity: 0.7; }
+body.dark-mode .chk-filter-btn { background: #1C1A16; }
+body.dark-mode .chk-all-sec-btn { background: #1C1A16; border-color: #3A3530; }
+.checklist.show-pending .check-item.done { display: none; }
+
 /* ── 回頂按鈕 ── */
 #scrollTopBtn {
   position: fixed; bottom: 86px; right: 14px; z-index: 400;
@@ -4383,6 +4417,10 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
             </div>
             <div class="fx-note" style="margin-top:5px">CHF 1 ≈ TWD 35　載入即時匯率…</div>
             <div class="fx-spark-wrap" id="fxSparkWrap"></div>
+            <div class="fx-ref-wrap">
+              <div class="fx-ref-title">常用金額速查（點擊複製）</div>
+              <div class="fx-ref-grid" id="fxRefGrid"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -6842,6 +6880,10 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
         <div class="chk-progress-fill" id="chkProgressFill"></div>
       </div>
     </div>
+    <div class="chk-filter-bar" id="chkFilterBar">
+      <button class="chk-filter-btn" id="chkFilterPending">只顯示未完成</button>
+      <button class="chk-filter-btn" id="chkFilterReset" onclick="(function(){var all=document.querySelectorAll('.checklist input[type=checkbox]');all.forEach(function(cb){if(cb.checked){cb.checked=false;cb.closest('.check-item').classList.remove('done');}});try{localStorage.removeItem('chk_state2');}catch(e){}updateChecklistProgress&&updateChecklistProgress();updateCategoryProgress&&updateCategoryProgress();haptic(6);})()">重置清單</button>
+    </div>
     <div class="checklist reveal">
       <details class="chk-section" open>
         <summary><span class="chk-section-title">📷 攝影器材</span><span class="chk-section-prog" id="chkprog-camera">0/8</span><span class="chk-section-arrow">›</span></summary>
@@ -7831,6 +7873,50 @@ function animateBudget() {
   });
 })();
 
+/* ── 打包清單增強：全✓ ＋ 篩選 ── */
+(function(){
+  // 1. Filter pending
+  var filterBtn = document.getElementById('chkFilterPending');
+  if(filterBtn){
+    var checklist = document.querySelector('.checklist');
+    filterBtn.addEventListener('click', function(){
+      this.classList.toggle('active');
+      if(checklist) checklist.classList.toggle('show-pending', this.classList.contains('active'));
+      haptic(6);
+    });
+  }
+  // 2. Per-section "全✓" button
+  var CATS = ['camera','clothing','medicine','electronics','docs'];
+  CATS.forEach(function(cat){
+    var grid = document.getElementById('chk-grid-'+cat);
+    if(!grid) return;
+    var section = grid.closest('.chk-section');
+    if(!section) return;
+    var summary = section.querySelector('summary');
+    if(!summary) return;
+    var btn = document.createElement('button');
+    btn.className = 'chk-all-sec-btn';
+    btn.textContent = '全✓';
+    btn.title = '全部勾選（再點取消全部）';
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      var cbs = Array.from(grid.querySelectorAll('input[type=checkbox]'));
+      var allChecked = cbs.every(function(cb){ return cb.checked; });
+      haptic(12);
+      cbs.forEach(function(cb){
+        cb.checked = !allChecked;
+        cb.closest('.check-item').classList.toggle('done', !allChecked);
+      });
+      btn.textContent = allChecked ? '全✓' : '↩';
+      if(cbs[0]) cbs[0].dispatchEvent(new Event('change', {bubbles:true}));
+    });
+    var arrow = summary.querySelector('.chk-section-arrow');
+    if(arrow) summary.insertBefore(btn, arrow);
+    else summary.appendChild(btn);
+  });
+})();
+
 /* ── WEATHER (P7) ── */
 window._fetchWeather = (function() {
   var CITIES = [
@@ -8430,6 +8516,38 @@ updateCategoryProgress();
       try{ localStorage.setItem(HIST_KEY, JSON.stringify({ts:Date.now(),data:d.rates})); }catch(e){}
       buildSparkline(parse(d.rates));
     }).catch(function(){});
+})();
+
+/* ── CHF 常用金額速查表 ── */
+(function(){
+  var AMOUNTS = [5, 10, 20, 30, 50, 100];
+  function render(){
+    var grid = document.getElementById('fxRefGrid');
+    if(!grid) return;
+    var rate = (window._fxRate && window._fxRate > 0) ? window._fxRate : 35;
+    grid.innerHTML = AMOUNTS.map(function(chf){
+      var twd = Math.round(chf * rate);
+      return '<div class="fx-ref-item" onclick="_fxRefTap('+chf+')" title="帶入換算">'
+        + '<span class="fx-ref-chf">CHF '+chf+'</span>'
+        + '<span class="fx-ref-twd">'+twd.toLocaleString()+'</span>'
+        + '</div>';
+    }).join('');
+  }
+  render();
+  // Re-render on rate update by patching calcChf
+  var _orig = window.calcChf;
+  if(_orig){
+    window.calcChf = function(dir){ _orig(dir); render(); };
+  }
+  window._fxRefTap = function(chf){
+    haptic(6);
+    var inp = document.getElementById('chfInput');
+    if(inp){ inp.value = chf; window.calcChf && window.calcChf('chf'); }
+    if(navigator.clipboard){
+      var twd = Math.round(chf * ((window._fxRate||35)));
+      navigator.clipboard.writeText(String(twd)).catch(function(){});
+    }
+  };
 })();
 
 /* ── SCROLL TOP BUTTON ── */
