@@ -576,7 +576,14 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   color: var(--text);
   margin-bottom: 8px;
   line-height: 1.4;
+  position: relative; padding-right: 22px; cursor: pointer;
 }
+.day-title::after {
+  content: '▾'; position: absolute; right: 0; top: 1px;
+  font-size: 13px; color: var(--text-light);
+  transition: transform 0.25s ease;
+}
+.day-card.dc-open .day-title::after { transform: rotate(180deg); }
 .day-chips {
   display: flex; flex-wrap: wrap; gap: 5px;
   margin-bottom: 12px;
@@ -1337,6 +1344,16 @@ footer small {
   color: var(--text); line-height: 1;
 }
 .wx-wind { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+.wx-forecast {
+  display: flex; gap: 2px; margin-top: 9px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+.wx-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.wx-day-lbl { font-size: 9px; color: var(--text-light); font-weight: 600; }
+.wx-day-ic  { font-size: 13px; line-height: 1.4; }
+.wx-day-hi  { font-size: 10px; font-weight: 700; color: var(--text); }
+.wx-day-lo  { font-size: 9px; color: var(--text-light); }
 
 /* ═══════════════════════════════════════
    GALLERY FILTERS + GRID (P6)
@@ -1662,6 +1679,56 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   padding: 2px 9px; border-radius: 100px; margin-bottom: 6px;
 }
 
+/* ── 行程折疊 ── */
+.day-collapse-ctrl {
+  display: flex; justify-content: flex-end;
+  margin: -6px 0 14px;
+}
+.dc-btn {
+  font-size: 12px; padding: 5px 14px;
+  color: var(--primary); background: var(--card);
+  border: 1px solid var(--border); border-radius: 100px;
+  cursor: pointer; transition: background 0.2s;
+}
+.dc-btn:hover { background: var(--bg); }
+.day-card:not(.dc-open) .day-img,
+.day-card:not(.dc-open) .day-chips,
+.day-card:not(.dc-open) .db,
+.day-card:not(.dc-open) .correction-note,
+.day-card:not(.dc-open) .meals,
+.day-card:not(.dc-open) .hotel-box,
+.day-card:not(.dc-open) .cost-row,
+.day-card:not(.dc-open) .photo-box { display: none; }
+
+/* ── 黃金拍攝時段 ── */
+.gh-card {
+  background: linear-gradient(135deg, #071828 0%, #0F2D45 100%);
+  border-radius: var(--radius); padding: 20px 18px;
+  margin-bottom: 24px;
+}
+.gh-title {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 600;
+  color: #fff; margin-bottom: 3px;
+}
+.gh-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 14px; }
+.gh-rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.gh-row {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.05); border-radius: 8px;
+  padding: 8px 12px;
+}
+.gh-row-time {
+  font-size: 13px; font-weight: 700; color: var(--gold);
+  white-space: nowrap; min-width: 100px;
+}
+.gh-row-label { font-size: 12px; color: rgba(255,255,255,0.7); flex: 1; }
+.gh-row-stars { font-size: 11px; white-space: nowrap; }
+.gh-tips {
+  font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.75;
+  border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;
+}
+.gh-tips strong { color: rgba(255,255,255,0.85); }
+
 /* ── 打包清單進度條 ── */
 .chk-progress {
   background: var(--card); border: 1px solid var(--border);
@@ -1808,18 +1875,21 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
+        <div class="wx-forecast"></div>
       </div>
       <div class="wx-card" id="wx-stmoritz">
         <div class="wx-city">聖莫里茲</div>
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
+        <div class="wx-forecast"></div>
       </div>
       <div class="wx-card" id="wx-zermatt">
         <div class="wx-city">策馬特</div>
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
+        <div class="wx-forecast"></div>
       </div>
     </div>
 
@@ -2353,6 +2423,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   <!-- 行程 -->
   <div id="tab-itinerary" class="section">
     <div class="sec-title">每日行程</div>
+    <div class="day-collapse-ctrl">
+      <button class="dc-btn" id="dcToggleAll" onclick="toggleAllDays()">折疊全部</button>
+    </div>
 
     <!-- 出發日 -->
     <div class="base-block">
@@ -3309,6 +3382,46 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
       <div class="gallery-item" data-cat="landscape" onclick="openLightbox(this)">
         <img src="https://images.unsplash.com/photo-1690482575072-21ec5620f964?w=300&q=75&fit=crop" alt="Diavolezza" loading="lazy">
         <div class="gallery-item-caption">Diavolezza 冰川</div>
+      </div>
+    </div>
+
+    <!-- ── 黃金拍攝時段 ── -->
+    <div class="gh-card reveal">
+      <div class="gh-title">🌅 黃金拍攝時段（6月份瑞士）</div>
+      <div class="gh-sub">夏至前後日照極長 · 日落約 21:20 · 善用超長黃金時段</div>
+      <div class="gh-rows">
+        <div class="gh-row">
+          <div class="gh-row-time">05:00–05:30</div>
+          <div class="gh-row-label">藍調時刻（日出前）</div>
+          <div class="gh-row-stars">⭐⭐⭐</div>
+        </div>
+        <div class="gh-row">
+          <div class="gh-row-time">05:30–06:30</div>
+          <div class="gh-row-label">晨光黃金時段</div>
+          <div class="gh-row-stars">⭐⭐⭐</div>
+        </div>
+        <div class="gh-row">
+          <div class="gh-row-time">09:00–11:00</div>
+          <div class="gh-row-label">清晨無霧‧冰川/湖面最清</div>
+          <div class="gh-row-stars">⭐⭐</div>
+        </div>
+        <div class="gh-row">
+          <div class="gh-row-time">19:30–21:20</div>
+          <div class="gh-row-label">夕陽黃金時段‧最柔美側光</div>
+          <div class="gh-row-stars">⭐⭐⭐</div>
+        </div>
+        <div class="gh-row">
+          <div class="gh-row-time">21:20–22:00</div>
+          <div class="gh-row-label">藍調時刻（日落後）</div>
+          <div class="gh-row-stars">⭐⭐⭐</div>
+        </div>
+      </div>
+      <div class="gh-tips">
+        <strong>📌 各地點最佳時段：</strong><br>
+        馬特洪峰 Riffelsee 倒影 → 05:30–07:00 無風水面最靜<br>
+        Muottas Muragl / Corvatsch → 09:00 前上山雲量最少<br>
+        Stellisee / Fex Valley → 傍晚 19:30–21:00 側光最柔<br>
+        琉森卡貝爾橋 → 22:00 藍調‧架腳架長曝必備
       </div>
     </div>
 
@@ -4446,6 +4559,7 @@ window._fetchWeather = (function() {
     51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
     71:'❄️',73:'❄️',75:'❄️',77:'❄️',80:'🌦',81:'🌧',82:'⛈',
     85:'❄️',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
+  var DAY_NAMES = ['日','一','二','三','四','五','六'];
   function updateCard(city, data) {
     var el = document.getElementById(city.id);
     if (!el) return;
@@ -4453,10 +4567,29 @@ window._fetchWeather = (function() {
     el.querySelector('.wx-icon').textContent = WMO[cur.weather_code] || '🌡';
     el.querySelector('.wx-temp').textContent = Math.round(cur.temperature_2m) + '°C';
     el.querySelector('.wx-wind').textContent = '💨 ' + Math.round(cur.wind_speed_10m) + ' km/h';
+    var fc = el.querySelector('.wx-forecast');
+    if (fc && data.daily && data.daily.time) {
+      var html = '';
+      var days = data.daily;
+      for (var i = 0; i < Math.min(5, days.time.length); i++) {
+        var d = new Date(days.time[i] + 'T12:00:00');
+        var dayName = i === 0 ? '今' : DAY_NAMES[d.getDay()];
+        var icon = WMO[days.weather_code[i]] || '🌡';
+        var hi = Math.round(days.temperature_2m_max[i]);
+        var lo = Math.round(days.temperature_2m_min[i]);
+        html += '<div class="wx-day">'
+          + '<span class="wx-day-lbl">' + dayName + '</span>'
+          + '<span class="wx-day-ic">' + icon + '</span>'
+          + '<span class="wx-day-hi">' + hi + '°</span>'
+          + '<span class="wx-day-lo">' + lo + '°</span>'
+          + '</div>';
+      }
+      fc.innerHTML = html;
+    }
   }
   return function fetchWeather() {
     var cached = null;
-    try { cached = JSON.parse(localStorage.getItem('wx_cache')); } catch(e){}
+    try { cached = JSON.parse(localStorage.getItem('wx_cache2')); } catch(e){}
     if (cached && cached.ts && Date.now() - cached.ts < 1800000) {
       CITIES.forEach(function(c,i) { if (cached.data[i]) updateCard(c, cached.data[i]); });
       return;
@@ -4466,13 +4599,15 @@ window._fetchWeather = (function() {
     CITIES.forEach(function(city, i) {
       var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + city.lat
         + '&longitude=' + city.lng
-        + '&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto';
+        + '&current=temperature_2m,weather_code,wind_speed_10m'
+        + '&daily=temperature_2m_max,temperature_2m_min,weather_code'
+        + '&forecast_days=5&timezone=auto';
       fetch(url).then(function(r){ return r.json(); }).then(function(data) {
         results[i] = data;
         updateCard(city, data);
         done++;
         if (done === CITIES.length) {
-          try { localStorage.setItem('wx_cache', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
+          try { localStorage.setItem('wx_cache2', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
         }
       }).catch(function() {
         var el = document.getElementById(city.id);
@@ -4737,6 +4872,49 @@ showTab = function(name, btn) {
       var today = document.querySelector('#tab-itinerary .day-card.today');
       if (today) today.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 400);
+  }
+};
+
+/* ── 行程折疊展開 ── */
+(function() {
+  // Click day title to toggle
+  document.querySelectorAll('#tab-itinerary .day-title').forEach(function(h) {
+    h.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var card = h.closest('.day-card');
+      if (card) card.classList.toggle('dc-open');
+    });
+  });
+  // Also clicking date badge toggles
+  document.querySelectorAll('#tab-itinerary .date-badge').forEach(function(badge) {
+    badge.style.cursor = 'pointer';
+    badge.addEventListener('click', function() {
+      var card = badge.closest('.day-card');
+      if (card) card.classList.toggle('dc-open');
+    });
+  });
+  // Open today's card, or first card by default
+  var todayCard = document.querySelector('#tab-itinerary .day-card.today');
+  if (todayCard) {
+    todayCard.classList.add('dc-open');
+  } else {
+    // Open next upcoming day
+    var allCards = document.querySelectorAll('#tab-itinerary .day-card');
+    if (allCards.length) allCards[0].classList.add('dc-open');
+  }
+})();
+
+// Toggle all days open/closed
+window.toggleAllDays = function() {
+  var btn = document.getElementById('dcToggleAll');
+  var cards = document.querySelectorAll('#tab-itinerary .day-card');
+  var allOpen = Array.from(cards).every(function(c) { return c.classList.contains('dc-open'); });
+  if (allOpen) {
+    cards.forEach(function(c) { c.classList.remove('dc-open'); });
+    if (btn) btn.textContent = '展開全部';
+  } else {
+    cards.forEach(function(c) { c.classList.add('dc-open'); });
+    if (btn) btn.textContent = '折疊全部';
   }
 };
 </script>
