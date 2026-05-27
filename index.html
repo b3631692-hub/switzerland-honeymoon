@@ -2047,7 +2047,7 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
     <div id="todayCtxCard" class="today-ctx-card reveal"></div>
 
     <!-- ─── 即時天氣 ─── -->
-    <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong></p>
+    <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong> <span id="swissDate" style="font-size:10px;opacity:0.7"></span></p>
     <div class="weather-row reveal" id="weatherRow">
       <div class="wx-card" id="wx-zurich">
         <div class="wx-city">蘇黎世</div>
@@ -2556,11 +2556,18 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
         <div class="prac-body">
           <div class="fx-wrap">
             <div class="fx-row">
-              <input type="number" id="chfInput" class="fx-input" value="1" min="0" step="1">
+              <input type="number" id="chfInput" class="fx-input" value="1" min="0" step="1" oninput="calcChf('chf')">
+              <span class="fx-label">CHF →</span>
+              <span class="fx-result" id="fxResult" style="margin:0">--</span>
+              <span class="fx-label">TWD</span>
+            </div>
+            <div class="fx-row" style="margin-top:6px">
+              <input type="number" id="twdInput" class="fx-input" placeholder="0" min="0" step="10" oninput="calcChf('twd')">
+              <span class="fx-label">TWD →</span>
+              <span class="fx-result" id="fxResult2" style="margin:0">--</span>
               <span class="fx-label">CHF</span>
             </div>
-            <div class="fx-result" id="fxResult">≈ TWD 35</div>
-            <div class="fx-note">CHF 1 ≈ TWD 35（參考值）</div>
+            <div class="fx-note" style="margin-top:5px">CHF 1 ≈ TWD 35（參考值）</div>
           </div>
         </div>
       </div>
@@ -5050,19 +5057,21 @@ document.addEventListener('change', function(e) {
   if (e.target.closest && e.target.closest('.checklist')) updateChecklistProgress();
 });
 
-/* ── CHF/TWD CONVERTER ── */
+/* ── CHF/TWD CONVERTER (雙向) ── */
 (function() {
-  var input = document.getElementById('chfInput');
-  var result = document.getElementById('fxResult');
-  if (!input || !result) return;
   var RATE = 35;
-  function calc() {
-    var chf = parseFloat(input.value);
-    if (isNaN(chf) || chf < 0) { result.textContent = '─'; return; }
-    result.textContent = '≈ TWD ' + Math.round(chf * RATE).toLocaleString();
-  }
-  input.addEventListener('input', calc);
-  calc();
+  window.calcChf = function(dir) {
+    if (dir === 'chf') {
+      var v = parseFloat(document.getElementById('chfInput').value);
+      var r = document.getElementById('fxResult');
+      if (r) r.textContent = isNaN(v) || v < 0 ? '─' : Math.round(v * RATE).toLocaleString();
+    } else {
+      var v2 = parseFloat(document.getElementById('twdInput').value);
+      var r2 = document.getElementById('fxResult2');
+      if (r2) r2.textContent = isNaN(v2) || v2 < 0 ? '─' : (v2 / RATE).toFixed(2);
+    }
+  };
+  calcChf('chf');
 })();
 
 /* ── SCROLL TOP BUTTON ── */
@@ -5137,6 +5146,8 @@ document.addEventListener('change', function(e) {
 
 /* ── 瑞士時間 ── */
 (function() {
+  var DAYS = ['日','一','二','三','四','五','六'];
+  var MONTHS = ['1','2','3','4','5','6','7','8','9','10','11','12'];
   function tick() {
     var now = new Date();
     var utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -5145,6 +5156,8 @@ document.addEventListener('change', function(e) {
     var m = String(sw.getMinutes()).padStart(2,'0');
     var el = document.getElementById('swissTime');
     if (el) el.textContent = h + ':' + m;
+    var dateEl = document.getElementById('swissDate');
+    if (dateEl) dateEl.textContent = '（' + MONTHS[sw.getMonth()] + '/' + sw.getDate() + ' 週' + DAYS[sw.getDay()] + '）';
   }
   tick();
   setInterval(tick, 30000);
@@ -5187,11 +5200,14 @@ showTab = function(name, btn) {
     }
   }
 
-  // Auto-scroll to today in itinerary
+  // Auto-scroll + expand today in itinerary
   if (name === 'itinerary') {
     setTimeout(function() {
       var today = document.querySelector('#tab-itinerary .day-card.today');
-      if (today) today.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (today) {
+        today.classList.add('dc-open');
+        today.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }, 400);
   }
 };
@@ -5219,10 +5235,12 @@ showTab = function(name, btn) {
   if (todayCard) {
     todayCard.classList.add('dc-open');
   } else {
-    // Open next upcoming day
     var allCards = document.querySelectorAll('#tab-itinerary .day-card');
     if (allCards.length) allCards[0].classList.add('dc-open');
   }
+  // Init button text: most cards are collapsed at start
+  var initBtn = document.getElementById('dcToggleAll');
+  if (initBtn) initBtn.textContent = '展開全部';
 })();
 
 // Toggle all days open/closed
