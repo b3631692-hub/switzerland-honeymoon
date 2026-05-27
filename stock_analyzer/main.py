@@ -24,7 +24,6 @@ def print_indicators(data: dict):
     closes = data["closes"]
     highs = data["highs"]
     lows = data["lows"]
-    volumes = data["volumes"]
 
     print_header(f"📊 技術指標分析 - {data['symbol']}")
     print(f"  資料期間: {data['dates'][0]} ~ {data['dates'][-1]} ({len(closes)} 交易日)")
@@ -87,7 +86,6 @@ def print_signals(data: dict, strategy_name: str):
     if not strategy_cls:
         print(f"未知策略: {strategy_name}")
         return
-
     strategy = strategy_cls()
     signals = strategy.generate_signals(closes)
 
@@ -95,11 +93,9 @@ def print_signals(data: dict, strategy_name: str):
     if not signals:
         print("  無訊號產生")
         return
-
     buy_count = sum(1 for s in signals if s.action == Signal.BUY)
     sell_count = sum(1 for s in signals if s.action == Signal.SELL)
     print(f"  買進訊號: {buy_count} 次 | 賣出訊號: {sell_count} 次\n")
-
     for sig in signals[-20:]:
         icon = "🟢 買進" if sig.action == Signal.BUY else "🔴 賣出"
         date = data["dates"][sig.index] if sig.index < len(data["dates"]) else "?"
@@ -109,26 +105,51 @@ def print_signals(data: dict, strategy_name: str):
         print(f"           └─ {sig.reason}")
 
 
-def print_backtest(data: dict, strategy_name: str, capital: float, stop_loss: float, take_profit: float):
+def _bt_kwargs(args):
+    kw = {}
+    sl = getattr(args, "stop_loss", 0)
+    tp = getattr(args, "take_profit", 0)
+    ts = getattr(args, "trailing_stop", 0)
+    mp = getattr(args, "max_positions", 1)
+    short = getattr(args, "allow_short", False)
+    if sl > 0: kw["stop_loss"] = sl
+    if tp > 0: kw["take_profit"] = tp
+    if ts > 0: kw["trailing_stop_pct"] = ts
+    if mp > 1: kw["max_positions"] = mp
+    if short: kw["allow_short"] = True
+    return kw
+
+
+def _add_bt_args(p):
+    p.add_argument("--stop-loss", type=float, default=0)
+    p.add_argument("--take-profit", type=float, default=0)
+    p.add_argument("--trailing-stop", type=float, default=0, help="移動停損百分比，如 0.05 = 5%%")
+    p.add_argument("--max-positions", type=int, default=1, help="最大持倉數 (加碼層數)")
+    p.add_argument("--allow-short", action="store_true", help="允許做空")
+
+
+def print_backtest(data: dict, strategy_name: str, capital: float, bt_kw: dict):
     closes = data["closes"]
     strategy_cls = STRATEGIES.get(strategy_name)
     if not strategy_cls:
         print(f"未知策略: {strategy_name}")
         return
-
     strategy = strategy_cls()
     signals = strategy.generate_signals(closes)
 
-    bt = Backtester(
-        initial_capital=capital,
-        stop_loss=stop_loss if stop_loss > 0 else None,
-        take_profit=take_profit if take_profit > 0 else None,
-    )
+    bt = Backtester(initial_capital=capital, **bt_kw)
     result = bt.run(closes, signals, data["dates"])
 
     print_header(f"📈 回測報告 - {strategy.name}")
     print(f"  期間: {data['dates'][0]} ~ {data['dates'][-1]}")
     print(f"  交易日數: {len(closes)}")
+
+    features = []
+    if bt_kw.get("trailing_stop_pct"): features.append(f"移動停損 {bt_kw['trailing_stop_pct']*100:.0f}%")
+    if bt_kw.get("max_positions", 1) > 1: features.append(f"加碼 {bt_kw['max_positions']} 層")
+    if bt_kw.get("allow_short"): features.append("做空")
+    if features:
+        print(f"  進階功能: {' | '.join(features)}")
 
     ret_icon = "📈" if result.total_return_pct > 0 else "📉"
     print(f"\n  ── 收益分析 ──")
@@ -139,6 +160,8 @@ def print_backtest(data: dict, strategy_name: str, capital: float, stop_loss: fl
 
     print(f"\n  ── 風險指標 ──")
     print(f"  夏普比率:   {result.sharpe_ratio:.3f}")
+    print(f"  Sortino:    {result.sortino_ratio:.3f}")
+    print(f"  Calmar:     {result.calmar_ratio:.3f}")
     print(f"  最大回撤:   {result.max_drawdown_pct:.2f}%")
     pf_str = f"{result.profit_factor:.3f}" if result.profit_factor < 999 else "∞"
     print(f"  獲利因子:   {pf_str}")
@@ -152,40 +175,141 @@ def print_backtest(data: dict, strategy_name: str, capital: float, stop_loss: fl
     print(f"  平均虧損:   {result.avg_loss:+.2f}%")
     print(f"  平均持倉:   {result.avg_holding_days:.0f} 天")
     print(f"  期望值:     ${result.expectancy:>+,.2f}/筆")
+    print(f"  連續獲利:   {result.consecutive_wins} 次")
+    print(f"  連續虧損:   {result.consecutive_losses} 次")
+
+    if result.long_trades > 0 or result.short_trades > 0:
+        print(f"\n  ── 多空統計 ──")
+        print(f"  做多: {result.long_trades} 筆  PnL: ${result.long_pnl:>+,.2f}")
+        print(f"  做空: {result.short_trades} 筆  PnL: ${result.short_pnl:>+,.2f}")
 
     sl_trades = [t for t in result.trades if t.exit_reason == "stop_loss"]
     tp_trades = [t for t in result.trades if t.exit_reason == "take_profit"]
-    if sl_trades or tp_trades:
+    ts_trades = [t for t in result.trades if t.exit_reason == "trailing_stop"]
+    if sl_trades or tp_trades or ts_trades:
         print(f"\n  ── 停損停利統計 ──")
-        print(f"  停損觸發:   {len(sl_trades)} 次")
-        print(f"  停利觸發:   {len(tp_trades)} 次")
         if sl_trades:
             sl_avg = sum(t.pnl_pct for t in sl_trades) / len(sl_trades)
-            print(f"  停損平均:   {sl_avg:+.2f}%")
+            print(f"  固定停損:   {len(sl_trades)} 次  平均 {sl_avg:+.2f}%")
+        if ts_trades:
+            ts_avg = sum(t.pnl_pct for t in ts_trades) / len(ts_trades)
+            print(f"  移動停損:   {len(ts_trades)} 次  平均 {ts_avg:+.2f}%")
         if tp_trades:
             tp_avg = sum(t.pnl_pct for t in tp_trades) / len(tp_trades)
-            print(f"  停利平均:   {tp_avg:+.2f}%")
+            print(f"  停利觸發:   {len(tp_trades)} 次  平均 {tp_avg:+.2f}%")
 
     if result.trades:
-        reason_map = {"stop_loss": "🛑停損", "take_profit": "🎯停利", "signal": "📊策略", "end_of_data": "⏹結束"}
+        reason_map = {"stop_loss": "🛑停損", "take_profit": "🎯停利", "trailing_stop": "🔄移停",
+                      "signal": "📊策略", "end_of_data": "⏹結束"}
         print(f"\n  ── 最近交易 ──")
         for t in result.trades[-10:]:
             entry_date = data["dates"][t.entry_idx] if t.entry_idx < len(data["dates"]) else "?"
             exit_date = data["dates"][t.exit_idx] if t.exit_idx and t.exit_idx < len(data["dates"]) else "?"
             icon = "✅" if t.pnl > 0 else "❌"
             reason = reason_map.get(t.exit_reason, t.exit_reason)
-            sl_str = f" SL:{t.stop_loss_price:.1f}" if t.stop_loss_price else ""
-            tp_str = f" TP:{t.take_profit_price:.1f}" if t.take_profit_price else ""
-            print(f"  {icon} {entry_date} → {exit_date} | {reason} | 買 {t.entry_price:.2f} → 賣 {t.exit_price:.2f}{sl_str}{tp_str} | {t.pnl_pct:+.2f}% (${t.pnl:+,.2f})")
+            direction = "📈" if t.direction == "LONG" else "📉"
+            print(f"  {icon}{direction} {entry_date}→{exit_date} | {reason} | {t.entry_price:.2f}→{t.exit_price:.2f} | {t.pnl_pct:+.2f}% (${t.pnl:+,.2f})")
+
+    return result
+
+
+def print_montecarlo(data: dict, strategy_name: str, capital: float, bt_kw: dict, n_sims: int):
+    from stock_analyzer.advanced import MonteCarloSimulator
+
+    closes = data["closes"]
+    strategy_cls = STRATEGIES.get(strategy_name, STRATEGIES["composite"])
+    strategy = strategy_cls()
+    signals = strategy.generate_signals(closes)
+    bt = Backtester(initial_capital=capital, **bt_kw)
+    result = bt.run(closes, signals, data["dates"])
+
+    if not result.trades:
+        print("  無交易，無法執行 Monte Carlo")
+        return
+
+    mc = MonteCarloSimulator(n_simulations=n_sims, seed=42)
+    mc_result = mc.run(result.trades, capital)
+
+    print_header(f"🎲 Monte Carlo 模擬 ({n_sims} 次) - {strategy.name}")
+    fc = mc_result["final_capital_stats"]
+    dd = mc_result["max_drawdown_stats"]
+    print(f"  原始交易數:   {mc_result['n_trades']}")
+    print(f"\n  ── 最終資金分佈 ──")
+    print(f"  平均:    ${fc['mean']:>14,.2f}")
+    print(f"  中位數:  ${fc['median']:>14,.2f}")
+    print(f"  5%ile:   ${fc['p5']:>14,.2f}")
+    print(f"  95%ile:  ${fc['p95']:>14,.2f}")
+    print(f"  最差:    ${fc['min']:>14,.2f}")
+    print(f"  最佳:    ${fc['max']:>14,.2f}")
+    print(f"\n  ── 最大回撤分佈 ──")
+    print(f"  平均:    {dd['mean']:.2f}%")
+    print(f"  中位數:  {dd['median']:.2f}%")
+    print(f"  最差:    {dd['worst']:.2f}%")
+    print(f"\n  ── 風險評估 ──")
+    print(f"  獲利機率:    {mc_result['probability_of_profit']:.1f}%")
+    print(f"  破產機率:    {mc_result['probability_of_ruin']:.1f}% (本金腰斬)")
+    sr = mc_result['sharpe_stats']
+    print(f"  夏普中位數:  {sr['median']:.3f}")
+
+
+def print_walkforward(data: dict, strategy_name: str, capital: float, bt_kw: dict, n_windows: int):
+    from stock_analyzer.advanced import WalkForwardAnalyzer
+
+    wf = WalkForwardAnalyzer(n_windows=n_windows)
+    wf_result = wf.run(data["closes"], strategy_name, capital, **bt_kw)
+
+    if "error" in wf_result:
+        print(f"  ❌ {wf_result['error']}")
+        return
+
+    print_header(f"📐 Walk-Forward 分析 ({wf_result['n_windows']} 窗口)")
+    print(f"  訓練/測試比: {wf_result['train_ratio']*100:.0f}% / {(1-wf_result['train_ratio'])*100:.0f}%")
+    print(f"  初始資金:    ${wf_result['initial_capital']:>14,.2f}")
+    print(f"  最終資金:    ${wf_result['final_capital']:>14,.2f}")
+    print(f"  累計報酬:    {wf_result['total_return_pct']:+.2f}%")
+    print(f"  平均OOS報酬: {wf_result['avg_oos_return']:+.2f}%")
+
+    print(f"\n  {'窗口':>4} | {'訓練夏普':>8} | {'OOS報酬':>8} | {'OOS夏普':>8} | {'交易':>4} | {'勝率':>6} | {'最大回撤':>8} | 最佳參數")
+    print(f"  {'─'*4}─┼─{'─'*8}─┼─{'─'*8}─┼─{'─'*8}─┼─{'─'*4}─┼─{'─'*6}─┼─{'─'*8}─┼─{'─'*20}")
+    for w in wf_result["windows"]:
+        params_str = ", ".join(f"{k}={v}" for k, v in w["best_params"].items()) or "default"
+        icon = "✅" if w["oos_return_pct"] > 0 else "❌"
+        print(f"  {icon}{w['window']:>2}  | {w['train_sharpe']:>+8.3f} | {w['oos_return_pct']:>+7.2f}% | {w['oos_sharpe']:>+8.3f} | {w['oos_trades']:>4} | {w['oos_win_rate']:>5.1f}% | {w['oos_max_dd']:>7.2f}% | {params_str}")
+
+
+def print_optimize(data: dict, strategy_name: str, capital: float, bt_kw: dict, rank_by: str):
+    from stock_analyzer.advanced import GridSearchOptimizer
+
+    opt = GridSearchOptimizer()
+    opt_result = opt.optimize(data["closes"], strategy_name, capital=capital, rank_by=rank_by, **bt_kw)
+
+    if "error" in opt_result:
+        print(f"  ❌ {opt_result['error']}")
+        return
+
+    print_header(f"🔍 Grid Search 參數最佳化 - {strategy_name}")
+    print(f"  測試組合數: {opt_result['total_combinations']}")
+    print(f"  排序依據:   {rank_by}")
+
+    if opt_result["best"]:
+        b = opt_result["best"]
+        params_str = ", ".join(f"{k}={v}" for k, v in b["params"].items())
+        print(f"\n  🏆 最佳參數: {params_str}")
+        print(f"     報酬 {b['return_pct']:+.2f}% | 夏普 {b['sharpe']:.3f} | Sortino {b['sortino']:.3f} | 勝率 {b['win_rate']:.1f}% | 回撤 {b['max_dd']:.2f}%")
+
+    print(f"\n  {'排名':>4} | {'報酬':>8} | {'夏普':>7} | {'Sortino':>7} | {'勝率':>6} | {'回撤':>7} | {'交易':>4} | 參數")
+    print(f"  {'─'*4}─┼─{'─'*8}─┼─{'─'*7}─┼─{'─'*7}─┼─{'─'*6}─┼─{'─'*7}─┼─{'─'*4}─┼─{'─'*20}")
+    for i, r in enumerate(opt_result["top_10"]):
+        params_str = ", ".join(f"{k}={v}" for k, v in r["params"].items())
+        icon = "👑" if i == 0 else f"  "
+        print(f"  {icon}{i+1:>2} | {r['return_pct']:>+7.2f}% | {r['sharpe']:>+7.3f} | {r['sortino']:>+7.3f} | {r['win_rate']:>5.1f}% | {r['max_dd']:>6.2f}% | {r['trades']:>4} | {params_str}")
 
 
 def run_full_analysis(data: dict, capital: float):
     print_indicators(data)
     print()
-
     best_result = None
     best_strategy = None
-
     for name, cls in STRATEGIES.items():
         if name == "kdj":
             continue
@@ -193,7 +317,6 @@ def run_full_analysis(data: dict, capital: float):
         signals = strategy.generate_signals(data["closes"])
         bt = Backtester(initial_capital=capital)
         result = bt.run(data["closes"], signals, data["dates"])
-
         if best_result is None or result.total_return_pct > best_result.total_return_pct:
             best_result = result
             best_strategy = name
@@ -210,7 +333,7 @@ def run_full_analysis(data: dict, capital: float):
         print(f"  {icon} {strategy.name:<30} | 報酬 {result.total_return_pct:>+8.2f}% | 夏普 {result.sharpe_ratio:>6.3f} | 勝率 {result.win_rate:>5.1f}% | 交易 {result.total_trades:>3}筆")
 
     print(f"\n  🏆 最佳策略: {best_strategy}")
-    print_backtest(data, best_strategy, capital, 0, 0)
+    print_backtest(data, best_strategy, capital, {})
 
     rm = RiskManager()
     if best_result and best_result.equity_curve:
@@ -238,24 +361,26 @@ def main():
         epilog="""
 使用範例:
   python -m stock_analyzer.main analyze --preset uptrend
-  python -m stock_analyzer.main analyze --symbol AAPL
-  python -m stock_analyzer.main signals --preset volatile --strategy macd
-  python -m stock_analyzer.main backtest --preset default --strategy composite --capital 500000
-  python -m stock_analyzer.main full --symbol TSLA --capital 1000000
+  python -m stock_analyzer.main backtest --preset volatile --strategy macd --trailing-stop 0.05 --allow-short
+  python -m stock_analyzer.main backtest --preset uptrend --strategy bollinger --max-positions 3
+  python -m stock_analyzer.main montecarlo --preset volatile --strategy macd --n 1000
+  python -m stock_analyzer.main walkforward --preset uptrend --strategy golden_cross --windows 5
+  python -m stock_analyzer.main optimize --strategy golden_cross --rank-by sharpe
+  python -m stock_analyzer.main full --preset uptrend --capital 1000000
   python -m stock_analyzer.main server --port 8888
 
-策略選項: golden_cross, rsi, macd, bollinger, kdj, composite
-資料預設: uptrend, volatile, bearish, default
+策略: golden_cross, rsi, macd, bollinger, kdj, composite
+資料: uptrend, volatile, bearish, default
         """
     )
     sub = parser.add_subparsers(dest="command")
 
-    p_analyze = sub.add_parser("analyze", help="顯示技術指標分析")
-    p_analyze.add_argument("--symbol", type=str, help="股票代碼 (Yahoo Finance)")
-    p_analyze.add_argument("--csv", type=str, help="CSV 檔案路徑")
-    p_analyze.add_argument("--preset", type=str, default="default", help="預設資料集")
+    p_analyze = sub.add_parser("analyze", help="技術指標分析")
+    p_analyze.add_argument("--symbol", type=str)
+    p_analyze.add_argument("--csv", type=str)
+    p_analyze.add_argument("--preset", type=str, default="default")
 
-    p_signals = sub.add_parser("signals", help="產生交易訊號")
+    p_signals = sub.add_parser("signals", help="交易訊號")
     p_signals.add_argument("--symbol", type=str)
     p_signals.add_argument("--csv", type=str)
     p_signals.add_argument("--preset", type=str, default="default")
@@ -267,8 +392,34 @@ def main():
     p_bt.add_argument("--preset", type=str, default="default")
     p_bt.add_argument("--strategy", type=str, default="composite")
     p_bt.add_argument("--capital", type=float, default=1_000_000)
-    p_bt.add_argument("--stop-loss", type=float, default=0)
-    p_bt.add_argument("--take-profit", type=float, default=0)
+    _add_bt_args(p_bt)
+
+    p_mc = sub.add_parser("montecarlo", help="Monte Carlo 模擬")
+    p_mc.add_argument("--symbol", type=str)
+    p_mc.add_argument("--csv", type=str)
+    p_mc.add_argument("--preset", type=str, default="default")
+    p_mc.add_argument("--strategy", type=str, default="composite")
+    p_mc.add_argument("--capital", type=float, default=1_000_000)
+    p_mc.add_argument("--n", type=int, default=500, help="模擬次數")
+    _add_bt_args(p_mc)
+
+    p_wf = sub.add_parser("walkforward", help="Walk-Forward 分析")
+    p_wf.add_argument("--symbol", type=str)
+    p_wf.add_argument("--csv", type=str)
+    p_wf.add_argument("--preset", type=str, default="default")
+    p_wf.add_argument("--strategy", type=str, default="golden_cross")
+    p_wf.add_argument("--capital", type=float, default=1_000_000)
+    p_wf.add_argument("--windows", type=int, default=5, help="分析窗口數")
+    _add_bt_args(p_wf)
+
+    p_opt = sub.add_parser("optimize", help="Grid Search 參數最佳化")
+    p_opt.add_argument("--symbol", type=str)
+    p_opt.add_argument("--csv", type=str)
+    p_opt.add_argument("--preset", type=str, default="default")
+    p_opt.add_argument("--strategy", type=str, default="golden_cross")
+    p_opt.add_argument("--capital", type=float, default=1_000_000)
+    p_opt.add_argument("--rank-by", type=str, default="sharpe", choices=["sharpe", "return", "sortino", "win_rate", "profit_factor"])
+    _add_bt_args(p_opt)
 
     p_full = sub.add_parser("full", help="完整分析報告")
     p_full.add_argument("--symbol", type=str)
@@ -280,7 +431,7 @@ def main():
     p_server.add_argument("--port", type=int, default=8080)
     p_server.add_argument("--host", type=str, default="0.0.0.0")
 
-    p_json = sub.add_parser("json", help="輸出 JSON 格式 (供 API 使用)")
+    p_json = sub.add_parser("json", help="JSON 輸出")
     p_json.add_argument("--symbol", type=str)
     p_json.add_argument("--csv", type=str)
     p_json.add_argument("--preset", type=str, default="default")
@@ -288,7 +439,6 @@ def main():
     p_json.add_argument("--capital", type=float, default=1_000_000)
 
     args = parser.parse_args()
-
     if not args.command:
         parser.print_help()
         return
@@ -308,7 +458,13 @@ def main():
     elif args.command == "signals":
         print_signals(data, args.strategy)
     elif args.command == "backtest":
-        print_backtest(data, args.strategy, args.capital, args.stop_loss, args.take_profit)
+        print_backtest(data, args.strategy, args.capital, _bt_kwargs(args))
+    elif args.command == "montecarlo":
+        print_montecarlo(data, args.strategy, args.capital, _bt_kwargs(args), args.n)
+    elif args.command == "walkforward":
+        print_walkforward(data, args.strategy, args.capital, _bt_kwargs(args), args.windows)
+    elif args.command == "optimize":
+        print_optimize(data, args.strategy, args.capital, _bt_kwargs(args), args.rank_by)
     elif args.command == "full":
         run_full_analysis(data, args.capital)
     elif args.command == "json":
@@ -333,32 +489,21 @@ def _load_data(args) -> dict | None:
 def _build_json(data: dict, strategy_name: str, capital: float) -> dict:
     from stock_analyzer.indicators import sma as _sma, rsi as _rsi, macd as _macd, bollinger_bands as _bb
     closes = data["closes"]
-
     strategy_cls = STRATEGIES.get(strategy_name)
     strategy = strategy_cls() if strategy_cls else STRATEGIES["composite"]()
     signals = strategy.generate_signals(closes)
     bt = Backtester(initial_capital=capital)
     result = bt.run(closes, signals, data["dates"])
-
     sma20 = _sma(closes, 20)
     sma60 = _sma(closes, 60)
     rsi14 = _rsi(closes, 14)
     macd_l, sig_l, hist_l = _macd(closes)
     bb_u, bb_m, bb_lo = _bb(closes)
-
     return {
         "data": data,
-        "indicators": {
-            "sma20": sma20,
-            "sma60": sma60,
-            "rsi": rsi14,
-            "macd": macd_l,
-            "macd_signal": sig_l,
-            "macd_hist": hist_l,
-            "bb_upper": bb_u,
-            "bb_middle": bb_m,
-            "bb_lower": bb_lo,
-        },
+        "indicators": {"sma20": sma20, "sma60": sma60, "rsi": rsi14,
+                        "macd": macd_l, "macd_signal": sig_l, "macd_hist": hist_l,
+                        "bb_upper": bb_u, "bb_middle": bb_m, "bb_lower": bb_lo},
         "signals": [s.to_dict() for s in signals],
         "backtest": result.to_dict(),
         "strategy": strategy.name,

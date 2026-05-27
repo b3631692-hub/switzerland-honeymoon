@@ -1,4 +1,7 @@
-"""Backtesting engine for strategy evaluation."""
+"""Backtesting engine for strategy evaluation.
+
+Supports: trailing stop, pyramiding, short selling, transaction costs.
+"""
 import math
 from typing import List, Dict, Any
 from .strategies import Signal
@@ -18,6 +21,7 @@ class Trade:
         self.exit_reason: str = ""
         self.stop_loss_price = stop_loss_price
         self.take_profit_price = take_profit_price
+        self.trailing_high: float | None = None
 
     def close(self, exit_idx: int, exit_price: float, reason: str = "signal"):
         self.exit_idx = exit_idx
@@ -43,6 +47,7 @@ class Trade:
             "exit_reason": self.exit_reason,
             "stop_loss_price": round(self.stop_loss_price, 2) if self.stop_loss_price else None,
             "take_profit_price": round(self.take_profit_price, 2) if self.take_profit_price else None,
+            "trailing_high": round(self.trailing_high, 2) if self.trailing_high else None,
         }
 
 
@@ -50,11 +55,14 @@ class BacktestResult:
     def __init__(self):
         self.trades: List[Trade] = []
         self.equity_curve: List[float] = []
+        self.trailing_stop_history: List[float | None] = []
         self.initial_capital: float = 0
         self.final_capital: float = 0
         self.total_return_pct: float = 0
         self.annualized_return: float = 0
         self.sharpe_ratio: float = 0
+        self.sortino_ratio: float = 0
+        self.calmar_ratio: float = 0
         self.max_drawdown: float = 0
         self.max_drawdown_pct: float = 0
         self.win_rate: float = 0
@@ -66,6 +74,12 @@ class BacktestResult:
         self.avg_loss: float = 0
         self.avg_holding_days: float = 0
         self.expectancy: float = 0
+        self.long_trades: int = 0
+        self.short_trades: int = 0
+        self.long_pnl: float = 0
+        self.short_pnl: float = 0
+        self.consecutive_wins: int = 0
+        self.consecutive_losses: int = 0
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -74,6 +88,8 @@ class BacktestResult:
             "total_return_pct": round(self.total_return_pct, 2),
             "annualized_return": round(self.annualized_return, 2),
             "sharpe_ratio": round(self.sharpe_ratio, 3),
+            "sortino_ratio": round(self.sortino_ratio, 3),
+            "calmar_ratio": round(self.calmar_ratio, 3),
             "max_drawdown": round(self.max_drawdown, 2),
             "max_drawdown_pct": round(self.max_drawdown_pct, 2),
             "win_rate": round(self.win_rate, 2),
@@ -85,7 +101,14 @@ class BacktestResult:
             "avg_loss": round(self.avg_loss, 2),
             "avg_holding_days": round(self.avg_holding_days, 1),
             "expectancy": round(self.expectancy, 2),
+            "long_trades": self.long_trades,
+            "short_trades": self.short_trades,
+            "long_pnl": round(self.long_pnl, 2),
+            "short_pnl": round(self.short_pnl, 2),
+            "consecutive_wins": self.consecutive_wins,
+            "consecutive_losses": self.consecutive_losses,
             "equity_curve": [round(e, 2) for e in self.equity_curve],
+            "trailing_stop_history": self.trailing_stop_history,
             "trades": [t.to_dict() for t in self.trades],
         }
 
@@ -100,6 +123,9 @@ class Backtester:
         position_size: float = 0.95,
         stop_loss: float | None = None,
         take_profit: float | None = None,
+        trailing_stop_pct: float | None = None,
+        max_positions: int = 1,
+        allow_short: bool = False,
     ):
         self.initial_capital = initial_capital
         self.commission_rate = commission_rate
@@ -108,14 +134,34 @@ class Backtester:
         self.position_size = position_size
         self.stop_loss = stop_loss
         self.take_profit = take_profit
+        self.trailing_stop_pct = trailing_stop_pct
+        self.max_positions = max(1, max_positions)
+        self.allow_short = allow_short
+
+    def _close_position(self, pos: Trade, idx: int, price: float, reason: str,
+                        capital: float, result: BacktestResult) -> float:
+        if pos.direction == "LONG":
+            sell_price = price * (1 - self.slippage)
+            cost = sell_price * pos.shares * (self.commission_rate + self.tax_rate)
+            pos.close(idx, sell_price, reason)
+            capital += sell_price * pos.shares - cost
+        else:
+            buy_price = price * (1 + self.slippage)
+            cost = buy_price * pos.shares * (self.commission_rate + self.tax_rate)
+            pos.close(idx, buy_price, reason)
+            capital += (2 * pos.entry_price - buy_price) * pos.shares - cost
+        result.trades.append(pos)
+        return capital
 
     def run(self, closes: List[float], signals: List[Signal], dates: List[str] = None) -> BacktestResult:
         result = BacktestResult()
         result.initial_capital = self.initial_capital
 
         capital = self.initial_capital
-        position: Trade | None = None
-        equity_curve = []
+        positions: List[Trade] = []
+        high_watermarks: Dict[int, float] = {}
+        equity_curve: List[float] = []
+        ts_history: List[float | None] = []
 
         signal_map: Dict[int, Signal] = {}
         for sig in signals:
@@ -125,65 +171,140 @@ class Backtester:
         for i in range(len(closes)):
             price = closes[i]
 
-            if position and self.stop_loss:
-                if position.direction == "LONG":
-                    loss_pct = (position.entry_price - price) / position.entry_price
-                    if loss_pct >= self.stop_loss:
-                        sell_price = price * (1 - self.slippage)
-                        cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-                        position.close(i, sell_price, "stop_loss")
-                        capital += sell_price * position.shares - cost
-                        result.trades.append(position)
-                        position = None
+            # --- 1. Update high watermarks & check trailing stops ---
+            if self.trailing_stop_pct and positions:
+                to_close = []
+                for pos in positions:
+                    pid = id(pos)
+                    if pos.direction == "LONG":
+                        hwm = max(high_watermarks.get(pid, pos.entry_price), price)
+                        high_watermarks[pid] = hwm
+                        ts_level = hwm * (1 - self.trailing_stop_pct)
+                        if price <= ts_level:
+                            pos.trailing_high = hwm
+                            to_close.append((pos, "trailing_stop"))
+                    else:
+                        lwm = min(high_watermarks.get(pid, pos.entry_price), price)
+                        high_watermarks[pid] = lwm
+                        ts_level = lwm * (1 + self.trailing_stop_pct)
+                        if price >= ts_level:
+                            pos.trailing_high = lwm
+                            to_close.append((pos, "trailing_stop"))
+                for pos, reason in to_close:
+                    capital = self._close_position(pos, i, price, reason, capital, result)
+                    if id(pos) in high_watermarks:
+                        del high_watermarks[id(pos)]
+                    positions.remove(pos)
 
-            if position and self.take_profit:
-                if position.direction == "LONG":
-                    gain_pct = (price - position.entry_price) / position.entry_price
-                    if gain_pct >= self.take_profit:
-                        sell_price = price * (1 - self.slippage)
-                        cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-                        position.close(i, sell_price, "take_profit")
-                        capital += sell_price * position.shares - cost
-                        result.trades.append(position)
-                        position = None
+            # --- 2. Check fixed stop-loss ---
+            if self.stop_loss and positions:
+                to_close = []
+                for pos in positions:
+                    if pos.direction == "LONG":
+                        loss_pct = (pos.entry_price - price) / pos.entry_price
+                        if loss_pct >= self.stop_loss:
+                            to_close.append(pos)
+                    else:
+                        loss_pct = (price - pos.entry_price) / pos.entry_price
+                        if loss_pct >= self.stop_loss:
+                            to_close.append(pos)
+                for pos in to_close:
+                    capital = self._close_position(pos, i, price, "stop_loss", capital, result)
+                    high_watermarks.pop(id(pos), None)
+                    positions.remove(pos)
 
+            # --- 3. Check take-profit ---
+            if self.take_profit and positions:
+                to_close = []
+                for pos in positions:
+                    if pos.direction == "LONG":
+                        gain_pct = (price - pos.entry_price) / pos.entry_price
+                        if gain_pct >= self.take_profit:
+                            to_close.append(pos)
+                    else:
+                        gain_pct = (pos.entry_price - price) / pos.entry_price
+                        if gain_pct >= self.take_profit:
+                            to_close.append(pos)
+                for pos in to_close:
+                    capital = self._close_position(pos, i, price, "take_profit", capital, result)
+                    high_watermarks.pop(id(pos), None)
+                    positions.remove(pos)
+
+            # --- 4. Process signals ---
             if i in signal_map:
                 sig = signal_map[i]
+                longs = [p for p in positions if p.direction == "LONG"]
+                shorts = [p for p in positions if p.direction == "SHORT"]
 
-                if sig.action == Signal.BUY and position is None:
-                    buy_price = price * (1 + self.slippage)
-                    available = capital * self.position_size
-                    cost = available * self.commission_rate
-                    shares = (available - cost) / buy_price
-                    if shares > 0:
-                        sl_price = buy_price * (1 - self.stop_loss) if self.stop_loss else None
-                        tp_price = buy_price * (1 + self.take_profit) if self.take_profit else None
-                        position = Trade(i, buy_price, shares, "LONG", sl_price, tp_price)
-                        capital -= buy_price * shares + cost
+                if sig.action == Signal.BUY:
+                    for pos in shorts:
+                        capital = self._close_position(pos, i, price, "signal", capital, result)
+                        high_watermarks.pop(id(pos), None)
+                    positions = [p for p in positions if p.direction == "LONG"]
 
-                elif sig.action == Signal.SELL and position is not None:
-                    sell_price = price * (1 - self.slippage)
-                    cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-                    position.close(i, sell_price, "signal")
-                    capital += sell_price * position.shares - cost
-                    result.trades.append(position)
-                    position = None
+                    if len(longs) < self.max_positions:
+                        buy_price = price * (1 + self.slippage)
+                        alloc = self.position_size / self.max_positions
+                        available = capital * alloc
+                        cost = available * self.commission_rate
+                        shares = (available - cost) / buy_price
+                        if shares > 0 and capital > buy_price * shares + cost:
+                            sl_p = buy_price * (1 - self.stop_loss) if self.stop_loss else None
+                            tp_p = buy_price * (1 + self.take_profit) if self.take_profit else None
+                            new_pos = Trade(i, buy_price, shares, "LONG", sl_p, tp_p)
+                            capital -= buy_price * shares + cost
+                            positions.append(new_pos)
+                            high_watermarks[id(new_pos)] = buy_price
 
-            if position:
-                mark_value = capital + position.shares * price
-            else:
-                mark_value = capital
+                elif sig.action == Signal.SELL:
+                    for pos in longs:
+                        capital = self._close_position(pos, i, price, "signal", capital, result)
+                        high_watermarks.pop(id(pos), None)
+                    positions = [p for p in positions if p.direction == "SHORT"]
+
+                    if self.allow_short and len(shorts) < self.max_positions:
+                        sell_price = price * (1 - self.slippage)
+                        alloc = self.position_size / self.max_positions
+                        available = capital * alloc
+                        cost = available * self.commission_rate
+                        shares = (available - cost) / sell_price
+                        if shares > 0:
+                            sl_p = sell_price * (1 + self.stop_loss) if self.stop_loss else None
+                            tp_p = sell_price * (1 - self.take_profit) if self.take_profit else None
+                            new_pos = Trade(i, sell_price, shares, "SHORT", sl_p, tp_p)
+                            capital += sell_price * shares - cost
+                            positions.append(new_pos)
+                            high_watermarks[id(new_pos)] = sell_price
+
+            # --- 5. Mark to market ---
+            mark_value = capital
+            for pos in positions:
+                if pos.direction == "LONG":
+                    mark_value += pos.shares * price
+                else:
+                    mark_value += pos.shares * (2 * pos.entry_price - price)
             equity_curve.append(mark_value)
 
-        if position:
-            sell_price = closes[-1] * (1 - self.slippage)
-            cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-            position.close(len(closes) - 1, sell_price, "end_of_data")
-            capital += sell_price * position.shares - cost
-            result.trades.append(position)
+            # --- 6. Trailing stop history ---
+            if positions and self.trailing_stop_pct:
+                pos = positions[0]
+                pid = id(pos)
+                hwm = high_watermarks.get(pid, pos.entry_price)
+                if pos.direction == "LONG":
+                    ts_history.append(round(hwm * (1 - self.trailing_stop_pct), 2))
+                else:
+                    ts_history.append(round(hwm * (1 + self.trailing_stop_pct), 2))
+            else:
+                ts_history.append(None)
+
+        # --- Close remaining positions ---
+        for pos in positions:
+            capital = self._close_position(pos, len(closes) - 1, closes[-1], "end_of_data", capital, result)
+        if equity_curve:
             equity_curve[-1] = capital
 
         result.equity_curve = equity_curve
+        result.trailing_stop_history = ts_history
         result.final_capital = capital
         result.total_return_pct = (capital - self.initial_capital) / self.initial_capital * 100
 
@@ -212,6 +333,13 @@ class Backtester:
                 if std_ret > 0:
                     result.sharpe_ratio = (avg_ret / std_ret) * math.sqrt(252)
 
+            downside = [r for r in daily_returns if r < 0]
+            if downside:
+                down_var = sum(r ** 2 for r in downside) / len(downside)
+                down_std = math.sqrt(down_var)
+                if down_std > 0:
+                    result.sortino_ratio = (avg_ret / down_std) * math.sqrt(252)
+
         peak = equity_curve[0]
         max_dd = 0
         max_dd_pct = 0
@@ -226,6 +354,9 @@ class Backtester:
                 max_dd_pct = dd_pct
         result.max_drawdown = max_dd
         result.max_drawdown_pct = max_dd_pct * 100
+
+        if result.max_drawdown_pct > 0:
+            result.calmar_ratio = result.annualized_return / result.max_drawdown_pct
 
         wins = [t for t in result.trades if t.pnl > 0]
         losses = [t for t in result.trades if t.pnl <= 0]
@@ -251,3 +382,26 @@ class Backtester:
             if holding_periods:
                 result.avg_holding_days = sum(holding_periods) / len(holding_periods)
             result.expectancy = sum(t.pnl for t in result.trades) / result.total_trades
+
+        longs = [t for t in result.trades if t.direction == "LONG"]
+        shorts = [t for t in result.trades if t.direction == "SHORT"]
+        result.long_trades = len(longs)
+        result.short_trades = len(shorts)
+        result.long_pnl = sum(t.pnl for t in longs)
+        result.short_pnl = sum(t.pnl for t in shorts)
+
+        max_cw = 0
+        max_cl = 0
+        cw = 0
+        cl = 0
+        for t in result.trades:
+            if t.pnl > 0:
+                cw += 1
+                cl = 0
+            else:
+                cl += 1
+                cw = 0
+            max_cw = max(max_cw, cw)
+            max_cl = max(max_cl, cl)
+        result.consecutive_wins = max_cw
+        result.consecutive_losses = max_cl
