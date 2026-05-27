@@ -2363,6 +2363,20 @@ body.dark-mode .cf-chip { background: #152233; }
   cursor: pointer; accent-color: var(--primary); margin-top: 1px;
 }
 .predep-item:has(input:checked) span { text-decoration: line-through; color: var(--text-light); }
+#smartRemindCard { display: none; border-radius: var(--radius-sm); padding: 13px 15px 11px;
+  margin-bottom: 16px; background: linear-gradient(135deg,#FFF7ED,#FFFBEB);
+  border: 1.5px solid #FCD34D; }
+#smartRemindCard.visible { display: block; }
+.sr-title { font-size: 11.5px; font-weight: 800; color: #D97706; margin-bottom: 7px; letter-spacing: 0.2px; }
+.sr-item { font-size: 11.5px; color: #92400E; padding: 2px 0; line-height: 1.45;
+  display: flex; align-items: baseline; gap: 5px; }
+.sr-item::before { content: '◻'; flex-shrink: 0; }
+.sr-more { font-size: 10px; color: #B45309; margin-top: 5px; font-weight: 600; }
+.sr-done { font-size: 12.5px; font-weight: 700; color: #16A34A; }
+body.dark-mode #smartRemindCard { background: #1C1106; border-color: #92400E; }
+body.dark-mode .sr-title { color: #FCD34D; }
+body.dark-mode .sr-item { color: #FDE68A; }
+body.dark-mode .sr-more { color: #FCD34D; }
 
 /* ── 花費追蹤 ── */
 .spend-tracker { padding: 18px 16px 16px; }
@@ -5666,6 +5680,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <div id="tab-reminders" class="section">
     <div class="sec-title">重要提醒</div>
 
+    <!-- 智能行前提示卡 -->
+    <div id="smartRemindCard"></div>
+
     <!-- 取消期限倒數 -->
     <div class="cancel-dl-card reveal">
       <div class="cancel-dl-title">🗓 飯店取消期限倒數</div>
@@ -8412,9 +8429,51 @@ window.shareItinerary = function() {
     if (unchecked === 0) { badge.style.display = 'none'; }
     else { badge.textContent = unchecked; badge.style.display = 'block'; }
   }
-  window.savePredep = function() { haptic(10); save(); updateBadge(); };
+  window.savePredep = function() { haptic(10); save(); updateBadge(); if(window.updateSmartRemind) window.updateSmartRemind(); };
   restore();
   updateBadge();
+})();
+
+/* ── 智能行前提示卡 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var URGENT = [0,1,2,3];
+  var W3 = [4,8,13];
+  var W2 = [5,9,11];
+  var W1 = [6,7,12,14];
+  var LAST = [10,15];
+  window.updateSmartRemind = function(){
+    var card = document.getElementById('smartRemindCard');
+    if(!card) return;
+    var daysTo = Math.ceil((DEPART - Date.now()) / 86400000);
+    if(daysTo <= 0 || daysTo > 60){ card.style.display='none'; return; }
+    var pending = [];
+    function addPending(ids){
+      ids.forEach(function(i){
+        var cb = document.getElementById('pd'+i);
+        if(cb && !cb.checked){
+          var lbl = cb.nextElementSibling;
+          if(lbl) pending.push(lbl.textContent.trim());
+        }
+      });
+    }
+    addPending(URGENT);
+    if(daysTo <= 21) addPending(W3);
+    if(daysTo <= 14) addPending(W2);
+    if(daysTo <= 7) addPending(W1);
+    if(daysTo <= 3) addPending(LAST);
+    card.classList.add('visible');
+    if(pending.length === 0){
+      card.innerHTML = '<div class="sr-done">✅ 本階段行前事項全部完成！</div>';
+      return;
+    }
+    var stage = daysTo <= 3 ? '🔴 最後衝刺 · ' : daysTo <= 7 ? '🟡 出發前 1 週 · ' : daysTo <= 14 ? '🟡 本週重點 · ' : '⚡ 近期必辦 · ';
+    var shown = pending.slice(0, 4);
+    card.innerHTML = '<div class="sr-title">' + stage + '距出發 ' + daysTo + ' 天</div>'
+      + shown.map(function(t){ return '<div class="sr-item">' + (t.length > 34 ? t.substring(0,34)+'…' : t) + '</div>'; }).join('')
+      + (pending.length > 4 ? '<div class="sr-more">另有 '+(pending.length-4)+' 項待辦</div>' : '');
+  };
+  updateSmartRemind();
 })();
 
 /* ── 旅行狀態看板 ── */
