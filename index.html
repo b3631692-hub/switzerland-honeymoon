@@ -1225,6 +1225,14 @@ details.chk-section[open] > summary {
   background: linear-gradient(90deg, transparent, var(--primary), transparent);
   border-radius: 0 0 3px 3px;
 }
+.bnav-badge {
+  position: absolute; top: 5px; right: 8px;
+  min-width: 14px; height: 14px; border-radius: 7px;
+  background: #DC2626; color: #fff;
+  font-size: 9px; font-weight: 800; line-height: 14px;
+  text-align: center; padding: 0 3px;
+  pointer-events: none;
+}
 
 @media (max-width: 767px) {
   .top-nav    { display: none; }
@@ -5768,6 +5776,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
     </button>
     <button class="bnav-btn" onclick="showTab('reminders',this)">
       <span class="bn-icon">💌</span><span>提醒</span>
+      <span class="bnav-badge" id="predepBadge" style="display:none"></span>
     </button>
   </div>
 </nav>
@@ -7351,8 +7360,23 @@ window.shareItinerary = function() {
       if (cb && data[i]) cb.checked = true;
     }
   }
-  window.savePredep = function() { haptic(10); save(); };
+  function updateBadge() {
+    var badge = document.getElementById('predepBadge');
+    if (!badge) return;
+    var DEPART_D = new Date('2026-06-16T00:30:00+08:00');
+    var daysTo = Math.ceil((DEPART_D - Date.now()) / 86400000);
+    if (daysTo <= 0 || daysTo > 30) { badge.style.display = 'none'; return; }
+    var unchecked = 0;
+    for (var i = 0; i <= 15; i++) {
+      var cb = document.getElementById('pd' + i);
+      if (cb && !cb.checked) unchecked++;
+    }
+    if (unchecked === 0) { badge.style.display = 'none'; }
+    else { badge.textContent = unchecked; badge.style.display = 'block'; }
+  }
+  window.savePredep = function() { haptic(10); save(); updateBadge(); };
   restore();
+  updateBadge();
 })();
 
 /* ── 旅行狀態看板 ── */
