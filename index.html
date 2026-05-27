@@ -2140,6 +2140,22 @@ body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
 .car-cat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; min-width: 0; }
 .car-cat-bar-val { font-size: 12px; font-weight: 700; color: var(--text); width: 70px; text-align: right; flex-shrink: 0; }
 
+.car-donut-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  margin-top: 18px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+@media (min-width: 480px) { .car-donut-wrap { flex-direction: row; justify-content: center; } }
+.car-donut-svg { width: 140px; height: 140px; flex-shrink: 0; }
+.car-donut-center { font-size: 11px; font-weight: 700; fill: var(--text); }
+.car-donut-sub { font-size: 9px; fill: var(--text-light); }
+.car-donut-legend { display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
+.car-dl-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.car-dl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.car-dl-name { flex: 1; color: var(--text-sub); }
+.car-dl-pct { font-weight: 700; color: var(--text); }
+.car-dl-amt { font-size: 11px; color: var(--text-light); margin-left: 4px; }
+
 .car-form {
   background: var(--card); border-radius: var(--radius);
   padding: 18px 16px; border: 1.5px solid var(--border);
@@ -5118,6 +5134,7 @@ body.dark-mode .pr-item { background: #0D1A24; }
     <div class="card reveal" style="margin-bottom:20px">
       <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px">📊 分類統計</div>
       <div class="car-cats-grid" id="carCatBars"></div>
+      <div class="car-donut-wrap" id="carDonutWrap"></div>
     </div>
 
     <!-- 新增開銷表單 -->
@@ -6283,7 +6300,7 @@ updateChecklistProgress = function() {
 };
 
 /* ── 行程 TAB 切換：今日滾動 + 方向滑動 ── */
-var TABS_ORDER = ['overview','itinerary','budget','photo','reminders'];
+var TABS_ORDER = ['overview','itinerary','budget','photo','reminders','car'];
 var _origShowTab = showTab;
 showTab = function(name, btn) {
   var curSec  = document.querySelector('.section.active');
@@ -7310,6 +7327,42 @@ window.togglePhotoLayer = (function() {
           + '</div>';
       });
       barsEl.innerHTML = html;
+    }
+
+    var donutWrap = document.getElementById('carDonutWrap');
+    if (donutWrap) {
+      if (totalTWD <= 0) {
+        donutWrap.style.display = 'none';
+      } else {
+        donutWrap.style.display = '';
+        var C = 2 * Math.PI * 55;
+        var offset = 0;
+        var circles = '';
+        var legend = '';
+        CAT_ORDER.forEach(function(c) {
+          if (catTotals[c] <= 0) return;
+          var pct = catTotals[c] / totalTWD;
+          var dash = pct * C;
+          circles += '<circle cx="70" cy="70" r="55" fill="none" stroke="' + CAT_META[c].color + '" stroke-width="24"'
+            + ' stroke-dasharray="' + dash.toFixed(1) + ' ' + (C - dash).toFixed(1) + '"'
+            + ' stroke-dashoffset="' + (-offset).toFixed(1) + '"'
+            + ' transform="rotate(-90 70 70)"/>';
+          offset += dash;
+          legend += '<div class="car-dl-row">'
+            + '<div class="car-dl-dot" style="background:' + CAT_META[c].color + '"></div>'
+            + '<span class="car-dl-name">' + CAT_META[c].icon + ' ' + CAT_META[c].label + '</span>'
+            + '<span class="car-dl-pct">' + (pct * 100).toFixed(0) + '%</span>'
+            + '<span class="car-dl-amt">' + fmtNum(catTotals[c]) + '</span>'
+            + '</div>';
+        });
+        donutWrap.innerHTML = '<svg viewBox="0 0 140 140" class="car-donut-svg">'
+          + '<circle cx="70" cy="70" r="55" fill="none" stroke="var(--bg)" stroke-width="24"/>'
+          + circles
+          + '<text x="70" y="67" text-anchor="middle" class="car-donut-center">TWD</text>'
+          + '<text x="70" y="80" text-anchor="middle" class="car-donut-sub">' + fmtNum(totalTWD) + '</text>'
+          + '</svg>'
+          + '<div class="car-donut-legend">' + legend + '</div>';
+      }
     }
 
     var logCount = document.getElementById('carLogCount');
