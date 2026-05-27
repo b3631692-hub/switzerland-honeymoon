@@ -571,6 +571,11 @@ body.dark-mode .hotel-nav-btn { background: rgba(44,95,138,0.15); border-color: 
 .base-bern    { background: linear-gradient(100deg, #5B21B6, #7C3AED); }
 .base-zug     { background: linear-gradient(100deg, #0F5C58, #0F766E); }
 .base-zurich  { background: linear-gradient(100deg, #292524, #44403C); }
+.bsb { font-size: 8.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
+  background: rgba(255,255,255,0.14); margin-left: 8px; vertical-align: middle;
+  white-space: nowrap; color: rgba(255,255,255,0.8); }
+.bsb.bsb-here { background: rgba(201,169,110,0.35); color: #F6E499; }
+.bsb.bsb-past { background: rgba(0,0,0,0.18); color: rgba(255,255,255,0.4); }
 
 .days-wrap {
   border: 1px solid var(--border);
@@ -8383,6 +8388,37 @@ showTab = function(name, btn) {
   // Init button text: most cards are collapsed at start
   var initBtn = document.getElementById('dcToggleAll');
   if (initBtn) initBtn.textContent = '展開全部';
+})();
+
+/* ── 城市基地 Header 狀態徽章 ── */
+(function(){
+  var now = new Date();
+  var BASE_INFO = [
+    { start: new Date(2026,5,16), end: new Date(2026,5,17) },
+    { start: new Date(2026,5,17), end: new Date(2026,5,22) },
+    { start: new Date(2026,5,21), end: new Date(2026,5,24) },
+    { start: new Date(2026,5,24), end: new Date(2026,5,26) },
+    { start: new Date(2026,5,26), end: new Date(2026,5,29) },
+    { start: new Date(2026,5,29), end: new Date(2026,6,2)  }
+  ];
+  var headers = document.querySelectorAll('#tab-itinerary .base-header');
+  headers.forEach(function(hdr, idx) {
+    var info = BASE_INFO[idx];
+    if (!info) return;
+    var daysTo = Math.ceil((info.start - now) / 86400000);
+    var badge = document.createElement('span');
+    badge.className = 'bsb';
+    if (now >= info.start && now < info.end) {
+      badge.textContent = '▶ 今日所在';
+      badge.classList.add('bsb-here');
+    } else if (now < info.start) {
+      badge.textContent = daysTo + '天後';
+    } else {
+      badge.textContent = '已過';
+      badge.classList.add('bsb-past');
+    }
+    hdr.appendChild(badge);
+  });
 })();
 
 /* ── 日卡片距今標示 ── */
