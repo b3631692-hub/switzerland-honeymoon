@@ -698,6 +698,11 @@ body.dark-mode .hotel-nav-btn { background: rgba(44,95,138,0.15); border-color: 
   background: var(--border);
 }
 .day-card:last-child .day-left::after { display: none; }
+.db-dist { font-size: 8px; font-weight: 700; margin-top: 5px; text-align: center;
+  line-height: 1; color: var(--text-light); }
+.db-dist.dbd-today { color: var(--gold); font-size: 9px; letter-spacing: 0.3px; }
+.db-dist.dbd-near  { color: var(--primary); }
+.db-dist.dbd-past  { opacity: 0.45; }
 
 .date-badge {
   width: 46px; height: 46px;
@@ -8371,6 +8376,40 @@ showTab = function(name, btn) {
   // Init button text: most cards are collapsed at start
   var initBtn = document.getElementById('dcToggleAll');
   if (initBtn) initBtn.textContent = '展開全部';
+})();
+
+/* ── 日卡片距今標示 ── */
+(function(){
+  var now = new Date();
+  var todayM = now.getMonth()+1, todayD = now.getDate();
+  document.querySelectorAll('#tab-itinerary .day-card').forEach(function(card){
+    var dateEl = card.querySelector('.db-date');
+    var left   = card.querySelector('.day-left');
+    if (!dateEl || !left) return;
+    var parts = dateEl.textContent.trim().split('/');
+    var m = parseInt(parts[0],10), d = parseInt(parts[1],10);
+    var cardDate = new Date(2026, m-1, d, 0, 0, 0);
+    var msDay = 86400000;
+    var diffMs = cardDate.getTime() - new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    var diffDays = Math.round(diffMs / msDay);
+
+    var el = document.createElement('div');
+    el.className = 'db-dist';
+    var txt = '', cls = '';
+
+    if (diffDays === 0) {
+      txt = '今日'; cls = 'dbd-today';
+    } else if (diffDays > 0) {
+      txt = '+' + diffDays + 'd';
+      cls = diffDays <= 5 ? 'dbd-near' : '';
+    } else {
+      txt = diffDays + 'd';
+      cls = 'dbd-past';
+    }
+    el.textContent = txt;
+    if (cls) el.classList.add(cls);
+    left.appendChild(el);
+  });
 })();
 
 // Toggle all days open/closed
