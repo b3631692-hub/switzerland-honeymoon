@@ -2011,6 +2011,23 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 @media (min-width: 768px) {
   #scrollTopBtn { bottom: 24px; right: 24px; }
 }
+/* ── CHF 選取換算提示 ── */
+#chfTooltip {
+  position: fixed; z-index: 9000; pointer-events: none;
+  background: #2C5F8A; color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
+  padding: 5px 10px; border-radius: 7px;
+  opacity: 0; transition: opacity 0.15s;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px rgba(44,95,138,0.45);
+}
+#chfTooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #2C5F8A;
+}
+#chfTooltip.vis { opacity: 1; }
+
 /* ── 今日 FAB ── */
 #todayFab {
   position: fixed; bottom: 86px; left: 14px; z-index: 401;
@@ -6821,7 +6838,7 @@ window.addEventListener('load', () => {
   if (!card) return;
   var now = new Date();
   var daysTo = Math.ceil((DEPART - now) / 86400000);
-  if (daysTo > 60 && now > RETURN) return;
+  if (daysTo > 90) return;
   card.style.display = '';
 
   var todayM = now.getMonth()+1, todayD = now.getDate();
@@ -10826,6 +10843,43 @@ window.togglePhotoLayer = (function() {
   });
 
   renderList();
+})();
+
+/* ── CHF 選取即時換算提示 ── */
+(function(){
+  var tip = document.createElement('div');
+  tip.id = 'chfTooltip';
+  document.body.appendChild(tip);
+
+  var hideTimer = null;
+  function hide() { tip.classList.remove('vis'); }
+
+  function check() {
+    if (hideTimer) clearTimeout(hideTimer);
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) { hide(); return; }
+    var text = sel.toString().trim();
+    var m = text.match(/CHF\s*([\d,]+\.?\d*)/i);
+    if (!m) { hide(); return; }
+    var chf = parseFloat(m[1].replace(',', '.'));
+    if (isNaN(chf) || chf <= 0 || chf > 100000) { hide(); return; }
+    var rate = (window._fxRate && window._fxRate > 0) ? window._fxRate : 35;
+    var twd = Math.round(chf * rate);
+    tip.textContent = 'CHF ' + chf + ' ≈ TWD ' + twd.toLocaleString();
+    var range = sel.getRangeAt(0);
+    var rect = range.getBoundingClientRect();
+    var x = rect.left + rect.width / 2;
+    var y = rect.top - 38;
+    if (y < 10) y = rect.bottom + 8;
+    var tipW = 160;
+    tip.style.left = Math.max(6, Math.min(x - tipW/2, window.innerWidth - tipW - 6)) + 'px';
+    tip.style.top = y + 'px';
+    tip.classList.add('vis');
+    hideTimer = setTimeout(hide, 4500);
+  }
+
+  document.addEventListener('mouseup', check);
+  document.addEventListener('touchend', check, { passive: true });
 })();
 </script>
 </body>
