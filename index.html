@@ -1920,6 +1920,8 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   margin-top: 6px; letter-spacing: 0.3px;
 }
 .fx-note { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+.fx-spark-wrap { display: flex; align-items: center; gap: 7px; margin-top: 5px; }
+.fx-spark-pct { font-size: 9px; font-weight: 800; white-space: nowrap; }
 
 /* ── 回頂按鈕 ── */
 #scrollTopBtn {
@@ -3936,6 +3938,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
               <span class="fx-label">CHF</span>
             </div>
             <div class="fx-note" style="margin-top:5px">CHF 1 ≈ TWD 35　載入即時匯率…</div>
+            <div class="fx-spark-wrap" id="fxSparkWrap"></div>
           </div>
         </div>
       </div>
@@ -7399,6 +7402,53 @@ updateCategoryProgress();
     });
 
   calcChf('chf');
+})();
+
+/* ── 匯率 7 日走勢微型圖 ── */
+(function(){
+  var HIST_KEY = 'fx_hist_v1';
+  var TTL = 6 * 3600000;
+
+  function buildSparkline(rates){
+    var wrap = document.getElementById('fxSparkWrap');
+    if(!wrap || rates.length < 2) return;
+    var min = Math.min.apply(null,rates), max = Math.max.apply(null,rates);
+    var range = max - min || 0.01;
+    var W=84, H=22, n=rates.length;
+    var pts = rates.map(function(v,i){
+      return Math.round(i/(n-1)*W)+','+(H-Math.round((v-min)/range*H));
+    }).join(' ');
+    var last = rates[rates.length-1], first = rates[0];
+    var pct = (last-first)/first*100;
+    var col = pct >= 0 ? '#16A34A' : '#DC2626';
+    var lx = Math.round((n-1)/(n-1)*W), ly = H-Math.round((last-min)/range*H);
+    wrap.innerHTML =
+      '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="overflow:visible;display:block">'
+      +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>'
+      +'<circle cx="'+lx+'" cy="'+ly+'" r="2.2" fill="'+col+'"/>'
+      +'</svg>'
+      +'<span class="fx-spark-pct" style="color:'+col+'">'+(pct>=0?'+':'')+pct.toFixed(1)+'% 7天</span>';
+  }
+
+  function parse(data){
+    var dates = Object.keys(data).sort().slice(-8);
+    return dates.map(function(d){ return data[d].TWD; }).filter(Boolean);
+  }
+
+  try {
+    var c = JSON.parse(localStorage.getItem(HIST_KEY));
+    if(c && c.ts && Date.now()-c.ts < TTL && c.data){ buildSparkline(parse(c.data)); return; }
+  } catch(e){}
+
+  var end = new Date(), start = new Date(end.getTime()-9*86400000);
+  function fmt(d){ return d.toISOString().slice(0,10); }
+  fetch('https://api.frankfurter.app/'+fmt(start)+'..'+fmt(end)+'?from=CHF&to=TWD')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(!d||!d.rates) return;
+      try{ localStorage.setItem(HIST_KEY, JSON.stringify({ts:Date.now(),data:d.rates})); }catch(e){}
+      buildSparkline(parse(d.rates));
+    }).catch(function(){});
 })();
 
 /* ── SCROLL TOP BUTTON ── */
