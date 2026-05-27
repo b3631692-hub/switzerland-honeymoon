@@ -2273,6 +2273,15 @@ body.dark-mode .ts-item { background: #0D1A24; }
   font-size: 14px; display: none;
 }
 .search-no-result.vis { display: block; }
+.city-filter-row { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 8px;
+  scrollbar-width: none; margin-bottom: 2px; }
+.city-filter-row::-webkit-scrollbar { display: none; }
+.cf-chip { flex-shrink: 0; font-size: 11px; font-weight: 700; padding: 5px 10px;
+  border-radius: 20px; border: 1.5px solid var(--border); background: var(--card);
+  color: var(--text-sub); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.cf-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.cf-chip:active { opacity: 0.8; }
+body.dark-mode .cf-chip { background: #152233; }
 
 /* ── 飯店導航按鈕 ── */
 .hh-nav-btn {
@@ -4026,6 +4035,16 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <button class="itinerary-search-clear" id="itinSearchClear" onclick="clearItinSearch()">✕</button>
     </div>
     <div class="search-no-result" id="itinNoResult">找不到相符的行程</div>
+
+    <!-- 城市快篩 -->
+    <div class="city-filter-row" id="cityFilterRow">
+      <button class="cf-chip active" onclick="cityFilter('',this)">全部</button>
+      <button class="cf-chip" onclick="cityFilter('恩加丁',this)">🏔 恩加丁</button>
+      <button class="cf-chip" onclick="cityFilter('策馬特',this)">⛰ 策馬特</button>
+      <button class="cf-chip" onclick="cityFilter('伯恩',this)">🏰 伯恩</button>
+      <button class="cf-chip" onclick="cityFilter('楚格',this)">🏖 楚格</button>
+      <button class="cf-chip" onclick="cityFilter('蘇黎世',this)">🏙 蘇黎世</button>
+    </div>
 
     <!-- 快速跳轉芯片 (JS 動態填入) -->
     <div class="day-jump-row" id="dayJumpRow"></div>
@@ -8663,6 +8682,17 @@ window.filterItinerary = (function() {
 window.clearItinSearch = function() {
   var inp = document.getElementById('itinSearch');
   if (inp) { inp.value = ''; filterItinerary(''); }
+  document.querySelectorAll('.cf-chip').forEach(function(c){ c.classList.remove('active'); });
+  var first = document.querySelector('.cf-chip');
+  if(first) first.classList.add('active');
+};
+window.cityFilter = function(keyword, btn) {
+  haptic(6);
+  document.querySelectorAll('.cf-chip').forEach(function(c){ c.classList.remove('active'); });
+  btn.classList.add('active');
+  var inp = document.getElementById('itinSearch');
+  if(inp) inp.value = keyword;
+  filterItinerary(keyword);
 };
 
 /* ── 行程快速跳轉芯片 ── */
