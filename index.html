@@ -2313,6 +2313,34 @@ body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
 body.dark-mode .cg-must { background: #201500; color: #FCD34D; }
 body.dark-mode .cg-row  { background: #0D1A24; }
 
+/* ── 甜甜圈圖 SVG 文字 ── */
+.donut-ct-lbl { fill: #162C3E; }
+.donut-ct-sub { fill: #2C5F8A; }
+body.dark-mode .donut-ct-lbl { fill: #E8F2F8; }
+body.dark-mode .donut-ct-sub { fill: #91C2D8; }
+
+/* ── 重要時刻倒數 ── */
+.milestone-card { padding: 16px 16px 12px; margin-bottom: 20px; }
+.milestone-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.ms-rows { display: flex; flex-direction: column; gap: 7px; }
+.ms-row {
+  display: grid; grid-template-columns: 28px 1fr auto;
+  align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 10px; background: var(--bg);
+}
+.ms-icon { font-size: 18px; text-align: center; }
+.ms-name { font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.ms-sub  { font-size: 10px; color: var(--text-light); }
+.ms-days {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 18px; font-weight: 800; color: var(--primary);
+  text-align: right; line-height: 1; white-space: nowrap;
+}
+.ms-days span { font-size: 10px; font-weight: 500; color: var(--text-light); margin-left: 1px; }
+.ms-days.ms-soon { color: var(--gold); }
+.ms-days.ms-today { color: #16A34A; }
+body.dark-mode .ms-row { background: #0D1A24; }
+
 </style>
 </head>
 <body>
@@ -2521,6 +2549,9 @@ body.dark-mode .cg-row  { background: #0D1A24; }
 
     <!-- 今日速查 (JS 動態填入) -->
     <div id="todayCtxCard" class="today-ctx-card reveal"></div>
+
+    <!-- 重要時刻倒數 (JS 動態填入) -->
+    <div class="card milestone-card reveal" id="milestoneCard" style="display:none"></div>
 
     <!-- ─── 即時天氣 ─── -->
     <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong> <span id="swissDate" style="font-size:10px;opacity:0.7"></span></p>
@@ -4025,9 +4056,9 @@ body.dark-mode .cg-row  { background: #0D1A24; }
           <circle cx="100" cy="100" r="62" fill="none" stroke="#6B8FA3" stroke-width="32"
             stroke-dasharray="23.4 366.2" stroke-dashoffset="-366.2"
             transform="rotate(-90 100 100)" class="donut-seg"/>
-          <text x="100" y="95" text-anchor="middle" fill="#1C3347"
+          <text x="100" y="95" text-anchor="middle" class="donut-ct-lbl"
             font-size="11" font-family="sans-serif" font-weight="700">兩人合計</text>
-          <text x="100" y="112" text-anchor="middle" fill="#2C5F8A"
+          <text x="100" y="112" text-anchor="middle" class="donut-ct-sub"
             font-size="9.5" font-family="sans-serif">TWD 306,613</text>
         </svg>
         <div class="donut-legend">
@@ -6060,6 +6091,51 @@ window.shareItinerary = function() {
     }
   }
   // Don't show card if trip hasn't started yet and > 14 days away (or after trip)
+})();
+
+/* ── 重要時刻倒數 ── */
+(function() {
+  var card = document.getElementById('milestoneCard');
+  if (!card) return;
+
+  var MILESTONES = [
+    { icon: '✈️', name: '出發桃園機場',     date: '2026-06-16T00:30:00+08:00', sub: 'EK387 00:30' },
+    { icon: '🚂', name: '冰河列車一等艙',   date: '2026-06-21T14:32:00+02:00', sub: 'Chur 14:32 出發' },
+    { icon: '⛰', name: 'Klein Matterhorn', date: '2026-06-23T09:00:00+02:00', sub: '3,883m 歐洲最高站' },
+    { icon: '📸', name: 'Riffelsee 黃金拍攝',date: '2026-06-22T07:00:00+02:00', sub: '首班 07:00 出發' },
+    { icon: '💍', name: 'Lauterbrunnen 婚紗',date: '2026-06-26T08:00:00+02:00', sub: 'No.1 婚紗聖地' },
+    { icon: '🦁', name: '薩法利野生動物園', date: '2026-06-28T10:00:00+02:00', sub: 'Goldau 9:30–17:00' },
+    { icon: '🌊', name: '萊茵瀑布小船',     date: '2026-06-30T10:00:00+02:00', sub: 'CHF 8/人 路線4' },
+    { icon: '🏠', name: '返台桃園落地',     date: '2026-07-02T21:20:00+08:00', sub: 'EK386 TPE T2' },
+  ];
+
+  var now = Date.now();
+  var upcoming = MILESTONES.filter(function(m) {
+    return new Date(m.date).getTime() > now;
+  }).slice(0, 6);
+
+  if (upcoming.length === 0) { card.style.display = 'none'; return; }
+
+  var html = '<div class="milestone-title">🎯 旅途重要時刻</div><div class="ms-rows">';
+  upcoming.forEach(function(m) {
+    var ms = new Date(m.date).getTime() - now;
+    var totalDays = Math.floor(ms / 86400000);
+    var hours = Math.floor((ms % 86400000) / 3600000);
+    var isToday = totalDays === 0;
+    var isSoon = totalDays <= 7;
+    var daysClass = isToday ? 'ms-days ms-today' : isSoon ? 'ms-days ms-soon' : 'ms-days';
+    var daysLabel = isToday
+      ? '<span class="ms-days ms-today">' + hours + '<span>小時後</span></span>'
+      : '<span class="' + daysClass + '">' + totalDays + '<span>天</span></span>';
+    html += '<div class="ms-row">'
+      + '<div class="ms-icon">' + m.icon + '</div>'
+      + '<div><div class="ms-name">' + m.name + '</div><div class="ms-sub">' + m.sub + '</div></div>'
+      + daysLabel
+      + '</div>';
+  });
+  html += '</div>';
+  card.innerHTML = html;
+  card.style.display = 'block';
 })();
 
 /* ── 飯店導航捷徑 ── */
