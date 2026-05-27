@@ -1980,6 +1980,27 @@ body.dark-mode .vat-col-hdr.green { background: #062A14; color: #34D399; }
 .vat-step-num { font-size: 10px; font-weight: 800; background: var(--primary); color: #fff; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 .vat-best { border: 1px solid #FDE68A; background: #FFFBEB; border-radius: 8px; padding: 6px 10px; margin-top: 8px; font-size: 11px; color: #92400E; }
 body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #FCD34D; }
+.vat-calc { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.vat-calc-title { font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px; }
+.vat-calc-row { display: flex; align-items: center; gap: 8px; }
+.vat-calc-lbl { font-size: 11.5px; color: var(--text-sub); white-space: nowrap; }
+.vat-calc-inp { flex: 1; font-size: 16px; font-weight: 700; color: var(--text);
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 8px 10px; text-align: right; outline: none; }
+.vat-calc-inp:focus { border-color: var(--primary); }
+.vat-calc-result { margin-top: 10px; padding: 10px; background: var(--bg); border-radius: 8px; }
+.vat-calc-res-row { display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; padding: 3px 0; border-bottom: 1px solid var(--border); }
+.vat-calc-res-row:last-child { border-bottom: none; }
+.vat-calc-res-row.hl { font-size: 13.5px; font-weight: 800; color: #16A34A; }
+.vat-calc-msg { font-size: 11px; margin-top: 7px; padding: 5px 8px; border-radius: 6px; }
+.vat-calc-msg.ok  { background: #DCFCE7; color: #15803D; }
+.vat-calc-msg.err { background: #FEE2E2; color: #DC2626; }
+body.dark-mode .vat-calc-inp  { background: #0D1A24; border-color: #1D3348; }
+body.dark-mode .vat-calc-result { background: #0D1A24; }
+body.dark-mode .vat-calc-msg.ok  { background: #052A12; color: #4ADE80; }
+body.dark-mode .vat-calc-msg.err { background: #2A0808; color: #F87171; }
 
 /* ── 每日平均費用 ── */
 .daily-avg-row {
@@ -5073,6 +5094,14 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="vat-step"><span class="vat-step-num">4</span><span>也可先報到再找退稅亭（位於 Airside，安檢後亦有）</span></div>
       </div>
       <div class="vat-best">💡 <strong>最值得買：</strong>瑞士刀（Victorinox 原廠 Ibach）、Lindt 巧克力塔（ZRH 機場）、Laderach 手工巧克力、Toblerone 全家福裝（Coop 超市最便宜）、手錶（Bucherer 蘇黎世）。⚠️ 上機前記得把瑞士刀放托運行李！</div>
+      <div class="vat-calc">
+        <div class="vat-calc-title">🧮 退稅快速試算（5.6% 淨退稅率）</div>
+        <div class="vat-calc-row">
+          <span class="vat-calc-lbl">單店購物金額 CHF</span>
+          <input type="number" id="vatCalcInp" class="vat-calc-inp" placeholder="0" min="0" oninput="calcVat()">
+        </div>
+        <div id="vatCalcResult" style="display:none"></div>
+      </div>
     </div>
   </div>
 
@@ -7680,6 +7709,39 @@ window.switchPhraseTab = function(lang, btn) {
   btn.classList.add('active');
   var grp = document.getElementById('pg-' + lang);
   if (grp) grp.classList.add('active');
+};
+
+/* ── 退稅試算 ── */
+window.calcVat = function(){
+  var inp = document.getElementById('vatCalcInp');
+  var res = document.getElementById('vatCalcResult');
+  if(!inp || !res) return;
+  var chf = parseFloat(inp.value)||0;
+  if(chf <= 0){ res.style.display='none'; return; }
+  var rate = window._fxRate || 35;
+  var MIN = 300;
+  var REFUND_PCT = 0.056;
+  var html = '';
+  if(chf < MIN){
+    var need = (MIN - chf).toFixed(0);
+    html = '<div class="vat-calc-result">'
+      + '<div class="vat-calc-res-row"><span>購物金額</span><span>CHF '+chf.toFixed(0)+' ≈ TWD '+Math.round(chf*rate).toLocaleString()+'</span></div>'
+      + '</div>'
+      + '<div class="vat-calc-msg err">❌ 未達最低門檻 CHF 300，還需再買 CHF '+need+'</div>';
+  } else {
+    var refundChf = chf * REFUND_PCT;
+    var refundTwd = Math.round(refundChf * rate);
+    var netChf = chf - refundChf;
+    var netTwd = Math.round(netChf * rate);
+    html = '<div class="vat-calc-result">'
+      + '<div class="vat-calc-res-row"><span>購物金額</span><span>CHF '+chf.toFixed(0)+' ≈ TWD '+Math.round(chf*rate).toLocaleString()+'</span></div>'
+      + '<div class="vat-calc-res-row"><span>預估退稅</span><span style="color:#16A34A;font-weight:700">+ CHF '+refundChf.toFixed(1)+' ≈ TWD '+refundTwd.toLocaleString()+'</span></div>'
+      + '<div class="vat-calc-res-row hl"><span>實際淨支出</span><span>CHF '+netChf.toFixed(1)+' ≈ TWD '+netTwd.toLocaleString()+'</span></div>'
+      + '</div>'
+      + '<div class="vat-calc-msg ok">✅ 符合退稅條件！結帳時說「Tax Free please」索取退稅單</div>';
+  }
+  res.innerHTML = html;
+  res.style.display = 'block';
 };
 
 /* ── 分享按鈕 ── */
