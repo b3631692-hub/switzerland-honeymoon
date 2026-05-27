@@ -1679,6 +1679,41 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   padding: 2px 9px; border-radius: 100px; margin-bottom: 6px;
 }
 
+/* ── Hero 分享按鈕 ── */
+.hero-share-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 6px 16px; margin-top: 10px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  backdrop-filter: blur(6px);
+}
+.hero-share-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+/* ── 今日速查動態卡 ── */
+.today-ctx-card {
+  display: none;
+  background: linear-gradient(135deg, #071828 0%, #112A40 100%);
+  border-radius: var(--radius); padding: 16px 18px;
+  margin-bottom: 20px; color: #fff; text-align: center;
+}
+.today-ctx-card.visible { display: block; }
+.tcc-state { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+.tcc-state.tcc-live { color: var(--gold); }
+.tcc-day-num { font-family: var(--font-serif); font-size: 32px; font-weight: 600; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.tcc-city-name { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+.tcc-activity { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+.tcc-action {
+  font-size: 11px; color: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.07); border-radius: 6px;
+  padding: 5px 12px; display: inline-block;
+}
+.tcc-remain { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 6px; }
+.tcc-urgent { color: #FCD34D; font-weight: 700; }
+
 /* ── 取消期限倒數 ── */
 .cancel-dl-card {
   background: var(--card); border: 1px solid var(--border);
@@ -1938,6 +1973,7 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
       </div>
     </div>
     <p class="fc-outer-lbl">距出發倒數</p>
+    <button class="hero-share-btn" onclick="shareItinerary()">🔗 分享行程</button>
   </div>
   <svg class="hero-mountain" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <!-- 後排山脈（略深） -->
@@ -1988,6 +2024,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
         <div class="sc-label">基地城市</div>
       </div>
     </div>
+
+    <!-- 今日速查 (JS 動態填入) -->
+    <div id="todayCtxCard" class="today-ctx-card reveal"></div>
 
     <!-- ─── 即時天氣 ─── -->
     <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong></p>
@@ -5204,6 +5243,78 @@ window.toggleAllDays = function() {
 })();
 
 /* ── 地圖攝影景點圖層 ── */
+/* ── 分享按鈕 ── */
+window.shareItinerary = function() {
+  var shareData = {
+    title: '🇨🇭 瑞士蜜月旅行 2026',
+    text: '信瑋 ＆ 映儒的瑞士蜜月行程 6/16–7/1，16天15晚阿爾卑斯之旅',
+    url: 'https://b3631692-hub.github.io/switzerland-honeymoon/'
+  };
+  if (navigator.share) {
+    navigator.share(shareData).catch(function() {});
+  } else {
+    var tmp = document.createElement('textarea');
+    tmp.value = shareData.url;
+    document.body.appendChild(tmp);
+    tmp.select(); document.execCommand('copy');
+    document.body.removeChild(tmp);
+    var btn = document.querySelector('.hero-share-btn');
+    if (btn) {
+      var orig = btn.innerHTML;
+      btn.innerHTML = '✓ 已複製網址';
+      setTimeout(function() { btn.innerHTML = orig; }, 2000);
+    }
+  }
+};
+
+/* ── 今日速查動態卡 ── */
+(function() {
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var card = document.getElementById('todayCtxCard');
+  if (!card) return;
+
+  var now = new Date();
+  var html = '';
+
+  if (now >= DEPART && now <= RETURN) {
+    // During trip
+    var daysIn = Math.floor((now - DEPART) / 86400000) + 1;
+    var daysLeft = Math.ceil((RETURN - now) / 86400000);
+    var todayCard = document.querySelector('#tab-itinerary .day-card.today');
+    var baseHdr = todayCard ? todayCard.closest('.base-block').querySelector('.base-header') : null;
+    var titleEl = todayCard ? todayCard.querySelector('.day-title') : null;
+    var baseText = baseHdr ? baseHdr.textContent.replace(/[^一-鿿\w\s·|]/g, '').trim().split('|')[0].trim().substring(0, 20) : '';
+    var titleText = titleEl ? titleEl.textContent.replace('▾','').trim().substring(0, 35) : '';
+    html = '<div class="tcc-state tcc-live">旅程進行中</div>'
+      + '<div class="tcc-day-num">第 ' + daysIn + ' 天</div>'
+      + (baseText ? '<div class="tcc-city-name">' + baseText + '</div>' : '')
+      + (titleText ? '<div class="tcc-activity">' + titleText + '</div>' : '')
+      + (daysLeft > 0 ? '<div class="tcc-remain">距返台還有 ' + daysLeft + ' 天</div>' : '<div class="tcc-remain tcc-urgent">今天回家了！</div>');
+    card.classList.add('visible');
+  } else if (now < DEPART) {
+    var daysTo = Math.ceil((DEPART - now) / 86400000);
+    // Show card when within 30 days of departure
+    if (daysTo <= 30) {
+      var firstUnchecked = null;
+      for (var i = 0; i <= 11; i++) {
+        var cb = document.getElementById('pd' + i);
+        if (cb && !cb.checked) {
+          var lbl = cb.nextElementSibling;
+          if (lbl) { firstUnchecked = lbl.textContent.trim(); break; }
+        }
+      }
+      var urgentClass = daysTo <= 7 ? ' tcc-urgent' : '';
+      html = '<div class="tcc-state">出發倒數</div>'
+        + '<div class="tcc-day-num' + urgentClass + '">' + daysTo + ' 天</div>'
+        + '<div class="tcc-city-name">出發日：6/16 00:30 桃園 ✈️</div>'
+        + (firstUnchecked ? '<div class="tcc-action">👉 ' + firstUnchecked.substring(0, 30) + (firstUnchecked.length > 30 ? '...' : '') + '</div>' : '<div class="tcc-action">✅ 行前待辦已全部完成！</div>');
+      card.classList.add('visible');
+    }
+  }
+  // Don't show card if trip hasn't started yet and > 14 days away (or after trip)
+})();
+
 /* ── 飯店導航捷徑 ── */
 (function() {
   var MAP = {
