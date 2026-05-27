@@ -2509,6 +2509,13 @@ body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
 .st-pct-label { text-align: right; font-size: 11px; color: var(--text-light); margin-top: 5px; }
 
 /* ── 每日消費快記 ── */
+.dlc-dnum { font-size: 8px; color: var(--text-light); line-height: 1; margin-top: 2px; letter-spacing: 0.2px; }
+.dlc-row.dlc-today { border-left: 3px solid var(--gold); padding-left: 5px;
+  background: rgba(201,169,110,0.05); border-radius: 4px; }
+body.dark-mode .dlc-row.dlc-today { background: rgba(201,169,110,0.09); }
+.dlc-row.dlc-today .dlc-date { color: var(--gold); }
+.dlc-row.dlc-today .dlc-dnum { color: var(--gold); font-weight: 800; }
+.dlc-row.dlc-past { opacity: 0.6; }
 .dlc-card { padding: 20px 16px 16px; margin-bottom: 24px; }
 .dlc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
 .dlc-title { font-size: 15px; font-weight: 800; }
@@ -8639,6 +8646,38 @@ window.toggleAllDays = function() {
     }
   }
   updateDailyLog();
+})();
+
+/* ── 費用記帳今日高亮 + 日數標示 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var DLC_DATES = ['6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30','7/1'];
+  var now = new Date();
+  var rows = document.querySelectorAll('#dlcRows .dlc-row');
+
+  rows.forEach(function(row, idx) {
+    var datecol = row.querySelector('.dlc-date-col');
+    if (!datecol) return;
+
+    // D-number label
+    var dnum = document.createElement('div');
+    dnum.className = 'dlc-dnum';
+    dnum.textContent = 'D' + (idx + 1);
+    datecol.appendChild(dnum);
+
+    // During trip: highlight today, dim past
+    if (now >= DEPART && now <= RETURN) {
+      var p = DLC_DATES[idx].split('/');
+      var todayM = now.getMonth()+1, todayD = now.getDate();
+      if (parseInt(p[0]) === todayM && parseInt(p[1]) === todayD) {
+        row.classList.add('dlc-today');
+      } else {
+        var rowDate = new Date(2026, parseInt(p[0])-1, parseInt(p[1]), 23, 59);
+        if (rowDate < now) row.classList.add('dlc-past');
+      }
+    }
+  });
 })();
 
 /* ── 城市花費分析 ── */
