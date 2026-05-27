@@ -6463,6 +6463,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
         <label class="predep-item"><input type="checkbox" id="pd13" onchange="savePredep()"><span>通知信用卡公司出國行程，避免刷卡遭凍結（玉山、國泰等境外使用）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd14" onchange="savePredep()"><span>A7R5 備用電池 ×3 充飽，記憶卡容量確認（建議 2TB 以上備援）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd15" onchange="savePredep()"><span>手機相片備份至雲端 / 硬碟，清出儲存空間迎接 16 天拍攝</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd16" onchange="savePredep()"><span>預約 Restaurant Schäferstube 蜜月晚餐（6/23 策馬特）→ 提前 2–3 週訂位！</span></label>
       </div>
     </div>
 
@@ -7148,7 +7149,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
         </div>
       </details>
       <details class="chk-section" open>
-        <summary><span class="chk-section-title">📄 旅行文件 ／ 票券</span><span class="chk-section-prog" id="chkprog-docs">0/8</span><span class="chk-section-arrow">›</span></summary>
+        <summary><span class="chk-section-title">📄 旅行文件 ／ 票券</span><span class="chk-section-prog" id="chkprog-docs">0/9</span><span class="chk-section-arrow">›</span></summary>
         <div class="chk-section-body">
           <div class="check-grid" id="chk-grid-docs">
             <label class="check-item"><input type="checkbox"> 護照（有效期 2 年以上）</label>
@@ -7159,6 +7160,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
             <label class="check-item"><input type="checkbox"> SIM 卡（2 支）</label>
             <label class="check-item"><input type="checkbox"> 瑞士法郎現金（備用）</label>
             <label class="check-item"><input type="checkbox"> 信用卡（VISA / Mastercard）</label>
+            <label class="check-item"><input type="checkbox"> 航班電子機票（CI 61 / CI 68）</label>
           </div>
           <div class="check-add-row">
             <input type="text" class="check-add-input" placeholder="新增文件..."
@@ -10948,7 +10950,7 @@ window.shareItinerary = function() {
 /* ── 行前準備度儀表板 ── */
 (function(){
   var DEPART = new Date('2026-06-16T00:30:00+08:00');
-  var PREDEP_TOTAL = 16, PACK_TOTAL = 45;
+  var PREDEP_TOTAL = 17, PACK_TOTAL = 46;
 
   function calcPredep(){
     var done=0;
@@ -10987,7 +10989,7 @@ window.shareItinerary = function() {
 /* ── 智能行前提示卡 ── */
 (function(){
   var DEPART = new Date('2026-06-16T00:30:00+08:00');
-  var URGENT = [0,1,2,3];
+  var URGENT = [0,1,2,3,16];
   var W3 = [4,8,13];
   var W2 = [5,9,11];
   var W1 = [6,7,12,14];
