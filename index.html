@@ -1895,6 +1895,66 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   cursor: pointer; transition: background 0.2s;
 }
 .dc-btn:hover { background: var(--bg); }
+/* ── 行程快速跳轉芯片 ── */
+.day-jump-row {
+  display: flex; overflow-x: auto; gap: 7px;
+  padding: 4px 0 10px; scrollbar-width: none;
+  margin-bottom: 6px;
+}
+.day-jump-row::-webkit-scrollbar { display: none; }
+.dj-chip {
+  flex-shrink: 0; display: flex; flex-direction: column;
+  align-items: center; gap: 1px;
+  padding: 5px 8px; border-radius: 10px;
+  font-size: 11px; font-weight: 700;
+  background: var(--card); border: 1.5px solid var(--border);
+  color: var(--text-sub); cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  min-width: 38px;
+}
+.dj-chip .dj-num { font-size: 13px; font-weight: 800; line-height: 1.1; }
+.dj-chip .dj-date { font-size: 9px; opacity: 0.7; }
+.dj-chip:hover, .dj-chip.active {
+  background: var(--primary); border-color: var(--primary);
+  color: #fff;
+}
+.dj-chip.today-chip {
+  background: var(--gold-lt); border-color: var(--gold);
+  color: var(--gold);
+}
+.dj-chip.today-chip.active {
+  background: var(--gold); border-color: var(--gold); color: #fff;
+}
+
+/* ── 旅程進度條 ── */
+.trip-timeline {
+  margin: 6px 0 16px; padding: 14px 16px;
+}
+.tt-label {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--text-sub); font-weight: 600;
+  margin-bottom: 8px;
+}
+.tt-bar-wrap {
+  position: relative; height: 10px;
+  background: var(--border); border-radius: 5px; overflow: hidden;
+}
+.tt-seg {
+  position: absolute; top: 0; height: 100%;
+  border-right: 1.5px solid rgba(255,255,255,0.5);
+}
+.tt-now {
+  position: absolute; top: -4px; bottom: -4px; width: 3px;
+  background: #fff; border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255,255,255,0.8);
+  z-index: 1; transform: translateX(-50%);
+}
+.tt-cities {
+  display: flex; justify-content: space-between;
+  font-size: 9px; color: var(--text-light);
+  margin-top: 6px; font-weight: 600;
+}
+
 .day-card:not(.dc-open) .day-img,
 .day-card:not(.dc-open) .day-chips,
 .day-card:not(.dc-open) .db,
@@ -2074,6 +2134,18 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
         <div class="sc-val">6</div>
         <div class="sc-label">基地城市</div>
       </div>
+    </div>
+
+    <!-- 旅程進度時間軸 -->
+    <div class="card trip-timeline reveal">
+      <div class="tt-label">
+        <span>✈️ 6/16 桃園出發</span>
+        <span>🏠 7/1 返台</span>
+      </div>
+      <div class="tt-bar-wrap" id="ttBarWrap">
+        <!-- JS 動態填入城市段落色塊 + 今日指標 -->
+      </div>
+      <div class="tt-cities" id="ttCities"></div>
     </div>
 
     <!-- 旅行狀態看板 -->
@@ -2670,6 +2742,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   <!-- 行程 -->
   <div id="tab-itinerary" class="section">
     <div class="sec-title">每日行程</div>
+    <!-- 快速跳轉芯片 (JS 動態填入) -->
+    <div class="day-jump-row" id="dayJumpRow"></div>
+
     <div class="day-collapse-ctrl">
       <button class="dc-btn" id="dcToggleAll" onclick="toggleAllDays()">折疊全部</button>
     </div>
@@ -5689,6 +5764,116 @@ window.shareItinerary = function() {
       });
     });
   }).catch(function() {});
+})();
+
+/* ── 行程快速跳轉芯片 ── */
+(function() {
+  var row = document.getElementById('dayJumpRow');
+  if (!row) return;
+  var cards = Array.from(document.querySelectorAll('#tab-itinerary .day-card'));
+  var now = new Date();
+  var todayM = now.getMonth() + 1, todayD = now.getDate();
+
+  cards.forEach(function(card, idx) {
+    var dateEl = card.querySelector('.db-date');
+    if (!dateEl) return;
+    var txt = dateEl.textContent.trim(); // e.g. "6/16"
+    var parts = txt.split('/');
+    var m = parseInt(parts[0], 10), d = parseInt(parts[1], 10);
+    var isToday = (m === todayM && d === todayD);
+
+    var chip = document.createElement('button');
+    chip.className = 'dj-chip' + (isToday ? ' today-chip' : '');
+    chip.innerHTML = '<span class="dj-num">D' + (idx + 1) + '</span><span class="dj-date">' + txt + '</span>';
+    chip.addEventListener('click', function() {
+      // Update active state
+      row.querySelectorAll('.dj-chip').forEach(function(c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      // Expand + scroll
+      card.classList.add('dc-open');
+      setTimeout(function() {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    });
+    row.appendChild(chip);
+  });
+
+  // Highlight chip when day card comes into view
+  if (typeof IntersectionObserver !== 'undefined') {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var card = entry.target;
+        var idx = cards.indexOf(card);
+        if (idx < 0) return;
+        var chips = row.querySelectorAll('.dj-chip');
+        chips.forEach(function(c) { c.classList.remove('active'); });
+        if (chips[idx]) {
+          chips[idx].classList.add('active');
+          chips[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+    }, { threshold: 0.4 });
+    cards.forEach(function(c) { obs.observe(c); });
+  }
+})();
+
+/* ── 旅程進度時間軸 ── */
+(function() {
+  var wrap = document.getElementById('ttBarWrap');
+  var citiesEl = document.getElementById('ttCities');
+  if (!wrap) return;
+
+  var TRIP_START = new Date('2026-06-16T00:00:00+08:00');
+  var TRIP_END   = new Date('2026-07-01T23:59:00+08:00');
+  var TOTAL_MS   = TRIP_END - TRIP_START;
+
+  // Segments: {label, start (ISO), end (ISO), color}
+  var SEGS = [
+    { label:'蘇黎世', start:'2026-06-16', end:'2026-06-17', color:'#2C5F8A' },
+    { label:'恩加丁', start:'2026-06-17', end:'2026-06-21', color:'#2D8C58' },
+    { label:'策馬特', start:'2026-06-21', end:'2026-06-24', color:'#8B5CF6' },
+    { label:'伯恩',   start:'2026-06-24', end:'2026-06-26', color:'#D97706' },
+    { label:'楚格',   start:'2026-06-26', end:'2026-06-29', color:'#E85D75' },
+    { label:'蘇黎世', start:'2026-06-29', end:'2026-07-01', color:'#2C5F8A' },
+  ];
+
+  var html = '';
+  SEGS.forEach(function(s) {
+    var sd = new Date(s.start + 'T00:00:00+02:00');
+    var ed = new Date(s.end   + 'T00:00:00+02:00');
+    var left  = Math.max(0, (sd - TRIP_START) / TOTAL_MS * 100);
+    var width = Math.min(100 - left, (ed - sd) / TOTAL_MS * 100);
+    html += '<div class="tt-seg" style="left:' + left.toFixed(2) + '%;width:' + width.toFixed(2) + '%;background:' + s.color + '"></div>';
+  });
+
+  var now = Date.now();
+  var inTrip = now >= TRIP_START.getTime() && now <= TRIP_END.getTime();
+  var pct = Math.min(100, Math.max(0, (now - TRIP_START.getTime()) / TOTAL_MS * 100));
+  if (now < TRIP_START.getTime()) {
+    // Show today as a marker approaching the bar
+    html += '<div class="tt-now" style="left:0%;opacity:0.4"></div>';
+  } else if (inTrip) {
+    html += '<div class="tt-now" style="left:' + pct.toFixed(2) + '%"></div>';
+  }
+
+  wrap.innerHTML = html;
+
+  if (citiesEl) {
+    var shown = {};
+    var cityHtml = '';
+    SEGS.forEach(function(s) {
+      var key = s.label + s.start;
+      if (!shown[key]) {
+        shown[key] = true;
+        var sd = new Date(s.start + 'T00:00:00+02:00');
+        var left = Math.max(0, (sd - TRIP_START) / TOTAL_MS * 100);
+        cityHtml += '<span style="flex:0 0 auto;color:' + s.color + '">' + s.label + '</span>';
+      }
+    });
+    citiesEl.innerHTML = cityHtml;
+    citiesEl.style.justifyContent = 'space-between';
+  }
 })();
 
 window.togglePhotoLayer = (function() {
