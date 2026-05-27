@@ -1444,6 +1444,63 @@ footer small {
 }
 .check-add-btn:hover { background: var(--primary-dk); }
 
+/* ── 旅途進行中 flip-clock 替代畫面 ── */
+.fc-trip-live { padding: 4px 0 8px; }
+.fc-trip-day {
+  display: flex; align-items: baseline; justify-content: center; gap: 6px;
+}
+.fc-trip-num {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 62px; font-weight: 700; color: var(--gold); letter-spacing: -3px; line-height: 1;
+}
+.fc-trip-unit { font-size: 22px; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+.fc-trip-info {
+  font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.5px;
+  text-align: center; margin: 8px 0 12px;
+}
+.fc-trip-bar {
+  width: 220px; max-width: 85%; height: 5px; margin: 0 auto;
+  background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;
+}
+.fc-trip-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold), rgba(255,248,220,0.9));
+  transition: width 1s ease;
+}
+
+/* ── 行程今日高亮 ── */
+.day-card.today { background: linear-gradient(135deg,rgba(201,169,110,0.06) 0%,transparent 60%); }
+.day-card.today .date-badge {
+  background: var(--gold);
+  box-shadow: 0 2px 10px rgba(201,169,110,0.5);
+}
+.today-tag {
+  display: inline-block;
+  background: var(--gold); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  padding: 2px 9px; border-radius: 100px; margin-bottom: 6px;
+}
+
+/* ── 打包清單進度條 ── */
+.chk-progress {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.chk-progress-hdr {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 9px;
+}
+#chkProgressLabel { color: var(--primary); font-weight: 700; }
+.chk-progress-bg {
+  height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden;
+}
+.chk-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--gold));
+  border-radius: 4px; width: 0%; transition: width 0.4s ease;
+}
+
 </style>
 </head>
 <body>
@@ -3263,6 +3320,15 @@ footer small {
 
     <!-- Checklist -->
     <div class="sec-title" style="font-size:20px;margin-top:8px">🎒 打包清單</div>
+    <div class="chk-progress">
+      <div class="chk-progress-hdr">
+        <span>🎒 打包進度</span>
+        <span id="chkProgressLabel">0 / 0 項目</span>
+      </div>
+      <div class="chk-progress-bg">
+        <div class="chk-progress-fill" id="chkProgressFill"></div>
+      </div>
+    </div>
     <div class="checklist reveal">
       <h3>📷 攝影器材</h3>
       <div class="check-grid" id="chk-grid-camera">
@@ -3847,7 +3913,8 @@ window.addEventListener('load', function() {
 
 /* ── FLIP CLOCK COUNTDOWN ── */
 (function() {
-  var TARGET = new Date('2026-06-16T00:30:00+08:00').getTime();
+  var DEPART = new Date('2026-06-16T00:30:00+08:00').getTime();
+  var RETURN = new Date('2026-07-01T14:00:00+08:00').getTime();
   var prev = {};
 
   function pad(n) { return String(n).padStart(2, '0'); }
@@ -3872,12 +3939,47 @@ window.addEventListener('load', function() {
   }
 
   function update() {
-    var diff = Math.max(0, TARGET - Date.now());
-    if (diff === 0) {
-      var el = document.getElementById('flipClock');
-      if (el) el.innerHTML = '<div style="color:var(--gold);font-family:var(--font-serif);font-size:22px;letter-spacing:2px;padding:16px 0">✈️ 出發了！</div>';
+    var now = Date.now();
+    var el  = document.getElementById('flipClock');
+    var lbl = document.querySelector('.fc-outer-lbl');
+
+    /* ── 旅途結束 ── */
+    if (now >= RETURN) {
+      if (el && !el.dataset.done) {
+        el.dataset.done = '1';
+        el.innerHTML = '<div style="color:var(--gold);font-family:var(--font-serif);font-size:20px;letter-spacing:2px;padding:16px 0;text-align:center">🥂 蜜月美好回憶</div>';
+      }
+      if (lbl) lbl.textContent = '安全返台 · 7/1';
       return;
     }
+
+    /* ── 旅途進行中 ── */
+    if (now >= DEPART) {
+      var dayNum  = Math.min(16, Math.floor((now - DEPART) / 86400000) + 1);
+      var daysLeft = Math.max(0, Math.ceil((RETURN - now) / 86400000));
+      var pct     = Math.min(100, Math.round((now - DEPART) / (RETURN - DEPART) * 100));
+      if (el && !el.dataset.live) {
+        el.dataset.live = '1';
+        el.innerHTML =
+          '<div class="fc-trip-live">' +
+          '<div class="fc-trip-day">' +
+          '<span class="fc-trip-num" id="fcTripNum">' + dayNum + '</span>' +
+          '<span class="fc-trip-unit">/ 16</span>' +
+          '</div>' +
+          '<div class="fc-trip-info" id="fcTripInfo">第 ' + dayNum + ' 天・還有 ' + daysLeft + ' 天返台 ✈️</div>' +
+          '<div class="fc-trip-bar"><div class="fc-trip-fill" id="fcTripFill" style="width:' + pct + '%"></div></div>' +
+          '</div>';
+      } else if (el) {
+        var tn = document.getElementById('fcTripNum'); if (tn) tn.textContent = dayNum;
+        var ti = document.getElementById('fcTripInfo'); if (ti) ti.textContent = '第 ' + dayNum + ' 天・還有 ' + daysLeft + ' 天返台 ✈️';
+        var tf = document.getElementById('fcTripFill'); if (tf) tf.style.width = pct + '%';
+      }
+      if (lbl) lbl.textContent = '蜜月旅途進行中 ✨';
+      return;
+    }
+
+    /* ── 出發倒數 ── */
+    var diff = Math.max(0, DEPART - now);
     var ss = pad(Math.floor(diff / 1000) % 60);
     var ms = pad(Math.floor(diff / 60000) % 60);
     var hs = pad(Math.floor(diff / 3600000) % 24);
@@ -3899,7 +4001,8 @@ window.addEventListener('load', function() {
   }
 
   update();
-  setInterval(update, 1000);
+  setInterval(update, 60000);
+  setTimeout(update, 0);
 })();
 
 /* ── SCROLL ANIMATIONS ── */
@@ -4124,7 +4227,78 @@ window._fetchWeather = (function() {
 /* ── FETCH WEATHER ON LOAD ── */
 window.addEventListener('load', function() {
   if (typeof _fetchWeather === 'function') _fetchWeather();
+  highlightToday();
+  updateChecklistProgress();
 });
+
+/* ── 行程今日高亮 ── */
+function highlightToday() {
+  var now = new Date();
+  // Show in local time (Switzerland when travelling)
+  var m = now.getMonth() + 1;
+  var d = now.getDate();
+  var todayStr = m + '/' + d; // e.g. "6/23"
+  document.querySelectorAll('.day-card').forEach(function(card) {
+    var badge = card.querySelector('.db-date');
+    if (badge && badge.textContent.trim() === todayStr) {
+      card.classList.add('today');
+      var right = card.querySelector('.day-right');
+      if (right && !right.querySelector('.today-tag')) {
+        var tag = document.createElement('div');
+        tag.className = 'today-tag';
+        tag.textContent = '今日';
+        right.insertBefore(tag, right.firstChild);
+      }
+    }
+  });
+}
+
+/* ── 打包進度條 ── */
+function updateChecklistProgress() {
+  var all = document.querySelectorAll('.checklist .check-item input[type=checkbox]');
+  var checked = 0;
+  all.forEach(function(cb) { if (cb.checked) checked++; });
+  var total = all.length;
+  var pct = total > 0 ? Math.round(checked / total * 100) : 0;
+  var label = document.getElementById('chkProgressLabel');
+  var fill  = document.getElementById('chkProgressFill');
+  if (label) label.textContent = checked + ' / ' + total + ' 項目 (' + pct + '%)';
+  if (fill)  fill.style.width  = pct + '%';
+}
+// Hook into checklist changes
+document.addEventListener('change', function(e) {
+  if (e.target.closest && e.target.closest('.checklist')) updateChecklistProgress();
+});
+
+/* ── LIGHTBOX TOUCH SWIPE ── */
+(function() {
+  var lb = document.getElementById('gallery-lb');
+  if (!lb) return;
+  var tx = 0, ty = 0;
+  lb.addEventListener('touchstart', function(e) {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+  }, { passive: true });
+  lb.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy)) {
+      moveLightbox(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+})();
+
+/* ── 行程 TAB 切換時自動滾至今日 ── */
+var _origShowTab = showTab;
+showTab = function(name, btn) {
+  _origShowTab(name, btn);
+  if (name === 'itinerary') {
+    setTimeout(function() {
+      var today = document.querySelector('#tab-itinerary .day-card.today');
+      if (today) today.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 400);
+  }
+};
 </script>
 </body>
 </html>
