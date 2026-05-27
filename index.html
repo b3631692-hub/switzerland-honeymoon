@@ -2361,6 +2361,32 @@ body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
 .day-card:not(.dc-open) .cost-row,
 .day-card:not(.dc-open) .photo-box { display: none; }
 
+/* ── 列車拍攝攻略 ── */
+.train-photo-card { padding: 16px 16px 12px; margin-bottom: 20px; }
+.train-photo-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.train-row-item { border-radius: 10px; background: var(--bg); overflow: hidden; margin-bottom: 8px; }
+.train-row-item:last-child { margin-bottom: 0; }
+.train-hdr {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 10px; border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 700; color: var(--text-sub);
+}
+.train-hdr-icon { font-size: 14px; }
+.train-hdr-name { flex: 1; }
+.train-badge { font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: #DCFCE7; color: #15803D; }
+.train-badge.gold { background: #FFFBEB; color: #92400E; }
+.train-tips-list { display: flex; flex-direction: column; }
+.train-tip {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 5px 10px; font-size: 11.5px; color: var(--text-sub); line-height: 1.4;
+  border-bottom: 1px solid var(--border);
+}
+.train-tip:last-child { border-bottom: none; }
+.train-tip-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+body.dark-mode .train-row-item { background: #0D1A24; }
+body.dark-mode .train-badge { background: #071A0E; color: #4ADE80; }
+body.dark-mode .train-badge.gold { background: #201500; color: #FCD34D; }
+
 /* ── 每日拍攝計畫 ── */
 .shoot-plan-card { padding: 16px 16px 12px; margin-bottom: 20px; }
 .sp-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
@@ -4901,6 +4927,39 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <strong>CPL 順光偏光：</strong>消除水面反光，讓湖水更透藍 ·
         <strong>ND10：</strong>萊茵瀑布豐水期水流強，10 格 ND 可拍出絲絨感 ·
         <strong>A7R5 連拍：</strong>Hi+（120fps 電子快門）追列車最佳
+      </div>
+    </div>
+
+    <!-- ── 列車拍攝攻略 ── -->
+    <div class="card train-photo-card reveal">
+      <div class="train-photo-title">🚂 UNESCO 鐵道拍攝攻略</div>
+      <div class="train-row-item">
+        <div class="train-hdr">
+          <span class="train-hdr-icon">🔴</span>
+          <span class="train-hdr-name">伯尼納快車 Bernina Express（6/19）</span>
+          <span class="train-badge">UNESCO 世遺</span>
+        </div>
+        <div class="train-tips-list">
+          <div class="train-tip"><span class="train-tip-icon">🪟</span><span>座位：<strong>坐左側</strong>（St.Moritz→Tirano 方向），Ospizio 湖面 ＋ 冰川在左</span></div>
+          <div class="train-tip"><span class="train-tip-icon">📍</span><span>重點景點：Ospizio Bernina 湖（白色小湖）、Alp Grüm 俯瞰 Palü 冰川、<strong>Brusio 螺旋橋</strong></span></div>
+          <div class="train-tip"><span class="train-tip-icon">📸</span><span>Brusio：在橋旁下車等列車進入螺旋，長焦 200–300mm 壓縮彎道弧度最震撼</span></div>
+          <div class="train-tip"><span class="train-tip-icon">⚙️</span><span>設定：快門 1/500s+，ISO 自動，Hi+ 連拍模式追橋面切面，Regio 車速慢可從容拍</span></div>
+          <div class="train-tip"><span class="train-tip-icon">💡</span><span>車廂開窗拍攝更清晰（若天氣允許）。注意：Regio 各站需主動按鈴下車</span></div>
+        </div>
+      </div>
+      <div class="train-row-item">
+        <div class="train-hdr">
+          <span class="train-hdr-icon">🟡</span>
+          <span class="train-hdr-name">冰河列車 Glacier Express（6/21 14:32–20:05）</span>
+          <span class="train-badge gold">★ 一等艙全景</span>
+        </div>
+        <div class="train-tips-list">
+          <div class="train-tip"><span class="train-tip-icon">🪟</span><span>座位：<strong>坐右側</strong>（Chur→Zermatt 方向），萊茵峽谷深谷 ＋ 橋梁全在右側</span></div>
+          <div class="train-tip"><span class="train-tip-icon">📍</span><span>重點：Oberalp 埡口雪景（約 15:30）、Viamala 峽谷橋梁（約 16:00）、Mattertal 馬特洪峰首現（約 19:00）</span></div>
+          <div class="train-tip"><span class="train-tip-icon">📸</span><span>峽谷橋梁：廣角 24mm 帶橋 ＋ 深谷全景；山頭鑽出雲層瞬間換 200mm 壓縮距離感</span></div>
+          <div class="train-tip"><span class="train-tip-icon">⚙️</span><span>快門 1/800s+，全景玻璃厚，正午逆光面反光嚴重，偏光鏡 CPL 可減輕</span></div>
+          <div class="train-tip"><span class="train-tip-icon">💡</span><span>一等艙含餐車服務，出發前可線上預訂窗邊餐位（建議靠窗吃晚餐欣賞 Mattertal）</span></div>
+        </div>
       </div>
     </div>
 
