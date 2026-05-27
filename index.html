@@ -43,6 +43,50 @@
   --bot-nav-h:  64px;
 }
 
+/* ── 深色模式 ── */
+body.dark-mode {
+  --bg:         #0D1A24;
+  --card:       #152233;
+  --text:       #DDE9F2;
+  --text-sub:   #7DACC4;
+  --text-light: #4F7A96;
+  --border:     #1D3348;
+  --rose-lt:    #0C1E14;
+  --gold-lt:    #1A1108;
+  --shadow:     0 4px 24px rgba(0,0,0,0.45);
+  --shadow-lg:  0 12px 48px rgba(0,0,0,0.55);
+}
+body.dark-mode .top-nav {
+  background: rgba(13,26,36,0.94);
+}
+body.dark-mode #loading {
+  background: #060F16;
+}
+body.dark-mode .hero-mountain path {
+  fill: #0D1A24 !important;
+}
+body.dark-mode .wx-card { background: #1A2E3F; }
+body.dark-mode .phrase-item { background: #1A2E3F; }
+body.dark-mode .itinerary-search { background: #152233; color: var(--text); }
+body.dark-mode .check-item:hover { background: #1A2E3F; }
+body.dark-mode table { color: var(--text); }
+body.dark-mode th { background: #1A2E3F; color: var(--text-sub); }
+body.dark-mode tr:nth-child(even) { background: #162535; }
+body.dark-mode .cat-row td { background: #0F1E2B; }
+body.dark-mode .dj-chip { background: #152233; }
+body.dark-mode .bc-card { background: #152233; }
+
+/* 深色模式切換鈕 */
+#darkToggle {
+  position: fixed; bottom: 80px; right: 14px; z-index: 401;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--card); border: 1.5px solid var(--border);
+  box-shadow: var(--shadow); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; transition: background 0.2s, border-color 0.2s;
+}
+#darkToggle:active { transform: scale(0.92); }
+
 /* ═══════════════════════════════════════
    RESET
 ═══════════════════════════════════════ */
@@ -4384,6 +4428,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 
 </main>
 
+<!-- ══ DARK MODE TOGGLE ══ -->
+<button id="darkToggle" aria-label="切換深淺色模式" onclick="toggleDarkMode()">🌙</button>
+
 <!-- ══ SCROLL TOP BUTTON ══ -->
 <button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回頂">↑</button>
 
@@ -5993,6 +6040,32 @@ window.clearItinSearch = function() {
       });
     }, { threshold: 0.4 });
     cards.forEach(function(c) { obs.observe(c); });
+  }
+})();
+
+/* ── 深色模式 ── */
+(function() {
+  var DARK_KEY = 'dark_mode_v1';
+  var body = document.body;
+  var btn = document.getElementById('darkToggle');
+
+  function applyDark(on) {
+    body.classList.toggle('dark-mode', on);
+    if (btn) btn.innerHTML = on ? '☀️' : '🌙';
+    try { localStorage.setItem(DARK_KEY, on ? '1' : '0'); } catch(e) {}
+  }
+
+  window.toggleDarkMode = function() {
+    applyDark(!body.classList.contains('dark-mode'));
+  };
+
+  // On load: check saved preference, then system preference
+  var saved = null;
+  try { saved = localStorage.getItem(DARK_KEY); } catch(e) {}
+  if (saved === '1') {
+    applyDark(true);
+  } else if (saved === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    applyDark(true);
   }
 })();
 
