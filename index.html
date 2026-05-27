@@ -2014,6 +2014,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .fx-ref-twd { font-size: 12px; font-weight: 800; color: var(--primary); }
 body.dark-mode .fx-ref-item { background: #1C1A16; }
 body.dark-mode .fx-ref-item:active { background: rgba(140,123,110,0.2); }
+/* ── EUR 換算 ── */
+.fx-eur-wrap { margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--border); }
+.fx-eur-hdr { font-size: 9.5px; color: var(--text-light); letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
 
 /* ── 打包清單增強 ── */
 .chk-filter-bar { display: flex; gap: 6px; margin-bottom: 10px; padding: 0 1px; }
@@ -3548,15 +3551,15 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
 
     <!-- Stats -->
     <div class="stats-row reveal">
-      <div class="stat-card">
-        <div class="sc-icon">✈️</div>
-        <div class="sc-val">6/16</div>
-        <div class="sc-label">2026 出發</div>
+      <div class="stat-card" id="statCard0">
+        <div class="sc-icon" id="statIcon0">✈️</div>
+        <div class="sc-val" id="statVal0">6/16</div>
+        <div class="sc-label" id="statLabel0">2026 出發</div>
       </div>
-      <div class="stat-card">
-        <div class="sc-icon">🏠</div>
-        <div class="sc-val">7/1</div>
-        <div class="sc-label">回程搭機</div>
+      <div class="stat-card" id="statCard1">
+        <div class="sc-icon" id="statIcon1">🏠</div>
+        <div class="sc-val" id="statVal1">7/1</div>
+        <div class="sc-label" id="statLabel1">回程搭機</div>
       </div>
       <div class="stat-card">
         <div class="sc-icon">🚂</div>
@@ -4441,6 +4444,17 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
             <div class="fx-ref-wrap">
               <div class="fx-ref-title">常用金額速查（點擊複製）</div>
               <div class="fx-ref-grid" id="fxRefGrid"></div>
+            </div>
+            <!-- EUR 換算 for Tirano day -->
+            <div class="fx-eur-wrap">
+              <div class="fx-eur-hdr">🇮🇹 EUR 換算（6/19 Tirano 用）</div>
+              <div class="fx-row">
+                <input type="number" id="eurInput" class="fx-input" value="1" min="0" step="1" oninput="calcEur()">
+                <span class="fx-label">EUR →</span>
+                <span class="fx-result" id="eurResult" style="margin:0">--</span>
+                <span class="fx-label">TWD</span>
+              </div>
+              <div class="fx-note" id="eurNote" style="margin-top:3px">EUR 1 ≈ TWD 38　載入中…</div>
             </div>
           </div>
         </div>
@@ -12047,6 +12061,73 @@ window.togglePhotoLayer = (function() {
 
   document.addEventListener('mouseup', check);
   document.addEventListener('touchend', check, { passive: true });
+})();
+
+/* ── EUR/TWD 換算（6/19 Tirano 用）── */
+(function(){
+  var _eurRate = 38; // fallback
+  var note = document.getElementById('eurNote');
+  fetch('https://api.frankfurter.app/latest?from=EUR&to=TWD')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.rates && d.rates.TWD){
+        _eurRate = Math.round(d.rates.TWD * 10) / 10;
+        if(note) note.textContent = 'EUR 1 ≈ TWD ' + _eurRate.toFixed(1) + '　即時匯率';
+        window.calcEur && window.calcEur();
+      }
+    }).catch(function(){
+      if(note) note.textContent = 'EUR 1 ≈ TWD 38　離線估算';
+    });
+
+  window.calcEur = function(){
+    var inp = document.getElementById('eurInput');
+    var out = document.getElementById('eurResult');
+    if(!inp || !out) return;
+    var v = parseFloat(inp.value);
+    if(isNaN(v) || v < 0){ out.textContent = '--'; return; }
+    out.textContent = Math.round(v * _eurRate).toLocaleString();
+  };
+  window.calcEur();
+})();
+
+/* ── 動態首頁統計卡 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var v0 = document.getElementById('statVal0');
+  var l0 = document.getElementById('statLabel0');
+  var ic0 = document.getElementById('statIcon0');
+  var v1 = document.getElementById('statVal1');
+  var l1 = document.getElementById('statLabel1');
+  var ic1 = document.getElementById('statIcon1');
+  if(!v0 || !v1) return;
+
+  function update(){
+    var now = new Date();
+    var msDay = 86400000;
+    if(now < DEPART){
+      var daysLeft = Math.ceil((DEPART - now) / msDay);
+      ic0.textContent = '⏳';
+      v0.textContent = daysLeft;
+      l0.textContent = daysLeft === 1 ? '明天出發！' : '天後出發';
+      // card1 stays static
+    } else if(now <= RETURN){
+      var dayNum = Math.floor((now - DEPART) / msDay) + 1;
+      var remaining = Math.ceil((RETURN - now) / msDay);
+      ic0.textContent = '✈️';
+      v0.textContent = '第' + dayNum + '天';
+      l0.textContent = '旅程進行中';
+      ic1.textContent = '🏠';
+      v1.textContent = remaining > 0 ? remaining : 0;
+      l1.textContent = remaining > 0 ? '天後返台' : '今日返台！';
+    } else {
+      ic0.textContent = '💍';
+      v0.textContent = '完成';
+      l0.textContent = '蜜月之旅';
+    }
+  }
+  update();
+  setInterval(update, 60000);
 })();
 </script>
 </body>
