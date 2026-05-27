@@ -1311,6 +1311,11 @@ details.chk-section[open] > summary {
   text-align: center; padding: 0 3px;
   pointer-events: none;
 }
+.bnav-today-spend {
+  display: block; font-size: 7.5px; font-weight: 700;
+  color: var(--gold); letter-spacing: 0.2px; line-height: 1;
+  margin-top: 1px; min-height: 10px;
+}
 
 @media (max-width: 767px) {
   .top-nav    { display: none; }
@@ -6754,6 +6759,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
     </button>
     <button class="bnav-btn" onclick="showTab('budget',this)">
       <span class="bn-icon">💰</span><span>預算</span>
+      <span class="bnav-today-spend" id="bnavSpendBadge"></span>
     </button>
     <button class="bnav-btn" onclick="showTab('photo',this)">
       <span class="bn-icon">📸</span><span>攝影</span>
@@ -10843,6 +10849,37 @@ window.togglePhotoLayer = (function() {
   });
 
   renderList();
+})();
+
+/* ── 底部導航今日花費 badge ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var DLC_DATES = ['6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30','7/1'];
+  var badge = document.getElementById('bnavSpendBadge');
+  if (!badge) return;
+
+  function fmt(n) {
+    if (n >= 10000) return Math.round(n/1000) + 'k';
+    if (n >= 1000) return (n/1000).toFixed(1).replace(/\.0$/,'') + 'k';
+    return String(Math.round(n));
+  }
+
+  function render() {
+    var now = new Date();
+    if (now < DEPART || now > RETURN) { badge.textContent = ''; return; }
+    var todayStr = (now.getMonth()+1) + '/' + now.getDate();
+    var idx = DLC_DATES.indexOf(todayStr);
+    if (idx === -1) { badge.textContent = ''; return; }
+    var data = {};
+    try { data = JSON.parse(localStorage.getItem('daily_log_v1')) || {}; } catch(e){}
+    var val = data[idx] || 0;
+    badge.textContent = val > 0 ? '今 ' + fmt(val) : '記帳';
+  }
+
+  render();
+  var _orig = window.updateDailyLog;
+  window.updateDailyLog = function(){ if (_orig) _orig.apply(this, arguments); render(); };
 })();
 
 /* ── CHF 選取即時換算提示 ── */
