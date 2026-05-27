@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 
 /* ═══════════════════════════════════════
@@ -15,11 +15,11 @@
 ═══════════════════════════════════════ */
 :root {
   --hero-bg:    #071828;
-  --primary:    #1B6CA8;
-  --primary-dk: #0F4A78;
+  --primary:    #2C5F8A;
+  --primary-dk: #1A3D5C;
   --rose:       #2A7A50;
   --rose-lt:    #E6F4ED;
-  --gold:       #C9944A;
+  --gold:       #C9A96E;
   --gold-lt:    #FDF5E8;
   --bg:         #F2F7FB;
   --card:       #FFFFFF;
@@ -27,11 +27,11 @@
   --text-sub:   #3E6275;
   --text-light: #7A9BAD;
   --border:     #C8DDE8;
-  --shadow:     0 4px 24px rgba(27,108,168,0.10);
-  --shadow-lg:  0 12px 48px rgba(27,108,168,0.16);
+  --shadow:     0 4px 24px rgba(44,95,138,0.10);
+  --shadow-lg:  0 12px 48px rgba(44,95,138,0.16);
   --radius:     16px;
   --radius-sm:  10px;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
   --font-body:  'Noto Sans TC', -apple-system, sans-serif;
   --nav-h:      56px;
   --bot-nav-h:  64px;
@@ -122,8 +122,8 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   animation: glowPulse 4s ease-in-out infinite;
 }
 @keyframes glowPulse {
-  0%, 100% { opacity: 0.6; transform: translate(-50%, -60%) scale(1); }
-  50%       { opacity: 1;   transform: translate(-50%, -60%) scale(1.1); }
+  0%, 100% { opacity: 0.6; scale: 1; }
+  50%       { opacity: 1;   scale: 1.1; }
 }
 .hero-inner {
   position: relative; z-index: 2;
@@ -213,7 +213,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 ═══════════════════════════════════════ */
 .top-nav {
   position: sticky; top: 0; z-index: 200;
-  background: rgba(255,248,245,0.92);
+  background: rgba(235,244,252,0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
@@ -1293,6 +1293,157 @@ footer small {
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
+/* ═══════════════════════════════════════
+   WEATHER WIDGET (P7)
+═══════════════════════════════════════ */
+.weather-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+.wx-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px 14px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.wx-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--gold));
+}
+.wx-city {
+  font-size: 11px; font-weight: 700;
+  color: var(--text-sub); letter-spacing: 0.5px;
+  margin-bottom: 6px; text-transform: uppercase;
+}
+.wx-icon { font-size: 26px; margin-bottom: 4px; line-height: 1; }
+.wx-temp {
+  font-size: 20px; font-weight: 700;
+  color: var(--text); line-height: 1;
+}
+.wx-wind { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+/* ═══════════════════════════════════════
+   GALLERY FILTERS + GRID (P6)
+═══════════════════════════════════════ */
+.gallery-filters {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.gf-btn {
+  padding: 7px 16px;
+  font-size: 12.5px; font-weight: 600;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-sub);
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gf-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gf-btn.active {
+  background: var(--primary); color: #fff;
+  border-color: var(--primary);
+}
+.gallery-grid {
+  columns: 2; column-gap: 10px;
+  margin-bottom: 32px;
+}
+@media (min-width: 560px) { .gallery-grid { columns: 3; } }
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 10px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: block;
+}
+.gallery-item img {
+  width: 100%; display: block;
+  transition: transform 0.35s ease;
+}
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-item-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  color: #fff; font-size: 11px; padding: 20px 8px 7px;
+  opacity: 0; transition: opacity 0.2s; line-height: 1.3;
+}
+.gallery-item:hover .gallery-item-caption { opacity: 1; }
+
+/* LIGHTBOX */
+#gallery-lb {
+  display: none;
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.92);
+  align-items: center; justify-content: center;
+  flex-direction: column;
+}
+#gallery-lb.open { display: flex; }
+#gallery-lb img {
+  max-width: 92vw; max-height: 80vh;
+  border-radius: 8px; object-fit: contain;
+  display: block; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+.lb-caption {
+  color: rgba(255,255,255,0.75); font-size: 13px;
+  text-align: center; margin-top: 12px; max-width: 80vw;
+}
+.lb-close {
+  position: fixed; top: 14px; right: 18px;
+  font-size: 30px; line-height: 1; color: #fff;
+  cursor: pointer; background: none; border: none;
+  z-index: 2001; opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.lb-close:hover { opacity: 1; }
+.lb-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 22px; color: #fff; cursor: pointer;
+  background: rgba(255,255,255,0.13);
+  border: none; border-radius: 50%;
+  width: 48px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s; z-index: 2001;
+}
+.lb-nav:hover { background: rgba(255,255,255,0.28); }
+.lb-prev { left: 10px; }
+.lb-next { right: 10px; }
+
+/* ═══════════════════════════════════════
+   CHECKLIST ADD-ITEM (P8)
+═══════════════════════════════════════ */
+.check-item { min-height: 44px; }
+.check-add-row {
+  display: flex; gap: 8px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.check-add-input {
+  flex: 1; font-size: 13px;
+  font-family: var(--font-body);
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg); color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.check-add-input:focus { border-color: var(--primary); }
+.check-add-btn {
+  padding: 8px 14px; font-size: 15px; font-weight: 700;
+  background: var(--primary); color: #fff;
+  border: none; border-radius: 8px;
+  cursor: pointer; transition: background 0.2s;
+  flex-shrink: 0;
+}
+.check-add-btn:hover { background: var(--primary-dk); }
+
 </style>
 </head>
 <body>
@@ -1405,6 +1556,28 @@ footer small {
         <div class="sc-icon">💍</div>
         <div class="sc-val">6</div>
         <div class="sc-label">基地城市</div>
+      </div>
+    </div>
+
+    <!-- ─── 即時天氣 ─── -->
+    <div class="weather-row reveal" id="weatherRow">
+      <div class="wx-card" id="wx-zurich">
+        <div class="wx-city">蘇黎世</div>
+        <div class="wx-icon">⏳</div>
+        <div class="wx-temp">--°C</div>
+        <div class="wx-wind">載入中...</div>
+      </div>
+      <div class="wx-card" id="wx-stmoritz">
+        <div class="wx-city">聖莫里茲</div>
+        <div class="wx-icon">⏳</div>
+        <div class="wx-temp">--°C</div>
+        <div class="wx-wind">載入中...</div>
+      </div>
+      <div class="wx-card" id="wx-zermatt">
+        <div class="wx-city">策馬特</div>
+        <div class="wx-icon">⏳</div>
+        <div class="wx-temp">--°C</div>
+        <div class="wx-wind">載入中...</div>
       </div>
     </div>
 
@@ -2716,6 +2889,65 @@ footer small {
   <div id="tab-photo" class="section">
     <div class="sec-title">攝影指南</div>
 
+    <!-- 相片牆 -->
+    <div class="gallery-filters">
+      <button class="gf-btn active" onclick="filterGallery('all',this)">全部</button>
+      <button class="gf-btn" onclick="filterGallery('landscape',this)">🏔 風景</button>
+      <button class="gf-btn" onclick="filterGallery('wedding',this)">💍 婚紗</button>
+      <button class="gf-btn" onclick="filterGallery('city',this)">🏙 城市</button>
+      <button class="gf-btn" onclick="filterGallery('train',this)">🚂 鐵道</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item" data-cat="landscape" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1595923941716-39a9c58a9661?w=300&q=75&fit=crop" alt="Riffelsee" loading="lazy">
+        <div class="gallery-item-caption">Riffelsee 馬特洪峰倒影</div>
+      </div>
+      <div class="gallery-item" data-cat="wedding" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1630009574406-a9b21b77c015?w=300&q=75&fit=crop" alt="Lauterbrunnen" loading="lazy">
+        <div class="gallery-item-caption">Lauterbrunnen 瀑布山谷婚紗</div>
+      </div>
+      <div class="gallery-item" data-cat="train" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1553670590-f58a6135f69e?w=300&q=75&fit=crop" alt="Brusio" loading="lazy">
+        <div class="gallery-item-caption">Brusio 螺旋橋</div>
+      </div>
+      <div class="gallery-item" data-cat="landscape" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1662553897502-e056c6fd2e51?w=300&q=75&fit=crop" alt="Stellisee" loading="lazy">
+        <div class="gallery-item-caption">Stellisee 倒影</div>
+      </div>
+      <div class="gallery-item" data-cat="city" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1745266550547-d3a6130ab32a?w=300&q=75&fit=crop" alt="Lucerne" loading="lazy">
+        <div class="gallery-item-caption">琉森藍調時刻</div>
+      </div>
+      <div class="gallery-item" data-cat="wedding" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1658244909731-ec8479854111?w=300&q=75&fit=crop" alt="Schwarzsee" loading="lazy">
+        <div class="gallery-item-caption">Schwarzsee 馬特洪峰婚紗</div>
+      </div>
+      <div class="gallery-item" data-cat="landscape" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1610652259354-447c4947fdd0?w=300&q=75&fit=crop" alt="Oeschinensee" loading="lazy">
+        <div class="gallery-item-caption">Oeschinensee 冰川湖</div>
+      </div>
+      <div class="gallery-item" data-cat="train" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1513896188778-dad7fe44a483?w=300&q=75&fit=crop" alt="Ospizio Bernina" loading="lazy">
+        <div class="gallery-item-caption">Ospizio Bernina 鐵道湖</div>
+      </div>
+      <div class="gallery-item" data-cat="wedding" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1736443750417-4a91d3442c97?w=300&q=75&fit=crop" alt="Pontresina" loading="lazy">
+        <div class="gallery-item-caption">Pontresina 村婚紗</div>
+      </div>
+      <div class="gallery-item" data-cat="landscape" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1481107999426-f54f101856d9?w=300&q=75&fit=crop" alt="Muottas Muragl" loading="lazy">
+        <div class="gallery-item-caption">Muottas Muragl 三湖全景</div>
+      </div>
+      <div class="gallery-item" data-cat="city" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1587081068899-734de48d2d7f?w=300&q=75&fit=crop" alt="Rhine Falls" loading="lazy">
+        <div class="gallery-item-caption">萊茵瀑布</div>
+      </div>
+      <div class="gallery-item" data-cat="landscape" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1690482575072-21ec5620f964?w=300&q=75&fit=crop" alt="Diavolezza" loading="lazy">
+        <div class="gallery-item-caption">Diavolezza 冰川</div>
+      </div>
+    </div>
+
     <div class="photo-grid">
       <div class="pg-card reveal">
         <div class="pg-img" style="background-image:url('https://images.unsplash.com/photo-1595923941716-39a9c58a9661?w=420&q=80&fit=crop')"></div>
@@ -3033,7 +3265,7 @@ footer small {
     <div class="sec-title" style="font-size:20px;margin-top:8px">🎒 打包清單</div>
     <div class="checklist reveal">
       <h3>📷 攝影器材</h3>
-      <div class="check-grid">
+      <div class="check-grid" id="chk-grid-camera">
         <label class="check-item"><input type="checkbox"> Sony A7R5 機身</label>
         <label class="check-item"><input type="checkbox"> 24–70mm 鏡頭</label>
         <label class="check-item"><input type="checkbox"> 200–300mm 長焦鏡頭</label>
@@ -3043,8 +3275,13 @@ footer small {
         <label class="check-item"><input type="checkbox"> 備用記憶卡</label>
         <label class="check-item"><input type="checkbox"> 清潔布／吹塵球</label>
       </div>
+      <div class="check-add-row">
+        <input type="text" class="check-add-input" placeholder="新增器材..."
+          onkeydown="if(event.key==='Enter')addCheckItem('camera',this)">
+        <button class="check-add-btn" onclick="addCheckItem('camera',this.previousElementSibling)">＋</button>
+      </div>
       <h3>👗 衣物裝備</h3>
-      <div class="check-grid">
+      <div class="check-grid" id="chk-grid-clothing">
         <label class="check-item"><input type="checkbox"> 登山鞋（冰川殘雪）</label>
         <label class="check-item"><input type="checkbox"> 保暖外套（山頂低溫）</label>
         <label class="check-item"><input type="checkbox"> 防水外套</label>
@@ -3052,8 +3289,13 @@ footer small {
         <label class="check-item"><input type="checkbox"> 太陽眼鏡＋防曬</label>
         <label class="check-item"><input type="checkbox"> 婚紗／禮服</label>
       </div>
+      <div class="check-add-row">
+        <input type="text" class="check-add-input" placeholder="新增衣物..."
+          onkeydown="if(event.key==='Enter')addCheckItem('clothing',this)">
+        <button class="check-add-btn" onclick="addCheckItem('clothing',this.previousElementSibling)">＋</button>
+      </div>
       <h3>📄 旅行文件 ／ 票券</h3>
-      <div class="check-grid">
+      <div class="check-grid" id="chk-grid-docs">
         <label class="check-item"><input type="checkbox"> 護照（有效期 2 年以上）</label>
         <label class="check-item"><input type="checkbox"> Swiss Travel Pass</label>
         <label class="check-item"><input type="checkbox"> 冰河列車訂位確認單</label>
@@ -3063,10 +3305,24 @@ footer small {
         <label class="check-item"><input type="checkbox"> 瑞士法郎現金（備用）</label>
         <label class="check-item"><input type="checkbox"> 信用卡（VISA / Mastercard）</label>
       </div>
+      <div class="check-add-row">
+        <input type="text" class="check-add-input" placeholder="新增文件..."
+          onkeydown="if(event.key==='Enter')addCheckItem('docs',this)">
+        <button class="check-add-btn" onclick="addCheckItem('docs',this.previousElementSibling)">＋</button>
+      </div>
     </div>
   </div>
 
 </main>
+
+<!-- ══ LIGHTBOX ══ -->
+<div id="gallery-lb" onclick="if(event.target===this)closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-nav lb-prev" onclick="moveLightbox(-1)">‹</button>
+  <button class="lb-nav lb-next" onclick="moveLightbox(1)">›</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
 
 <footer>
   瑞士蜜月旅行 2026 ｜ 6/16 – 7/1 ｜ 兩人同行，一生難忘 💍
@@ -3115,6 +3371,7 @@ function showTab(name, btn) {
     setTimeout(function(){
       if (typeof _routeMap !== 'undefined' && _routeMap) _routeMap.invalidateSize();
       if (typeof _worldMap !== 'undefined' && _worldMap) _worldMap.invalidateSize();
+      if (typeof _fetchWeather === 'function') _fetchWeather();
     }, 200);
   }
 }
@@ -3682,15 +3939,191 @@ function animateBudget() {
   }, 18);
 }
 
-/* ── CHECKLIST ── */
-document.querySelectorAll('.check-item input').forEach((cb, i) => {
-  const key = 'chk_' + i;
-  cb.checked = localStorage.getItem(key) === '1';
-  cb.parentElement.classList.toggle('done', cb.checked);
-  cb.addEventListener('change', () => {
-    localStorage.setItem(key, cb.checked ? '1' : '0');
-    cb.parentElement.classList.toggle('done', cb.checked);
+/* ── CHECKLIST (P8) ── */
+(function() {
+  function getStateKey(cb) {
+    var txt = cb.closest('.check-item').textContent.trim().replace(/\s+/g,' ').substring(0,50);
+    return 'chk_' + txt;
+  }
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem('chk_state2') || '{}'); } catch(e) { return {}; }
+  }
+  function saveState() {
+    var s = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(function(cb) {
+      s[getStateKey(cb)] = cb.checked;
+    });
+    try { localStorage.setItem('chk_state2', JSON.stringify(s)); } catch(e){}
+  }
+  function bindCb(cb) {
+    cb.addEventListener('change', function() {
+      cb.closest('.check-item').classList.toggle('done', cb.checked);
+      saveState();
+      var grid = cb.closest('.check-grid');
+      if (grid && cb.closest('.check-item').dataset.custom) {
+        saveCustomItems(grid.id.replace('chk-grid-',''));
+      }
+    });
+  }
+  function saveCustomItems(cat) {
+    var grid = document.getElementById('chk-grid-' + cat);
+    if (!grid) return;
+    var items = [];
+    grid.querySelectorAll('.check-item[data-custom]').forEach(function(el) {
+      items.push({ text: el.textContent.trim(), done: el.querySelector('input').checked });
+    });
+    try { localStorage.setItem('chk_custom_' + cat, JSON.stringify(items)); } catch(e){}
+  }
+  function addItemToGrid(cat, text, checked) {
+    var grid = document.getElementById('chk-grid-' + cat);
+    if (!grid) return;
+    var label = document.createElement('label');
+    label.className = 'check-item' + (checked ? ' done' : '');
+    label.dataset.custom = '1';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!checked;
+    var span = document.createElement('span');
+    span.textContent = ' ' + text;
+    label.appendChild(cb);
+    label.appendChild(span);
+    bindCb(cb);
+    grid.appendChild(label);
+  }
+  window.addCheckItem = function(cat, input) {
+    var text = input.value.trim();
+    if (!text) return;
+    addItemToGrid(cat, text, false);
+    saveCustomItems(cat);
+    input.value = '';
+    saveState();
+  };
+  // restore custom items first
+  ['camera','clothing','docs'].forEach(function(cat) {
+    var items = [];
+    try { items = JSON.parse(localStorage.getItem('chk_custom_' + cat) || '[]'); } catch(e){}
+    items.forEach(function(it) { addItemToGrid(cat, it.text, it.done); });
   });
+  // restore checked state
+  var state = loadState();
+  document.querySelectorAll('.check-item input[type=checkbox]').forEach(function(cb) {
+    var k = getStateKey(cb);
+    if (state[k]) { cb.checked = true; cb.closest('.check-item').classList.add('done'); }
+    bindCb(cb);
+  });
+})();
+
+/* ── WEATHER (P7) ── */
+window._fetchWeather = (function() {
+  var CITIES = [
+    { id: 'wx-zurich',   lat: 47.38, lng: 8.54 },
+    { id: 'wx-stmoritz', lat: 46.50, lng: 9.84 },
+    { id: 'wx-zermatt',  lat: 46.02, lng: 7.75 }
+  ];
+  var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+    51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
+    71:'❄️',73:'❄️',75:'❄️',77:'❄️',80:'🌦',81:'🌧',82:'⛈',
+    85:'❄️',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
+  function updateCard(city, data) {
+    var el = document.getElementById(city.id);
+    if (!el) return;
+    var cur = data.current;
+    el.querySelector('.wx-icon').textContent = WMO[cur.weather_code] || '🌡';
+    el.querySelector('.wx-temp').textContent = Math.round(cur.temperature_2m) + '°C';
+    el.querySelector('.wx-wind').textContent = '💨 ' + Math.round(cur.wind_speed_10m) + ' km/h';
+  }
+  return function fetchWeather() {
+    var cached = null;
+    try { cached = JSON.parse(localStorage.getItem('wx_cache')); } catch(e){}
+    if (cached && cached.ts && Date.now() - cached.ts < 1800000) {
+      CITIES.forEach(function(c,i) { if (cached.data[i]) updateCard(c, cached.data[i]); });
+      return;
+    }
+    var results = new Array(CITIES.length);
+    var done = 0;
+    CITIES.forEach(function(city, i) {
+      var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + city.lat
+        + '&longitude=' + city.lng
+        + '&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto';
+      fetch(url).then(function(r){ return r.json(); }).then(function(data) {
+        results[i] = data;
+        updateCard(city, data);
+        done++;
+        if (done === CITIES.length) {
+          try { localStorage.setItem('wx_cache', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
+        }
+      }).catch(function() {
+        var el = document.getElementById(city.id);
+        if (el) { el.querySelector('.wx-icon').textContent='🌡'; el.querySelector('.wx-wind').textContent='無法載入'; }
+      });
+    });
+  };
+})();
+
+/* ── GALLERY (P6) ── */
+(function() {
+  var _lb = { current: 0, visible: [] };
+  window.filterGallery = function(cat, btn) {
+    document.querySelectorAll('.gf-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(function(el) {
+      el.style.display = (cat === 'all' || el.dataset.cat === cat) ? '' : 'none';
+    });
+  };
+  function getVisible() {
+    return Array.from(document.querySelectorAll('.gallery-item')).filter(function(el) {
+      return el.style.display !== 'none';
+    });
+  }
+  window.openLightbox = function(el) {
+    _lb.visible = getVisible();
+    _lb.current = _lb.visible.indexOf(el);
+    showLbItem();
+    document.getElementById('gallery-lb').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  function showLbItem() {
+    var el = _lb.visible[_lb.current];
+    if (!el) return;
+    var img = el.querySelector('img');
+    var cap = el.querySelector('.gallery-item-caption');
+    document.getElementById('lbImg').src = img.src.replace('w=300','w=1200').replace('q=75','q=85');
+    document.getElementById('lbCaption').textContent = cap ? cap.textContent.trim() : '';
+  }
+  window.closeLightbox = function() {
+    document.getElementById('gallery-lb').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.moveLightbox = function(dir) {
+    _lb.visible = getVisible();
+    _lb.current = (_lb.current + dir + _lb.visible.length) % _lb.visible.length;
+    showLbItem();
+  };
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('gallery-lb').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') moveLightbox(-1);
+    if (e.key === 'ArrowRight') moveLightbox(1);
+  });
+})();
+
+/* ── PARALLAX (P1) ── */
+(function() {
+  var canvas  = document.getElementById('heroCanvas');
+  var inner   = document.querySelector('.hero-inner');
+  var hero    = document.querySelector('.hero');
+  window.addEventListener('scroll', function() {
+    var y = window.scrollY;
+    var h = hero ? hero.offsetHeight : window.innerHeight;
+    if (y > h) return;
+    if (canvas) canvas.style.transform = 'translateY(' + (y * 0.22) + 'px)';
+    if (inner)  inner.style.transform  = 'translateY(' + (y * 0.12) + 'px)';
+  }, { passive: true });
+})();
+
+/* ── FETCH WEATHER ON LOAD ── */
+window.addEventListener('load', function() {
+  if (typeof _fetchWeather === 'function') _fetchWeather();
 });
 </script>
 </body>
