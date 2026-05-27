@@ -3185,6 +3185,9 @@ body.dark-mode .ms-row { background: #1C1A16; }
 .dt-city { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; color: #fff; width: fit-content; }
 .dt-act  { font-size: 11.5px; color: var(--text-sub); line-height: 1.3; }
 .dtrow .dt-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; color: #fff; margin-right: 4px; vertical-align: middle; }
+.dtrow.dt-past { opacity: 0.52; }
+.dtrow.dt-past .dt-date { text-decoration: line-through; text-decoration-color: var(--text-light); }
+.dt-wx { display: inline-flex; align-items: center; gap: 2px; margin-left: 7px; font-size: 10px; color: var(--text-light); white-space: nowrap; vertical-align: middle; background: rgba(140,123,110,0.09); border-radius: 4px; padding: 0 4px; }
 body.dark-mode .dtrow { background: #1C1A16; }
 body.dark-mode .dtrow:hover { background: rgba(44,95,138,0.14); }
 body.dark-mode .dtrow.dt-today { background: rgba(201,169,110,0.10); }
@@ -8655,6 +8658,65 @@ showTab = function(name, btn) {
     }, 400);
   }
 };
+
+/* ── 16 天行程一覽：天氣預報 + 已過日淡化 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var DATE_WX = {
+    '6/16':0,'6/17':1,'6/18':1,'6/19':1,'6/20':1,
+    '6/21':2,'6/22':2,'6/23':2,'6/24':3,'6/25':3,
+    '6/26':4,'6/27':4,'6/28':4,'6/29':0,'6/30':0,'7/1':0
+  };
+  var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+    51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
+    71:'❄️',73:'❄️',75:'❄️',80:'🌦',81:'🌧',95:'⛈',99:'⛈'};
+
+  function toIso(dateStr) {
+    var p = dateStr.split('/');
+    return '2026-' + String(p[0]).padStart(2,'0') + '-' + String(p[1]).padStart(2,'0');
+  }
+
+  function markPast() {
+    var now = new Date();
+    var todayIso = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+    document.querySelectorAll('.dtrow').forEach(function(row) {
+      var dateEl = row.querySelector('.dt-date');
+      if (!dateEl) return;
+      var iso = toIso(dateEl.textContent.trim());
+      if (iso < todayIso && Date.now() >= DEPART.getTime()) row.classList.add('dt-past');
+    });
+  }
+
+  function injectWx(wxData) {
+    document.querySelectorAll('.dtrow').forEach(function(row) {
+      var dateEl = row.querySelector('.dt-date');
+      if (!dateEl) return;
+      var dateStr = dateEl.textContent.trim();
+      var cityIdx = DATE_WX[dateStr];
+      if (cityIdx === undefined || !wxData || !wxData[cityIdx]) return;
+      var d = wxData[cityIdx];
+      if (!d.daily || !d.daily.time) return;
+      var iso = toIso(dateStr);
+      var idx = d.daily.time.indexOf(iso);
+      if (idx < 0) return;
+      var icon = WMO[d.daily.weather_code[idx]] || '🌡';
+      var max = Math.round(d.daily.temperature_2m_max[idx]);
+      var min = Math.round(d.daily.temperature_2m_min[idx]);
+      var existing = row.querySelector('.dt-wx');
+      if (existing) existing.remove();
+      var span = document.createElement('span');
+      span.className = 'dt-wx';
+      span.textContent = icon + ' ' + min + '–' + max + '°';
+      var actEl = row.querySelector('.dt-act');
+      if (actEl) actEl.appendChild(span);
+    });
+  }
+
+  markPast();
+  try { var c = JSON.parse(localStorage.getItem('wx_cache5')); if (c && c.data) injectWx(c.data); } catch(e) {}
+  window._wxReadyCbs = window._wxReadyCbs || [];
+  window._wxReadyCbs.push(function(d) { injectWx(d); });
+})();
 
 /* ── 16 天表點擊跳到行程日 ── */
 (function() {
