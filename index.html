@@ -484,6 +484,12 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .chip-stp    { background: #DBEAFE; color: #1E40AF; }
 .chip-warn   { background: #FEE2E2; color: #991B1B; }
 .chip-gold   { background: var(--gold-lt); color: #92400E; }
+.chip-spend  { background: #DCFCE7; color: #15803D; font-size: 10.5px; }
+.chip-spend.warn { background: #FEF3C7; color: #D97706; }
+.chip-spend.over { background: #FEE2E2; color: #DC2626; }
+body.dark-mode .chip-spend      { background: #052e16; color: #4ade80; }
+body.dark-mode .chip-spend.warn { background: #1c1206; color: #fbbf24; }
+body.dark-mode .chip-spend.over { background: #1c0606; color: #f87171; }
 .chip-wx     { background: rgba(44,95,138,0.09); color: var(--primary); border: 1px solid rgba(44,95,138,0.2); font-size: 11px; }
 .chip-wx.cold { background: rgba(147,197,253,0.12); color: #2563EB; border-color: rgba(147,197,253,0.35); }
 .chip-wx.warm { background: rgba(251,191,36,0.1);  color: #D97706; border-color: rgba(251,191,36,0.3); }
@@ -7841,6 +7847,8 @@ window.toggleAllDays = function() {
   function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
   function save(d){ try{ localStorage.setItem(KEY, JSON.stringify(d)); }catch(e){} }
 
+  var DLC_DATES = ['6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30','7/1'];
+
   window.updateDailyLog = function(){
     var data = {}, total = 0;
     for(var i = 0; i < TOTAL; i++){
@@ -7861,6 +7869,24 @@ window.toggleAllDays = function() {
         if(row){ chfEl = document.createElement('div'); chfEl.id='dlcchf-'+i; chfEl.className='dlc-chf'; row.appendChild(chfEl); }
       }
       if(chfEl){ var r=window._fxRate||35; chfEl.textContent=val>0?'≈ CHF '+Math.round(val/r):''; }
+      // Spend chip in day card
+      (function(dateStr, amount){
+        var cards = document.querySelectorAll('#tab-itinerary .day-card');
+        for(var k=0;k<cards.length;k++){
+          var db = cards[k].querySelector('.db-date');
+          if(!db || db.textContent.trim() !== dateStr) continue;
+          var chips = cards[k].querySelector('.day-chips');
+          if(!chips) break;
+          var sc = chips.querySelector('.chip-spend');
+          if(!sc){ sc=document.createElement('span'); sc.className='chip chip-spend'; chips.appendChild(sc); }
+          if(amount>0){
+            sc.textContent='💰 '+(Math.round(amount/100)/10)+'k TWD';
+            sc.className='chip chip-spend'+(amount>DAILY_AVG*1.3?' over':amount>DAILY_AVG?' warn':'');
+            sc.style.display='';
+          } else { sc.style.display='none'; }
+          break;
+        }
+      })(DLC_DATES[i], val);
     }
     save(data);
     // Mini sparkline chart
