@@ -8,36 +8,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2C5F8A">
+<meta name="theme-color" content="#8C7B6E">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="瑞士蜜月">
 <link rel="apple-touch-icon" href="icon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 
 /* ═══════════════════════════════════════
    VARIABLES
 ═══════════════════════════════════════ */
 :root {
-  --hero-bg:    #071828;
-  --primary:    #2C5F8A;
-  --primary-dk: #1A3D5C;
-  --rose:       #2A7A50;
-  --rose-lt:    #E6F4ED;
-  --gold:       #C9A96E;
-  --gold-lt:    #FDF5E8;
-  --bg:         #F2F7FB;
-  --card:       #FFFFFF;
-  --text:       #162C3E;
-  --text-sub:   #375669;
-  --text-light: #5E8498;
-  --border:     #C8DDE8;
-  --shadow:     0 4px 24px rgba(44,95,138,0.10);
-  --shadow-lg:  0 12px 48px rgba(44,95,138,0.16);
-  --radius:     16px;
-  --radius-sm:  10px;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --hero-bg:    #1C1A16;
+  --primary:    #8C7B6E;
+  --primary-dk: #6A5C51;
+  --rose:       #7A8C6E;
+  --rose-lt:    #EDEEE9;
+  --gold:       #B89A7E;
+  --gold-lt:    #F5F0E8;
+  --bg:         #F5F0EB;
+  --card:       #FEFCFA;
+  --text:       #2C2B28;
+  --text-sub:   #5C5A55;
+  --text-light: #8A8880;
+  --border:     #E0DBD5;
+  --shadow:     0 1px 8px rgba(44,42,38,0.07);
+  --shadow-lg:  0 6px 28px rgba(44,42,38,0.10);
+  --radius:     12px;
+  --radius-sm:  8px;
+  --font-serif: 'Noto Serif TC', Georgia, serif;
   --font-body:  'Noto Sans TC', -apple-system, sans-serif;
   --nav-h:      56px;
   --bot-nav-h:  64px;
@@ -45,122 +45,122 @@
 
 /* ── 深色模式 ── */
 body.dark-mode {
-  --bg:         #0D1A24;
-  --card:       #152233;
-  --text:       #E8F2F8;
-  --text-sub:   #91C2D8;
-  --text-light: #6BAFC8;
-  --border:     #1D3348;
-  --rose-lt:    #0C1E14;
-  --gold-lt:    #1A1108;
-  --shadow:     0 4px 24px rgba(0,0,0,0.45);
-  --shadow-lg:  0 12px 48px rgba(0,0,0,0.55);
+  --bg:         #1C1A16;
+  --card:       #252320;
+  --text:       #EAE7E2;
+  --text-sub:   #A8A4A0;
+  --text-light: #706E6A;
+  --border:     #3A3830;
+  --rose-lt:    #1E2019;
+  --gold-lt:    #211D14;
+  --shadow:     0 2px 12px rgba(0,0,0,0.35);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.45);
 }
 body.dark-mode .top-nav {
-  background: rgba(13,26,36,0.94);
+  background: rgba(28,26,22,0.95);
 }
 body.dark-mode #loading {
-  background: #060F16;
+  background: #141210;
 }
 body.dark-mode .hero-mountain path {
-  fill: #0D1A24 !important;
+  fill: #1C1A16 !important;
 }
-body.dark-mode .wx-card { background: #1A2E3F; }
-body.dark-mode .phrase-item { background: #1A2E3F; }
-body.dark-mode .itinerary-search { background: #152233; color: var(--text); }
-body.dark-mode .check-item:hover { background: #1A2E3F; }
+body.dark-mode .wx-card { background: #252320; }
+body.dark-mode .phrase-item { background: #252320; }
+body.dark-mode .itinerary-search { background: #252320; color: var(--text); }
+body.dark-mode .check-item:hover { background: #252320; }
 body.dark-mode table { color: var(--text); }
-body.dark-mode th { background: #1A2E3F; color: var(--text-sub); }
-body.dark-mode tr:nth-child(even) { background: #162535; }
-body.dark-mode .cat-row td { background: #0F1E2B; }
-body.dark-mode .dj-chip { background: #152233; }
-body.dark-mode .bc-card { background: #152233; }
-body.dark-mode .bottom-nav { background: rgba(13,26,36,0.97); border-color: #1D3348; }
+body.dark-mode th { background: #252320; color: var(--text-sub); }
+body.dark-mode tr:nth-child(even) { background: #211E18; }
+body.dark-mode .cat-row td { background: #211E18; }
+body.dark-mode .dj-chip { background: #252320; }
+body.dark-mode .bc-card { background: #252320; }
+body.dark-mode .bottom-nav { background: rgba(28,26,22,0.97); border-color: #3A3830; }
 body.dark-mode .journey-card,
 body.dark-mode .stp-section,
-body.dark-mode .day-card { background: #152233; border-color: #1D3348; }
+body.dark-mode .day-card { background: #252320; border-color: #3A3830; }
 body.dark-mode .base-header { color: var(--text-sub); }
 body.dark-mode .spend-tracker,
 body.dark-mode .cancel-dl-wrap,
-body.dark-mode .phrase-card { background: #152233; }
+body.dark-mode .phrase-card { background: #252320; }
 body.dark-mode .cancel-row.cr-safe   { background: #0A1F14; }
-body.dark-mode .cancel-row.cr-warn   { background: #1A1407; }
-body.dark-mode .cancel-row.cr-urgent { background: #1F0E0E; }
+body.dark-mode .cancel-row.cr-warn   { background: #201C14; }
+body.dark-mode .cancel-row.cr-urgent { background: #221E1E; }
 body.dark-mode .cancel-row.cr-passed { background: transparent; }
 body.dark-mode .cancel-row.cr-paid   { background: #0A1A2A; }
-body.dark-mode .donut-svg circle[stroke="var(--bg)"] { stroke: #1D3348; }
-body.dark-mode .footer { background: #060F16; color: var(--text-light); }
+body.dark-mode .donut-svg circle[stroke="var(--bg)"] { stroke: #3A3830; }
+body.dark-mode .footer { background: #141210; color: var(--text-light); }
 body.dark-mode .hero-mountains-svg path { fill: var(--bg) !important; }
-body.dark-mode .gh-card { background: linear-gradient(135deg,#0F1E2B 0%,#071828 100%); }
-body.dark-mode .tcc-state, body.dark-mode .today-ctx-card { background: #152233; }
-body.dark-mode .stat-card { background: #152233; border-color: #1D3348; }
-body.dark-mode .da-card { background: #152233; border-color: #1D3348; }
-body.dark-mode .hh-info { background: #152233; }
-body.dark-mode .day-note-area { background: #0D1A24; color: var(--text); border-color: #1D3348; }
+body.dark-mode .gh-card { background: linear-gradient(135deg,#211E18 0%,#1C1A16 100%); }
+body.dark-mode .tcc-state, body.dark-mode .today-ctx-card { background: #252320; }
+body.dark-mode .stat-card { background: #252320; border-color: #3A3830; }
+body.dark-mode .da-card { background: #252320; border-color: #3A3830; }
+body.dark-mode .hh-info { background: #252320; }
+body.dark-mode .day-note-area { background: #1C1A16; color: var(--text); border-color: #3A3830; }
 
 /* ── 深色模式：chip / badge / alert 等硬編碼淺色修正 ── */
 body.dark-mode .chip-photo  { background: #2D1A05; color: #FCD34D; }
 body.dark-mode .chip-honey  { background: #1E0A35; color: #A78BFA; }
-body.dark-mode .chip-free   { background: #052512; color: #4ADE80; }
-body.dark-mode .chip-stp    { background: #051529; color: #60A5FA; }
+body.dark-mode .chip-free   { background: #1A2018; color: #4ADE80; }
+body.dark-mode .chip-stp    { background: #1E1C16; color: #8BAFC4; }
 body.dark-mode .chip-warn   { background: #2D0A0A; color: #FCA5A5; }
 body.dark-mode .chip-gold   { color: #FCD34D; }
 
-body.dark-mode .cost-pill        { background: #052512; color: #4ADE80; border-color: #14532D; }
-body.dark-mode .cost-pill.paid   { background: #051529; color: #60A5FA; border-color: #1E3A5F; }
+body.dark-mode .cost-pill        { background: #1A2018; color: #4ADE80; border-color: #14532D; }
+body.dark-mode .cost-pill.paid   { background: #1E1C16; color: #8BAFC4; border-color: #3A3830; }
 body.dark-mode .cost-pill.free   { color: #FCD34D; border-color: #78350F; }
 
-body.dark-mode .alert-red    { background: #200909; }
-body.dark-mode .alert-amber  { background: #201500; }
-body.dark-mode .alert-blue   { background: #071525; }
-body.dark-mode .alert-green  { background: #071A0E; }
+body.dark-mode .alert-red    { background: #261E1E; }
+body.dark-mode .alert-amber  { background: #201C14; }
+body.dark-mode .alert-blue   { background: #1C1A16; }
+body.dark-mode .alert-green  { background: #1A2018; }
 
 body.dark-mode .photo-box { color: #FCD34D; }
-body.dark-mode .db .warn { color: #FCD34D; background: #201500; }
-body.dark-mode .correction-note { background: #201500; border-color: #78350F; color: #FCD34D; }
+body.dark-mode .db .warn { color: #FCD34D; background: #201C14; }
+body.dark-mode .correction-note { background: #201C14; border-color: #78350F; color: #FCD34D; }
 
-body.dark-mode .stp-day.inactive { background: #1A1F25; color: #6B7280; }
+body.dark-mode .stp-day.inactive { background: #232019; color: #6B7280; }
 body.dark-mode .stp-day.active   { background: #0A1F10; color: #4ADE80; }
-body.dark-mode .stp-day.glacier  { background: #201500; color: #FCD34D; border-color: #78350F; }
-body.dark-mode .stp-chip-2nd { background: #051529; color: #60A5FA; }
-body.dark-mode .stp-chip-1st { background: #201500; color: #FCD34D; }
-body.dark-mode .stp-free    { background: #071A0E; border-color: #14532D; }
-body.dark-mode .stp-half    { background: #071525; border-color: #1E3A5F; }
-body.dark-mode .stp-extra   { background: #1A0E05; border-color: #92400E; }
-body.dark-mode .stp-booking { background: #12071A; border-color: #5B21B6; }
+body.dark-mode .stp-day.glacier  { background: #201C14; color: #FCD34D; border-color: #78350F; }
+body.dark-mode .stp-chip-2nd { background: #1E1C16; color: #8BAFC4; }
+body.dark-mode .stp-chip-1st { background: #201C14; color: #FCD34D; }
+body.dark-mode .stp-free    { background: #1A2018; border-color: #14532D; }
+body.dark-mode .stp-half    { background: #1C1A16; border-color: #3A3830; }
+body.dark-mode .stp-extra   { background: #201C14; border-color: #92400E; }
+body.dark-mode .stp-booking { background: #1E1C18; border-color: #5B21B6; }
 body.dark-mode .stp-free h3,    body.dark-mode .stp-free li    { color: #4ADE80; }
-body.dark-mode .stp-half h3,    body.dark-mode .stp-half li    { color: #60A5FA; }
+body.dark-mode .stp-half h3,    body.dark-mode .stp-half li    { color: #8BAFC4; }
 body.dark-mode .stp-extra h3,   body.dark-mode .stp-extra li   { color: #FCD34D; }
 body.dark-mode .stp-booking h3, body.dark-mode .stp-booking li { color: #A78BFA; }
 
 body.dark-mode .jt-ek  { background: #2D0A0A; color: #FCA5A5; border-color: #7F1D1D; }
-body.dark-mode .jt-dur { background: #1A1F25; color: #9CA3AF; border-color: #374151; }
-body.dark-mode .jt-trs { background: #201500; color: #FCD34D; border-color: #78350F; }
+body.dark-mode .jt-dur { background: #232019; color: #9CA3AF; border-color: #374151; }
+body.dark-mode .jt-trs { background: #201C14; color: #FCD34D; border-color: #78350F; }
 
-body.dark-mode .hh-badge-paid { background: #051529; color: #60A5FA; }
-body.dark-mode .hh-badge-ok   { background: #071A0E; color: #4ADE80; }
+body.dark-mode .hh-badge-paid { background: #1E1C16; color: #8BAFC4; }
+body.dark-mode .hh-badge-ok   { background: #1A2018; color: #4ADE80; }
 
 body.dark-mode .tag-ok   { color: #4ADE80; }
 body.dark-mode .tag-est  { color: #FCD34D; }
 body.dark-mode .tag-free { color: #A78BFA; }
 
-body.dark-mode .em-card  { background: #200909; border-color: #7F1D1D; }
+body.dark-mode .em-card  { background: #261E1E; border-color: #7F1D1D; }
 body.dark-mode .em-num   { color: #FCA5A5; }
 body.dark-mode .em-label { color: #FCA5A5; }
 body.dark-mode .em-call-hint { color: #FCA5A5; }
 
 body.dark-mode .chk-celebrate {
-  background: linear-gradient(135deg, #071A0E 0%, #052512 100%);
+  background: linear-gradient(135deg, #1E2019 0%, #1E2019 100%);
   border-color: #14532D; color: #4ADE80;
 }
 body.dark-mode .prac-body em { color: #4ADE80; }
 body.dark-mode .ec-val span  { color: #4ADE80; }
 
 /* ── 剩餘白色背景 / 行程 dots ── */
-body.dark-mode .jsb-c  { background: #1D3348; }
-body.dark-mode .day-btn { background: #152233; }
+body.dark-mode .jsb-c  { background: #3A3830; }
+body.dark-mode .day-btn { background: #252320; }
 body.dark-mode .jt-dot[style] { background: #1D3040 !important; border-color: #2A4560 !important; }
-body.dark-mode .jt-swiss-blk  { background: #0D1A24; }
+body.dark-mode .jt-swiss-blk  { background: #1C1A16; }
 body.dark-mode .stp-leg-dot   { filter: brightness(0.48) saturate(0.85); }
 
 /* 深色模式切換鈕 */
@@ -213,7 +213,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .loading-heart {
   font-size: 52px;
   animation: heartbeat 0.9s ease-in-out infinite;
-  filter: drop-shadow(0 0 16px rgba(80,160,255,0.55));
+  filter: drop-shadow(0 0 16px rgba(184,154,126,0.55));
 }
 .loading-text {
   font-family: var(--font-serif);
@@ -253,7 +253,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   position: absolute;
   width: 600px; height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(80,160,255,0.14) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(184,154,126,0.12) 0%, transparent 70%);
   top: 50%; left: 50%;
   transform: translate(-50%, -60%);
   animation: glowPulse 4s ease-in-out infinite;
@@ -295,7 +295,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 }
 .hero-divider {
   width: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold) 30%, rgba(100,180,255,0.6) 70%, transparent);
+  background: linear-gradient(90deg, transparent, var(--gold) 40%, rgba(184,154,126,0.5) 70%, transparent);
   margin: 20px auto;
   animation: fadeSlideDown 0.8s ease both;
   animation-delay: 0.6s;
@@ -355,7 +355,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   height: var(--nav-h);
-  box-shadow: 0 2px 16px rgba(27,108,168,0.08);
+  box-shadow: 0 2px 16px rgba(140,123,110,0.08);
 }
 .top-nav-inner {
   display: flex; gap: 4px;
@@ -463,8 +463,8 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .alert strong { display: block; margin-bottom: 4px; font-size: 14px; }
 .alert-red    { background: #FEF2F2; border-color: var(--primary); }
 .alert-amber  { background: #FFFBEB; border-color: #D97706; }
-.alert-blue   { background: #EFF6FF; border-color: #2563EB; }
-.alert-green  { background: #F0FDF4; border-color: #16A34A; }
+.alert-blue   { background: #EEF2F5; border-color: #6B8BA4; }
+.alert-green  { background: #F0FDF4; border-color: #6E8A5E; }
 .alert-rose   { background: var(--rose-lt); border-color: var(--rose); }
 .alert-gold   { background: var(--gold-lt); border-color: var(--gold); }
 
@@ -481,7 +481,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .chip-photo  { background: #FEF3C7; color: #92400E; }
 .chip-honey  { background: #F3EEFF; color: #6D28D9; }
 .chip-free   { background: #D1FAE5; color: #065F46; }
-.chip-stp    { background: #DBEAFE; color: #1E40AF; }
+.chip-stp    { background: #E5ECF0; color: #1E40AF; }
 .chip-warn   { background: #FEE2E2; color: #991B1B; }
 .chip-gold   { background: var(--gold-lt); color: #92400E; }
 .chip-spend  { background: #DCFCE7; color: #15803D; font-size: 10.5px; }
@@ -490,11 +490,11 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 body.dark-mode .chip-spend      { background: #052e16; color: #4ade80; }
 body.dark-mode .chip-spend.warn { background: #1c1206; color: #fbbf24; }
 body.dark-mode .chip-spend.over { background: #1c0606; color: #f87171; }
-.chip-wx     { background: rgba(44,95,138,0.09); color: var(--primary); border: 1px solid rgba(44,95,138,0.2); font-size: 11px; }
-.chip-wx.cold { background: rgba(147,197,253,0.12); color: #2563EB; border-color: rgba(147,197,253,0.35); }
+.chip-wx     { background: rgba(140,123,110,0.09); color: var(--primary); border: 1px solid rgba(140,123,110,0.18); font-size: 11px; }
+.chip-wx.cold { background: rgba(147,197,253,0.12); color: #6B8BA4; border-color: rgba(147,197,253,0.35); }
 .chip-wx.warm { background: rgba(251,191,36,0.1);  color: #D97706; border-color: rgba(251,191,36,0.3); }
-body.dark-mode .chip-wx      { background: rgba(44,95,138,0.2);  border-color: rgba(44,95,138,0.4); }
-body.dark-mode .chip-wx.cold { background: rgba(96,165,250,0.1); border-color: rgba(96,165,250,0.3); color: #60A5FA; }
+body.dark-mode .chip-wx      { background: rgba(140,123,110,0.18);  border-color: rgba(140,123,110,0.30); }
+body.dark-mode .chip-wx.cold { background: rgba(96,165,250,0.1); border-color: rgba(96,165,250,0.3); color: #8BAFC4; }
 body.dark-mode .chip-wx.warm { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); color: #FCD34D; }
 
 /* ═══════════════════════════════════════
@@ -509,7 +509,7 @@ body.dark-mode .chip-wx.warm { background: rgba(251,191,36,0.1); border-color: r
   background: #F0FDF4; color: #15803D;
   border: 1px solid #BBF7D0;
 }
-.cost-pill.paid  { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+.cost-pill.paid  { background: #EEF2F5; color: #5A7A90; border-color: #D0E2EC; }
 .cost-pill.free  { background: var(--gold-lt); color: #92400E; border-color: #FDE68A; }
 
 /* ═══════════════════════════════════════
@@ -547,10 +547,10 @@ body.dark-mode .chip-wx.warm { background: rgba(251,191,36,0.1); border-color: r
   margin-bottom: 2px;
 }
 .hotel-nav-btn { display: inline-flex; align-items: center; gap: 3px; font-size: 9.5px; font-weight: 700;
-  color: var(--primary); text-decoration: none; background: rgba(44,95,138,0.08);
-  border: 1px solid rgba(44,95,138,0.2); border-radius: 5px; padding: 2px 8px; margin-top: 5px; }
+  color: var(--primary); text-decoration: none; background: rgba(140,123,110,0.08);
+  border: 1px solid rgba(140,123,110,0.18); border-radius: 5px; padding: 2px 8px; margin-top: 5px; }
 .hotel-nav-btn:active { opacity: 0.7; }
-body.dark-mode .hotel-nav-btn { background: rgba(44,95,138,0.15); border-color: rgba(44,95,138,0.3); }
+body.dark-mode .hotel-nav-btn { background: rgba(140,123,110,0.12); border-color: rgba(140,123,110,0.22); }
 
 /* ═══════════════════════════════════════
    DAY CARDS (Timeline)
@@ -568,8 +568,8 @@ body.dark-mode .hotel-nav-btn { background: rgba(44,95,138,0.15); border-color: 
 }
 .base-engadin { background: linear-gradient(100deg, #1B5E3B, #2D8C58); }
 .base-zermatt { background: linear-gradient(100deg, #9B0C23, #C8102E); }
-.base-bern    { background: linear-gradient(100deg, #5B21B6, #7C3AED); }
-.base-zug     { background: linear-gradient(100deg, #0F5C58, #0F766E); }
+.base-bern    { background: linear-gradient(100deg, #5B21B6, #8A7A96); }
+.base-zug     { background: linear-gradient(100deg, #3E6E6A, #528C88); }
 .base-zurich  { background: linear-gradient(100deg, #292524, #44403C); }
 .bsb { font-size: 8.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
   background: rgba(255,255,255,0.14); margin-left: 8px; vertical-align: middle;
@@ -738,8 +738,8 @@ body.dark-mode .hotel-nav-btn { background: rgba(44,95,138,0.15); border-color: 
 .day-wx-mini { font-size: 12px; margin-top: 5px; text-align: center; line-height: 1; }
 .day-wx-mini-row { font-size: 7.5px; font-weight: 700; text-align: center;
   color: var(--text-sub); margin-top: 2px; line-height: 1.3; }
-.day-wx-mini-rain { color: #2563EB; }
-body.dark-mode .day-wx-mini-rain { color: #60A5FA; }
+.day-wx-mini-rain { color: #6B8BA4; }
+body.dark-mode .day-wx-mini-rain { color: #8BAFC4; }
 
 .date-badge {
   width: 46px; height: 46px;
@@ -751,7 +751,7 @@ body.dark-mode .day-wx-mini-rain { color: #60A5FA; }
   font-size: 11px; font-weight: 700;
   line-height: 1.2;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(27,108,168,0.35);
+  box-shadow: 0 2px 8px rgba(140,123,110,0.25);
   z-index: 1;
 }
 .date-badge .db-date { font-size: 13px; }
@@ -878,7 +878,7 @@ body.dark-mode .day-wx-mini-rain { color: #60A5FA; }
 }
 .jt-panel { border-right: 1px solid var(--border); display: flex; flex-direction: column; }
 .jt-hdr {
-  background: linear-gradient(120deg, #071828 0%, #0F2D48 100%);
+  background: linear-gradient(120deg, #1C1A16 0%, #2B2620 100%);
   padding: 13px 15px;
   display: flex; align-items: center; justify-content: space-between;
   flex-shrink: 0;
@@ -919,7 +919,7 @@ body.dark-mode .day-wx-mini-rain { color: #60A5FA; }
 .jt-dur   { background:#F5F5F5; color:#555;    border:1px solid #DDD; }
 .jt-trs   { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; }
 .jt-swiss-blk {
-  background: linear-gradient(135deg, var(--rose-lt), #F8FCFF);
+  background: linear-gradient(135deg, var(--rose-lt), var(--gold-lt));
   border: 1px solid var(--border); border-radius: 8px;
   padding: 9px 11px; margin-top: 2px;
 }
@@ -996,7 +996,7 @@ body.dark-mode .day-wx-mini-rain { color: #60A5FA; }
 .amount-cell { text-align: right; font-weight: 700; white-space: nowrap; }
 .tag-ok   { color: #15803D; font-size: 11.5px; font-weight: 700; }
 .tag-est  { color: #D97706; font-size: 11.5px; font-weight: 700; }
-.tag-free { color: #7C3AED; font-size: 11.5px; font-weight: 700; }
+.tag-free { color: #8A7A96; font-size: 11.5px; font-weight: 700; }
 .tag-paid { color: var(--primary); font-size: 11.5px; font-weight: 700; }
 
 /* ═══════════════════════════════════════
@@ -1052,7 +1052,7 @@ body.dark-mode .day-wx-mini-rain { color: #60A5FA; }
   transition: background 0.15s;
 }
 .pg-map-btn:hover { background: #D2E3FC; }
-body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: #1D3348; }
+body.dark-mode .pg-map-btn { background: #252320; color: #8AB4F8; border-color: #3A3830; }
 
 /* ═══════════════════════════════════════
    STP
@@ -1076,7 +1076,7 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
 }
 .stp-card li::before { content: '·'; color: inherit; }
 .stp-free    { background: #F0FDF4; border-color: #BBF7D0; }
-.stp-half    { background: #EFF6FF; border-color: #BFDBFE; }
+.stp-half    { background: #EEF2F5; border-color: #D0E2EC; }
 .stp-extra   { background: #FFF7ED; border-color: #FED7AA; }
 .stp-booking { background: #F5F3FF; border-color: #DDD6FE; }
 
@@ -1099,7 +1099,7 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
 .ec-label { font-size: 11.5px; color: var(--text-sub); margin: 4px 0 2px; }
 .ec-val   { font-size: 12.5px; font-weight: 700; }
 .ec-val del { color: var(--text-light); font-weight: 400; }
-.ec-val span { color: #16A34A; }
+.ec-val span { color: #6E8A5E; }
 
 /* ═══════════════════════════════════════
    REMINDERS
@@ -1127,7 +1127,7 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
 .alt-peak-name { font-size: 11.5px; font-weight: 600; color: var(--text-sub); }
 .alt-peak-date { font-size: 10px; color: var(--text-light); }
 .alt-peak-m { font-size: 12.5px; font-weight: 800; white-space: nowrap; }
-.alt-peak-m.lvl-low  { color: #16A34A; }
+.alt-peak-m.lvl-low  { color: #6E8A5E; }
 .alt-peak-m.lvl-mid  { color: #D97706; }
 .alt-peak-m.lvl-high { color: #DC2626; }
 .alt-ams {
@@ -1138,7 +1138,7 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
   font-size: 11.5px; font-weight: 700; padding: 6px 10px;
   background: #FFF7ED; color: #92400E; border-bottom: 1px solid var(--border);
 }
-body.dark-mode .alt-ams-hdr { background: #201500; color: #FCD34D; }
+body.dark-mode .alt-ams-hdr { background: #201C14; color: #FCD34D; }
 .alt-ams-row {
   display: flex; align-items: flex-start; gap: 8px;
   padding: 6px 10px; font-size: 11.5px; border-bottom: 1px solid var(--border);
@@ -1148,7 +1148,7 @@ body.dark-mode .alt-ams-hdr { background: #201500; color: #FCD34D; }
   width: 8px; height: 8px; border-radius: 50%;
   flex-shrink: 0; margin-top: 3px;
 }
-.alt-dot.ok   { background: #16A34A; }
+.alt-dot.ok   { background: #6E8A5E; }
 .alt-dot.warn { background: #D97706; }
 .alt-dot.crit { background: #DC2626; }
 .alt-ams-text { color: var(--text-sub); line-height: 1.45; }
@@ -1157,7 +1157,7 @@ body.dark-mode .alt-ams-hdr { background: #201500; color: #FCD34D; }
 .alt-tips-title { font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
 .alt-tips-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
 .alt-tips-list li { font-size: 11px; color: var(--text-sub); line-height: 1.5; }
-.alt-tips-list li::before { content: '✓ '; color: #16A34A; font-weight: 700; }
+.alt-tips-list li::before { content: '✓ '; color: #6E8A5E; font-weight: 700; }
 .reminder-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -1196,9 +1196,9 @@ body.dark-mode .alt-ams-hdr { background: #201500; color: #FCD34D; }
 .aht-times { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
 .aht-time { font-size: 11px; font-weight: 700; color: var(--text); white-space: nowrap; }
 .aht-last { font-size: 10px; font-weight: 700; color: #DC2626; white-space: nowrap; }
-.aht-stp { font-size: 9px; font-weight: 700; background: #DBEAFE; color: #1E40AF;
+.aht-stp { font-size: 9px; font-weight: 700; background: #E5ECF0; color: #1E40AF;
   border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
-body.dark-mode .aht-stp { background: #051529; color: #60A5FA; }
+body.dark-mode .aht-stp { background: #1E1C16; color: #8BAFC4; }
 
 /* Checklist */
 .checklist {
@@ -1232,7 +1232,7 @@ body.dark-mode .aht-stp { background: #051529; color: #60A5FA; }
   white-space: nowrap;
 }
 .chk-section-prog.done { background: #DCFCE7; color: #15803D; }
-body.dark-mode .chk-section-prog.done { background: #071A0E; color: #4ADE80; }
+body.dark-mode .chk-section-prog.done { background: #1A2018; color: #4ADE80; }
 .chk-section-arrow {
   font-size: 13px; color: var(--text-light);
   display: inline-block; transition: transform 0.2s; line-height: 1;
@@ -1275,7 +1275,7 @@ details.chk-section[open] > summary {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--border);
-  box-shadow: 0 -4px 24px rgba(27,108,168,0.08);
+  box-shadow: 0 -4px 24px rgba(140,123,110,0.08);
   padding-bottom: env(safe-area-inset-bottom);
 }
 .bottom-nav-inner {
@@ -1295,7 +1295,7 @@ details.chk-section[open] > summary {
 .bnav-btn .bn-icon { font-size: 20px; transition: transform 0.2s ease; }
 .bnav-btn:hover .bn-icon { transform: translateY(-2px); }
 .bnav-btn.active { color: var(--primary); }
-.bnav-btn.active .bn-icon { transform: translateY(-2px); filter: drop-shadow(0 2px 4px rgba(27,108,168,0.4)); }
+.bnav-btn.active .bn-icon { transform: translateY(-2px); filter: drop-shadow(0 2px 4px rgba(140,123,110,0.30)); }
 .bnav-btn.active::before {
   content: '';
   position: absolute; top: 0; left: 20%; right: 20%;
@@ -1382,7 +1382,7 @@ footer small {
 .fc-upper, .fc-lower, .fc-anim-top, .fc-anim-bot {
   position: absolute; left: 0; right: 0;
   height: 43px; overflow: hidden;
-  background: rgba(8,22,38,0.9);
+  background: rgba(30,27,22,0.92);
   border: 1px solid rgba(255,255,255,0.07);
 }
 .fc-upper, .fc-anim-top {
@@ -1448,9 +1448,9 @@ footer small {
 .cc-airport::before { background: linear-gradient(90deg,#44403C,#78716C); }
 .cc-engadin::before { background: linear-gradient(90deg,#1B5E3B,#2D8C58); }
 .cc-zermatt::before { background: linear-gradient(90deg,#9B0C23,#C8102E); }
-.cc-bern::before    { background: linear-gradient(90deg,#5B21B6,#7C3AED); }
+.cc-bern::before    { background: linear-gradient(90deg,#5B21B6,#8A7A96); }
 .cc-zug::before     { background: linear-gradient(90deg,#0F5C58,#0F766E); }
-.cc-zurich::before  { background: linear-gradient(90deg,#1E3A5F,#2563EB); }
+.cc-zurich::before  { background: linear-gradient(90deg,#44403C,#6B8BA4); }
 .city-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 .cc-badge  { font-size: 28px; display: block; margin-bottom: 10px; }
 .cc-name   { font-family: var(--font-serif); font-size: 18px; font-weight: 600; font-style: italic; color: var(--text); }
@@ -1515,7 +1515,7 @@ footer small {
 }
 .prac-body { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; }
 .prac-body strong { color: var(--primary); font-weight: 700; }
-.prac-body em { color: #16A34A; font-style: normal; font-weight: 600; }
+.prac-body em { color: #6E8A5E; font-style: normal; font-weight: 600; }
 /* ── 概覽天氣速覽列 ── */
 .ov-wx-strip { display: flex; gap: 8px; overflow-x: auto; padding: 0 0 4px; scrollbar-width: none; }
 .ov-wx-strip::-webkit-scrollbar { display: none; }
@@ -1525,7 +1525,7 @@ footer small {
 .owx-icon { font-size: 24px; line-height: 1; }
 .owx-temp { font-size: 13px; font-weight: 800; color: var(--text); margin-top: 3px; }
 .owx-rain { font-size: 9px; color: var(--text-light); margin-top: 2px; }
-body.dark-mode .ov-wx-chip { background: #0D1A24; }
+body.dark-mode .ov-wx-chip { background: #1C1A16; }
 
 .dual-clock-card { padding: 14px 16px 12px; margin-bottom: 20px; }
 .dual-clock-wrap { display: flex; }
@@ -1570,24 +1570,24 @@ body.dark-mode .ov-wx-chip { background: #0D1A24; }
 }
 .em-label { font-size: 11px; color: #7F1D1D; margin-top: 4px; line-height: 1.4; }
 .em-call-hint { font-size: 10px; color: #DC2626; opacity: 0.6; margin-top: 5px; letter-spacing: 0.5px; }
-.em-tw-card { background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: var(--radius-sm);
+.em-tw-card { background: #F0ECE8; border: 1.5px solid #DDD9D3; border-radius: var(--radius-sm);
   padding: 14px 14px 12px; margin-bottom: 28px; }
 .em-tw-hdr { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 800;
-  color: #1D4ED8; margin-bottom: 10px; }
+  color: #5A7A90; margin-bottom: 10px; }
 .em-tw-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 9px; }
-.em-tw-btn { display: block; text-decoration: none; background: #DBEAFE; border: 1.5px solid #93C5FD;
+.em-tw-btn { display: block; text-decoration: none; background: #EDE8E2; border: 1.5px solid #C8C0B8;
   border-radius: 10px; padding: 10px 8px; text-align: center; transition: transform 0.15s; }
 .em-tw-btn:active { transform: scale(0.96); }
 .etb-type { font-size: 9.5px; font-weight: 700; color: #1E40AF; margin-bottom: 3px; }
 .etb-num  { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px;
-  font-weight: 800; color: #1D4ED8; line-height: 1.2; word-break: break-all; }
-.etb-hint { font-size: 9px; color: #3B82F6; opacity: 0.7; margin-top: 3px; }
+  font-weight: 800; color: #5A7A90; line-height: 1.2; word-break: break-all; }
+.etb-hint { font-size: 9px; color: #6B8BA4; opacity: 0.7; margin-top: 3px; }
 .em-tw-addr { font-size: 10.5px; color: #6B7280; }
-body.dark-mode .em-tw-card { background: #0A1929; border-color: #1D3A6B; }
-body.dark-mode .em-tw-hdr { color: #60A5FA; }
-body.dark-mode .em-tw-btn { background: #152233; border-color: #1D3A6B; }
-body.dark-mode .etb-type { color: #93C5FD; }
-body.dark-mode .etb-num  { color: #60A5FA; }
+body.dark-mode .em-tw-card { background: #0A1929; border-color: #3A3830; }
+body.dark-mode .em-tw-hdr { color: #8BAFC4; }
+body.dark-mode .em-tw-btn { background: #252320; border-color: #3A3830; }
+body.dark-mode .etb-type { color: #A8C4D4; }
+body.dark-mode .etb-num  { color: #8BAFC4; }
 body.dark-mode .em-tw-addr { color: #94A3B8; }
 
 /* ═══════════════════════════════════════
@@ -1605,7 +1605,7 @@ body.dark-mode .em-tw-addr { color: #94A3B8; }
 .culture-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
 .culture-name { font-size: 11.5px; font-weight: 700; color: var(--text-sub); }
 .culture-desc { font-size: 10.5px; color: var(--text-light); line-height: 1.45; margin-top: 1px; }
-body.dark-mode .culture-item { background: #0D1A24; }
+body.dark-mode .culture-item { background: #1C1A16; }
 
 .app-grid {
   display: grid;
@@ -1657,7 +1657,7 @@ body.dark-mode .culture-item { background: #0D1A24; }
   display: inline-flex; font-size: 11px; font-weight: 700;
   padding: 2px 9px; border-radius: 100px; margin-top: 7px;
 }
-.hh-badge-paid { background: #EFF6FF; color: #1D4ED8; }
+.hh-badge-paid { background: #EEF2F5; color: #5A7A90; }
 .hh-badge-ok   { background: #F0FDF4; color: #15803D; }
 
 
@@ -1736,7 +1736,7 @@ body.dark-mode .culture-item { background: #0D1A24; }
 .wx-day-lo  { font-size: 9px; color: var(--text-light); }
 .wx-day-rain { font-size: 8.5px; font-weight: 700; line-height: 1; }
 .wx-day-rain.dry  { color: var(--primary); }
-.wx-day-rain.drizzle { color: #3B82F6; }
+.wx-day-rain.drizzle { color: #6B8BA4; }
 .wx-day-rain.wet  { color: #DC2626; }
 .wx-suit {
   display: inline-flex; align-items: center; gap: 3px;
@@ -1747,9 +1747,9 @@ body.dark-mode .culture-item { background: #0D1A24; }
 .wx-suit-good { background: #DCFCE7; color: #15803D; }
 .wx-suit-ok   { background: #FEF9EE; color: #92400E; }
 .wx-suit-bad  { background: #FEE2E2; color: #991B1B; }
-body.dark-mode .wx-suit-good { background: #071A0E; color: #4ADE80; }
-body.dark-mode .wx-suit-ok   { background: #201500; color: #FCD34D; }
-body.dark-mode .wx-suit-bad  { background: #200909; color: #FCA5A5; }
+body.dark-mode .wx-suit-good { background: #1A2018; color: #4ADE80; }
+body.dark-mode .wx-suit-ok   { background: #201C14; color: #FCD34D; }
+body.dark-mode .wx-suit-bad  { background: #261E1E; color: #FCA5A5; }
 
 /* ═══════════════════════════════════════
    GALLERY FILTERS + GRID (P6)
@@ -1884,7 +1884,7 @@ body.dark-mode .wx-suit-bad  { background: #200909; color: #FCA5A5; }
   font-size: 11px; font-weight: 700; padding: 3px 10px;
   border-radius: 100px;
 }
-.stp-chip-2nd { background: #EFF6FF; color: #1D4ED8; }
+.stp-chip-2nd { background: #EEF2F5; color: #5A7A90; }
 .stp-chip-1st { background: #FEF9EE; color: #92400E; }
 .stp-grid {
   display: grid;
@@ -1913,7 +1913,7 @@ body.dark-mode .wx-suit-bad  { background: #200909; color: #FCA5A5; }
   padding-top: 10px; border-top: 1px dashed var(--border); }
 .stp-progress-txt { font-size: 10.5px; color: var(--text-sub); white-space: nowrap; }
 .stp-progress-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.stp-progress-fill { height: 100%; background: #16A34A; border-radius: 3px; transition: width 0.5s ease; }
+.stp-progress-fill { height: 100%; background: #6E8A5E; border-radius: 3px; transition: width 0.5s ease; }
 
 /* ── Footer 美化 ── */
 footer {
@@ -2006,7 +2006,7 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   width: 44px; height: 44px; border-radius: 50%;
   background: var(--primary); color: #fff;
   font-size: 20px; line-height: 1;
-  box-shadow: 0 4px 16px rgba(44,95,138,0.35);
+  box-shadow: 0 4px 16px rgba(140,123,110,0.25);
   display: none; align-items: center; justify-content: center;
   cursor: pointer; border: none;
   transition: opacity 0.25s, transform 0.25s;
@@ -2019,17 +2019,17 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 /* ── CHF 選取換算提示 ── */
 #chfTooltip {
   position: fixed; z-index: 9000; pointer-events: none;
-  background: #2C5F8A; color: #fff;
+  background: #8C7B6E; color: #fff;
   font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
   padding: 5px 10px; border-radius: 7px;
   opacity: 0; transition: opacity 0.15s;
   white-space: nowrap;
-  box-shadow: 0 3px 12px rgba(44,95,138,0.45);
+  box-shadow: 0 3px 12px rgba(140,123,110,0.35);
 }
 #chfTooltip::after {
   content: ''; position: absolute; top: 100%; left: 50%;
   transform: translateX(-50%);
-  border: 5px solid transparent; border-top-color: #2C5F8A;
+  border: 5px solid transparent; border-top-color: #8C7B6E;
 }
 #chfTooltip.vis { opacity: 1; }
 
@@ -2115,9 +2115,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px;
   margin-bottom: 6px;
 }
-.vat-col-hdr.blue { background: #EFF6FF; color: #1D4ED8; }
+.vat-col-hdr.blue { background: #EEF2F5; color: #5A7A90; }
 .vat-col-hdr.green { background: #DCFCE7; color: #15803D; }
-body.dark-mode .vat-col-hdr.blue  { background: #1D3A6B; color: #60A5FA; }
+body.dark-mode .vat-col-hdr.blue  { background: #3A3830; color: #8BAFC4; }
 body.dark-mode .vat-col-hdr.green { background: #062A14; color: #34D399; }
 .vat-items { display: flex; flex-direction: column; gap: 4px; }
 .vat-item { font-size: 11px; color: var(--text-sub); line-height: 1.5; padding-left: 12px; position: relative; }
@@ -2128,7 +2128,7 @@ body.dark-mode .vat-col-hdr.green { background: #062A14; color: #34D399; }
 .vat-step { display: flex; gap: 7px; align-items: flex-start; font-size: 11px; color: var(--text-sub); padding: 2px 0; }
 .vat-step-num { font-size: 10px; font-weight: 800; background: var(--primary); color: #fff; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 .vat-best { border: 1px solid #FDE68A; background: #FFFBEB; border-radius: 8px; padding: 6px 10px; margin-top: 8px; font-size: 11px; color: #92400E; }
-body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #FCD34D; }
+body.dark-mode .vat-best { background: #201C14; border-color: #78350F; color: #FCD34D; }
 .vat-calc { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
 .vat-calc-title { font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px;
   display: flex; align-items: center; gap: 5px; }
@@ -2142,12 +2142,12 @@ body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #F
 .vat-calc-res-row { display: flex; justify-content: space-between; align-items: center;
   font-size: 12px; padding: 3px 0; border-bottom: 1px solid var(--border); }
 .vat-calc-res-row:last-child { border-bottom: none; }
-.vat-calc-res-row.hl { font-size: 13.5px; font-weight: 800; color: #16A34A; }
+.vat-calc-res-row.hl { font-size: 13.5px; font-weight: 800; color: #6E8A5E; }
 .vat-calc-msg { font-size: 11px; margin-top: 7px; padding: 5px 8px; border-radius: 6px; }
 .vat-calc-msg.ok  { background: #DCFCE7; color: #15803D; }
 .vat-calc-msg.err { background: #FEE2E2; color: #DC2626; }
-body.dark-mode .vat-calc-inp  { background: #0D1A24; border-color: #1D3348; }
-body.dark-mode .vat-calc-result { background: #0D1A24; }
+body.dark-mode .vat-calc-inp  { background: #1C1A16; border-color: #3A3830; }
+body.dark-mode .vat-calc-result { background: #1C1A16; }
 body.dark-mode .vat-calc-msg.ok  { background: #052A12; color: #4ADE80; }
 body.dark-mode .vat-calc-msg.err { background: #2A0808; color: #F87171; }
 
@@ -2172,7 +2172,7 @@ body.dark-mode .vat-calc-msg.err { background: #2A0808; color: #F87171; }
 }
 .bhi-icon { font-size: 28px; }
 .bhi-label { font-size: 15px; font-weight: 700; }
-.bhi-label.ok { color: #16A34A; }
+.bhi-label.ok { color: #6E8A5E; }
 .bhi-label.warn { color: #D97706; }
 .bhi-label.over { color: #DC2626; }
 .bhi-label.pre { color: var(--primary); }
@@ -2183,10 +2183,10 @@ body.dark-mode .vat-calc-msg.err { background: #2A0808; color: #F87171; }
 }
 .bhi-row-label { font-size: 10px; color: var(--text-light); margin-bottom: 2px; }
 .bhi-row-val { font-size: 14px; font-weight: 700; color: var(--text); }
-.bhi-row-val.green { color: #16A34A; }
+.bhi-row-val.green { color: #6E8A5E; }
 .bhi-row-val.amber { color: #D97706; }
 .bhi-row-val.red { color: #DC2626; }
-body.dark-mode .bhi-row { background: #0D1A24; }
+body.dark-mode .bhi-row { background: #1C1A16; }
 
 /* ── 旅途進行中 flip-clock 替代畫面 ── */
 .fc-trip-live { padding: 4px 0 8px; }
@@ -2235,7 +2235,7 @@ body.dark-mode .bhi-row { background: #0D1A24; }
   display: none; position: fixed; bottom: 76px; left: 12px; right: 12px; z-index: 400;
   background: var(--primary); color: #fff;
   border-radius: 12px; text-align: center; padding: 10px 16px;
-  font-size: 13px; cursor: pointer; box-shadow: 0 4px 20px rgba(44,95,138,0.4);
+  font-size: 13px; cursor: pointer; box-shadow: 0 4px 20px rgba(140,123,110,0.30);
 }
 
 /* ── 狀態看板 ── */
@@ -2269,7 +2269,7 @@ body.dark-mode .bhi-row { background: #0D1A24; }
 }
 .ts-num.gold { color: var(--gold); }
 .ts-label { font-size: 9.5px; color: var(--text-sub); line-height: 1.35; }
-body.dark-mode .ts-item { background: #0D1A24; }
+body.dark-mode .ts-item { background: #1C1A16; }
 
 /* ── Hero 分享按鈕 ── */
 .hero-share-btn {
@@ -2288,7 +2288,7 @@ body.dark-mode .ts-item { background: #0D1A24; }
 /* ── 今日速查動態卡 ── */
 .today-ctx-card {
   display: none;
-  background: linear-gradient(135deg, #071828 0%, #112A40 100%);
+  background: linear-gradient(135deg, #1C1A16 0%, #2B2620 100%);
   border-radius: var(--radius); padding: 16px 18px;
   margin-bottom: 20px; color: #fff; text-align: center;
 }
@@ -2302,7 +2302,7 @@ body.dark-mode .ts-item { background: #0D1A24; }
 .pd-hdr-cnt { font-size: 10px; color: var(--text-sub); font-weight: 400; }
 .pd-bar-bg { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
 .pd-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; background: var(--primary); }
-.pd-bar-fill.done { background: #16A34A; }
+.pd-bar-fill.done { background: #6E8A5E; }
 .pd-total { margin-top: 8px; font-size: 10.5px; color: var(--text-sub); text-align: center; }
 .tcc-state { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
 .tcc-state.tcc-live { color: var(--gold); }
@@ -2339,12 +2339,12 @@ body.dark-mode .ts-item { background: #0D1A24; }
 }
 .tcc-wx-chip.cold { border-color: rgba(147,197,253,0.4); }
 .tcc-wx-chip.warm { border-color: rgba(251,191,36,0.35); }
-.tcc-wx-rain { color: #93C5FD; margin-left: 2px; font-size: 11px; }
+.tcc-wx-rain { color: #A8C4D4; margin-left: 2px; font-size: 11px; }
 
 /* ── 關鍵末班倒數橫幅 ── */
 #critTimeBanner { border-radius: 10px; padding: 9px 13px; font-size: 11.5px; font-weight: 700;
   display: flex; align-items: center; gap: 8px; line-height: 1.35; }
-.ctb-ok   { background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.3);  color: #16A34A; }
+.ctb-ok   { background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.3);  color: #6E8A5E; }
 .ctb-warn { background: rgba(234,88,12,0.1);  border: 1px solid rgba(234,88,12,0.3);  color: #EA580C; }
 .ctb-red  { background: rgba(220,38,38,0.1);  border: 1px solid rgba(220,38,38,0.3);  color: #DC2626; }
 .ctb-icon { font-size: 16px; flex-shrink: 0; }
@@ -2360,7 +2360,7 @@ body.dark-mode .ctb-red  { background: rgba(220,38,38,0.12); }
 .bhb-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
 .bhb-title { font-size: 11.5px; font-weight: 800; color: var(--text-sub); }
 .bhb-badge { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
-.bhb-badge.ok   { background: rgba(22,163,74,0.12); color: #16A34A; }
+.bhb-badge.ok   { background: rgba(22,163,74,0.12); color: #6E8A5E; }
 .bhb-badge.warn { background: rgba(234,88,12,0.12); color: #EA580C; }
 .bhb-badge.over { background: rgba(220,38,38,0.12); color: #DC2626; }
 .bhb-nums { display: flex; gap: 0; margin-bottom: 9px; }
@@ -2368,7 +2368,7 @@ body.dark-mode .ctb-red  { background: rgba(220,38,38,0.12); }
 .bhb-num-cell:last-child { border-right: none; }
 .bhb-num { font-size: 15px; font-weight: 900; color: var(--text); letter-spacing: -0.5px; line-height: 1; }
 .bhb-num.over-color { color: #DC2626; }
-.bhb-num.ok-color { color: #16A34A; }
+.bhb-num.ok-color { color: #6E8A5E; }
 .bhb-num-label { font-size: 8.5px; color: var(--text-light); margin-top: 3px; }
 .bhb-bar-wrap { height: 6px; border-radius: 3px; background: var(--bg); overflow: hidden; margin-bottom: 5px; }
 .bhb-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
@@ -2463,7 +2463,7 @@ body.dark-mode #budgetHealthBanner { }
   color: var(--text-sub); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
 .cf-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 .cf-chip:active { opacity: 0.8; }
-body.dark-mode .cf-chip { background: #152233; }
+body.dark-mode .cf-chip { background: #252320; }
 
 /* ── 飯店導航按鈕 ── */
 .hh-nav-btn {
@@ -2518,7 +2518,7 @@ body.dark-mode .cf-chip { background: #152233; }
 .mt-dot.filled { border-color: var(--gold); background: rgba(201,169,110,0.1); }
 .mt-dot.today-dot { border-color: var(--primary); border-width: 2px; }
 .mt-lbl { font-size: 7.5px; color: var(--text-light); line-height: 1; }
-body.dark-mode .mt-dot { background: #0D1A24; }
+body.dark-mode .mt-dot { background: #1C1A16; }
 body.dark-mode .mt-dot.filled { background: rgba(201,169,110,0.08); }
 
 /* ── 行前待辦 ── */
@@ -2541,8 +2541,8 @@ body.dark-mode .mt-dot.filled { background: rgba(201,169,110,0.08); }
   display: flex; align-items: baseline; gap: 5px; }
 .sr-item::before { content: '◻'; flex-shrink: 0; }
 .sr-more { font-size: 10px; color: #B45309; margin-top: 5px; font-weight: 600; }
-.sr-done { font-size: 12.5px; font-weight: 700; color: #16A34A; }
-body.dark-mode #smartRemindCard { background: #1C1106; border-color: #92400E; }
+.sr-done { font-size: 12.5px; font-weight: 700; color: #6E8A5E; }
+body.dark-mode #smartRemindCard { background: #1E1C14; border-color: #92400E; }
 body.dark-mode .sr-title { color: #FCD34D; }
 body.dark-mode .sr-item { color: #FDE68A; }
 body.dark-mode .sr-more { color: #FCD34D; }
@@ -2571,8 +2571,8 @@ body.dark-mode .sr-more { color: #FCD34D; }
 .st-inp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .st-inp-wrap { display: flex; flex-direction: column; gap: 2px; }
 .st-cur-lbl { font-size: 9.5px; font-weight: 700; color: var(--text-light); padding-left: 2px; }
-.st-cur-lbl.chf-lbl { color: #2563EB; }
-body.dark-mode .st-cur-lbl.chf-lbl { color: #60A5FA; }
+.st-cur-lbl.chf-lbl { color: #6B8BA4; }
+body.dark-mode .st-cur-lbl.chf-lbl { color: #8BAFC4; }
 .st-input {
   width: 100%; padding: 6px 8px; font-size: 13px; font-weight: 700;
   font-family: var(--font-body);
@@ -2581,10 +2581,10 @@ body.dark-mode .st-cur-lbl.chf-lbl { color: #60A5FA; }
   outline: none; text-align: right;
   -moz-appearance: textfield; box-sizing: border-box;
 }
-.st-input.st-chf-inp { color: #2563EB; border-color: #BFDBFE; }
-.st-input.st-chf-inp:focus { border-color: #3B82F6; }
-body.dark-mode .st-input.st-chf-inp { color: #60A5FA; border-color: #1D3A6B; }
-body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
+.st-input.st-chf-inp { color: #6B8BA4; border-color: #D0E2EC; }
+.st-input.st-chf-inp:focus { border-color: #6B8BA4; }
+body.dark-mode .st-input.st-chf-inp { color: #8BAFC4; border-color: #3A3830; }
+body.dark-mode .st-input.st-chf-inp:focus { border-color: #6B8BA4; }
 .st-input:focus { border-color: var(--primary); }
 .st-input::-webkit-outer-spin-button,
 .st-input::-webkit-inner-spin-button { -webkit-appearance: none; }
@@ -2607,13 +2607,13 @@ body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
 .st-pct-label { text-align: right; font-size: 11px; color: var(--text-light); margin-top: 5px; }
 
 /* ── 每日消費快記 ── */
-.dlc-today-hint { padding: 10px 12px; border-radius: 9px; background: rgba(44,95,138,0.07);
-  border: 1px solid rgba(44,95,138,0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
-body.dark-mode .dlc-today-hint { background: rgba(44,95,138,0.12); border-color: rgba(44,95,138,0.3); }
+.dlc-today-hint { padding: 10px 12px; border-radius: 9px; background: rgba(140,123,110,0.07);
+  border: 1px solid rgba(140,123,110,0.18); display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+body.dark-mode .dlc-today-hint { background: rgba(140,123,110,0.10); border-color: rgba(140,123,110,0.22); }
 .dth-item { display: flex; flex-direction: column; gap: 1px; }
 .dth-label { font-size: 9px; color: var(--text-sub); font-weight: 600; }
 .dth-val { font-size: 13px; font-weight: 800; color: var(--text); }
-.dth-val.ok   { color: #16A34A; }
+.dth-val.ok   { color: #6E8A5E; }
 .dth-val.warn { color: #D97706; }
 .dth-val.over { color: #DC2626; }
 .dth-sub { font-size: 9px; color: var(--text-light); }
@@ -2632,7 +2632,7 @@ body.dark-mode .dlc-row.dlc-today { background: rgba(201,169,110,0.09); }
 .dlc-clear:hover { color: #EF4444; border-color: #EF4444; }
 .dlc-sub { font-size: 11px; color: var(--text-sub); margin-bottom: 12px; }
 .dlc-daily-avg { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px;
-  background: rgba(44,95,138,0.1); color: var(--primary); border-radius: 8px; padding: 3px 9px;
+  background: rgba(140,123,110,0.09); color: var(--primary); border-radius: 8px; padding: 3px 9px;
   font-weight: 700; margin-bottom: 14px; }
 .dlc-rows { display: flex; flex-direction: column; gap: 2px; }
 .dlc-row { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 8px;
@@ -2645,7 +2645,7 @@ body.dark-mode .dlc-row.dlc-today { background: rgba(201,169,110,0.09); }
 .dlc-city { font-size: 10px; color: var(--text-sub); }
 .dlc-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; width: 100%; }
 .dlc-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width 0.3s; background: var(--primary); }
-.dlc-bar-fill.ok   { background: #16A34A; }
+.dlc-bar-fill.ok   { background: #6E8A5E; }
 .dlc-bar-fill.warn { background: #D97706; }
 .dlc-bar-fill.over { background: #DC2626; }
 .dlc-inp-col { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
@@ -2663,22 +2663,22 @@ body.dark-mode .dlc-row.dlc-today { background: rgba(201,169,110,0.09); }
 .dlc-remain-row { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
 .dlc-remain-label { font-size: 11px; color: var(--text-sub); }
 .dlc-remain-val { font-size: 12px; font-weight: 700; }
-.dlc-remain-val.ok   { color: #16A34A; }
+.dlc-remain-val.ok   { color: #6E8A5E; }
 .dlc-remain-val.warn { color: #D97706; }
 .dlc-remain-val.over { color: #DC2626; }
-body.dark-mode .dlc-inp { background: #0D1A24; border-color: #1D3348; }
+body.dark-mode .dlc-inp { background: #1C1A16; border-color: #3A3830; }
 .dlc-chart-wrap { position: relative; height: 80px; display: flex; align-items: flex-end;
   gap: 1.5px; margin: 0 0 14px; }
 .dlc-chart-col { flex: 1; display: flex; flex-direction: column; align-items: center;
   justify-content: flex-end; height: 100%; min-width: 0; }
 .dlc-chart-bar { width: 100%; border-radius: 2px 2px 0 0; background: var(--border);
   transition: height 0.35s ease; min-height: 2px; }
-.dlc-chart-bar.ok   { background: #16A34A; }
+.dlc-chart-bar.ok   { background: #6E8A5E; }
 .dlc-chart-bar.warn { background: #D97706; }
 .dlc-chart-bar.over { background: #DC2626; }
 .dlc-chart-lbl { font-size: 7px; color: var(--text-sub); line-height: 16px; flex-shrink: 0; }
 .dlc-chart-refline { position: absolute; left: 0; right: 0; height: 0;
-  border-top: 1.5px dashed rgba(44,95,138,0.45); pointer-events: none; z-index: 1; }
+  border-top: 1.5px dashed rgba(140,123,110,0.35); pointer-events: none; z-index: 1; }
 .dlc-chart-refline::after { content: '均'; position: absolute; right: 0; top: -9px;
   font-size: 8px; color: var(--primary); font-weight: 700; background: var(--card);
   padding: 0 2px; line-height: 1; }
@@ -2711,9 +2711,9 @@ body.dark-mode .tpc-row.tpc-best { background: rgba(201,169,110,0.1); }
 .ntc-row { display: grid; grid-template-columns: 46px 1fr auto; align-items: start;
   gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .ntc-row:last-child { border-bottom: none; }
-.ntc-row.ntc-next { background: rgba(44,95,138,0.06); border-radius: 9px;
+.ntc-row.ntc-next { background: rgba(140,123,110,0.06); border-radius: 9px;
   padding: 10px 10px; border-bottom: none; margin-bottom: 4px; }
-body.dark-mode .ntc-row.ntc-next { background: rgba(44,95,138,0.12); }
+body.dark-mode .ntc-row.ntc-next { background: rgba(140,123,110,0.10); }
 .ntc-date { text-align: center; }
 .ntc-d { font-size: 13px; font-weight: 800; color: var(--primary); line-height: 1.1; }
 .ntc-wd { font-size: 9px; color: var(--text-sub); }
@@ -2721,7 +2721,7 @@ body.dark-mode .ntc-row.ntc-next { background: rgba(44,95,138,0.12); }
 .ntc-note { font-size: 10px; color: var(--text-sub); line-height: 1.4; }
 .ntc-tags { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; }
 .ntc-tag { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
-.ntc-tag.stp { background: rgba(44,95,138,0.15); color: var(--primary); }
+.ntc-tag.stp { background: rgba(140,123,110,0.12); color: var(--primary); }
 .ntc-tag.paid { background: rgba(201,169,110,0.18); color: var(--gold); }
 .ntc-tag.urgent { background: rgba(220,38,38,0.12); color: #DC2626; }
 .ntc-countdown { font-size: 9.5px; font-weight: 700; color: var(--gold); text-align: right; }
@@ -2742,13 +2742,13 @@ body.dark-mode #loveQuoteCard { background: linear-gradient(135deg, rgba(44,95,1
 .dlc-trend-svg { width: 100%; display: block; }
 .dlc-trend-ideal { stroke: var(--border); stroke-width: 1.5; stroke-dasharray: 4 3; fill: none; }
 .dlc-trend-actual { stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.dlc-trend-actual.ok   { stroke: #16A34A; }
+.dlc-trend-actual.ok   { stroke: #6E8A5E; }
 .dlc-trend-actual.over { stroke: #DC2626; }
 .dlc-trend-dot { r: 4; }
-.dlc-trend-dot.ok   { fill: #16A34A; }
+.dlc-trend-dot.ok   { fill: #6E8A5E; }
 .dlc-trend-dot.over { fill: #DC2626; }
 .dlc-trend-lbl { font-size: 7px; fill: var(--text-light); }
-body.dark-mode .dlc-trend-ideal { stroke: #1D3348; }
+body.dark-mode .dlc-trend-ideal { stroke: #3A3830; }
 
 /* ── 城市花費分析 ── */
 .city-spend-card { padding: 14px 16px 12px; margin-bottom: 20px; display: none; }
@@ -2762,7 +2762,7 @@ body.dark-mode .dlc-trend-ideal { stroke: #1D3348; }
 .cs-footer { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
   display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-light); }
 .cs-footer strong { color: var(--text); }
-body.dark-mode .cs-bar-wrap { background: #0D1A24; }
+body.dark-mode .cs-bar-wrap { background: #1C1A16; }
 
 /* ── 今明兩日快覽 ── */
 .q2d-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -2779,7 +2779,7 @@ body.dark-mode .cs-bar-wrap { background: #0D1A24; }
   margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .q2d-star { font-size: 10px; color: var(--gold); line-height: 1.4;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-body.dark-mode .q2d-card { border-color: #1D3348; }
+body.dark-mode .q2d-card { border-color: #3A3830; }
 body.dark-mode .q2d-card.today-card { border-color: var(--gold); background: rgba(201,169,110,0.08); }
 
 /* ── 行程折疊 ── */
@@ -2831,7 +2831,7 @@ body.dark-mode .q2d-card.today-card { border-color: var(--gold); background: rgb
 .wl-text { line-height: 1.4; flex: 1; }
 .wl-day { font-size: 9px; color: var(--text-light); display: block; margin-top: 2px; }
 body.dark-mode .wishlist-card { border-color: rgba(201,169,110,0.2); }
-body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
+body.dark-mode .wl-item { background: #252320; border-color: #3A3830; }
 
 /* ── 城市基地速查卡 ── */
 .base-city-scroll {
@@ -2951,9 +2951,9 @@ body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
 }
 .train-tip:last-child { border-bottom: none; }
 .train-tip-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
-body.dark-mode .train-row-item { background: #0D1A24; }
-body.dark-mode .train-badge { background: #071A0E; color: #4ADE80; }
-body.dark-mode .train-badge.gold { background: #201500; color: #FCD34D; }
+body.dark-mode .train-row-item { background: #1C1A16; }
+body.dark-mode .train-badge { background: #1A2018; color: #4ADE80; }
+body.dark-mode .train-badge.gold { background: #201C14; color: #FCD34D; }
 
 /* ── 每日拍攝計畫 ── */
 .shoot-plan-card { padding: 16px 16px 12px; margin-bottom: 20px; }
@@ -2969,12 +2969,12 @@ body.dark-mode .train-badge.gold { background: #201500; color: #FCD34D; }
 .sp-tip  { font-size: 10.5px; color: var(--text-light); line-height: 1.4; margin-top: 1px; }
 .sp-gear {
   font-size: 9.5px; font-weight: 700; text-align: center; align-self: start;
-  background: #EFF6FF; color: #1D4ED8;
+  background: #EEF2F5; color: #5A7A90;
   border-radius: 5px; padding: 2px 4px; margin-top: 2px; white-space: nowrap;
 }
-body.dark-mode .sp-row { background: #0D1A24; }
-body.dark-mode .sp-gear { background: #1D3A6B; color: #60A5FA; }
-.sp-gear.tripod { background: #F3E8FF; color: #7C3AED; }
+body.dark-mode .sp-row { background: #1C1A16; }
+body.dark-mode .sp-gear { background: #3A3830; color: #8BAFC4; }
+.sp-gear.tripod { background: #F3E8FF; color: #8A7A96; }
 body.dark-mode .sp-gear.tripod { background: #2D1060; color: #C084FC; }
 .sp-filter-row { display: flex; gap: 5px; overflow-x: auto; padding: 0 0 10px;
   scrollbar-width: none; margin-bottom: 2px; }
@@ -2983,7 +2983,7 @@ body.dark-mode .sp-gear.tripod { background: #2D1060; color: #C084FC; }
   border-radius: 16px; border: 1.5px solid var(--border); background: var(--card);
   color: var(--text-sub); cursor: pointer; transition: all 0.15s; line-height: 1.3; }
 .sp-fc.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-body.dark-mode .sp-fc { background: #152233; }
+body.dark-mode .sp-fc { background: #252320; }
 .sp-filter-cnt { font-size: 10px; color: var(--text-light); min-height: 14px; margin-bottom: 4px;
   text-align: right; padding-right: 2px; }
 
@@ -3008,7 +3008,7 @@ body.dark-mode .sp-fc { background: #152233; }
 .psc-box { width: 20px; height: 20px; min-width: 20px; border-radius: 50%;
   border: 2px solid var(--border); display: flex; align-items: center; justify-content: center;
   transition: all 0.2s; margin-top: 1px; flex-shrink: 0; }
-.psc-item.done .psc-box { background: #16A34A; border-color: #16A34A; }
+.psc-item.done .psc-box { background: #6E8A5E; border-color: #6E8A5E; }
 .psc-item.done .psc-box::after { content: '✓'; font-size: 11px; color: #fff; font-weight: 800; }
 .psc-item.done .psc-name { text-decoration: line-through; opacity: 0.5; }
 .psc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
@@ -3016,7 +3016,7 @@ body.dark-mode .sp-fc { background: #152233; }
 
 /* ── 黃金拍攝時段 ── */
 .gh-card {
-  background: linear-gradient(135deg, #071828 0%, #0F2D45 100%);
+  background: linear-gradient(135deg, #1C1A16 0%, #0F2D45 100%);
   border-radius: var(--radius); padding: 20px 18px;
   margin-bottom: 24px;
 }
@@ -3066,19 +3066,19 @@ body.dark-mode .sp-fc { background: #152233; }
 .pwx-temp { font-size: 10px; color: var(--text-sub); white-space: nowrap; }
 .pwx-dots { display: flex; gap: 2.5px; align-items: center; }
 .pwx-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-.pwx-dot.on5 { background: #16A34A; }
+.pwx-dot.on5 { background: #6E8A5E; }
 .pwx-dot.on4 { background: #65A30D; }
 .pwx-dot.on3 { background: #CA8A04; }
 .pwx-dot.on2 { background: #EA580C; }
 .pwx-dot.on1 { background: #DC2626; }
 .pwx-label { font-size: 9.5px; font-weight: 700; white-space: nowrap; min-width: 32px; text-align: right; }
-.pwx-label.sc5 { color: #16A34A; }
+.pwx-label.sc5 { color: #6E8A5E; }
 .pwx-label.sc4 { color: #65A30D; }
 .pwx-label.sc3 { color: #CA8A04; }
 .pwx-label.sc2 { color: #EA580C; }
 .pwx-label.sc1,.pwx-label.sc0 { color: #DC2626; }
 .photo-wx-loading { font-size: 11px; color: var(--text-light); padding: 12px; text-align: center; }
-body.dark-mode .photo-wx-row { background: #0D1A24; }
+body.dark-mode .photo-wx-row { background: #1C1A16; }
 
 /* ── 打包清單進度條 ── */
 .chk-progress {
@@ -3134,14 +3134,14 @@ body.dark-mode .photo-wx-row { background: #0D1A24; }
   padding: 2px 7px; display: inline-block; margin-top: 2px;
   width: fit-content;
 }
-body.dark-mode .cg-must { background: #201500; color: #FCD34D; }
-body.dark-mode .cg-row  { background: #0D1A24; }
+body.dark-mode .cg-must { background: #201C14; color: #FCD34D; }
+body.dark-mode .cg-row  { background: #1C1A16; }
 
 /* ── 甜甜圈圖 SVG 文字 ── */
-.donut-ct-lbl { fill: #162C3E; }
-.donut-ct-sub { fill: #2C5F8A; }
-body.dark-mode .donut-ct-lbl { fill: #E8F2F8; }
-body.dark-mode .donut-ct-sub { fill: #91C2D8; }
+.donut-ct-lbl { fill: #2C2B28; }
+.donut-ct-sub { fill: #8C7B6E; }
+body.dark-mode .donut-ct-lbl { fill: #EAE7E2; }
+body.dark-mode .donut-ct-sub { fill: #A8A4A0; }
 
 /* ── 重要時刻倒數 ── */
 .milestone-card { padding: 16px 16px 12px; margin-bottom: 20px; }
@@ -3162,8 +3162,8 @@ body.dark-mode .donut-ct-sub { fill: #91C2D8; }
 }
 .ms-days span { font-size: 10px; font-weight: 500; color: var(--text-light); margin-left: 1px; }
 .ms-days.ms-soon { color: var(--gold); }
-.ms-days.ms-today { color: #16A34A; }
-body.dark-mode .ms-row { background: #0D1A24; }
+.ms-days.ms-today { color: #6E8A5E; }
+body.dark-mode .ms-row { background: #1C1A16; }
 
 /* ── 16天行程一覽表 ── */
 .daytbl-card { padding: 16px 16px 12px; margin-bottom: 20px; }
@@ -3176,7 +3176,7 @@ body.dark-mode .ms-row { background: #0D1A24; }
   cursor: pointer; transition: background 0.15s, transform 0.1s;
   -webkit-tap-highlight-color: transparent;
 }
-.dtrow:hover { background: rgba(44,95,138,0.09); }
+.dtrow:hover { background: rgba(140,123,110,0.09); }
 .dtrow:active { transform: scale(0.97); }
 .dtrow.dt-today { background: rgba(201,169,110,0.14); border: 1.5px solid var(--gold); }
 .dtrow.dt-today:hover { background: rgba(201,169,110,0.22); }
@@ -3185,7 +3185,7 @@ body.dark-mode .ms-row { background: #0D1A24; }
 .dt-city { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; color: #fff; width: fit-content; }
 .dt-act  { font-size: 11.5px; color: var(--text-sub); line-height: 1.3; }
 .dtrow .dt-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; color: #fff; margin-right: 4px; vertical-align: middle; }
-body.dark-mode .dtrow { background: #0D1A24; }
+body.dark-mode .dtrow { background: #1C1A16; }
 body.dark-mode .dtrow:hover { background: rgba(44,95,138,0.14); }
 body.dark-mode .dtrow.dt-today { background: rgba(201,169,110,0.10); }
 
@@ -3209,17 +3209,17 @@ body.dark-mode .dtrow.dt-today { background: rgba(201,169,110,0.10); }
 .tc-tag.first { background: #FFFBEB; color: #92400E; }
 .tc-tag.fee   { background: #FEE2E2; color: #991B1B; }
 .tc-tag.ek    { background: #FFF0F0; color: #C8102E; }
-body.dark-mode .tc-row   { background: #0D1A24; }
-body.dark-mode .tc-tag.stp   { background: #071A0E; color: #4ADE80; }
-body.dark-mode .tc-tag.first { background: #201500; color: #FCD34D; }
-body.dark-mode .tc-tag.fee   { background: #200909; color: #FCA5A5; }
+body.dark-mode .tc-row   { background: #1C1A16; }
+body.dark-mode .tc-tag.stp   { background: #1A2018; color: #4ADE80; }
+body.dark-mode .tc-tag.first { background: #201C14; color: #FCD34D; }
+body.dark-mode .tc-tag.fee   { background: #261E1E; color: #FCA5A5; }
 body.dark-mode .tc-tag.ek    { background: #2D0A0A; color: #FCA5A5; }
 
 /* ── 今日光線時段視覺條 ── */
 #photoLightBar { padding: 12px 14px 10px; }
 .plb-title { font-size: 11px; font-weight: 800; color: var(--text-sub); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
 .plb-bar-outer { position: relative; height: 26px; margin: 10px 0 4px; }
-.plb-bar-inner { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 6px; overflow: hidden; background: #08141E; }
+.plb-bar-inner { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 6px; overflow: hidden; background: #1A1714; }
 .plb-seg { position: absolute; top: 0; bottom: 0; }
 .plb-now-line { position: absolute; top: -3px; bottom: -3px; width: 2.5px; border-radius: 2px;
   background: rgba(255,255,255,0.95); box-shadow: 0 0 6px rgba(255,255,255,0.7); z-index: 2; pointer-events: none; }
@@ -3228,7 +3228,7 @@ body.dark-mode .tc-tag.ek    { background: #2D0A0A; color: #FCA5A5; }
 .plb-time-lbl { font-size: 7.5px; color: var(--text-light); }
 .plb-status { font-size: 10.5px; font-weight: 700; margin-top: 8px; display: flex; align-items: center; gap: 5px; }
 .plb-countdown { font-size: 9.5px; color: var(--text-sub); }
-body.dark-mode .plb-bar-inner { background: #050E16; }
+body.dark-mode .plb-bar-inner { background: #161410; }
 
 /* ── 16日攝影規劃總覽 ── */
 .pcc-card { padding: 14px 16px 12px; margin-bottom: 20px; }
@@ -3238,7 +3238,7 @@ body.dark-mode .plb-bar-inner { background: #050E16; }
 .pcc-row { display: flex; align-items: center; gap: 7px; padding: 5px 6px; border-radius: 7px;
   cursor: pointer; margin: 0 -6px; transition: background 0.12s; border-bottom: 1px solid transparent; }
 .pcc-row:last-child { border-bottom: none; }
-.pcc-row:active, .pcc-row:hover { background: rgba(44,95,138,0.07); }
+.pcc-row:active, .pcc-row:hover { background: rgba(140,123,110,0.07); }
 .pcc-row.pcc-today { background: rgba(201,169,110,0.1); border-radius: 8px; }
 .pcc-date { font-size: 11px; font-weight: 700; color: var(--text); min-width: 31px; flex-shrink: 0; }
 .pcc-wday { font-size: 9px; color: var(--text-light); min-width: 12px; flex-shrink: 0; }
@@ -3247,12 +3247,12 @@ body.dark-mode .plb-bar-inner { background: #050E16; }
 .pcc-spot { font-size: 10px; color: var(--text); flex: 1; min-width: 0;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
 .pcc-time { font-size: 12px; flex-shrink: 0; }
-body.dark-mode .pcc-row:active, body.dark-mode .pcc-row:hover { background: rgba(44,95,138,0.15); }
+body.dark-mode .pcc-row:active, body.dark-mode .pcc-row:hover { background: rgba(140,123,110,0.12); }
 body.dark-mode .pcc-row.pcc-today { background: rgba(201,169,110,0.12); }
 
 /* ── Sony A7R5 相機設定卡 ── */
 .cam-card {
-  background: linear-gradient(135deg, #071828 0%, #0A2035 100%);
+  background: linear-gradient(135deg, #1C1A16 0%, #211E18 100%);
   border-radius: var(--radius); padding: 20px 16px; margin-bottom: 24px;
 }
 .cam-title {
@@ -3275,7 +3275,7 @@ body.dark-mode .pcc-row.pcc-today { background: rgba(201,169,110,0.12); }
   background: rgba(255,255,255,0.08); border-radius: 5px;
   padding: 2px 7px; color: rgba(255,255,255,0.75); white-space: nowrap;
 }
-.cam-val.cv-ss { color: #93C5FD; }
+.cam-val.cv-ss { color: #A8C4D4; }
 .cam-val.cv-ap { color: #6EE7B7; }
 .cam-val.cv-iso { color: #FCD34D; }
 .cam-val.cv-nd { color: #FCA5A5; }
@@ -3297,7 +3297,7 @@ body.dark-mode .pcc-row.pcc-today { background: rgba(201,169,110,0.12); }
 .pr-name { color: var(--text-sub); }
 .pr-chf { font-weight: 700; color: var(--primary); white-space: nowrap; }
 .price-note { font-size: 10.5px; color: var(--text-light); margin-top: 8px; line-height: 1.5; }
-body.dark-mode .pr-item { background: #0D1A24; }
+body.dark-mode .pr-item { background: #1C1A16; }
 
 /* ── 美食指南卡 ── */
 .food-card { padding: 16px 16px 12px; margin-bottom: 20px; }
@@ -3317,10 +3317,10 @@ body.dark-mode .pr-item { background: #0D1A24; }
 .food-dish { font-size: 10.5px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--text-sub); }
 .food-dish.must { color: #92400E; border-color: #FDE68A; background: #FFFBEB; }
 .food-note { font-size: 10px; color: var(--text-light); margin-top: 8px; line-height: 1.6; }
-body.dark-mode .food-city-row { background: #0D1A24; }
-body.dark-mode .food-dish { background: #152233; }
-body.dark-mode .food-dish.must { background: #201500; border-color: #78350F; color: #FCD34D; }
-body.dark-mode .food-city-spec { background: #1A1108; }
+body.dark-mode .food-city-row { background: #1C1A16; }
+body.dark-mode .food-dish { background: #252320; }
+body.dark-mode .food-dish.must { background: #201C14; border-color: #78350F; color: #FCD34D; }
+body.dark-mode .food-city-spec { background: #211D14; }
 
 </style>
 </head>
@@ -3397,9 +3397,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   </div>
   <svg class="hero-mountain" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <!-- 後排山脈（略深） -->
-    <path d="M0,120 L0,90 L80,55 L160,75 L280,35 L370,65 L490,20 L590,55 L700,30 L810,65 L920,35 L1040,70 L1160,40 L1280,72 L1380,48 L1440,55 L1440,120 Z" fill="#E8F2F9" opacity="0.85"/>
+    <path d="M0,120 L0,90 L80,55 L160,75 L280,35 L370,65 L490,20 L590,55 L700,30 L810,65 L920,35 L1040,70 L1160,40 L1280,72 L1380,48 L1440,55 L1440,120 Z" fill="#EDE7DF" opacity="0.85"/>
     <!-- 前排山脈（主色） -->
-    <path d="M0,120 L0,80 L120,30 L200,60 L320,10 L420,50 L560,5 L660,45 L780,15 L880,55 L1000,20 L1100,60 L1220,25 L1320,65 L1440,30 L1440,120 Z" fill="#F2F7FB"/>
+    <path d="M0,120 L0,80 L120,30 L200,60 L320,10 L420,50 L560,5 L660,45 L780,15 L880,55 L1000,20 L1100,60 L1220,25 L1320,65 L1440,30 L1440,120 Z" fill="#F5F0EB"/>
   </svg>
 </section>
 
@@ -4169,7 +4169,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <div class="climate-row">
         <div class="climate-city">恩加丁<span class="climate-alt">海拔 1,800m</span></div>
         <div class="climate-bar-wrap">
-          <div class="climate-bar" style="width:38%;background:linear-gradient(90deg,#60A5FA,#34D399)"></div>
+          <div class="climate-bar" style="width:38%;background:linear-gradient(90deg,#8BAFC4,#34D399)"></div>
           <div class="climate-temp">早晨 8°C ～ 白天 18°C ｜ 日夜溫差大，外套必備；山頂低至 0°C</div>
         </div>
         <div class="climate-icons">🧥❄️</div>
@@ -4177,7 +4177,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <div class="climate-row">
         <div class="climate-city">策馬特<span class="climate-alt">海拔 1,620m</span></div>
         <div class="climate-bar-wrap">
-          <div class="climate-bar" style="width:28%;background:linear-gradient(90deg,#818CF8,#60A5FA)"></div>
+          <div class="climate-bar" style="width:28%;background:linear-gradient(90deg,#818CF8,#8BAFC4)"></div>
           <div class="climate-temp">早晨 5°C ～ 白天 15°C ｜ Klein Matterhorn 山頂約 -5°C，保暖外套必帶</div>
         </div>
         <div class="climate-icons">🧣🧤</div>
@@ -4383,22 +4383,22 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="dtrow" id="dtrow-6-17">
           <div><div class="dt-date">6/17</div><div class="dt-day">三</div></div>
           <span class="dt-city" style="background:#1B5E3B">Engadin</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>ZRH → Pontresina，Muottas Muragl 夕陽全景</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>ZRH → Pontresina，Muottas Muragl 夕陽全景</div>
         </div>
         <div class="dtrow" id="dtrow-6-18">
           <div><div class="dt-date">6/18</div><div class="dt-day">四</div></div>
           <span class="dt-city" style="background:#1B5E3B">Engadin</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Diavolezza 冰川（3,978m）+ 婚紗攝影傍晚</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>Diavolezza 冰川（3,978m）+ 婚紗攝影傍晚</div>
         </div>
         <div class="dtrow" id="dtrow-6-19">
           <div><div class="dt-date">6/19</div><div class="dt-day">五</div></div>
           <span class="dt-city" style="background:#E65100">Bernina</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>伯尼納快車 Ospizio → Brusio 螺旋橋 → Tirano</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>伯尼納快車 Ospizio → Brusio 螺旋橋 → Tirano</div>
         </div>
         <div class="dtrow" id="dtrow-6-20">
           <div><div class="dt-date">6/20</div><div class="dt-day">六</div></div>
           <span class="dt-city" style="background:#1B5E3B">Engadin</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Corvatsch（3,303m）→ Sils Maria → Fex Valley 馬車</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>Corvatsch（3,303m）→ Sils Maria → Fex Valley 馬車</div>
         </div>
         <div class="dtrow" id="dtrow-6-21">
           <div><div class="dt-date">6/21</div><div class="dt-day">日</div></div>
@@ -4408,47 +4408,47 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="dtrow" id="dtrow-6-22">
           <div><div class="dt-date">6/22</div><div class="dt-day">一</div></div>
           <span class="dt-city" style="background:#C8102E">Zermatt</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Riffelsee 倒影攝影（首班 07:00）+ Stellisee</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>Riffelsee 倒影攝影（首班 07:00）+ Stellisee</div>
         </div>
         <div class="dtrow" id="dtrow-6-23">
           <div><div class="dt-date">6/23</div><div class="dt-day">二</div></div>
           <span class="dt-city" style="background:#C8102E">Zermatt</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Klein Matterhorn（3,883m）+ Schwarzsee 婚紗</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>Klein Matterhorn（3,883m）+ Schwarzsee 婚紗</div>
         </div>
         <div class="dtrow" id="dtrow-6-24">
           <div><div class="dt-date">6/24</div><div class="dt-day">三</div></div>
           <span class="dt-city" style="background:#5D4037">Bern</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Kandersteg → Oeschinensee → Spiez 城堡 → 伯恩</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>Kandersteg → Oeschinensee → Spiez 城堡 → 伯恩</div>
         </div>
         <div class="dtrow" id="dtrow-6-25">
           <div><div class="dt-date">6/25</div><div class="dt-day">四</div></div>
           <span class="dt-city" style="background:#5D4037">Bern</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>伯恩老城深度遊（UNESCO 世界遺產）</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>伯恩老城深度遊（UNESCO 世界遺產）</div>
         </div>
         <div class="dtrow" id="dtrow-6-26">
           <div><div class="dt-date">6/26</div><div class="dt-day">五</div></div>
           <span class="dt-city" style="background:#4A148C">Zug</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Lauterbrunnen 瀑布婚紗（上午）→ 楚格</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>Lauterbrunnen 瀑布婚紗（上午）→ 楚格</div>
         </div>
         <div class="dtrow" id="dtrow-6-27">
           <div><div class="dt-date">6/27</div><div class="dt-day">六</div></div>
           <span class="dt-city" style="background:#4A148C">Luzern</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>楚格 → 琉森漫遊 + 卡貝爾橋藍調攝影 22:00</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>楚格 → 琉森漫遊 + 卡貝爾橋藍調攝影 22:00</div>
         </div>
         <div class="dtrow" id="dtrow-6-28">
           <div><div class="dt-date">6/28</div><div class="dt-day">日</div></div>
           <span class="dt-city" style="background:#4A148C">Zug</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>瑞吉山（輪船登頂）→ Tierpark → Lauerzersee 野餐</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>瑞吉山（輪船登頂）→ Tierpark → Lauerzersee 野餐</div>
         </div>
         <div class="dtrow" id="dtrow-6-29">
           <div><div class="dt-date">6/29</div><div class="dt-day">一</div></div>
           <span class="dt-city" style="background:#1565C0">Zürich</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>楚格 → 蘇黎世市區，Bahnhofstrasse 採購</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>楚格 → 蘇黎世市區，Bahnhofstrasse 採購</div>
         </div>
         <div class="dtrow" id="dtrow-6-30">
           <div><div class="dt-date">6/30</div><div class="dt-day">二</div></div>
           <span class="dt-city" style="background:#1565C0">Zürich</span>
-          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>萊茵瀑布 + Stein am Rhein 中世紀小鎮 → 機場</div>
+          <div class="dt-act"><span class="dt-badge" style="background:#5A7A90">STP</span>萊茵瀑布 + Stein am Rhein 中世紀小鎮 → 機場</div>
         </div>
         <div class="dtrow" id="dtrow-7-1">
           <div><div class="dt-date">7/1</div><div class="dt-day">三</div></div>
@@ -5237,7 +5237,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="ec-val"><del>TWD 4,900</del><br><span>免費！</span></div>
       </div>
     </div>
-    <p style="text-align:center;color:#16A34A;font-weight:700;font-size:14px;margin-top:10px">
+    <p style="text-align:center;color:#6E8A5E;font-weight:700;font-size:14px;margin-top:10px">
       🎉 Engadin Card 合計省下 TWD 12,565（雙人）
     </p>
 
@@ -5261,27 +5261,27 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <div class="budget-bars">
         <div class="bb-row">
           <div class="bb-label">✈️ 機票</div>
-          <div class="bb-track"><div class="bb-fill" data-w="20%" style="background:#1B6CA8"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="20%" style="background:#7A6B5F"></div></div>
           <div class="bb-val">61,388</div>
         </div>
         <div class="bb-row">
           <div class="bb-label">🏠 住宿</div>
-          <div class="bb-track"><div class="bb-fill" data-w="39%" style="background:#2A7A50"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="39%" style="background:#7A8C6E"></div></div>
           <div class="bb-val">120,233</div>
         </div>
         <div class="bb-row">
           <div class="bb-label">🚂 交通</div>
-          <div class="bb-track"><div class="bb-fill" data-w="14%" style="background:#2563EB"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="14%" style="background:#6B8BA4"></div></div>
           <div class="bb-val">42,062</div>
         </div>
         <div class="bb-row">
           <div class="bb-label">🎿 景點</div>
-          <div class="bb-track"><div class="bb-fill" data-w="5%" style="background:#C9944A"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="5%" style="background:#B08A6A"></div></div>
           <div class="bb-val">15,350</div>
         </div>
         <div class="bb-row">
           <div class="bb-label">🍽 餐飲</div>
-          <div class="bb-track"><div class="bb-fill" data-w="16%" style="background:#16A34A"></div></div>
+          <div class="bb-track"><div class="bb-fill" data-w="16%" style="background:#6E8A5E"></div></div>
           <div class="bb-val">50,000</div>
         </div>
         <div class="bb-row">
@@ -5314,23 +5314,23 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <svg viewBox="0 0 200 200" class="donut-svg">
           <circle cx="100" cy="100" r="62" fill="none" stroke="var(--bg)" stroke-width="32"/>
           <!-- 機票 20% offset=0 -->
-          <circle cx="100" cy="100" r="62" fill="none" stroke="#2C5F8A" stroke-width="32"
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#8C7B6E" stroke-width="32"
             stroke-dasharray="77.9 311.6" stroke-dashoffset="0"
             transform="rotate(-90 100 100)" class="donut-seg"/>
           <!-- 住宿 39% offset=-77.9 -->
-          <circle cx="100" cy="100" r="62" fill="none" stroke="#2A7A50" stroke-width="32"
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#7A8C6E" stroke-width="32"
             stroke-dasharray="151.9 238.0" stroke-dashoffset="-77.9"
             transform="rotate(-90 100 100)" class="donut-seg"/>
           <!-- 交通 14% offset=-229.8 -->
-          <circle cx="100" cy="100" r="62" fill="none" stroke="#3B82F6" stroke-width="32"
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#6B8BA4" stroke-width="32"
             stroke-dasharray="54.6 334.9" stroke-dashoffset="-229.8"
             transform="rotate(-90 100 100)" class="donut-seg"/>
           <!-- 景點 5% offset=-284.4 -->
-          <circle cx="100" cy="100" r="62" fill="none" stroke="#C9A96E" stroke-width="32"
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#B89A7E" stroke-width="32"
             stroke-dasharray="19.5 370.0" stroke-dashoffset="-284.4"
             transform="rotate(-90 100 100)" class="donut-seg"/>
           <!-- 餐飲 16% offset=-303.9 -->
-          <circle cx="100" cy="100" r="62" fill="none" stroke="#16A34A" stroke-width="32"
+          <circle cx="100" cy="100" r="62" fill="none" stroke="#6E8A5E" stroke-width="32"
             stroke-dasharray="62.3 327.2" stroke-dashoffset="-303.9"
             transform="rotate(-90 100 100)" class="donut-seg"/>
           <!-- 購物雜支 6% offset=-366.2 -->
@@ -5343,11 +5343,11 @@ body.dark-mode .food-city-spec { background: #1A1108; }
             font-size="9.5" font-family="sans-serif">TWD 306,613</text>
         </svg>
         <div class="donut-legend">
-          <div class="dl-row"><div class="dl-dot" style="background:#2C5F8A"></div><span class="dl-name">✈️ 機票</span><span class="dl-pct">20%</span><span class="dl-amt">61,388</span></div>
-          <div class="dl-row"><div class="dl-dot" style="background:#2A7A50"></div><span class="dl-name">🏠 住宿</span><span class="dl-pct">39%</span><span class="dl-amt">120,233</span></div>
-          <div class="dl-row"><div class="dl-dot" style="background:#3B82F6"></div><span class="dl-name">🚂 交通</span><span class="dl-pct">14%</span><span class="dl-amt">42,062</span></div>
-          <div class="dl-row"><div class="dl-dot" style="background:#C9A96E"></div><span class="dl-name">🎿 景點</span><span class="dl-pct">5%</span><span class="dl-amt">15,350</span></div>
-          <div class="dl-row"><div class="dl-dot" style="background:#16A34A"></div><span class="dl-name">🍽 餐飲</span><span class="dl-pct">16%</span><span class="dl-amt">50,000</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#8C7B6E"></div><span class="dl-name">✈️ 機票</span><span class="dl-pct">20%</span><span class="dl-amt">61,388</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#7A8C6E"></div><span class="dl-name">🏠 住宿</span><span class="dl-pct">39%</span><span class="dl-amt">120,233</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#6B8BA4"></div><span class="dl-name">🚂 交通</span><span class="dl-pct">14%</span><span class="dl-amt">42,062</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#B89A7E"></div><span class="dl-name">🎿 景點</span><span class="dl-pct">5%</span><span class="dl-amt">15,350</span></div>
+          <div class="dl-row"><div class="dl-dot" style="background:#6E8A5E"></div><span class="dl-name">🍽 餐飲</span><span class="dl-pct">16%</span><span class="dl-amt">50,000</span></div>
           <div class="dl-row"><div class="dl-dot" style="background:#6B8FA3"></div><span class="dl-name">🛍 購物</span><span class="dl-pct">6%</span><span class="dl-amt">17,580</span></div>
         </div>
       </div>
@@ -6896,29 +6896,29 @@ window.addEventListener('load', () => {
   var DEPART = new Date('2026-06-16T00:30:00+08:00');
   var RETURN = new Date('2026-07-01T14:00:00+08:00');
   var DAYS = [
-    { date:'6/16', d:'16', city:'ZRH', color:'#2C5F8A' },
-    { date:'6/17', d:'17', city:'SMO', color:'#16A34A' },
-    { date:'6/18', d:'18', city:'SMO', color:'#16A34A' },
-    { date:'6/19', d:'19', city:'SMO', color:'#16A34A' },
-    { date:'6/20', d:'20', city:'SMO', color:'#16A34A' },
-    { date:'6/21', d:'21', city:'ZMT', color:'#C9A96E' },
-    { date:'6/22', d:'22', city:'ZMT', color:'#C9A96E' },
-    { date:'6/23', d:'23', city:'ZMT', color:'#C9A96E' },
+    { date:'6/16', d:'16', city:'ZRH', color:'#8C7B6E' },
+    { date:'6/17', d:'17', city:'SMO', color:'#6E8A5E' },
+    { date:'6/18', d:'18', city:'SMO', color:'#6E8A5E' },
+    { date:'6/19', d:'19', city:'SMO', color:'#6E8A5E' },
+    { date:'6/20', d:'20', city:'SMO', color:'#6E8A5E' },
+    { date:'6/21', d:'21', city:'ZMT', color:'#B89A7E' },
+    { date:'6/22', d:'22', city:'ZMT', color:'#B89A7E' },
+    { date:'6/23', d:'23', city:'ZMT', color:'#B89A7E' },
     { date:'6/24', d:'24', city:'KDR', color:'#8B5CF6' },
     { date:'6/25', d:'25', city:'BRN', color:'#8B5CF6' },
-    { date:'6/26', d:'26', city:'ZUG', color:'#0891B2' },
-    { date:'6/27', d:'27', city:'ZUG', color:'#0891B2' },
-    { date:'6/28', d:'28', city:'ZUG', color:'#0891B2' },
-    { date:'6/29', d:'29', city:'ZRH', color:'#2C5F8A' },
-    { date:'6/30', d:'30', city:'ZRH', color:'#2C5F8A' },
-    { date:'7/1',  d:'7/1', city:'ZRH', color:'#2C5F8A' }
+    { date:'6/26', d:'26', city:'ZUG', color:'#6E8A9E' },
+    { date:'6/27', d:'27', city:'ZUG', color:'#6E8A9E' },
+    { date:'6/28', d:'28', city:'ZUG', color:'#6E8A9E' },
+    { date:'6/29', d:'29', city:'ZRH', color:'#8C7B6E' },
+    { date:'6/30', d:'30', city:'ZRH', color:'#8C7B6E' },
+    { date:'7/1',  d:'7/1', city:'ZRH', color:'#8C7B6E' }
   ];
   var LEGENDS = [
-    { label:'蘇黎世', color:'#2C5F8A' },
-    { label:'聖莫里茲', color:'#16A34A' },
-    { label:'策馬特', color:'#C9A96E' },
+    { label:'蘇黎世', color:'#8C7B6E' },
+    { label:'聖莫里茲', color:'#6E8A5E' },
+    { label:'策馬特', color:'#B89A7E' },
     { label:'伯恩/坎德', color:'#8B5CF6' },
-    { label:'楚格', color:'#0891B2' }
+    { label:'楚格', color:'#6E8A9E' }
   ];
 
   var card = document.getElementById('tripTimelineCard');
@@ -7064,9 +7064,9 @@ window.addEventListener('load', function() {
     { id:'airport', n:'蘇黎世機場',  sub:'6/16 · 1晚',      lat:47.464, lng:8.549,  c:'#78716C' },
     { id:'engadin', n:'Pontresina', sub:'恩加丁 · 4晚',      lat:46.494, lng:9.899,  c:'#2D8C58' },
     { id:'zermatt', n:'策馬特',     sub:'6/21–6/23 · 3晚',  lat:46.021, lng:7.749,  c:'#C8102E' },
-    { id:'bern',    n:'伯恩',       sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447,  c:'#7C3AED' },
+    { id:'bern',    n:'伯恩',       sub:'6/24–6/25 · 2晚',  lat:46.948, lng:7.447,  c:'#8A7A96' },
     { id:'zug',     n:'楚格',       sub:'6/26–6/28 · 3晚',  lat:47.166, lng:8.516,  c:'#0F766E' },
-    { id:'zurich',  n:'蘇黎世',     sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542,  c:'#1B6CA8' },
+    { id:'zurich',  n:'蘇黎世',     sub:'6/29–6/30 · 2晚',  lat:47.377, lng:8.542,  c:'#7A6B5F' },
   ];
 
   // ─ 每日行程資料（真實路線點）────────────────────────────────────────────────
@@ -7243,7 +7243,7 @@ window.addEventListener('load', function() {
 
   // ─ 6城市底層連線（半透明虛線）──────────────────────────────────────────────
   L.polyline(cities.map(function(c){ return [c.lat, c.lng]; }),
-    { color:'#1B6CA8', weight:2, opacity:0.25, dashArray:'7 6' }).addTo(_routeMap);
+    { color:'#7A6B5F', weight:2, opacity:0.25, dashArray:'7 6' }).addTo(_routeMap);
 
   // ─ 城市標記建立 ─────────────────────────────────────────────────────────────
   function cityIconHtml(city, idx, active) {
@@ -7262,10 +7262,10 @@ window.addEventListener('load', function() {
 
   // ─ 景點圖示 ──────────────────────────────────────────────────────────────────
   var dotIcon = {
-    main:  L.divIcon({ html:'<div style="background:#1B6CA8;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">★</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
-    honey: L.divIcon({ html:'<div style="background:#7C3AED;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">💍</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
-    spot:  L.divIcon({ html:'<div style="background:#C9944A;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
-    hotel: L.divIcon({ html:'<div style="background:#2A7A50;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">🏨</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
+    main:  L.divIcon({ html:'<div style="background:#7A6B5F;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">★</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
+    honey: L.divIcon({ html:'<div style="background:#8A7A96;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">💍</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
+    spot:  L.divIcon({ html:'<div style="background:#B08A6A;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
+    hotel: L.divIcon({ html:'<div style="background:#7A8C6E;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">🏨</div>', className:'', iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14] }),
     from:  L.divIcon({ html:'<div style="background:#6B7280;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>', className:'', iconSize:[10,10], iconAnchor:[5,5], popupAnchor:[0,-8] }),
     via:   L.divIcon({ html:'<div style="background:#CBD5E1;width:7px;height:7px;border-radius:50%;border:1.5px solid #fff"></div>', className:'', iconSize:[7,7], iconAnchor:[3,3], popupAnchor:[0,-6] }),
   };
@@ -7318,7 +7318,7 @@ window.addEventListener('load', function() {
     // 畫路線
     var routePts = plan.pts.map(function(p){ return [p.lat,p.lng]; });
     var line = L.polyline(routePts, {
-      color: city?city.c:'#1B6CA8', weight:3.5, opacity:0.88,
+      color: city?city.c:'#7A6B5F', weight:3.5, opacity:0.88,
       lineJoin:'round', lineCap:'round'
     });
     line.addTo(_routeMap); _dayLayers.push(line);
@@ -7341,7 +7341,7 @@ window.addEventListener('load', function() {
     var dayEl  = document.getElementById('mibDay');
     var noteEl = document.getElementById('mibNote');
     if (dayEl) dayEl.innerHTML = 'Day '+dayNum+
-      ' <span style="color:'+(city?city.c:'#1B6CA8')+';font-weight:700">'+(city?city.n:'')+'</span>'+
+      ' <span style="color:'+(city?city.c:'#7A6B5F')+';font-weight:700">'+(city?city.n:'')+'</span>'+
       ' <span style="color:var(--text-light);font-weight:400;font-size:12px">('+plan.date+')</span>';
     if (noteEl) noteEl.textContent = plan.note;
     _activeCity = plan.city;
@@ -7431,7 +7431,7 @@ window.addEventListener('load', function() {
     '<span style="color:#888;font-size:12px">Terminal 2</span><br>'+
     '<div style="margin-top:5px;font-size:12px">去程 <b>6/16 00:30</b> 出發</div>'+
     '<div style="font-size:12px">回程 <b>7/2 21:20</b> 抵達</div>');
-  wm(DXB[0],DXB[1],'🇦🇪','DXB','#C9944A',
+  wm(DXB[0],DXB[1],'🇦🇪','DXB','#B08A6A',
     '<b style="font-size:13px">杜拜 Dubai International</b><br>'+
     '<span style="color:#888;font-size:12px">Terminal 3</span><br>'+
     '<div style="margin-top:5px;font-size:12px">去程轉機 <b>3h 25m</b></div>'+
@@ -8107,7 +8107,7 @@ function highlightToday() {
   } else if(today > stpEndDay){
     txt.textContent = 'STP 15 天全部使用完畢 ✓';
     fill.style.width = '100%';
-    fill.style.background = '#C9A96E';
+    fill.style.background = '#B89A7E';
   } else {
     var used = Math.min(15, Math.floor((today - stpStartDay)/86400000)+1);
     var left = Math.max(0, 15 - used);
@@ -8223,7 +8223,7 @@ updateCategoryProgress();
     }).join(' ');
     var last = rates[rates.length-1], first = rates[0];
     var pct = (last-first)/first*100;
-    var col = pct >= 0 ? '#16A34A' : '#DC2626';
+    var col = pct >= 0 ? '#6E8A5E' : '#DC2626';
     var lx = Math.round((n-1)/(n-1)*W), ly = H-Math.round((last-min)/range*H);
     wrap.innerHTML =
       '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="overflow:visible;display:block">'
@@ -8441,7 +8441,7 @@ updateCategoryProgress();
       banner.innerHTML = '<strong>☔ 今日降雨機率 '+rain+'%</strong><br>'+RAIN_TIP[cityIdx]
         +'<button onclick="this.parentElement.style.display=\'none\'" style="position:absolute;top:6px;right:10px;background:none;border:none;font-size:16px;color:#92400E;cursor:pointer;padding:0;line-height:1">✕</button>';
     } else if (wmo >= 71 && wmo <= 77) {
-      banner.style.cssText = 'display:block;border-radius:10px;padding:10px 36px 10px 12px;margin-bottom:12px;font-size:11.5px;line-height:1.5;position:relative;background:#EFF6FF;border:1.5px solid #93C5FD;color:#1E40AF';
+      banner.style.cssText = 'display:block;border-radius:10px;padding:10px 36px 10px 12px;margin-bottom:12px;font-size:11.5px;line-height:1.5;position:relative;background:#EEF2F5;border:1.5px solid #A8C4D4;color:#1E40AF';
       banner.innerHTML = '<strong>❄️ 今日可能降雪</strong><br>'+SNOW_TIP
         +'<button onclick="this.parentElement.style.display=\'none\'" style="position:absolute;top:6px;right:10px;background:none;border:none;font-size:16px;color:#1E40AF;cursor:pointer;padding:0;line-height:1">✕</button>';
     } else { banner.style.display='none'; }
@@ -9209,9 +9209,9 @@ window.toggleAllDays = function() {
 /* ── 城市花費分析 ── */
 (function(){
   var GROUPS = [
-    { name: '蘇黎世/機場', idx: [0,13,14,15], color: '#2C5F8A', days: 4 },
-    { name: '恩加丁',      idx: [1,2,3,4,5],  color: '#0891B2', days: 5 },
-    { name: '策馬特',      idx: [6,7],         color: '#16A34A', days: 3 },
+    { name: '蘇黎世/機場', idx: [0,13,14,15], color: '#8C7B6E', days: 4 },
+    { name: '恩加丁',      idx: [1,2,3,4,5],  color: '#6E8A9E', days: 5 },
+    { name: '策馬特',      idx: [6,7],         color: '#6E8A5E', days: 3 },
     { name: '伯恩',        idx: [8,9],         color: '#CA8A04', days: 2 },
     { name: '楚格/琉森',   idx: [10,11,12],    color: '#9333EA', days: 3 }
   ];
@@ -9302,7 +9302,7 @@ window.toggleAllDays = function() {
     var diffPct = Math.round((actualCum - BUDGET / TOTAL * (lastIdx + 1)) / BUDGET * 100);
     var statusTxt = isOver
       ? '<span style="color:#DC2626;font-weight:700">▲ 超出理想進度 '+Math.abs(diffPct)+'%</span>'
-      : '<span style="color:#16A34A;font-weight:700">▼ 低於理想進度 '+Math.abs(diffPct)+'%</span>';
+      : '<span style="color:#6E8A5E;font-weight:700">▼ 低於理想進度 '+Math.abs(diffPct)+'%</span>';
 
     wrap.innerHTML = '<div class="dlc-trend-title">📈 累積花費走勢 · '+ statusTxt + '</div>' + svg;
     wrap.style.display = '';
@@ -9434,19 +9434,19 @@ window.switchPhraseTab = function(lang, btn) {
       phase = '夜晚'; icon = '🌑'; color = '#6B7280';
       nextLabel = '黎明藍調'; nextMs = dawn.getTime() - ms;
     } else if (ms < sr.getTime()) {
-      phase = '黎明藍調'; icon = '🌃'; color = '#60A5FA'; isHot = true;
+      phase = '黎明藍調'; icon = '🌃'; color = '#8BAFC4'; isHot = true;
       nextLabel = '晨間黃金'; nextMs = sr.getTime() - ms;
     } else if (ms < ghAMend.getTime()) {
       phase = '晨間黃金時段'; icon = '🌅'; color = '#F59E0B'; isHot = true;
       nextLabel = '日光'; nextMs = ghAMend.getTime() - ms;
     } else if (ms < ghPMst.getTime()) {
-      phase = '日間光線'; icon = '☀️'; color = '#93C5FD';
+      phase = '日間光線'; icon = '☀️'; color = '#A8C4D4';
       nextLabel = '傍晚黃金'; nextMs = ghPMst.getTime() - ms;
     } else if (ms < ss.getTime()) {
       phase = '傍晚黃金時段'; icon = '🌇'; color = '#F59E0B'; isHot = true;
       nextLabel = '藍調'; nextMs = ss.getTime() - ms;
     } else if (ms < blueEnd.getTime()) {
-      phase = '藍調時段'; icon = '🌆'; color = '#3B82F6'; isHot = true;
+      phase = '藍調時段'; icon = '🌆'; color = '#6B8BA4'; isHot = true;
       nextLabel = '夜晚'; nextMs = blueEnd.getTime() - ms;
     } else {
       phase = '夜晚'; icon = '🌙'; color = '#6B7280';
@@ -9491,7 +9491,7 @@ window.calcVat = function(){
     var netTwd = Math.round(netChf * rate);
     html = '<div class="vat-calc-result">'
       + '<div class="vat-calc-res-row"><span>購物金額</span><span>CHF '+chf.toFixed(0)+' ≈ TWD '+Math.round(chf*rate).toLocaleString()+'</span></div>'
-      + '<div class="vat-calc-res-row"><span>預估退稅</span><span style="color:#16A34A;font-weight:700">+ CHF '+refundChf.toFixed(1)+' ≈ TWD '+refundTwd.toLocaleString()+'</span></div>'
+      + '<div class="vat-calc-res-row"><span>預估退稅</span><span style="color:#6E8A5E;font-weight:700">+ CHF '+refundChf.toFixed(1)+' ≈ TWD '+refundTwd.toLocaleString()+'</span></div>'
       + '<div class="vat-calc-res-row hl"><span>實際淨支出</span><span>CHF '+netChf.toFixed(1)+' ≈ TWD '+netTwd.toLocaleString()+'</span></div>'
       + '</div>'
       + '<div class="vat-calc-msg ok">✅ 符合退稅條件！結帳時說「Tax Free please」索取退稅單</div>';
@@ -10275,7 +10275,7 @@ window.shareItinerary = function() {
     var html = '';
     TICKETS.forEach(function(t) {
       var twd = Math.round(t.chf * rate);
-      var sClass = t.stp === '折扣' ? 'color:#16A34A' : 'color:var(--text-sub)';
+      var sClass = t.stp === '折扣' ? 'color:#6E8A5E' : 'color:var(--text-sub)';
       html += '<div style="display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border)">'
         + '<div><div style="font-size:11px;font-weight:600;color:var(--text)">' + t.name + '</div>'
         + '<div style="font-size:9.5px;color:var(--text-light)">' + t.note + '</div></div>'
@@ -10417,7 +10417,7 @@ window.shareItinerary = function() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
-    var colors = ['#D52B1E','#FFFFFF','#C9A96E','#2C5F8A','#16A34A','#FCD34D'];
+    var colors = ['#D52B1E','#FFFFFF','#B89A7E','#8C7B6E','#6E8A5E','#FCD34D'];
     var parts = [];
     for (var i = 0; i < 50; i++) {
       parts.push({
@@ -10455,7 +10455,7 @@ window.shareItinerary = function() {
     var el = document.getElementById('wlCount');
     if (el) {
       el.textContent = done + ' / ' + TOTAL;
-      el.style.color = done === TOTAL ? '#16A34A' : 'var(--gold)';
+      el.style.color = done === TOTAL ? '#6E8A5E' : 'var(--gold)';
     }
     // Completion celebration
     var card = document.querySelector('.wishlist-card');
@@ -10464,7 +10464,7 @@ window.shareItinerary = function() {
         var msg = document.createElement('div');
         msg.className = 'wl-complete-msg';
         msg.innerHTML = '🎊 蜜月必體驗全部達成！心願成真了！✨';
-        msg.style.cssText = 'text-align:center;padding:10px;font-size:13px;font-weight:700;color:#16A34A;background:#DCFCE7;border-radius:8px;margin-top:10px;';
+        msg.style.cssText = 'text-align:center;padding:10px;font-size:13px;font-weight:700;color:#6E8A5E;background:#DCFCE7;border-radius:8px;margin-top:10px;';
         card.appendChild(msg);
         launchConfetti();
       }
@@ -10860,12 +10860,12 @@ window.cityFilter = function(keyword, btn) {
 
   // Segments: {label, start (ISO), end (ISO), color}
   var SEGS = [
-    { label:'蘇黎世', start:'2026-06-16', end:'2026-06-17', color:'#2C5F8A' },
+    { label:'蘇黎世', start:'2026-06-16', end:'2026-06-17', color:'#8C7B6E' },
     { label:'恩加丁', start:'2026-06-17', end:'2026-06-21', color:'#2D8C58' },
     { label:'策馬特', start:'2026-06-21', end:'2026-06-24', color:'#8B5CF6' },
     { label:'伯恩',   start:'2026-06-24', end:'2026-06-26', color:'#D97706' },
     { label:'楚格',   start:'2026-06-26', end:'2026-06-29', color:'#E85D75' },
-    { label:'蘇黎世', start:'2026-06-29', end:'2026-07-01', color:'#2C5F8A' },
+    { label:'蘇黎世', start:'2026-06-29', end:'2026-07-01', color:'#8C7B6E' },
   ];
 
   var html = '';
@@ -11020,22 +11020,22 @@ window.togglePhotoLayer = (function() {
   if (!card) return;
 
   var DAYS = [
-    { date:'6/16', wd:'二', city:'ZRH', col:'#2C5F8A', spot:'機場 Observation Deck B', time:'🌃' },
-    { date:'6/17', wd:'三', city:'SMO', col:'#16A34A', spot:'⭐ Muottas Muragl 三湖全景', time:'🌇' },
-    { date:'6/18', wd:'四', city:'SMO', col:'#16A34A', spot:'Diavolezza 冰川 + 羱羊', time:'☀️' },
-    { date:'6/19', wd:'五', city:'SMO', col:'#16A34A', spot:'⭐ Brusio 螺旋橋', time:'☀️' },
-    { date:'6/20', wd:'六', city:'SMO', col:'#16A34A', spot:'⭐ Corvatsch 五湖俯瞰', time:'☀️' },
-    { date:'6/21', wd:'日', city:'GEX', col:'#C9A96E', spot:'⭐ 冰河列車 Oberalp Pass', time:'☀️' },
-    { date:'6/22', wd:'一', city:'ZMT', col:'#b45309', spot:'⭐ Riffelsee 馬特洪峰倒影', time:'🌅' },
-    { date:'6/23', wd:'二', city:'ZMT', col:'#b45309', spot:'⭐ Klein Matterhorn 3,883m', time:'☀️' },
-    { date:'6/24', wd:'三', city:'KDR', col:'#7C3AED', spot:'⭐ Oeschinensee 冰川湖', time:'☀️' },
-    { date:'6/25', wd:'四', city:'BRN', col:'#7C3AED', spot:'玫瑰園黃金時刻 19:30', time:'🌇' },
-    { date:'6/26', wd:'五', city:'ZUG', col:'#0891B2', spot:'⭐ Staubbachfall 瀑布長曝', time:'☀️' },
-    { date:'6/27', wd:'六', city:'ZUG', col:'#0891B2', spot:'⭐ Kapellbrücke 藍調 22:00', time:'🌃' },
-    { date:'6/28', wd:'日', city:'ZUG', col:'#0891B2', spot:'⭐ 瑞吉山頂全景', time:'☀️' },
-    { date:'6/29', wd:'一', city:'ZRH', col:'#2C5F8A', spot:'⭐ 蘇黎世湖傍晚黃金', time:'🌇' },
-    { date:'6/30', wd:'二', city:'ZRH', col:'#2C5F8A', spot:'⭐ 萊茵瀑布中央岩石', time:'☀️' },
-    { date:'7/1',  wd:'三', city:'ZRH', col:'#2C5F8A', spot:'ZRH Deck 最後一拍 ✈️', time:'☀️' }
+    { date:'6/16', wd:'二', city:'ZRH', col:'#8C7B6E', spot:'機場 Observation Deck B', time:'🌃' },
+    { date:'6/17', wd:'三', city:'SMO', col:'#6E8A5E', spot:'⭐ Muottas Muragl 三湖全景', time:'🌇' },
+    { date:'6/18', wd:'四', city:'SMO', col:'#6E8A5E', spot:'Diavolezza 冰川 + 羱羊', time:'☀️' },
+    { date:'6/19', wd:'五', city:'SMO', col:'#6E8A5E', spot:'⭐ Brusio 螺旋橋', time:'☀️' },
+    { date:'6/20', wd:'六', city:'SMO', col:'#6E8A5E', spot:'⭐ Corvatsch 五湖俯瞰', time:'☀️' },
+    { date:'6/21', wd:'日', city:'GEX', col:'#B89A7E', spot:'⭐ 冰河列車 Oberalp Pass', time:'☀️' },
+    { date:'6/22', wd:'一', city:'ZMT', col:'#96705A', spot:'⭐ Riffelsee 馬特洪峰倒影', time:'🌅' },
+    { date:'6/23', wd:'二', city:'ZMT', col:'#96705A', spot:'⭐ Klein Matterhorn 3,883m', time:'☀️' },
+    { date:'6/24', wd:'三', city:'KDR', col:'#8A7A96', spot:'⭐ Oeschinensee 冰川湖', time:'☀️' },
+    { date:'6/25', wd:'四', city:'BRN', col:'#8A7A96', spot:'玫瑰園黃金時刻 19:30', time:'🌇' },
+    { date:'6/26', wd:'五', city:'ZUG', col:'#6E8A9E', spot:'⭐ Staubbachfall 瀑布長曝', time:'☀️' },
+    { date:'6/27', wd:'六', city:'ZUG', col:'#6E8A9E', spot:'⭐ Kapellbrücke 藍調 22:00', time:'🌃' },
+    { date:'6/28', wd:'日', city:'ZUG', col:'#6E8A9E', spot:'⭐ 瑞吉山頂全景', time:'☀️' },
+    { date:'6/29', wd:'一', city:'ZRH', col:'#8C7B6E', spot:'⭐ 蘇黎世湖傍晚黃金', time:'🌇' },
+    { date:'6/30', wd:'二', city:'ZRH', col:'#8C7B6E', spot:'⭐ 萊茵瀑布中央岩石', time:'☀️' },
+    { date:'7/1',  wd:'三', city:'ZRH', col:'#8C7B6E', spot:'ZRH Deck 最後一拍 ✈️', time:'☀️' }
   ];
 
   var now = new Date();
@@ -11130,13 +11130,13 @@ window.togglePhotoLayer = (function() {
   function pct(m) { return Math.max(0, Math.min(100, (m - WIN_START) / WIN_LEN * 100)); }
 
   var SEGS_DEF = [
-    { id:'night1', col:'#08141E' },
+    { id:'night1', col:'#1A1714' },
     { id:'blue1',  col:'#1B3A5C' },
     { id:'gold1',  col:'rgba(245,158,11,0.88)' },
     { id:'day',    col:'rgba(147,197,253,0.32)' },
     { id:'gold2',  col:'rgba(245,158,11,0.88)' },
     { id:'blue2',  col:'#1B3A5C' },
-    { id:'night2', col:'#08141E' }
+    { id:'night2', col:'#1A1714' }
   ];
 
   var PHASE_LABELS = {
@@ -11185,7 +11185,7 @@ window.togglePhotoLayer = (function() {
     for (var i = 0; i < SEGS_DEF.length; i++) {
       if (SEGS_DEF[i].id === id) return SEGS_DEF[i].col;
     }
-    return '#08141E';
+    return '#1A1714';
   }
 
   function render() {
@@ -11250,7 +11250,7 @@ window.togglePhotoLayer = (function() {
 
     var isGolden = cur && (cur.id === 'gold1' || cur.id === 'gold2');
     var isBlue   = cur && (cur.id === 'blue1'  || cur.id === 'blue2');
-    var dotCol   = isGolden ? '#F59E0B' : isBlue ? '#3B82F6' : 'var(--text-sub)';
+    var dotCol   = isGolden ? '#F59E0B' : isBlue ? '#6B8BA4' : 'var(--text-sub)';
 
     bar.style.display = 'block';
     bar.innerHTML =
@@ -11314,7 +11314,7 @@ window.togglePhotoLayer = (function() {
     var pct = Math.min(100, Math.round(spent / BUDGET * 100));
     var status, badgeCls, barCol;
     if (pace <= DAILY_AVG * 1.05) {
-      status = '✅ 預算健康'; badgeCls = 'ok'; barCol = '#16A34A';
+      status = '✅ 預算健康'; badgeCls = 'ok'; barCol = '#6E8A5E';
     } else if (pace <= DAILY_AVG * 1.2) {
       status = '⚡ 略超日均'; badgeCls = 'warn'; barCol = '#EA580C';
     } else {
