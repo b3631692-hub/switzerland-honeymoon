@@ -3349,6 +3349,49 @@ body.dark-mode .food-dish { background: #252320; }
 body.dark-mode .food-dish.must { background: #201C14; border-color: #78350F; color: #FCD34D; }
 body.dark-mode .food-city-spec { background: #211D14; }
 
+/* ── 餐廳一鍵預訂 ── */
+.rbook-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+@media (max-width: 400px) { .rbook-grid { grid-template-columns: 1fr; } }
+.rbook-card {
+  background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+  padding: 12px 13px 11px; box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  transition: opacity 0.3s;
+}
+.rbook-card.rbc-done { opacity: 0.48; }
+.rbook-header { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.rbook-icon { font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+.rbook-header > div:nth-child(2) { flex: 1; min-width: 0; }
+.rbook-name { font-size: 12.5px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.rbook-date { font-size: 10px; color: var(--text-sub); margin-top: 1px; }
+.rbook-check-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; flex-shrink: 0; cursor: pointer; }
+.rbook-check-wrap input { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+.rbook-check-lbl { font-size: 8px; color: var(--text-light); white-space: nowrap; }
+.rbook-desc { font-size: 10px; color: var(--text-sub); line-height: 1.6; margin-bottom: 7px; }
+.rbook-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 4px; }
+.rbook-cost { font-size: 9.5px; color: var(--text-light); }
+.rbook-urgency { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
+.rbook-urgency.ru-hot  { background: #FEE2E2; color: #B91C1C; }
+.rbook-urgency.ru-warn { background: #FEF3C7; color: #B45309; }
+.rbook-urgency.ru-ok   { background: #D1FAE5; color: #065F46; }
+.rbook-actions { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.rbook-btn {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 11px; font-weight: 700; border-radius: 8px; padding: 6px 10px;
+  text-decoration: none; cursor: pointer; transition: opacity 0.15s; white-space: nowrap;
+}
+.rbook-btn:active { opacity: 0.7; }
+.rbook-tel    { background: #DCFCE7; color: #166534; }
+.rbook-web    { background: #DBEAFE; color: #1D4ED8; }
+.rbook-search { background: var(--bg); color: var(--primary); border: 1px solid var(--border); }
+.rbook-tel-num { font-size: 9px; color: var(--text-light); }
+body.dark-mode .rbook-card   { background: #252320; border-color: #3A3530; }
+body.dark-mode .rbook-tel    { background: #052E16; color: #6EE7B7; }
+body.dark-mode .rbook-web    { background: #0C1A35; color: #93C5FD; }
+body.dark-mode .rbook-search { background: #1C1A16; }
+body.dark-mode .rbook-urgency.ru-hot  { background: #3B1515; color: #FCA5A5; }
+body.dark-mode .rbook-urgency.ru-warn { background: #331B05; color: #FCD34D; }
+body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
+
 </style>
 </head>
 <body>
@@ -4719,7 +4762,7 @@ body.dark-mode .food-city-spec { background: #211D14; }
             </div>
             <div class="db">
               <p>下午 STP 巴士至 Sils Maria，Silsersee 湖畔漫步</p>
-              <p class="star">★ Fex Valley 馬車體驗（需提前預約：Coretti +41 81 826 56 73）</p>
+              <p class="star">★ Fex Valley 馬車體驗（需提前預約：Coretti <a href="tel:+41818265673" onclick="haptic(8)">+41 81 826 56 73</a>）</p>
               <p>無車山谷，中世紀農莊，蜜月感十足</p>
               <p>傍晚黃金時刻（19:30–20:30）Silsersee 湖畔架腳架等光線</p>
             </div>
@@ -6193,9 +6236,9 @@ body.dark-mode .food-city-spec { background: #211D14; }
       <div style="font-size:15px;font-weight:700;margin-bottom:12px">✅ 行前待辦清單</div>
       <div class="predep-grid">
         <label class="predep-item"><input type="checkbox" id="pd0" onchange="savePredep()"><span>Chalet Achat pre-checkin 填寫（已付清，盡快！）</span></label>
-        <label class="predep-item"><input type="checkbox" id="pd1" onchange="savePredep()"><span>Fex Valley 馬車預約（+41 81 826 56 73）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd1" onchange="savePredep()"><span>Fex Valley 馬車預約（<a href="tel:+41818265673" onclick="haptic(8)">+41 81 826 56 73</a>）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd2" onchange="savePredep()"><span>購買冰河列車訂位費 CHF 13/人（6/21）</span></label>
-        <label class="predep-item"><input type="checkbox" id="pd3" onchange="savePredep()"><span>預約 Altes Tramdepot 伯恩晚餐（6/25）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd3" onchange="savePredep()"><span>預約 Altes Tramdepot 伯恩晚餐（6/25）→ <a href="https://altestramdepot.ch" target="_blank" rel="noopener" onclick="haptic(8)">altestramdepot.ch</a></span></label>
         <label class="predep-item"><input type="checkbox" id="pd4" onchange="savePredep()"><span>確認旅遊保險（含登山 ＋ REGA 山難救援）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd5" onchange="savePredep()"><span>下載 SBB App 並設定離線路線</span></label>
         <label class="predep-item"><input type="checkbox" id="pd6" onchange="savePredep()"><span>截圖所有住宿確認信（無網路備份）</span></label>
@@ -6217,9 +6260,9 @@ body.dark-mode .food-city-spec { background: #211D14; }
         <ul>
           <li><span class="li-icon">⚠️</span>Chalet Achat 填寫 pre-checkin 資料（已付清，盡快完成）</li>
           <li><span class="li-icon">🍽</span>預約 Restaurant Schäferstube 蜜月晚餐（6/23 策馬特）</li>
-          <li><span class="li-icon">🐴</span>預約 Fex Valley 馬車（6/20）電話：+41 81 826 56 73</li>
+          <li><span class="li-icon">🐴</span>預約 Fex Valley 馬車（6/20）電話：<a href="tel:+41818265673" onclick="haptic(8)">+41 81 826 56 73</a></li>
           <li><span class="li-icon">🚂</span>購買冰河列車訂位費 CHF 13/人（6/21，14:32 Chur 出發）</li>
-          <li><span class="li-icon">🍺</span>預約 Altes Tramdepot 伯恩晚餐（6/25）altestramdepot.ch</li>
+          <li><span class="li-icon">🍺</span>預約 Altes Tramdepot 伯恩晚餐（6/25）<a href="https://altestramdepot.ch" target="_blank" rel="noopener" onclick="haptic(8)">altestramdepot.ch</a></li>
         </ul>
       </div>
 
@@ -6284,6 +6327,100 @@ body.dark-mode .food-city-spec { background: #211D14; }
       </div>
     </div>
 
+    <!-- ─── 餐廳一鍵預訂 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">📞 餐廳預訂速查</div>
+    <div class="rbook-grid">
+
+      <div class="rbook-card reveal" id="rbc0">
+        <div class="rbook-header">
+          <span class="rbook-icon">🐴</span>
+          <div>
+            <div class="rbook-name">Fex Valley 馬車體驗</div>
+            <div class="rbook-date">6/20（週六）聖莫里茲</div>
+          </div>
+          <label class="rbook-check-wrap">
+            <input type="checkbox" id="rbc0-done" onchange="saveRbook(0)">
+            <span class="rbook-check-lbl">已預約</span>
+          </label>
+        </div>
+        <div class="rbook-desc">Coretti 馬車從 Sils-Maria 駛入 Fex 峽谷，唯一聯絡方式為電話，建議儘早致電</div>
+        <div class="rbook-meta">
+          <span class="rbook-cost">💰 約 CHF 50–80/人，另計</span>
+          <span class="rbook-urgency" id="rbu0"></span>
+        </div>
+        <div class="rbook-actions">
+          <a href="tel:+41818265673" class="rbook-btn rbook-tel" onclick="haptic(8)">📞 撥打預約</a>
+          <span class="rbook-tel-num">+41 81 826 56 73</span>
+        </div>
+      </div>
+
+      <div class="rbook-card reveal" id="rbc1">
+        <div class="rbook-header">
+          <span class="rbook-icon">🍽</span>
+          <div>
+            <div class="rbook-name">Restaurant Schäferstube</div>
+            <div class="rbook-date">6/23（週二）策馬特 蜜月晚餐</div>
+          </div>
+          <label class="rbook-check-wrap">
+            <input type="checkbox" id="rbc1-done" onchange="saveRbook(1)">
+            <span class="rbook-check-lbl">已預約</span>
+          </label>
+        </div>
+        <div class="rbook-desc">策馬特傳統瑞士蜜月慶祝晚餐，建議至少 2 週前透過官網或電話預訂</div>
+        <div class="rbook-meta">
+          <span class="rbook-cost">💰 約 CHF 70–100/人</span>
+          <span class="rbook-urgency" id="rbu1"></span>
+        </div>
+        <div class="rbook-actions">
+          <a href="https://www.google.com/search?q=Restaurant+Sch%C3%A4ferstube+Zermatt+reservation" target="_blank" rel="noopener" class="rbook-btn rbook-search" onclick="haptic(8)">🔍 搜尋訂位</a>
+        </div>
+      </div>
+
+      <div class="rbook-card reveal" id="rbc2">
+        <div class="rbook-header">
+          <span class="rbook-icon">🍺</span>
+          <div>
+            <div class="rbook-name">Altes Tramdepot 啤酒廠</div>
+            <div class="rbook-date">6/25（週四）伯恩 晚餐</div>
+          </div>
+          <label class="rbook-check-wrap">
+            <input type="checkbox" id="rbc2-done" onchange="saveRbook(2)">
+            <span class="rbook-check-lbl">已預約</span>
+          </label>
+        </div>
+        <div class="rbook-desc">熊公園旁百年啤酒廠，Berner Platte 伯恩大拼盤，週末熱門強烈建議提前訂位</div>
+        <div class="rbook-meta">
+          <span class="rbook-cost">💰 CHF 30–50/人 ＋ 飲料</span>
+          <span class="rbook-urgency" id="rbu2"></span>
+        </div>
+        <div class="rbook-actions">
+          <a href="https://altestramdepot.ch" target="_blank" rel="noopener" class="rbook-btn rbook-web" onclick="haptic(8)">🌐 官網訂位</a>
+        </div>
+      </div>
+
+      <div class="rbook-card reveal" id="rbc3">
+        <div class="rbook-header">
+          <span class="rbook-icon">🌊</span>
+          <div>
+            <div class="rbook-name">Quai 61 蘇黎世湖畔</div>
+            <div class="rbook-date">6/30（週二）蜜月最後晚餐</div>
+          </div>
+          <label class="rbook-check-wrap">
+            <input type="checkbox" id="rbc3-done" onchange="saveRbook(3)">
+            <span class="rbook-check-lbl">已預約</span>
+          </label>
+        </div>
+        <div class="rbook-desc">蘇黎世湖畔景觀餐廳，浪漫落日晚餐，蜜月旅行最後一夜最佳紀念選擇</div>
+        <div class="rbook-meta">
+          <span class="rbook-cost">💰 約 CHF 60–90/人</span>
+          <span class="rbook-urgency" id="rbu3"></span>
+        </div>
+        <div class="rbook-actions">
+          <a href="https://www.google.com/search?q=Quai+61+Zurich+restaurant+reservation" target="_blank" rel="noopener" class="rbook-btn rbook-search" onclick="haptic(8)">🔍 搜尋訂位</a>
+        </div>
+      </div>
+
+    </div>
 
     <!-- ─── 景點開放時刻速查 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🚡 景點開放時刻速查</div>
@@ -10376,6 +10513,50 @@ window.shareItinerary = function() {
   window.savePredep = function() { haptic(10); save(); updateBadge(); if(window.updateSmartRemind) window.updateSmartRemind(); if(window.updatePrepDash) window.updatePrepDash(); };
   restore();
   updateBadge();
+})();
+
+/* ── 餐廳預訂速查 ── */
+(function(){
+  var KEY = 'rbook_v1';
+  var DATES = [
+    new Date('2026-06-20T00:00:00+08:00'),
+    new Date('2026-06-23T00:00:00+08:00'),
+    new Date('2026-06-25T00:00:00+08:00'),
+    new Date('2026-06-30T00:00:00+08:00'),
+  ];
+  function save(){
+    var d={};
+    for(var i=0;i<4;i++){ var cb=document.getElementById('rbc'+i+'-done'); if(cb) d[i]=cb.checked; }
+    try{ localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){}
+  }
+  function restore(){
+    var d={};
+    try{ d=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){}
+    for(var i=0;i<4;i++){
+      var cb=document.getElementById('rbc'+i+'-done');
+      if(cb&&d[i]){ cb.checked=true; var c=document.getElementById('rbc'+i); if(c) c.classList.add('rbc-done'); }
+    }
+  }
+  function updateUrgency(){
+    var now=Date.now();
+    for(var i=0;i<4;i++){
+      var el=document.getElementById('rbu'+i);
+      if(!el) continue;
+      var days=Math.ceil((DATES[i]-now)/86400000);
+      if(days<0){       el.textContent='已過'; el.className='rbook-urgency ru-ok'; }
+      else if(days<=7){ el.textContent='⚠️ '+days+'天後'; el.className='rbook-urgency ru-hot'; }
+      else if(days<=21){el.textContent='⏰ '+days+'天後'; el.className='rbook-urgency ru-warn'; }
+      else{             el.textContent='✓ '+days+'天後';  el.className='rbook-urgency ru-ok'; }
+    }
+  }
+  window.saveRbook = function(i){
+    haptic(10); save();
+    var cb=document.getElementById('rbc'+i+'-done');
+    var card=document.getElementById('rbc'+i);
+    if(cb&&card) card.classList.toggle('rbc-done',cb.checked);
+  };
+  restore();
+  updateUrgency();
 })();
 
 /* ── 行前準備度儀表板 ── */
