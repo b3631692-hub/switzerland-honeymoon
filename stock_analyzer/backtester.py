@@ -5,7 +5,8 @@ from .strategies import Signal
 
 
 class Trade:
-    def __init__(self, entry_idx: int, entry_price: float, shares: float, direction: str):
+    def __init__(self, entry_idx: int, entry_price: float, shares: float, direction: str,
+                 stop_loss_price: float | None = None, take_profit_price: float | None = None):
         self.entry_idx = entry_idx
         self.entry_price = entry_price
         self.shares = shares
@@ -14,10 +15,14 @@ class Trade:
         self.exit_price: float | None = None
         self.pnl: float = 0.0
         self.pnl_pct: float = 0.0
+        self.exit_reason: str = ""
+        self.stop_loss_price = stop_loss_price
+        self.take_profit_price = take_profit_price
 
-    def close(self, exit_idx: int, exit_price: float):
+    def close(self, exit_idx: int, exit_price: float, reason: str = "signal"):
         self.exit_idx = exit_idx
         self.exit_price = exit_price
+        self.exit_reason = reason
         if self.direction == "LONG":
             self.pnl = (exit_price - self.entry_price) * self.shares
             self.pnl_pct = (exit_price - self.entry_price) / self.entry_price * 100
@@ -35,6 +40,9 @@ class Trade:
             "direction": self.direction,
             "pnl": round(self.pnl, 2),
             "pnl_pct": round(self.pnl_pct, 2),
+            "exit_reason": self.exit_reason,
+            "stop_loss_price": round(self.stop_loss_price, 2) if self.stop_loss_price else None,
+            "take_profit_price": round(self.take_profit_price, 2) if self.take_profit_price else None,
         }
 
 
@@ -123,7 +131,7 @@ class Backtester:
                     if loss_pct >= self.stop_loss:
                         sell_price = price * (1 - self.slippage)
                         cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-                        position.close(i, sell_price)
+                        position.close(i, sell_price, "stop_loss")
                         capital += sell_price * position.shares - cost
                         result.trades.append(position)
                         position = None
@@ -134,7 +142,7 @@ class Backtester:
                     if gain_pct >= self.take_profit:
                         sell_price = price * (1 - self.slippage)
                         cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-                        position.close(i, sell_price)
+                        position.close(i, sell_price, "take_profit")
                         capital += sell_price * position.shares - cost
                         result.trades.append(position)
                         position = None
@@ -148,13 +156,15 @@ class Backtester:
                     cost = available * self.commission_rate
                     shares = (available - cost) / buy_price
                     if shares > 0:
-                        position = Trade(i, buy_price, shares, "LONG")
+                        sl_price = buy_price * (1 - self.stop_loss) if self.stop_loss else None
+                        tp_price = buy_price * (1 + self.take_profit) if self.take_profit else None
+                        position = Trade(i, buy_price, shares, "LONG", sl_price, tp_price)
                         capital -= buy_price * shares + cost
 
                 elif sig.action == Signal.SELL and position is not None:
                     sell_price = price * (1 - self.slippage)
                     cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-                    position.close(i, sell_price)
+                    position.close(i, sell_price, "signal")
                     capital += sell_price * position.shares - cost
                     result.trades.append(position)
                     position = None
@@ -168,7 +178,7 @@ class Backtester:
         if position:
             sell_price = closes[-1] * (1 - self.slippage)
             cost = sell_price * position.shares * (self.commission_rate + self.tax_rate)
-            position.close(len(closes) - 1, sell_price)
+            position.close(len(closes) - 1, sell_price, "end_of_data")
             capital += sell_price * position.shares - cost
             result.trades.append(position)
             equity_curve[-1] = capital

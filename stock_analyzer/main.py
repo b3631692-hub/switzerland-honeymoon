@@ -153,13 +153,30 @@ def print_backtest(data: dict, strategy_name: str, capital: float, stop_loss: fl
     print(f"  平均持倉:   {result.avg_holding_days:.0f} 天")
     print(f"  期望值:     ${result.expectancy:>+,.2f}/筆")
 
+    sl_trades = [t for t in result.trades if t.exit_reason == "stop_loss"]
+    tp_trades = [t for t in result.trades if t.exit_reason == "take_profit"]
+    if sl_trades or tp_trades:
+        print(f"\n  ── 停損停利統計 ──")
+        print(f"  停損觸發:   {len(sl_trades)} 次")
+        print(f"  停利觸發:   {len(tp_trades)} 次")
+        if sl_trades:
+            sl_avg = sum(t.pnl_pct for t in sl_trades) / len(sl_trades)
+            print(f"  停損平均:   {sl_avg:+.2f}%")
+        if tp_trades:
+            tp_avg = sum(t.pnl_pct for t in tp_trades) / len(tp_trades)
+            print(f"  停利平均:   {tp_avg:+.2f}%")
+
     if result.trades:
+        reason_map = {"stop_loss": "🛑停損", "take_profit": "🎯停利", "signal": "📊策略", "end_of_data": "⏹結束"}
         print(f"\n  ── 最近交易 ──")
         for t in result.trades[-10:]:
             entry_date = data["dates"][t.entry_idx] if t.entry_idx < len(data["dates"]) else "?"
             exit_date = data["dates"][t.exit_idx] if t.exit_idx and t.exit_idx < len(data["dates"]) else "?"
             icon = "✅" if t.pnl > 0 else "❌"
-            print(f"  {icon} {entry_date} → {exit_date} | 買 {t.entry_price:.2f} → 賣 {t.exit_price:.2f} | {t.pnl_pct:+.2f}% (${t.pnl:+,.2f})")
+            reason = reason_map.get(t.exit_reason, t.exit_reason)
+            sl_str = f" SL:{t.stop_loss_price:.1f}" if t.stop_loss_price else ""
+            tp_str = f" TP:{t.take_profit_price:.1f}" if t.take_profit_price else ""
+            print(f"  {icon} {entry_date} → {exit_date} | {reason} | 買 {t.entry_price:.2f} → 賣 {t.exit_price:.2f}{sl_str}{tp_str} | {t.pnl_pct:+.2f}% (${t.pnl:+,.2f})")
 
 
 def run_full_analysis(data: dict, capital: float):

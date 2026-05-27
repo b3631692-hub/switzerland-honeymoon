@@ -88,6 +88,10 @@ class APIHandler(SimpleHTTPRequestHandler):
             "signals": [s.to_dict() for s in signals],
             "backtest": result.to_dict(),
             "strategy_name": strategy.name,
+            "config": {
+                "stop_loss": stop_loss if stop_loss > 0 else None,
+                "take_profit": take_profit if take_profit > 0 else None,
+            },
         }
         self._json_response(response)
 
