@@ -1458,6 +1458,18 @@ footer small {
 .prac-body { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; }
 .prac-body strong { color: var(--primary); font-weight: 700; }
 .prac-body em { color: #16A34A; font-style: normal; font-weight: 600; }
+.dual-clock-card { padding: 14px 16px 12px; margin-bottom: 20px; }
+.dual-clock-wrap { display: flex; }
+.dc-zone { flex: 1; text-align: center; padding: 6px 4px; }
+.dc-zone + .dc-zone { border-left: 1px solid var(--border); }
+.dc-flag { font-size: 20px; line-height: 1; }
+.dc-label { font-size: 9px; font-weight: 700; color: var(--text-sub); margin: 3px 0 4px;
+  letter-spacing: 0.4px; text-transform: uppercase; }
+.dc-time { font-family: 'Courier New', Courier, monospace; font-size: 21px; font-weight: 700;
+  color: var(--text); letter-spacing: 2px; line-height: 1; }
+.dc-date { font-size: 10px; color: var(--text-sub); margin-top: 4px; }
+.dc-diff-note { font-size: 10px; color: var(--text-light); text-align: center; margin-top: 10px;
+  padding-top: 8px; border-top: 1px dashed var(--border); }
 
 /* ═══════════════════════════════════════
    EMERGENCY
@@ -3127,6 +3139,25 @@ body.dark-mode .food-city-spec { background: #1A1108; }
           <div></div>
         </div>
       </div>
+    </div>
+
+    <!-- 台瑞雙時鐘 -->
+    <div class="card dual-clock-card reveal">
+      <div class="dual-clock-wrap">
+        <div class="dc-zone">
+          <div class="dc-flag">🇹🇼</div>
+          <div class="dc-label">台灣 UTC+8</div>
+          <div class="dc-time" id="dcTwTime">--:--:--</div>
+          <div class="dc-date" id="dcTwDate">--</div>
+        </div>
+        <div class="dc-zone">
+          <div class="dc-flag">🇨🇭</div>
+          <div class="dc-label">瑞士 UTC+2</div>
+          <div class="dc-time" id="dcChTime">--:--:--</div>
+          <div class="dc-date" id="dcChDate">--</div>
+        </div>
+      </div>
+      <div class="dc-diff-note">🕐 台灣領先瑞士 6 小時（夏令 CEST）· 台灣 20:00 = 瑞士 14:00</div>
     </div>
 
     <!-- 今日速查 (JS 動態填入) -->
@@ -7710,6 +7741,28 @@ window.switchPhraseTab = function(lang, btn) {
   var grp = document.getElementById('pg-' + lang);
   if (grp) grp.classList.add('active');
 };
+
+/* ── 台瑞雙時鐘 ── */
+(function(){
+  var DAYS = ['日','一','二','三','四','五','六'];
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var now = new Date();
+    var utcMs = now.getTime() + now.getTimezoneOffset()*60000;
+    var twDate = new Date(utcMs + 8*3600000);
+    var chDate = new Date(utcMs + 2*3600000);
+    var tw = document.getElementById('dcTwTime');
+    var ch = document.getElementById('dcChTime');
+    var twd = document.getElementById('dcTwDate');
+    var chd = document.getElementById('dcChDate');
+    if(tw) tw.textContent = pad(twDate.getHours())+':'+pad(twDate.getMinutes())+':'+pad(twDate.getSeconds());
+    if(ch) ch.textContent = pad(chDate.getHours())+':'+pad(chDate.getMinutes())+':'+pad(chDate.getSeconds());
+    if(twd) twd.textContent = (twDate.getMonth()+1)+'/'+(twDate.getDate())+' 週'+DAYS[twDate.getDay()];
+    if(chd) chd.textContent = (chDate.getMonth()+1)+'/'+(chDate.getDate())+' 週'+DAYS[chDate.getDay()];
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
 
 /* ── 退稅試算 ── */
 window.calcVat = function(){
