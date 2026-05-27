@@ -5107,6 +5107,10 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <label class="predep-item"><input type="checkbox" id="pd9" onchange="savePredep()"><span>國際漫遊 / SIM 卡啟用（2 支手機）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd10" onchange="savePredep()"><span>備妥緊急聯絡卡（印出放錢包）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd11" onchange="savePredep()"><span>換匯現金 CHF（約 CHF 300–500）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd12" onchange="savePredep()"><span>Google Maps 下載離線地圖（蘇黎世、策馬特、伯恩、琉森、ZRH 機場）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd13" onchange="savePredep()"><span>通知信用卡公司出國行程，避免刷卡遭凍結（玉山、國泰等境外使用）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd14" onchange="savePredep()"><span>A7R5 備用電池 ×3 充飽，記憶卡容量確認（建議 2TB 以上備援）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd15" onchange="savePredep()"><span>手機相片備份至雲端 / 硬碟，清出儲存空間迎接 16 天拍攝</span></label>
       </div>
     </div>
 
@@ -6964,7 +6968,7 @@ window.shareItinerary = function() {
     // Show card when within 30 days of departure
     if (daysTo <= 30) {
       var firstUnchecked = null;
-      for (var i = 0; i <= 11; i++) {
+      for (var i = 0; i <= 15; i++) {
         var cb = document.getElementById('pd' + i);
         if (cb && !cb.checked) {
           var lbl = cb.nextElementSibling;
@@ -7133,7 +7137,7 @@ window.shareItinerary = function() {
   var KEY = 'predep_v1';
   function save() {
     var data = {};
-    for (var i = 0; i <= 11; i++) {
+    for (var i = 0; i <= 15; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb) data[i] = cb.checked;
     }
@@ -7142,7 +7146,7 @@ window.shareItinerary = function() {
   function restore() {
     var data = {};
     try { data = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
-    for (var i = 0; i <= 11; i++) {
+    for (var i = 0; i <= 15; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb && data[i]) cb.checked = true;
     }
