@@ -7066,11 +7066,25 @@ window.addEventListener('load', () => {
     particles.push(p);
   }
 
+  let _vis = true, _raf = null;
   function loop() {
+    _raf = null;
+    if (!_vis) return;
     ctx.clearRect(0, 0, W, H);
     particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(loop);
+    _raf = requestAnimationFrame(loop);
   }
+  // 不在畫面中時暫停，節省電池
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(entries => {
+      _vis = entries[0].isIntersecting;
+      if (_vis && !_raf) _raf = requestAnimationFrame(loop);
+    }, { threshold: 0.01 }).observe(canvas);
+  }
+  document.addEventListener('visibilitychange', () => {
+    _vis = !document.hidden;
+    if (_vis && !_raf) _raf = requestAnimationFrame(loop);
+  });
   loop();
 })();
 
