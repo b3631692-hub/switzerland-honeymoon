@@ -1,5 +1,5 @@
 /* Switzerland Honeymoon 2026 — Service Worker */
-const CACHE = 'honeymoon-v3';
+const CACHE = 'honeymoon-v4';
 const CORE = [
   '/switzerland-honeymoon/',
   '/switzerland-honeymoon/index.html',
@@ -28,8 +28,8 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = e.request.url;
-  // Always fetch fresh for weather and tile APIs
-  if (url.includes('open-meteo.com') || url.includes('basemaps.cartocdn') || url.includes('tile.openstreetmap')) return;
+  // Always fetch fresh for weather, exchange rate and tile APIs
+  if (url.includes('open-meteo.com') || url.includes('frankfurter.app') || url.includes('basemaps.cartocdn') || url.includes('tile.openstreetmap')) return;
 
   e.respondWith(
     caches.match(e.request).then(cached => {

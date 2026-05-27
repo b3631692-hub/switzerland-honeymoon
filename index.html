@@ -1501,6 +1501,22 @@ footer small {
 .wx-day-ic  { font-size: 13px; line-height: 1.4; }
 .wx-day-hi  { font-size: 10px; font-weight: 700; color: var(--text); }
 .wx-day-lo  { font-size: 9px; color: var(--text-light); }
+.wx-day-rain { font-size: 8.5px; font-weight: 700; line-height: 1; }
+.wx-day-rain.dry  { color: var(--primary); }
+.wx-day-rain.drizzle { color: #3B82F6; }
+.wx-day-rain.wet  { color: #DC2626; }
+.wx-suit {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 700; padding: 3px 8px;
+  border-radius: 100px; margin-top: 7px;
+  width: 100%; justify-content: center;
+}
+.wx-suit-good { background: #DCFCE7; color: #15803D; }
+.wx-suit-ok   { background: #FEF9EE; color: #92400E; }
+.wx-suit-bad  { background: #FEE2E2; color: #991B1B; }
+body.dark-mode .wx-suit-good { background: #071A0E; color: #4ADE80; }
+body.dark-mode .wx-suit-ok   { background: #201500; color: #FCD34D; }
+body.dark-mode .wx-suit-bad  { background: #200909; color: #FCA5A5; }
 
 /* ═══════════════════════════════════════
    GALLERY FILTERS + GRID (P6)
@@ -5463,28 +5479,48 @@ window._fetchWeather = (function() {
     71:'❄️',73:'❄️',75:'❄️',77:'❄️',80:'🌦',81:'🌧',82:'⛈',
     85:'❄️',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
   var DAY_NAMES = ['日','一','二','三','四','五','六'];
+
+  function suitability(wmo, rain) {
+    if (wmo >= 95 || rain >= 70) return '<span class="wx-suit wx-suit-bad">⚠️ 注意雷雨</span>';
+    if (rain >= 40 || (wmo >= 61 && wmo <= 82)) return '<span class="wx-suit wx-suit-ok">☂️ 建議備傘</span>';
+    return '<span class="wx-suit wx-suit-good">✓ 適合戶外活動</span>';
+  }
+
   function updateCard(city, data) {
     var el = document.getElementById(city.id);
     if (!el) return;
     var cur = data.current;
-    el.querySelector('.wx-icon').textContent = WMO[cur.weather_code] || '🌡';
+    var curWmo = cur.weather_code;
+    el.querySelector('.wx-icon').textContent = WMO[curWmo] || '🌡';
     el.querySelector('.wx-temp').textContent = Math.round(cur.temperature_2m) + '°C';
     el.querySelector('.wx-wind').textContent = '💨 ' + Math.round(cur.wind_speed_10m) + ' km/h';
+
+    // Suitability badge
+    var existingSuit = el.querySelector('.wx-suit');
+    if (existingSuit) existingSuit.remove();
+    var rain0 = data.daily && data.daily.precipitation_probability_max ? (data.daily.precipitation_probability_max[0] || 0) : 0;
+    el.querySelector('.wx-forecast').insertAdjacentHTML('beforebegin', suitability(curWmo, rain0));
+
     var fc = el.querySelector('.wx-forecast');
     if (fc && data.daily && data.daily.time) {
       var html = '';
       var days = data.daily;
+      var rains = days.precipitation_probability_max || [];
       for (var i = 0; i < Math.min(5, days.time.length); i++) {
         var d = new Date(days.time[i] + 'T12:00:00');
         var dayName = i === 0 ? '今' : DAY_NAMES[d.getDay()];
         var icon = WMO[days.weather_code[i]] || '🌡';
         var hi = Math.round(days.temperature_2m_max[i]);
         var lo = Math.round(days.temperature_2m_min[i]);
+        var rp = rains[i] != null ? Math.round(rains[i]) : null;
+        var rpClass = rp == null ? '' : rp >= 70 ? 'wet' : rp >= 30 ? 'drizzle' : 'dry';
+        var rpHtml = rp != null ? '<span class="wx-day-rain ' + rpClass + '">' + rp + '%</span>' : '';
         html += '<div class="wx-day">'
           + '<span class="wx-day-lbl">' + dayName + '</span>'
           + '<span class="wx-day-ic">' + icon + '</span>'
           + '<span class="wx-day-hi">' + hi + '°</span>'
           + '<span class="wx-day-lo">' + lo + '°</span>'
+          + rpHtml
           + '</div>';
       }
       fc.innerHTML = html;
@@ -5492,7 +5528,7 @@ window._fetchWeather = (function() {
   }
   return function fetchWeather() {
     var cached = null;
-    try { cached = JSON.parse(localStorage.getItem('wx_cache3')); } catch(e){}
+    try { cached = JSON.parse(localStorage.getItem('wx_cache4')); } catch(e){}
     if (cached && cached.ts && Date.now() - cached.ts < 1800000) {
       CITIES.forEach(function(c,i) { if (cached.data[i]) updateCard(c, cached.data[i]); });
       return;
@@ -5503,14 +5539,14 @@ window._fetchWeather = (function() {
       var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + city.lat
         + '&longitude=' + city.lng
         + '&current=temperature_2m,weather_code,wind_speed_10m'
-        + '&daily=temperature_2m_max,temperature_2m_min,weather_code'
+        + '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max'
         + '&forecast_days=5&timezone=auto';
       fetch(url).then(function(r){ return r.json(); }).then(function(data) {
         results[i] = data;
         updateCard(city, data);
         done++;
         if (done === CITIES.length) {
-          try { localStorage.setItem('wx_cache3', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
+          try { localStorage.setItem('wx_cache4', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
         }
       }).catch(function() {
         var el = document.getElementById(city.id);
