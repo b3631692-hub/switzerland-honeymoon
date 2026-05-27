@@ -1087,6 +1087,36 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
   display: flex; align-items: center; gap: 8px;
 }
 .checklist h3 + h3 { margin-top: 20px; }
+/* ── 打包清單折疊區塊 ── */
+.chk-section { margin-bottom: 14px; }
+.chk-section > summary {
+  list-style: none; -webkit-list-style: none;
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; border-radius: 10px;
+  background: var(--bg); cursor: pointer; user-select: none;
+  border: 1px solid transparent;
+  transition: background 0.18s, border-color 0.18s;
+}
+.chk-section > summary::-webkit-details-marker { display: none; }
+.chk-section > summary::marker { display: none; }
+.chk-section-title { font-size: 14px; font-weight: 800; color: var(--text); flex: 1; }
+.chk-section-prog {
+  font-size: 10.5px; font-weight: 700; color: var(--primary);
+  background: var(--rose-lt); border-radius: 20px; padding: 1px 8px;
+  white-space: nowrap;
+}
+.chk-section-prog.done { background: #DCFCE7; color: #15803D; }
+body.dark-mode .chk-section-prog.done { background: #071A0E; color: #4ADE80; }
+.chk-section-arrow {
+  font-size: 13px; color: var(--text-light);
+  display: inline-block; transition: transform 0.2s; line-height: 1;
+}
+details.chk-section[open] > summary .chk-section-arrow { transform: rotate(90deg); }
+details.chk-section[open] > summary {
+  background: var(--rose-lt);
+  border-color: var(--border);
+}
+.chk-section-body { padding-top: 10px; }
 .check-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
@@ -4991,90 +5021,110 @@ body.dark-mode .pr-item { background: #0D1A24; }
       </div>
     </div>
     <div class="checklist reveal">
-      <h3>📷 攝影器材</h3>
-      <div class="check-grid" id="chk-grid-camera">
-        <label class="check-item"><input type="checkbox"> Sony A7R5 機身</label>
-        <label class="check-item"><input type="checkbox"> 24–70mm 鏡頭</label>
-        <label class="check-item"><input type="checkbox"> 200–300mm 長焦鏡頭</label>
-        <label class="check-item"><input type="checkbox"> ND 濾鏡（萊茵瀑布）</label>
-        <label class="check-item"><input type="checkbox"> 腳架</label>
-        <label class="check-item"><input type="checkbox"> 備用電池 ×2</label>
-        <label class="check-item"><input type="checkbox"> 備用記憶卡</label>
-        <label class="check-item"><input type="checkbox"> 清潔布／吹塵球</label>
-      </div>
-      <div class="check-add-row">
-        <input type="text" class="check-add-input" placeholder="新增器材..."
-          onkeydown="if(event.key==='Enter')addCheckItem('camera',this)">
-        <button class="check-add-btn" onclick="addCheckItem('camera',this.previousElementSibling)">＋</button>
-      </div>
-      <h3>👗 衣物裝備</h3>
-      <div class="check-grid" id="chk-grid-clothing">
-        <label class="check-item"><input type="checkbox"> 登山鞋（冰川殘雪）</label>
-        <label class="check-item"><input type="checkbox"> 保暖外套（山頂低溫）</label>
-        <label class="check-item"><input type="checkbox"> 防水外套</label>
-        <label class="check-item"><input type="checkbox"> 抓絨中層衣</label>
-        <label class="check-item"><input type="checkbox"> 保暖手套（Klein Matterhorn）</label>
-        <label class="check-item"><input type="checkbox"> 圍巾 ／ 脖圍</label>
-        <label class="check-item"><input type="checkbox"> 保暖帽</label>
-        <label class="check-item"><input type="checkbox"> 防曬帽（戶外用）</label>
-        <label class="check-item"><input type="checkbox"> 輕便城市鞋（非登山）</label>
-        <label class="check-item"><input type="checkbox"> 快乾毛巾（瀑布水花）</label>
-        <label class="check-item"><input type="checkbox"> 太陽眼鏡＋防曬 SPF50</label>
-        <label class="check-item"><input type="checkbox"> 婚紗／禮服</label>
-      </div>
-      <div class="check-add-row">
-        <input type="text" class="check-add-input" placeholder="新增衣物..."
-          onkeydown="if(event.key==='Enter')addCheckItem('clothing',this)">
-        <button class="check-add-btn" onclick="addCheckItem('clothing',this.previousElementSibling)">＋</button>
-      </div>
-      <h3>🏥 藥品急救</h3>
-      <div class="check-grid" id="chk-grid-medicine">
-        <label class="check-item"><input type="checkbox"> 止痛退燒藥（Panadol）</label>
-        <label class="check-item"><input type="checkbox"> 腸胃藥（止瀉 ／ 腸胃炎）</label>
-        <label class="check-item"><input type="checkbox"> 暈車暈機藥</label>
-        <label class="check-item"><input type="checkbox"> OK繃 ／ 彈性繃帶</label>
-        <label class="check-item"><input type="checkbox"> 消毒棉片</label>
-        <label class="check-item"><input type="checkbox"> 護唇膏（高山乾燥）</label>
-        <label class="check-item"><input type="checkbox"> 潤膚乳液</label>
-        <label class="check-item"><input type="checkbox"> 眼藥水（乾眼用）</label>
-        <label class="check-item"><input type="checkbox"> 個人常備處方藥</label>
-      </div>
-      <div class="check-add-row">
-        <input type="text" class="check-add-input" placeholder="新增藥品..."
-          onkeydown="if(event.key==='Enter')addCheckItem('medicine',this)">
-        <button class="check-add-btn" onclick="addCheckItem('medicine',this.previousElementSibling)">＋</button>
-      </div>
-      <h3>🔌 電子設備</h3>
-      <div class="check-grid" id="chk-grid-electronics">
-        <label class="check-item"><input type="checkbox"> 手機充電器 ×2</label>
-        <label class="check-item"><input type="checkbox"> Sony A7R5 充電器</label>
-        <label class="check-item"><input type="checkbox"> Type J 插座轉接頭 ×2</label>
-        <label class="check-item"><input type="checkbox"> 行動電源（飛機用）</label>
-        <label class="check-item"><input type="checkbox"> 快充 USB 數據線</label>
-        <label class="check-item"><input type="checkbox"> 瑞士 eSIM / SIM 卡</label>
-        <label class="check-item"><input type="checkbox"> 藍牙快門線（長曝攝影）</label>
-      </div>
-      <div class="check-add-row">
-        <input type="text" class="check-add-input" placeholder="新增電子設備..."
-          onkeydown="if(event.key==='Enter')addCheckItem('electronics',this)">
-        <button class="check-add-btn" onclick="addCheckItem('electronics',this.previousElementSibling)">＋</button>
-      </div>
-      <h3>📄 旅行文件 ／ 票券</h3>
-      <div class="check-grid" id="chk-grid-docs">
-        <label class="check-item"><input type="checkbox"> 護照（有效期 2 年以上）</label>
-        <label class="check-item"><input type="checkbox"> Swiss Travel Pass</label>
-        <label class="check-item"><input type="checkbox"> 冰河列車訂位確認單</label>
-        <label class="check-item"><input type="checkbox"> 所有住宿確認信</label>
-        <label class="check-item"><input type="checkbox"> 旅遊保險證明</label>
-        <label class="check-item"><input type="checkbox"> SIM 卡（2 支）</label>
-        <label class="check-item"><input type="checkbox"> 瑞士法郎現金（備用）</label>
-        <label class="check-item"><input type="checkbox"> 信用卡（VISA / Mastercard）</label>
-      </div>
-      <div class="check-add-row">
-        <input type="text" class="check-add-input" placeholder="新增文件..."
-          onkeydown="if(event.key==='Enter')addCheckItem('docs',this)">
-        <button class="check-add-btn" onclick="addCheckItem('docs',this.previousElementSibling)">＋</button>
-      </div>
+      <details class="chk-section" open>
+        <summary><span class="chk-section-title">📷 攝影器材</span><span class="chk-section-prog" id="chkprog-camera">0/8</span><span class="chk-section-arrow">›</span></summary>
+        <div class="chk-section-body">
+          <div class="check-grid" id="chk-grid-camera">
+            <label class="check-item"><input type="checkbox"> Sony A7R5 機身</label>
+            <label class="check-item"><input type="checkbox"> 24–70mm 鏡頭</label>
+            <label class="check-item"><input type="checkbox"> 200–300mm 長焦鏡頭</label>
+            <label class="check-item"><input type="checkbox"> ND 濾鏡（萊茵瀑布）</label>
+            <label class="check-item"><input type="checkbox"> 腳架</label>
+            <label class="check-item"><input type="checkbox"> 備用電池 ×2</label>
+            <label class="check-item"><input type="checkbox"> 備用記憶卡</label>
+            <label class="check-item"><input type="checkbox"> 清潔布／吹塵球</label>
+          </div>
+          <div class="check-add-row">
+            <input type="text" class="check-add-input" placeholder="新增器材..."
+              onkeydown="if(event.key==='Enter')addCheckItem('camera',this)">
+            <button class="check-add-btn" onclick="addCheckItem('camera',this.previousElementSibling)">＋</button>
+          </div>
+        </div>
+      </details>
+      <details class="chk-section" open>
+        <summary><span class="chk-section-title">👗 衣物裝備</span><span class="chk-section-prog" id="chkprog-clothing">0/12</span><span class="chk-section-arrow">›</span></summary>
+        <div class="chk-section-body">
+          <div class="check-grid" id="chk-grid-clothing">
+            <label class="check-item"><input type="checkbox"> 登山鞋（冰川殘雪）</label>
+            <label class="check-item"><input type="checkbox"> 保暖外套（山頂低溫）</label>
+            <label class="check-item"><input type="checkbox"> 防水外套</label>
+            <label class="check-item"><input type="checkbox"> 抓絨中層衣</label>
+            <label class="check-item"><input type="checkbox"> 保暖手套（Klein Matterhorn）</label>
+            <label class="check-item"><input type="checkbox"> 圍巾 ／ 脖圍</label>
+            <label class="check-item"><input type="checkbox"> 保暖帽</label>
+            <label class="check-item"><input type="checkbox"> 防曬帽（戶外用）</label>
+            <label class="check-item"><input type="checkbox"> 輕便城市鞋（非登山）</label>
+            <label class="check-item"><input type="checkbox"> 快乾毛巾（瀑布水花）</label>
+            <label class="check-item"><input type="checkbox"> 太陽眼鏡＋防曬 SPF50</label>
+            <label class="check-item"><input type="checkbox"> 婚紗／禮服</label>
+          </div>
+          <div class="check-add-row">
+            <input type="text" class="check-add-input" placeholder="新增衣物..."
+              onkeydown="if(event.key==='Enter')addCheckItem('clothing',this)">
+            <button class="check-add-btn" onclick="addCheckItem('clothing',this.previousElementSibling)">＋</button>
+          </div>
+        </div>
+      </details>
+      <details class="chk-section" open>
+        <summary><span class="chk-section-title">🏥 藥品急救</span><span class="chk-section-prog" id="chkprog-medicine">0/9</span><span class="chk-section-arrow">›</span></summary>
+        <div class="chk-section-body">
+          <div class="check-grid" id="chk-grid-medicine">
+            <label class="check-item"><input type="checkbox"> 止痛退燒藥（Panadol）</label>
+            <label class="check-item"><input type="checkbox"> 腸胃藥（止瀉 ／ 腸胃炎）</label>
+            <label class="check-item"><input type="checkbox"> 暈車暈機藥</label>
+            <label class="check-item"><input type="checkbox"> OK繃 ／ 彈性繃帶</label>
+            <label class="check-item"><input type="checkbox"> 消毒棉片</label>
+            <label class="check-item"><input type="checkbox"> 護唇膏（高山乾燥）</label>
+            <label class="check-item"><input type="checkbox"> 潤膚乳液</label>
+            <label class="check-item"><input type="checkbox"> 眼藥水（乾眼用）</label>
+            <label class="check-item"><input type="checkbox"> 個人常備處方藥</label>
+          </div>
+          <div class="check-add-row">
+            <input type="text" class="check-add-input" placeholder="新增藥品..."
+              onkeydown="if(event.key==='Enter')addCheckItem('medicine',this)">
+            <button class="check-add-btn" onclick="addCheckItem('medicine',this.previousElementSibling)">＋</button>
+          </div>
+        </div>
+      </details>
+      <details class="chk-section" open>
+        <summary><span class="chk-section-title">🔌 電子設備</span><span class="chk-section-prog" id="chkprog-electronics">0/7</span><span class="chk-section-arrow">›</span></summary>
+        <div class="chk-section-body">
+          <div class="check-grid" id="chk-grid-electronics">
+            <label class="check-item"><input type="checkbox"> 手機充電器 ×2</label>
+            <label class="check-item"><input type="checkbox"> Sony A7R5 充電器</label>
+            <label class="check-item"><input type="checkbox"> Type J 插座轉接頭 ×2</label>
+            <label class="check-item"><input type="checkbox"> 行動電源（飛機用）</label>
+            <label class="check-item"><input type="checkbox"> 快充 USB 數據線</label>
+            <label class="check-item"><input type="checkbox"> 瑞士 eSIM / SIM 卡</label>
+            <label class="check-item"><input type="checkbox"> 藍牙快門線（長曝攝影）</label>
+          </div>
+          <div class="check-add-row">
+            <input type="text" class="check-add-input" placeholder="新增電子設備..."
+              onkeydown="if(event.key==='Enter')addCheckItem('electronics',this)">
+            <button class="check-add-btn" onclick="addCheckItem('electronics',this.previousElementSibling)">＋</button>
+          </div>
+        </div>
+      </details>
+      <details class="chk-section" open>
+        <summary><span class="chk-section-title">📄 旅行文件 ／ 票券</span><span class="chk-section-prog" id="chkprog-docs">0/8</span><span class="chk-section-arrow">›</span></summary>
+        <div class="chk-section-body">
+          <div class="check-grid" id="chk-grid-docs">
+            <label class="check-item"><input type="checkbox"> 護照（有效期 2 年以上）</label>
+            <label class="check-item"><input type="checkbox"> Swiss Travel Pass</label>
+            <label class="check-item"><input type="checkbox"> 冰河列車訂位確認單</label>
+            <label class="check-item"><input type="checkbox"> 所有住宿確認信</label>
+            <label class="check-item"><input type="checkbox"> 旅遊保險證明</label>
+            <label class="check-item"><input type="checkbox"> SIM 卡（2 支）</label>
+            <label class="check-item"><input type="checkbox"> 瑞士法郎現金（備用）</label>
+            <label class="check-item"><input type="checkbox"> 信用卡（VISA / Mastercard）</label>
+          </div>
+          <div class="check-add-row">
+            <input type="text" class="check-add-input" placeholder="新增文件..."
+              onkeydown="if(event.key==='Enter')addCheckItem('docs',this)">
+            <button class="check-add-btn" onclick="addCheckItem('docs',this.previousElementSibling)">＋</button>
+          </div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -5985,6 +6035,7 @@ window.addEventListener('load', function() {
   if (typeof _fetchWeather === 'function') _fetchWeather();
   highlightToday();
   updateChecklistProgress();
+  if (typeof updateCategoryProgress === 'function') updateCategoryProgress();
   // Service worker registered separately below
 });
 
@@ -6022,10 +6073,28 @@ function updateChecklistProgress() {
   if (label) label.textContent = checked + ' / ' + total + ' 項目 (' + pct + '%)';
   if (fill)  fill.style.width  = pct + '%';
 }
+// Per-category progress counters
+function updateCategoryProgress() {
+  ['camera','clothing','medicine','electronics','docs'].forEach(function(cat) {
+    var grid = document.getElementById('chk-grid-' + cat);
+    var badge = document.getElementById('chkprog-' + cat);
+    if (!grid || !badge) return;
+    var all = grid.querySelectorAll('.check-item input[type=checkbox]');
+    var done = 0;
+    all.forEach(function(cb) { if (cb.checked) done++; });
+    var total = all.length;
+    badge.textContent = done + '/' + total;
+    badge.classList.toggle('done', total > 0 && done === total);
+  });
+}
 // Hook into checklist changes
 document.addEventListener('change', function(e) {
-  if (e.target.closest && e.target.closest('.checklist')) updateChecklistProgress();
+  if (e.target.closest && e.target.closest('.checklist')) {
+    updateChecklistProgress();
+    updateCategoryProgress();
+  }
 });
+updateCategoryProgress();
 
 /* ── CHF/TWD CONVERTER（即時匯率版）── */
 (function() {
