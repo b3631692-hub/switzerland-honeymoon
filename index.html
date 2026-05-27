@@ -1708,6 +1708,38 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .cancel-badge.cr-paid   { background: #DCFCE7; color: #15803D; }
 .cancel-badge.cr-passed { background: var(--border); color: var(--text-light); }
 
+/* ── 飯店導航按鈕 ── */
+.hh-nav-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  background: var(--primary); color: #fff;
+  border-radius: 6px; margin-top: 8px; text-decoration: none;
+  transition: background 0.2s;
+}
+.hh-nav-btn:hover { background: var(--primary-dk); }
+
+/* ── 每日備忘 ── */
+.day-note-wrap {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.day-note-toggle {
+  font-size: 11px; color: var(--text-light); padding: 4px 8px;
+  border-radius: 6px; transition: background 0.15s;
+}
+.day-note-toggle:hover { background: var(--bg); color: var(--primary); }
+.day-note-area {
+  display: none; width: 100%; margin-top: 8px;
+  padding: 8px 10px; font-size: 13px;
+  font-family: var(--font-body); color: var(--text);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--bg); resize: vertical;
+  min-height: 68px; outline: none;
+  transition: border-color 0.2s;
+}
+.day-note-area.open { display: block; }
+.day-note-area:focus { border-color: var(--primary); }
+
 /* ── 行前待辦 ── */
 .predep-grid { display: flex; flex-direction: column; gap: 8px; }
 .predep-item {
@@ -5172,6 +5204,70 @@ window.toggleAllDays = function() {
 })();
 
 /* ── 地圖攝影景點圖層 ── */
+/* ── 飯店導航捷徑 ── */
+(function() {
+  var MAP = {
+    'Trip Inn Jet Hotel':               'Trip+Inn+Jet+Hotel+Zurich+Airport',
+    'Hotel Station Pontresina':         'Hotel+Station+Pontresina+Switzerland',
+    'Chalet Achat by Zermatt Premium':  'Chalet+Achat+Zermatt+Premium+Switzerland',
+    'Swissôtel Kursaal Bern':           'Swissôtel+Kursaal+Bern+Switzerland',
+    'Hotel Zugertor':                   'Hotel+Zugertor+Zug+Switzerland',
+    'Ibis Budget Zurich Airport':       'Ibis+Budget+Zurich+Airport+Switzerland',
+  };
+  document.querySelectorAll('.hh-name').forEach(function(el) {
+    var q = MAP[el.textContent.trim()];
+    if (!q) return;
+    var a = document.createElement('a');
+    a.href = 'https://maps.google.com?q=' + q;
+    a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.className = 'hh-nav-btn';
+    a.innerHTML = '🗺 地圖導航';
+    el.parentElement.appendChild(a);
+  });
+})();
+
+/* ── 每日備忘錄 ── */
+(function() {
+  var PRE = 'day_note_';
+  document.querySelectorAll('#tab-itinerary .day-card').forEach(function(card) {
+    var dateEl = card.querySelector('.db-date');
+    if (!dateEl) return;
+    var key = PRE + dateEl.textContent.trim().replace('/', '-');
+    var right = card.querySelector('.day-right');
+    if (!right) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'day-note-wrap';
+
+    var toggle = document.createElement('button');
+    toggle.className = 'day-note-toggle';
+
+    var area = document.createElement('textarea');
+    area.className = 'day-note-area';
+    area.placeholder = '備忘：行程調整、特別提醒、心情記錄...';
+    area.rows = 3;
+
+    var saved = '';
+    try { saved = localStorage.getItem(key) || ''; } catch(e) {}
+    if (saved) { area.value = saved; area.classList.add('open'); }
+    toggle.textContent = saved ? ('📝 備忘 (' + saved.length + '字)') : '📝 新增備忘';
+
+    toggle.addEventListener('click', function() {
+      var opening = !area.classList.contains('open');
+      area.classList.toggle('open');
+      if (opening) area.focus();
+    });
+    area.addEventListener('input', function() {
+      try { localStorage.setItem(key, area.value); } catch(e) {}
+      toggle.textContent = area.value ? ('📝 備忘 (' + area.value.length + '字)') : '📝 新增備忘';
+    });
+
+    wrap.appendChild(toggle);
+    wrap.appendChild(area);
+    right.appendChild(wrap);
+  });
+})();
+
 /* ── 飯店取消期限倒數 ── */
 (function() {
   var DEADLINES = [
