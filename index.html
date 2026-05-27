@@ -1382,9 +1382,10 @@ footer small {
 ═══════════════════════════════════════ */
 .weather-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px; margin-bottom: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px; margin-bottom: 24px;
 }
+@media (min-width: 380px) { .weather-row { grid-template-columns: repeat(4, 1fr); } }
 .wx-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -1402,7 +1403,11 @@ footer small {
 .wx-city {
   font-size: 11px; font-weight: 700;
   color: var(--text-sub); letter-spacing: 0.5px;
-  margin-bottom: 6px; text-transform: uppercase;
+  margin-bottom: 1px; text-transform: uppercase;
+}
+.wx-city-sub {
+  font-size: 9px; color: var(--text-light);
+  margin-bottom: 5px; font-weight: 500;
 }
 .wx-icon { font-size: 26px; margin-bottom: 4px; line-height: 1; }
 .wx-temp {
@@ -2354,6 +2359,7 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
     <div class="weather-row reveal" id="weatherRow">
       <div class="wx-card" id="wx-zurich">
         <div class="wx-city">蘇黎世</div>
+        <div class="wx-city-sub">6/16 ＆ 6/29–7/1</div>
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
@@ -2361,6 +2367,7 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
       </div>
       <div class="wx-card" id="wx-stmoritz">
         <div class="wx-city">聖莫里茲</div>
+        <div class="wx-city-sub">6/17–6/21</div>
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
@@ -2368,6 +2375,15 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
       </div>
       <div class="wx-card" id="wx-zermatt">
         <div class="wx-city">策馬特</div>
+        <div class="wx-city-sub">6/21–6/24</div>
+        <div class="wx-icon">⏳</div>
+        <div class="wx-temp">--°C</div>
+        <div class="wx-wind">載入中...</div>
+        <div class="wx-forecast"></div>
+      </div>
+      <div class="wx-card" id="wx-bern">
+        <div class="wx-city">伯恩</div>
+        <div class="wx-city-sub">6/24–6/26</div>
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
@@ -5203,7 +5219,8 @@ window._fetchWeather = (function() {
   var CITIES = [
     { id: 'wx-zurich',   lat: 47.38, lng: 8.54 },
     { id: 'wx-stmoritz', lat: 46.50, lng: 9.84 },
-    { id: 'wx-zermatt',  lat: 46.02, lng: 7.75 }
+    { id: 'wx-zermatt',  lat: 46.02, lng: 7.75 },
+    { id: 'wx-bern',     lat: 46.95, lng: 7.44 }
   ];
   var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
     51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
