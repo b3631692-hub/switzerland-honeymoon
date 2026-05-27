@@ -6742,6 +6742,7 @@ function showTab(name, btn) {
       if (typeof _fetchWeather === 'function') _fetchWeather();
     }, 200);
   }
+  try { localStorage.setItem('last_tab_v1', name); } catch(e){}
 }
 
 /* ── LOADING ── */
@@ -6750,6 +6751,17 @@ window.addEventListener('load', () => {
     document.getElementById('loading').classList.add('hidden');
   }, 1400);
 });
+
+/* ── Tab 狀態還原 ── */
+(function(){
+  var saved = '';
+  try { saved = localStorage.getItem('last_tab_v1') || ''; } catch(e){}
+  var VALID = ['overview','itinerary','budget','photo','reminders'];
+  if (saved && VALID.indexOf(saved) !== -1 && saved !== 'overview') {
+    var btn = document.querySelector('[onclick*="showTab(\'' + saved + '\'"]');
+    showTab(saved, btn || null);
+  }
+})();
 
 /* ── HERO CANVAS PARTICLES ── */
 (function() {
@@ -8057,12 +8069,21 @@ updateCategoryProgress();
 
   window.scrollToToday = function() {
     haptic(8);
-    var today = document.querySelector('#tab-itinerary .day-card.today');
-    if (today) {
-      today.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function doScroll() {
+      var today = document.querySelector('#tab-itinerary .day-card.today');
+      if (today) today.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else {
+        var first = document.querySelector('#tab-itinerary .day-card');
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    var itinActive = document.getElementById('tab-itinerary').classList.contains('active');
+    if (!itinActive) {
+      var itinBtn = document.querySelector('[onclick*="showTab(\'itinerary\'"]');
+      showTab('itinerary', itinBtn || null);
+      setTimeout(doScroll, 450);
     } else {
-      var first = document.querySelector('#tab-itinerary .day-card');
-      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      doScroll();
     }
   };
 
