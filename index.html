@@ -1128,6 +1128,25 @@ body.dark-mode .alt-ams-hdr { background: #201500; color: #FCD34D; }
 .reminder-card li:last-child { border-bottom: none; }
 .reminder-card li .li-icon { flex-shrink: 0; font-size: 14px; }
 
+/* ── 景點開放時刻卡 ── */
+.aht-card { padding: 18px 16px 14px; margin-bottom: 24px; }
+.aht-title { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+.aht-sub { font-size: 11px; color: var(--text-sub); margin-bottom: 14px; }
+.aht-city-hdr { font-size: 11px; font-weight: 700; color: var(--text-sub); text-transform: uppercase;
+  letter-spacing: 0.7px; margin: 12px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+.aht-city-hdr:first-of-type { margin-top: 0; }
+.aht-row { display: grid; grid-template-columns: 1fr auto; align-items: center;
+  gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.aht-row:last-child { border-bottom: none; }
+.aht-name { font-size: 12.5px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.aht-detail { font-size: 10.5px; color: var(--text-sub); margin-top: 2px; line-height: 1.4; }
+.aht-times { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+.aht-time { font-size: 11px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.aht-last { font-size: 10px; font-weight: 700; color: #DC2626; white-space: nowrap; }
+.aht-stp { font-size: 9px; font-weight: 700; background: #DBEAFE; color: #1E40AF;
+  border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
+body.dark-mode .aht-stp { background: #051529; color: #60A5FA; }
+
 /* Checklist */
 .checklist {
   background: var(--card);
@@ -5553,6 +5572,71 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       </div>
     </div>
 
+
+    <!-- ─── 景點開放時刻速查 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🚡 景點開放時刻速查</div>
+    <div class="card aht-card reveal">
+      <div class="aht-title">⏰ 纜車 × 景點開放時間一覽</div>
+      <div class="aht-sub">⚠️ 末班車（紅字）務必注意！建議提前 30 分鐘到站排隊</div>
+
+      <div class="aht-city-hdr">🏔 恩加丁（6/17–6/21）</div>
+      <div class="aht-row">
+        <div><div class="aht-name">Muottas Muragl 纜車</div><div class="aht-detail">Pontresina 出發 · 2,453m · Engadin Card 免費</div></div>
+        <div class="aht-times"><div class="aht-time">開 08:00</div><div class="aht-last">↓末 22:30</div><span class="aht-stp">Card</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Alp Languard 吊椅</div><div class="aht-detail">Pontresina 出發 · 2,095m · 羱羊最佳</div></div>
+        <div class="aht-times"><div class="aht-time">開 08:30</div><div class="aht-last">↑末 17:00</div><span class="aht-stp">Card</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Diavolezza 纜車</div><div class="aht-detail">Morteratsch 出發 · 2,978m · 冰川近景</div></div>
+        <div class="aht-times"><div class="aht-time">開 08:30</div><div class="aht-last">↓末 17:00</div><span class="aht-stp">Card</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Corvatsch 纜車</div><div class="aht-detail">Surlej 出發 · 3,303m · 3 湖俯瞰</div></div>
+        <div class="aht-times"><div class="aht-time">開 08:30</div><div class="aht-last">↓末 17:00</div><span class="aht-stp">Card</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Ospizio Bernina 停靠</div><div class="aht-detail">伯尼納線 2,253m · Lago Bianco 白湖</div></div>
+        <div class="aht-times"><div class="aht-time">全日搭車</div><div class="aht-last">依班次</div><span class="aht-stp">STP</span></div>
+      </div>
+
+      <div class="aht-city-hdr">🏔 策馬特（6/21–6/24）</div>
+      <div class="aht-row">
+        <div><div class="aht-name">Gornergrat 登山鐵路</div><div class="aht-detail">Zermatt → 3,089m · Riffelsee 沿途</div></div>
+        <div class="aht-times"><div class="aht-time">首班 07:00</div><div class="aht-last">↓末 19:48</div><span class="aht-stp">STP</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Klein Matterhorn 纜車</div><div class="aht-detail">Zermatt → 3,883m · 歐洲最高 · -5°C</div></div>
+        <div class="aht-times"><div class="aht-time">開 08:30</div><div class="aht-last">↑末 15:45</div><span class="aht-stp">STP</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Schwarzsee 纜車</div><div class="aht-detail">Zermatt → 2,583m · 馬特洪峰婚紗</div></div>
+        <div class="aht-times"><div class="aht-time">開 08:30</div><div class="aht-last">↓末 17:15</div><span class="aht-stp">50%</span></div>
+      </div>
+
+      <div class="aht-city-hdr">⛰️ 坎德斯泰格（6/24）</div>
+      <div class="aht-row">
+        <div><div class="aht-name">Oeschinensee 纜車</div><div class="aht-detail">Kandersteg · 1,578m · UNESCO 翡翠湖</div></div>
+        <div class="aht-times"><div class="aht-time">開 09:00</div><div class="aht-last">↓末 18:00</div><span class="aht-stp">折扣</span></div>
+      </div>
+
+      <div class="aht-city-hdr">🌊 楚格 · 琉森（6/27–6/29）</div>
+      <div class="aht-row">
+        <div><div class="aht-name">Rigi 登山鐵路</div><div class="aht-detail">Arth-Goldau 或 Vitznau → 1,797m</div></div>
+        <div class="aht-times"><div class="aht-time">首班 07:00</div><div class="aht-last">↓末 21:00</div><span class="aht-stp">STP</span></div>
+      </div>
+      <div class="aht-row">
+        <div><div class="aht-name">Tierpark Goldau 野生動物園</div><div class="aht-detail">Arth-Goldau 步行 10 分 · 熊 / 野豬 / 鷹</div></div>
+        <div class="aht-times"><div class="aht-time">開 09:00</div><div class="aht-last">關 18:00</div><span class="aht-stp">STP</span></div>
+      </div>
+
+      <div class="aht-city-hdr">🏙 蘇黎世近郊（6/29–7/1）</div>
+      <div class="aht-row">
+        <div><div class="aht-name">萊茵瀑布 遊船</div><div class="aht-detail">Neuhausen · 路線 1–4 · ND 濾鏡長曝</div></div>
+        <div class="aht-times"><div class="aht-time">開 09:00</div><div class="aht-last">↓末 18:00</div><span class="aht-stp">STP+CHF8</span></div>
+      </div>
+    </div>
 
     <!-- ─── 瑞士美食指南 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🍽 各城市必吃美食</div>
