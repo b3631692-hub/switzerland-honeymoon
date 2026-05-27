@@ -1469,6 +1469,17 @@ footer small {
 .prac-body { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; }
 .prac-body strong { color: var(--primary); font-weight: 700; }
 .prac-body em { color: #16A34A; font-style: normal; font-weight: 600; }
+/* ── 概覽天氣速覽列 ── */
+.ov-wx-strip { display: flex; gap: 8px; overflow-x: auto; padding: 0 0 4px; scrollbar-width: none; }
+.ov-wx-strip::-webkit-scrollbar { display: none; }
+.ov-wx-chip { flex-shrink: 0; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 11px 7px; min-width: 66px; text-align: center; }
+.owx-city { font-size: 9px; font-weight: 700; color: var(--text-sub); margin-bottom: 4px; white-space: nowrap; }
+.owx-icon { font-size: 24px; line-height: 1; }
+.owx-temp { font-size: 13px; font-weight: 800; color: var(--text); margin-top: 3px; }
+.owx-rain { font-size: 9px; color: var(--text-light); margin-top: 2px; }
+body.dark-mode .ov-wx-chip { background: #0D1A24; }
+
 .dual-clock-card { padding: 14px 16px 12px; margin-bottom: 20px; }
 .dual-clock-wrap { display: flex; }
 .dc-zone { flex: 1; text-align: center; padding: 6px 4px; }
@@ -3313,6 +3324,12 @@ body.dark-mode .food-city-spec { background: #1A1108; }
 
     <!-- 今日速查 (JS 動態填入) -->
     <div id="todayCtxCard" class="today-ctx-card reveal"></div>
+
+    <!-- 五城市天氣速覽 (JS 動態填入) -->
+    <div class="card reveal" id="ovWxStripCard" style="padding:12px 16px 8px;margin-bottom:20px;display:none">
+      <div style="font-size:11px;font-weight:800;color:var(--text-sub);margin-bottom:8px">🌤 今日各基地城市天氣</div>
+      <div class="ov-wx-strip" id="ovWxStrip"><div style="font-size:11px;color:var(--text-light);padding:6px">載入中…</div></div>
+    </div>
 
     <!-- 行前準備度儀表板 (JS 動態填入) -->
     <div id="prepDashCard" class="card prep-dash-card reveal" style="display:none"></div>
@@ -7389,6 +7406,42 @@ window._fetchWeather = (function() {
   } catch(e){}
   window._wxReadyCbs = window._wxReadyCbs || [];
   window._wxReadyCbs.push(function(wxData){ renderRows(wxData); });
+})();
+
+/* ── 概覽天氣速覽列 ── */
+(function(){
+  var NAMES = ['蘇黎世','恩加丁','策馬特','伯恩','楚格'];
+  var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+    51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
+    71:'❄️',73:'❄️',75:'❄️',77:'❄️',80:'🌦',81:'🌧',82:'⛈',
+    85:'❄️',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
+  function render(wxData) {
+    var strip = document.getElementById('ovWxStrip');
+    var card  = document.getElementById('ovWxStripCard');
+    if (!strip || !card) return;
+    var html = '';
+    NAMES.forEach(function(name, i) {
+      var d = wxData && wxData[i];
+      if (!d || !d.current) {
+        html += '<div class="ov-wx-chip"><div class="owx-city">'+name+'</div><div class="owx-icon">—</div></div>';
+        return;
+      }
+      var wmo = d.current.weather_code;
+      var temp = Math.round(d.current.temperature_2m);
+      var rain = d.daily && d.daily.precipitation_probability_max ? (d.daily.precipitation_probability_max[0]||0) : 0;
+      html += '<div class="ov-wx-chip">'
+        + '<div class="owx-city">'+name+'</div>'
+        + '<div class="owx-icon">'+(WMO[wmo]||'🌡')+'</div>'
+        + '<div class="owx-temp">'+temp+'°C</div>'
+        + '<div class="owx-rain">☔'+rain+'%</div>'
+        + '</div>';
+    });
+    strip.innerHTML = html;
+    card.style.display = '';
+  }
+  try { var c=JSON.parse(localStorage.getItem('wx_cache5')); if(c&&c.data) render(c.data); } catch(e){}
+  window._wxReadyCbs = window._wxReadyCbs || [];
+  window._wxReadyCbs.push(function(d){ render(d); });
 })();
 
 /* ── GALLERY (P6) ── */
