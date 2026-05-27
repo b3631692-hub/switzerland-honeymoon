@@ -918,6 +918,17 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   font-size: 12px; font-weight: 600;
   margin-top: 8px;
 }
+.pg-map-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #E8F0FE; color: #1A73E8;
+  border-radius: 100px; padding: 3px 10px;
+  font-size: 11px; font-weight: 700;
+  margin-top: 8px; margin-left: 6px;
+  text-decoration: none; border: 1px solid #BFCFE9;
+  transition: background 0.15s;
+}
+.pg-map-btn:hover { background: #D2E3FC; }
+body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: #1D3348; }
 
 /* ═══════════════════════════════════════
    STP
@@ -5972,6 +5983,58 @@ window.shareItinerary = function() {
       });
     });
   }).catch(function() {});
+})();
+
+/* ── 攝影地點 Google Maps 導航連結 ── */
+(function() {
+  var COORDS = {
+    'Riffelsee 馬特洪峰倒影':   { lat: 45.9864, lng: 7.7200 },
+    'Stellisee 馬特洪峰倒影':   { lat: 46.0044, lng: 7.7398 },
+    'Oeschinensee 冰川湖':      { lat: 46.4970, lng: 7.7230 },
+    'Ospizio Bernina 鐵道湖':   { lat: 46.4090, lng: 10.008 },
+    'Brusio 螺旋橋':            { lat: 46.2480, lng: 10.126 },
+    'Muottas Muragl 三湖全景':  { lat: 46.5190, lng: 9.8760 },
+    'Diavolezza 冰川':          { lat: 46.4110, lng: 9.9690 },
+    'Corvatsch 山頂全景':       { lat: 46.4480, lng: 9.8280 },
+    '琉森藍調時刻':             { lat: 47.0503, lng: 8.3054 },
+    '琉森卡貝爾橋':             { lat: 47.0503, lng: 8.3054 },
+    '伯恩玫瑰花園俯瞰':         { lat: 46.9483, lng: 7.4470 },
+    '萊茵瀑布':                 { lat: 47.6790, lng: 8.6150 },
+    'Lauterbrunnen 瀑布山谷':   { lat: 46.5930, lng: 7.9090 },
+    'Schwarzsee 馬特洪峰婚紗':  { lat: 46.0210, lng: 7.7810 },
+    'Pontresina 村':            { lat: 46.4900, lng: 9.8980 },
+    'Klein Matterhorn 3,883m':  { lat: 45.9760, lng: 7.7319 },
+  };
+
+  document.querySelectorAll('.pg-card, .pg-card[style]').forEach(function(card) {
+    var nameEl = card.querySelector('.pg-name');
+    var bodyEl = card.querySelector('.pg-card-body');
+    if (!nameEl || !bodyEl) return;
+    var name = nameEl.textContent.trim();
+    // Try exact match, then partial
+    var coord = COORDS[name];
+    if (!coord) {
+      for (var key in COORDS) {
+        if (name.indexOf(key.split(' ')[0]) !== -1 || key.indexOf(name.split(' ')[0]) !== -1) {
+          coord = COORDS[key]; break;
+        }
+      }
+    }
+    if (!coord) return;
+    var href = 'https://www.google.com/maps/search/?api=1&query=' + coord.lat + ',' + coord.lng;
+    var timing = bodyEl.querySelector('.pg-timing');
+    var btn = document.createElement('a');
+    btn.className = 'pg-map-btn';
+    btn.href = href;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.innerHTML = '🗺 地圖導航';
+    if (timing) {
+      timing.parentNode.insertBefore(btn, timing.nextSibling);
+    } else {
+      bodyEl.appendChild(btn);
+    }
+  });
 })();
 
 /* ── 語言會話朗讀 ── */
