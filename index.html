@@ -1444,6 +1444,58 @@ footer small {
 }
 .check-add-btn:hover { background: var(--primary-dk); }
 
+/* ── STP 日曆條 ── */
+.stp-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 16px;
+  box-shadow: var(--shadow); margin-bottom: 24px;
+}
+.stp-hdr {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+.stp-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.stp-badge-wrap { display: flex; gap: 6px; flex-wrap: wrap; }
+.stp-chip {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 100px;
+}
+.stp-chip-2nd { background: #EFF6FF; color: #1D4ED8; }
+.stp-chip-1st { background: #FEF9EE; color: #92400E; }
+.stp-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px; margin-bottom: 10px;
+}
+@media (min-width: 480px) { .stp-grid { grid-template-columns: repeat(16, 1fr); } }
+.stp-day {
+  border-radius: 6px; padding: 4px 2px;
+  text-align: center; font-size: 9.5px;
+  line-height: 1.3; font-weight: 600;
+}
+.stp-day-date { display: block; font-size: 8.5px; opacity: 0.8; }
+.stp-day.inactive { background: #F5F5F5; color: #9CA3AF; }
+.stp-day.active   { background: #DCFCE7; color: #15803D; }
+.stp-day.glacier  { background: #FEF9EE; color: #92400E; border: 1.5px solid #FCD34D; }
+.stp-legend {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 11.5px; color: var(--text-sub);
+}
+.stp-leg { display: flex; align-items: center; gap: 5px; }
+.stp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── Footer 美化 ── */
+footer {
+  text-align: center;
+  padding: 28px 24px calc(72px + env(safe-area-inset-bottom));
+  background: var(--hero-bg);
+  color: rgba(255,255,255,0.5);
+  font-size: 13px; line-height: 1.8;
+}
+footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
+.footer-hearts { font-size: 20px; margin-bottom: 8px; display: block; }
+@media (min-width: 768px) { footer { padding-bottom: 28px; } }
+
 /* ── 住宿卡圖片 ── */
 .hh-card {
   flex-direction: column;
@@ -1882,6 +1934,40 @@ footer small {
       <div class="map-info-bar">
         <span class="mib-day" id="mibDay">點選上方按鈕查看當天行程</span>
         <span class="mib-note" id="mibNote"></span>
+      </div>
+    </div>
+
+    <!-- ─── STP 日曆 ─── -->
+    <div class="stp-card reveal">
+      <div class="stp-hdr">
+        <span class="stp-title">🎫 Swiss Travel Pass 使用日曆</span>
+        <div class="stp-badge-wrap">
+          <span class="stp-chip stp-chip-2nd">15日 二等艙</span>
+          <span class="stp-chip stp-chip-1st">6/21 冰河列車升等</span>
+        </div>
+      </div>
+      <div class="stp-grid">
+        <div class="stp-day inactive"><span>ZVV</span><span class="stp-day-date">6/16</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/17</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/18</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/19</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/20</span></div>
+        <div class="stp-day glacier"><span>★1st</span><span class="stp-day-date">6/21</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/22</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/23</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/24</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/25</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/26</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/27</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/28</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/29</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/30</span></div>
+        <div class="stp-day active"><span>STP</span><span class="stp-day-date">7/1</span></div>
+      </div>
+      <div class="stp-legend">
+        <div class="stp-leg"><div class="stp-leg-dot" style="background:#F5F5F5;border:1px solid #ccc"></div>ZVV 計費（6/16）</div>
+        <div class="stp-leg"><div class="stp-leg-dot" style="background:#DCFCE7"></div>STP 二等艙（6/17–7/1）</div>
+        <div class="stp-leg"><div class="stp-leg-dot" style="background:#FEF9EE;border:1.5px solid #FCD34D"></div>冰河列車一等艙升等（6/21）</div>
       </div>
     </div>
 
@@ -3569,7 +3655,9 @@ footer small {
 </div>
 
 <footer>
-  瑞士蜜月旅行 2026 ｜ 6/16 – 7/1 ｜ 兩人同行，一生難忘 💍
+  <span class="footer-hearts">🇨🇭 💍 🏔</span>
+  瑞士蜜月旅行 2026
+  <br>信瑋 ＆ 映儒 · 6/16 – 7/1 · 一生難忘的 16 天
   <small>資料整理自行程規劃表，部分費用為估算，以當地實際為準</small>
 </footer>
 
