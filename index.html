@@ -2813,6 +2813,8 @@ body.dark-mode .ntc-row.ntc-next { background: rgba(140,123,110,0.10); }
 .ntc-tag.paid { background: rgba(201,169,110,0.18); color: var(--gold); }
 .ntc-tag.urgent { background: rgba(220,38,38,0.12); color: #DC2626; }
 .ntc-countdown { font-size: 9.5px; font-weight: 700; color: var(--gold); text-align: right; }
+.ntc-sbb-btn { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 5px; background: rgba(140,123,110,0.10); color: var(--primary); text-decoration: none; white-space: nowrap; border: 1px solid var(--border); margin-top: 4px; letter-spacing: 0.02em; }
+.ntc-sbb-btn:active { background: rgba(140,123,110,0.22); }
 
 /* ── 蜜月小語卡片 ── */
 #loveQuoteCard { padding: 14px 16px 12px; margin-bottom: 16px;
@@ -10457,14 +10459,15 @@ window.shareItinerary = function() {
   if (now < DEPART || now > RETURN) return;
 
   // Key cross-city transports (local Swiss time = UTC+2 CEST)
+  var SBB = 'https://www.sbb.ch/en/buying/pages/fahrplan/fahrplan.xhtml';
   var TRAINS = [
-    { dt:'2026-06-17T09:35:00+02:00', d:'6/17', wd:'三', route:'ZRH HB → Pontresina', note:'IR 10 + R 直達，約 3.5 小時', stp:true },
-    { dt:'2026-06-19T08:00:00+02:00', d:'6/19', wd:'五', route:'Pontresina → Alp Grüm → Tirano', note:'Bernina Express，UNESCO 世遺鐵道', stp:true },
-    { dt:'2026-06-21T09:35:00+02:00', d:'6/21', wd:'日', route:'St. Moritz → Chur（轉）冰河列車', note:'冰河列車 14:32 Chur 出發，升等一等艙', stp:true, paid:'訂位 CHF 13/人' },
-    { dt:'2026-06-24T11:30:00+02:00', d:'6/24', wd:'三', route:'Zermatt → Kandersteg → Bern', note:'STP 全免，Lötschberg 山隧道，約 3.5h', stp:true },
-    { dt:'2026-06-26T09:00:00+02:00', d:'6/26', wd:'五', route:'Bern → Lauterbrunnen → 楚格', note:'STP 全免，Lauterbrunnen 中途停', stp:true },
-    { dt:'2026-06-29T10:00:00+02:00', d:'6/29', wd:'一', route:'楚格 → 蘇黎世', note:'S3 約 30 分鐘，09:30 前往機場 Airport', stp:true },
-    { dt:'2026-06-30T08:30:00+02:00', d:'6/30', wd:'二', route:'ZRH → Neuhausen（萊茵瀑布）', note:'S-Bahn + 步行，全程 STP', stp:true },
+    { dt:'2026-06-17T09:35:00+02:00', d:'6/17', wd:'三', route:'ZRH HB → Pontresina', note:'IR 10 + R 直達，約 3.5 小時', stp:true, sbb:SBB+'?von=Z%C3%BCrich+HB&nach=Pontresina&datum=2026-06-17' },
+    { dt:'2026-06-19T08:00:00+02:00', d:'6/19', wd:'五', route:'Pontresina → Alp Grüm → Tirano', note:'Bernina Express，UNESCO 世遺鐵道', stp:true, sbb:SBB+'?von=Pontresina&nach=Tirano&datum=2026-06-19' },
+    { dt:'2026-06-21T09:35:00+02:00', d:'6/21', wd:'日', route:'St. Moritz → Chur（轉）冰河列車', note:'冰河列車 14:32 Chur 出發，升等一等艙', stp:true, paid:'訂位 CHF 13/人', sbb:SBB+'?von=Chur&nach=Zermatt&datum=2026-06-21' },
+    { dt:'2026-06-24T11:30:00+02:00', d:'6/24', wd:'三', route:'Zermatt → Kandersteg → Bern', note:'STP 全免，Lötschberg 山隧道，約 3.5h', stp:true, sbb:SBB+'?von=Zermatt&nach=Bern&datum=2026-06-24' },
+    { dt:'2026-06-26T09:00:00+02:00', d:'6/26', wd:'五', route:'Bern → Lauterbrunnen → 楚格', note:'STP 全免，Lauterbrunnen 中途停', stp:true, sbb:SBB+'?von=Bern&nach=Zug&datum=2026-06-26' },
+    { dt:'2026-06-29T10:00:00+02:00', d:'6/29', wd:'一', route:'楚格 → 蘇黎世', note:'S3 約 30 分鐘，09:30 前往機場 Airport', stp:true, sbb:SBB+'?von=Zug&nach=Z%C3%BCrich+Flughafen&datum=2026-06-29' },
+    { dt:'2026-06-30T08:30:00+02:00', d:'6/30', wd:'二', route:'ZRH → Neuhausen（萊茵瀑布）', note:'S-Bahn + 步行，全程 STP', stp:true, sbb:SBB+'?von=Z%C3%BCrich+HB&nach=Neuhausen+am+Rheinfall&datum=2026-06-30' },
     { dt:'2026-07-01T22:00:00+02:00', d:'7/1', wd:'三', route:'ZRH 機場 EK386 回台', note:'22:00 起飛，7/2 21:20 桃園 T2 落地', stp:false }
   ];
 
@@ -10491,9 +10494,11 @@ window.shareItinerary = function() {
     if (t.stp) tags += '<span class="ntc-tag stp">STP 全免</span>';
     if (t.paid) tags += '<span class="ntc-tag paid">' + t.paid + '</span>';
     if (isToday && isNext) tags += '<span class="ntc-tag urgent">今天！</span>';
+    var sbbLink = t.sbb ? '<a href="' + t.sbb + '" target="_blank" rel="noopener" class="ntc-sbb-btn" onclick="haptic&&haptic(5)">SBB 查時刻 →</a>' : '';
     html += '<div class="ntc-row' + rowCls + '">'
       + '<div class="ntc-date"><div class="ntc-d">' + t.d + '</div><div class="ntc-wd">' + t.wd + '</div></div>'
       + '<div><div class="ntc-route">' + t.route + '</div><div class="ntc-note">' + t.note + '</div>'
+      + (sbbLink ? '<div>' + sbbLink + '</div>' : '')
       + (isNext ? '<div class="ntc-countdown">' + fmtCountdown(t.dt) + '</div>' : '')
       + '</div>'
       + '<div class="ntc-tags">' + tags + '</div>'
