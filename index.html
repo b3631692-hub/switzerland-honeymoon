@@ -98,6 +98,64 @@ body.dark-mode .da-card { background: #152233; border-color: #1D3348; }
 body.dark-mode .hh-info { background: #152233; }
 body.dark-mode .day-note-area { background: #0D1A24; color: var(--text); border-color: #1D3348; }
 
+/* ── 深色模式：chip / badge / alert 等硬編碼淺色修正 ── */
+body.dark-mode .chip-photo  { background: #2D1A05; color: #FCD34D; }
+body.dark-mode .chip-honey  { background: #1E0A35; color: #A78BFA; }
+body.dark-mode .chip-free   { background: #052512; color: #4ADE80; }
+body.dark-mode .chip-stp    { background: #051529; color: #60A5FA; }
+body.dark-mode .chip-warn   { background: #2D0A0A; color: #FCA5A5; }
+body.dark-mode .chip-gold   { color: #FCD34D; }
+
+body.dark-mode .cost-pill        { background: #052512; color: #4ADE80; border-color: #14532D; }
+body.dark-mode .cost-pill.paid   { background: #051529; color: #60A5FA; border-color: #1E3A5F; }
+body.dark-mode .cost-pill.free   { color: #FCD34D; border-color: #78350F; }
+
+body.dark-mode .alert-red    { background: #200909; }
+body.dark-mode .alert-amber  { background: #201500; }
+body.dark-mode .alert-blue   { background: #071525; }
+body.dark-mode .alert-green  { background: #071A0E; }
+
+body.dark-mode .photo-box { color: #FCD34D; }
+body.dark-mode .db .warn { color: #FCD34D; background: #201500; }
+body.dark-mode .correction-note { background: #201500; border-color: #78350F; color: #FCD34D; }
+
+body.dark-mode .stp-day.inactive { background: #1A1F25; color: #6B7280; }
+body.dark-mode .stp-day.active   { background: #0A1F10; color: #4ADE80; }
+body.dark-mode .stp-day.glacier  { background: #201500; color: #FCD34D; border-color: #78350F; }
+body.dark-mode .stp-chip-2nd { background: #051529; color: #60A5FA; }
+body.dark-mode .stp-chip-1st { background: #201500; color: #FCD34D; }
+body.dark-mode .stp-free    { background: #071A0E; border-color: #14532D; }
+body.dark-mode .stp-half    { background: #071525; border-color: #1E3A5F; }
+body.dark-mode .stp-extra   { background: #1A0E05; border-color: #92400E; }
+body.dark-mode .stp-booking { background: #12071A; border-color: #5B21B6; }
+body.dark-mode .stp-free h3,    body.dark-mode .stp-free li    { color: #4ADE80; }
+body.dark-mode .stp-half h3,    body.dark-mode .stp-half li    { color: #60A5FA; }
+body.dark-mode .stp-extra h3,   body.dark-mode .stp-extra li   { color: #FCD34D; }
+body.dark-mode .stp-booking h3, body.dark-mode .stp-booking li { color: #A78BFA; }
+
+body.dark-mode .jt-ek  { background: #2D0A0A; color: #FCA5A5; border-color: #7F1D1D; }
+body.dark-mode .jt-dur { background: #1A1F25; color: #9CA3AF; border-color: #374151; }
+body.dark-mode .jt-trs { background: #201500; color: #FCD34D; border-color: #78350F; }
+
+body.dark-mode .hh-badge-paid { background: #051529; color: #60A5FA; }
+body.dark-mode .hh-badge-ok   { background: #071A0E; color: #4ADE80; }
+
+body.dark-mode .tag-ok   { color: #4ADE80; }
+body.dark-mode .tag-est  { color: #FCD34D; }
+body.dark-mode .tag-free { color: #A78BFA; }
+
+body.dark-mode .em-card  { background: #200909; border-color: #7F1D1D; }
+body.dark-mode .em-num   { color: #FCA5A5; }
+body.dark-mode .em-label { color: #FCA5A5; }
+body.dark-mode .em-call-hint { color: #FCA5A5; }
+
+body.dark-mode .chk-celebrate {
+  background: linear-gradient(135deg, #071A0E 0%, #052512 100%);
+  border-color: #14532D; color: #4ADE80;
+}
+body.dark-mode .prac-body em { color: #4ADE80; }
+body.dark-mode .ec-val span  { color: #4ADE80; }
+
 /* 深色模式切換鈕 */
 #darkToggle {
   position: fixed; bottom: 80px; right: 14px; z-index: 401;
@@ -2195,6 +2253,43 @@ body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
   border-radius: 4px; width: 0%; transition: width 0.4s ease;
 }
 
+/* ── 各城市穿衣建議 ── */
+.clothing-card {
+  padding: 16px 16px 12px; margin-bottom: 20px;
+}
+.clothing-card-title {
+  font-size: 13px; font-weight: 700; color: var(--text-sub);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.cg-rows { display: flex; flex-direction: column; gap: 8px; }
+.cg-row {
+  display: grid; grid-template-columns: 100px 1fr;
+  align-items: start; gap: 8px;
+  padding: 8px 10px; border-radius: 10px;
+  background: var(--bg);
+}
+.cg-city-name {
+  font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3;
+}
+.cg-city-date { font-size: 9.5px; color: var(--text-light); margin-top: 1px; }
+.cg-right { display: flex; flex-direction: column; gap: 3px; }
+.cg-temp {
+  display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 700; color: var(--primary);
+  background: var(--rose-lt); border-radius: 100px;
+  padding: 1px 8px; width: fit-content;
+}
+.cg-items { font-size: 11.5px; color: var(--text-sub); line-height: 1.5; }
+.cg-items span { margin-right: 4px; }
+.cg-must {
+  font-size: 10.5px; color: #B45309;
+  background: #FFFBEB; border-radius: 6px;
+  padding: 2px 7px; display: inline-block; margin-top: 2px;
+  width: fit-content;
+}
+body.dark-mode .cg-must { background: #201500; color: #FCD34D; }
+body.dark-mode .cg-row  { background: #0D1A24; }
+
 </style>
 </head>
 <body>
@@ -2438,6 +2533,68 @@ body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
         <div class="wx-forecast"></div>
+      </div>
+    </div>
+
+    <!-- 各城市穿衣建議 -->
+    <div class="card clothing-card reveal">
+      <div class="clothing-card-title">🧥 各城市穿衣建議</div>
+      <div class="cg-rows">
+        <div class="cg-row">
+          <div>
+            <div class="cg-city-name">Pontresina<br>聖恩嘉丁</div>
+            <div class="cg-city-date">6/17–6/21 · 1805m</div>
+          </div>
+          <div class="cg-right">
+            <span class="cg-temp">🌡 8–18°C</span>
+            <div class="cg-items"><span>🧤 手套</span><span>🧣 圍巾</span><span>🧥 防水外套</span><span>👕 抓絨中層</span></div>
+            <div class="cg-must">⚠️ 早晚溫差大，保暖必備</div>
+          </div>
+        </div>
+        <div class="cg-row">
+          <div>
+            <div class="cg-city-name">策馬特<br>Zermatt</div>
+            <div class="cg-city-date">6/21–6/24 · 1608m</div>
+          </div>
+          <div class="cg-right">
+            <span class="cg-temp">🌡 5–20°C</span>
+            <div class="cg-items"><span>🧥 防風外套</span><span>👕 長袖</span><span>🧤 備用手套</span><span>🥾 防滑鞋</span></div>
+            <div class="cg-must">⚠️ Klein Matterhorn -5°C，多帶一件</div>
+          </div>
+        </div>
+        <div class="cg-row">
+          <div>
+            <div class="cg-city-name">伯恩<br>Bern</div>
+            <div class="cg-city-date">6/24–6/26 · 542m</div>
+          </div>
+          <div class="cg-right">
+            <span class="cg-temp">🌡 14–24°C</span>
+            <div class="cg-items"><span>👕 短袖</span><span>🧥 薄外套</span><span>☂️ 雨傘備用</span></div>
+            <div class="cg-must">✓ 天氣最舒適，輕裝即可</div>
+          </div>
+        </div>
+        <div class="cg-row">
+          <div>
+            <div class="cg-city-name">楚格／琉森<br>Zug / Luzern</div>
+            <div class="cg-city-date">6/26–6/29 · 425m</div>
+          </div>
+          <div class="cg-right">
+            <span class="cg-temp">🌡 15–25°C</span>
+            <div class="cg-items"><span>👕 短袖</span><span>👗 夏裝</span><span>🧥 薄外套</span><span>🕶 太陽眼鏡</span></div>
+            <div class="cg-must">⚠️ 夜拍橋景需備輕薄風衣</div>
+          </div>
+        </div>
+        <div class="cg-row">
+          <div>
+            <div class="cg-city-name">蘇黎世<br>Zürich</div>
+            <div class="cg-city-date">6/16 ＆ 6/29–7/1 · 408m</div>
+          </div>
+          <div class="cg-right">
+            <span class="cg-temp">🌡 15–26°C</span>
+            <div class="cg-items"><span>👕 短袖</span><span>👗 夏裝</span><span>🧥 薄外套</span><span>☂️ 雨傘</span></div>
+            <div class="cg-must">✓ 最暖城市，適合輕裝逛街</div>
+          </div>
+        </div>
       </div>
     </div>
 
