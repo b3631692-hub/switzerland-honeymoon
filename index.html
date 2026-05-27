@@ -1051,6 +1051,54 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
   gap: 14px;
   margin-bottom: 28px;
 }
+
+/* ── 高山健康速查 ── */
+.alt-card { padding: 16px 16px 14px; margin-bottom: 20px; }
+.alt-header { margin-bottom: 12px; }
+.alt-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 2px; }
+.alt-sub { font-size: 11px; color: var(--text-light); }
+.alt-peaks { display: flex; flex-direction: column; gap: 3px; margin-bottom: 14px; }
+.alt-peak {
+  display: grid; grid-template-columns: 22px 1fr auto;
+  align-items: center; gap: 6px;
+  padding: 5px 8px; border-radius: 8px; background: var(--bg);
+}
+.alt-peak-icon { font-size: 13px; text-align: center; }
+.alt-peak-info { display: flex; flex-direction: column; gap: 1px; }
+.alt-peak-name { font-size: 11.5px; font-weight: 600; color: var(--text-sub); }
+.alt-peak-date { font-size: 10px; color: var(--text-light); }
+.alt-peak-m { font-size: 12.5px; font-weight: 800; white-space: nowrap; }
+.alt-peak-m.lvl-low  { color: #16A34A; }
+.alt-peak-m.lvl-mid  { color: #D97706; }
+.alt-peak-m.lvl-high { color: #DC2626; }
+.alt-ams {
+  border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden; margin-bottom: 10px;
+}
+.alt-ams-hdr {
+  font-size: 11.5px; font-weight: 700; padding: 6px 10px;
+  background: #FFF7ED; color: #92400E; border-bottom: 1px solid var(--border);
+}
+body.dark-mode .alt-ams-hdr { background: #201500; color: #FCD34D; }
+.alt-ams-row {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 6px 10px; font-size: 11.5px; border-bottom: 1px solid var(--border);
+}
+.alt-ams-row:last-child { border-bottom: none; }
+.alt-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 3px;
+}
+.alt-dot.ok   { background: #16A34A; }
+.alt-dot.warn { background: #D97706; }
+.alt-dot.crit { background: #DC2626; }
+.alt-ams-text { color: var(--text-sub); line-height: 1.45; }
+.alt-ams-text strong { color: var(--text); display: block; }
+.alt-tips { background: var(--bg); border-radius: 8px; padding: 8px 10px; }
+.alt-tips-title { font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.alt-tips-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.alt-tips-list li { font-size: 11px; color: var(--text-sub); line-height: 1.5; }
+.alt-tips-list li::before { content: '✓ '; color: #16A34A; font-weight: 700; }
 .reminder-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -5113,6 +5161,82 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <strong>🇹🇼 台灣駐瑞士代表處緊急聯絡</strong>
       緊急電話：+41 78 631 32 10（24小時）｜ 一般：+41 31 382 23 35<br>
       地址：Alpenstrasse 29, 3006 Bern
+    </div>
+
+    <!-- ─── 高山健康速查 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">⛰ 高山健康速查</div>
+    <div class="card alt-card reveal">
+      <div class="alt-header">
+        <div class="alt-title">海拔高度一覽 × 高山反應（AMS）預防</div>
+        <div class="alt-sub">此行最高點 Klein Matterhorn 3,883m，超過 2,500m 需特別注意</div>
+      </div>
+      <div class="alt-peaks">
+        <div class="alt-peak">
+          <span class="alt-peak-icon">🏙</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">蘇黎世 / 楚格</span><span class="alt-peak-date">6/16, 6/26–7/1</span></div>
+          <span class="alt-peak-m lvl-low">408 m</span>
+        </div>
+        <div class="alt-peak">
+          <span class="alt-peak-icon">🏔</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">Pontresina 村</span><span class="alt-peak-date">6/17–6/21 基地</span></div>
+          <span class="alt-peak-m lvl-mid">1,805 m</span>
+        </div>
+        <div class="alt-peak">
+          <span class="alt-peak-icon">🌟</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">Muottas Muragl</span><span class="alt-peak-date">6/17 夕陽</span></div>
+          <span class="alt-peak-m lvl-mid">2,454 m</span>
+        </div>
+        <div class="alt-peak">
+          <span class="alt-peak-icon">🧊</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">Diavolezza 冰川站</span><span class="alt-peak-date">6/18 下午</span></div>
+          <span class="alt-peak-m lvl-mid">2,978 m</span>
+        </div>
+        <div class="alt-peak">
+          <span class="alt-peak-icon">⛷</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">Corvatsch 纜車站</span><span class="alt-peak-date">6/20 上午</span></div>
+          <span class="alt-peak-m lvl-high">3,303 m</span>
+        </div>
+        <div class="alt-peak">
+          <span class="alt-peak-icon">🗻</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">Riffelsee / Rotenboden</span><span class="alt-peak-date">6/22 晨光攝影</span></div>
+          <span class="alt-peak-m lvl-high">2,815 m</span>
+        </div>
+        <div class="alt-peak" style="background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2)">
+          <span class="alt-peak-icon">🏔</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">Klein Matterhorn ★ 最高點</span><span class="alt-peak-date">6/23 上午</span></div>
+          <span class="alt-peak-m lvl-high">3,883 m</span>
+        </div>
+        <div class="alt-peak">
+          <span class="alt-peak-icon">⛵</span>
+          <div class="alt-peak-info"><span class="alt-peak-name">瑞吉山 Rigi Kulm</span><span class="alt-peak-date">6/28</span></div>
+          <span class="alt-peak-m lvl-mid">1,797 m</span>
+        </div>
+      </div>
+      <div class="alt-ams">
+        <div class="alt-ams-hdr">⚠️ 高山反應（AMS）症狀識別 — 超過 2,500m 注意</div>
+        <div class="alt-ams-row">
+          <span class="alt-dot ok"></span>
+          <div class="alt-ams-text"><strong>輕微（繼續但留意）</strong>頭痛、輕微頭暈、倦怠、食慾不振 → 多喝水、放慢步調、不要立即上升</div>
+        </div>
+        <div class="alt-ams-row">
+          <span class="alt-dot warn"></span>
+          <div class="alt-ams-text"><strong>中度（考慮下降）</strong>頭痛持續未緩解、噁心嘔吐、步伐不穩 → 停止上升，服用 Ibuprofen，無改善立即下降 300–500m</div>
+        </div>
+        <div class="alt-ams-row">
+          <span class="alt-dot crit"></span>
+          <div class="alt-ams-text"><strong>嚴重（立即撥打 1414）</strong>呼吸困難、意識混亂、無法行走、嘴唇發紫 → 立即下山，撥打 REGA 1414</div>
+        </div>
+      </div>
+      <div class="alt-tips">
+        <div class="alt-tips-title">💧 預防建議</div>
+        <ul class="alt-tips-list">
+          <li>每日飲水 2–3 公升（不含酒精、咖啡因飲料）</li>
+          <li>6/22 晚上提早休息，6/23 Klein Matterhorn 前避免飲酒</li>
+          <li>備用電池放內口袋，-5°C 電量衰退快</li>
+          <li>備妥 Ibuprofen 400mg（高山頭痛比 Panadol 更有效）</li>
+          <li>已在 Pontresina 1,805m 住兩天，有效自然適應 ✓</li>
+        </ul>
+      </div>
     </div>
 
     <!-- ─── 必備 App ─── -->
