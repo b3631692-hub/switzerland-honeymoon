@@ -1558,10 +1558,10 @@ body.dark-mode .culture-item { background: #0D1A24; }
 ═══════════════════════════════════════ */
 .weather-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px; margin-bottom: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 24px;
 }
-@media (min-width: 380px) { .weather-row { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 400px) { .weather-row { grid-template-columns: repeat(5, 1fr); gap: 8px; } }
 .wx-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -1994,6 +1994,23 @@ body.dark-mode .vat-best { background: #201500; border-color: #78350F; color: #F
 .sb-val.sb-warn { color: #F59E0B; }
 .sb-bar { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
 .sb-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.4s; }
+
+/* ── 旅途數字卡 ── */
+.trip-stats-card { padding: 16px 16px 14px; margin-bottom: 20px; }
+.ts-title { font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-sub); margin-bottom: 12px; }
+.ts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.ts-item {
+  text-align: center; padding: 9px 4px 8px;
+  background: var(--bg); border-radius: 10px;
+}
+.ts-num {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  color: var(--primary); line-height: 1; margin-bottom: 4px;
+}
+.ts-num.gold { color: var(--gold); }
+.ts-label { font-size: 9.5px; color: var(--text-sub); line-height: 1.35; }
+body.dark-mode .ts-item { background: #0D1A24; }
 
 /* ── Hero 分享按鈕 ── */
 .hero-share-btn {
@@ -2846,6 +2863,37 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       </div>
     </div>
 
+    <!-- 旅途數字亮點 -->
+    <div class="card trip-stats-card reveal">
+      <div class="ts-title">✨ 這趟旅行的數字</div>
+      <div class="ts-grid">
+        <div class="ts-item">
+          <div class="ts-num">16</div>
+          <div class="ts-label">旅遊天數<br>15 晚</div>
+        </div>
+        <div class="ts-item">
+          <div class="ts-num">~2,800</div>
+          <div class="ts-label">火車公里<br>（STP 全免）</div>
+        </div>
+        <div class="ts-item">
+          <div class="ts-num gold">3,883m</div>
+          <div class="ts-label">最高點海拔<br>Klein Matterhorn</div>
+        </div>
+        <div class="ts-item">
+          <div class="ts-num">4</div>
+          <div class="ts-label">UNESCO<br>世界遺產</div>
+        </div>
+        <div class="ts-item">
+          <div class="ts-num">7</div>
+          <div class="ts-label">到訪城市<br>ZRH→PTR→ZMT</div>
+        </div>
+        <div class="ts-item">
+          <div class="ts-num gold">5</div>
+          <div class="ts-label">婚紗拍攝<br>絕美地點</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 旅行狀態看板 -->
     <div class="card status-board reveal">
       <div class="sb-title">📊 旅行整備狀態</div>
@@ -2853,7 +2901,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="sb-row">
           <span class="sb-icon">✅</span>
           <span class="sb-label">行前待辦</span>
-          <span class="sb-val" id="sbPredep">0 / 12</span>
+          <span class="sb-val" id="sbPredep">0 / 16</span>
           <div class="sb-bar"><div class="sb-fill" id="sbPredepFill"></div></div>
         </div>
         <div class="sb-row">
@@ -2981,6 +3029,14 @@ body.dark-mode .food-city-spec { background: #1A1108; }
       <div class="wx-card" id="wx-bern">
         <div class="wx-city">伯恩</div>
         <div class="wx-city-sub">6/24–6/26</div>
+        <div class="wx-icon">⏳</div>
+        <div class="wx-temp">--°C</div>
+        <div class="wx-wind">載入中...</div>
+        <div class="wx-forecast"></div>
+      </div>
+      <div class="wx-card" id="wx-lucerne">
+        <div class="wx-city">楚格/琉森</div>
+        <div class="wx-city-sub">6/26–6/29</div>
         <div class="wx-icon">⏳</div>
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
@@ -6505,7 +6561,8 @@ window._fetchWeather = (function() {
     { id: 'wx-zurich',   lat: 47.38, lng: 8.54 },
     { id: 'wx-stmoritz', lat: 46.50, lng: 9.84 },
     { id: 'wx-zermatt',  lat: 46.02, lng: 7.75 },
-    { id: 'wx-bern',     lat: 46.95, lng: 7.44 }
+    { id: 'wx-bern',     lat: 46.95, lng: 7.44 },
+    { id: 'wx-lucerne',  lat: 47.05, lng: 8.31 }
   ];
   var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
     51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
@@ -6561,7 +6618,7 @@ window._fetchWeather = (function() {
   }
   return function fetchWeather() {
     var cached = null;
-    try { cached = JSON.parse(localStorage.getItem('wx_cache4')); } catch(e){}
+    try { cached = JSON.parse(localStorage.getItem('wx_cache5')); } catch(e){}
     if (cached && cached.ts && Date.now() - cached.ts < 1800000) {
       CITIES.forEach(function(c,i) { if (cached.data[i]) updateCard(c, cached.data[i]); });
       if (window._wxReadyCbs) window._wxReadyCbs.forEach(function(fn){ try{fn(cached.data);}catch(e){} });
@@ -6580,7 +6637,7 @@ window._fetchWeather = (function() {
         updateCard(city, data);
         done++;
         if (done === CITIES.length) {
-          try { localStorage.setItem('wx_cache4', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
+          try { localStorage.setItem('wx_cache5', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
           if (window._wxReadyCbs) window._wxReadyCbs.forEach(function(fn){ try{fn(results);}catch(e){} });
         }
       }).catch(function() {
@@ -7160,16 +7217,16 @@ window.shareItinerary = function() {
     '7/1':  ['護照（22:00 登機）', '⚠️ 瑞士刀放托運！', 'STP 最後一天用好用滿']
   };
 
-  // Date → weather city index (0=Zurich, 1=St.Moritz, 2=Zermatt, 3=Bern)
+  // Date → weather city index (0=Zurich, 1=St.Moritz, 2=Zermatt, 3=Bern, 4=Lucerne/Zug)
   var DATE_WX = {
     '6/16':0,'6/17':1,'6/18':1,'6/19':1,'6/20':1,
     '6/21':2,'6/22':2,'6/23':2,'6/24':3,'6/25':3,
-    '6/26':0,'6/27':0,'6/28':0,'6/29':0,'6/30':0,'7/1':0
+    '6/26':4,'6/27':4,'6/28':4,'6/29':0,'6/30':0,'7/1':0
   };
   var TCC_WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
     51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
     71:'❄️',73:'❄️',75:'❄️',80:'🌦',81:'🌧',95:'⛈',99:'⛈'};
-  var CITY_LABELS = {0:'蘇黎世',1:'聖莫里茲',2:'策馬特',3:'伯恩'};
+  var CITY_LABELS = {0:'蘇黎世',1:'聖莫里茲',2:'策馬特',3:'伯恩',4:'楚格/琉森'};
 
   function buildWxChip(wxData, dateKey, chipId) {
     var idx = DATE_WX[dateKey];
@@ -7187,7 +7244,7 @@ window.shareItinerary = function() {
   }
 
   function readWxCache() {
-    try { return JSON.parse(localStorage.getItem('wx_cache4')); } catch(e) { return null; }
+    try { return JSON.parse(localStorage.getItem('wx_cache5')); } catch(e) { return null; }
   }
 
   function refreshWxChip(wxData, dateKey, chipId) {
@@ -7463,9 +7520,9 @@ window.shareItinerary = function() {
     var now = Date.now();
 
     // Predep
-    var predepTotal = 12;
+    var predepTotal = 16;
     var predepDone = 0;
-    for (var i = 0; i <= 11; i++) {
+    for (var i = 0; i <= 15; i++) {
       var cb = document.getElementById('pd' + i);
       if (cb && cb.checked) predepDone++;
     }
