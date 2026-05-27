@@ -1507,6 +1507,40 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .footer-hearts { font-size: 20px; margin-bottom: 8px; display: block; }
 @media (min-width: 768px) { footer { padding-bottom: 28px; } }
 
+/* ── 分頁方向滑動轉場 ── */
+@keyframes tabSlideFromRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes tabSlideFromLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.section.active.tab-slide-r { animation: tabSlideFromRight 0.28s ease both !important; }
+.section.active.tab-slide-l { animation: tabSlideFromLeft 0.28s ease both !important; }
+
+/* ── 瑞士時間 ── */
+.swiss-time-bar {
+  text-align: center; font-size: 12px; color: var(--text-light);
+  margin: -8px 0 14px; letter-spacing: 0.3px;
+}
+.swiss-time-bar strong { color: var(--primary); }
+
+/* ── 打包 100% 慶祝 ── */
+.chk-celebrate {
+  display: none; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, #DCFCE7 0%, #D1FAE5 100%);
+  border: 1.5px solid #86EFAC; border-radius: var(--radius-sm);
+  padding: 14px 16px; margin-bottom: 16px;
+  font-size: 14px; font-weight: 700; color: #15803D;
+}
+.chk-celebrate.shown { display: flex; animation: celebPop 0.45s cubic-bezier(.36,2,.6,1) both; }
+@keyframes celebPop {
+  0%   { transform: scale(0.85); opacity: 0; }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* ── 住宿卡圖片 ── */
 .hh-card {
   flex-direction: column;
@@ -1767,6 +1801,7 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
     </div>
 
     <!-- ─── 即時天氣 ─── -->
+    <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong></p>
     <div class="weather-row reveal" id="weatherRow">
       <div class="wx-card" id="wx-zurich">
         <div class="wx-city">蘇黎世</div>
@@ -3597,6 +3632,9 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 
     <!-- Checklist -->
     <div class="sec-title" style="font-size:20px;margin-top:8px">🎒 打包清單</div>
+    <div id="chkCelebration" class="chk-celebrate">
+      🎉 所有物品已打包完成！準備出發了 ✈️🇨🇭
+    </div>
     <div class="chk-progress">
       <div class="chk-progress-hdr">
         <span>🎒 打包進度</span>
@@ -4641,10 +4679,59 @@ document.addEventListener('change', function(e) {
   });
 })();
 
-/* ── 行程 TAB 切換時自動滾至今日 ── */
+/* ── 瑞士時間 ── */
+(function() {
+  function tick() {
+    var now = new Date();
+    var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    var sw  = new Date(utc + 2 * 3600000); // CEST UTC+2
+    var h = String(sw.getHours()).padStart(2,'0');
+    var m = String(sw.getMinutes()).padStart(2,'0');
+    var el = document.getElementById('swissTime');
+    if (el) el.textContent = h + ':' + m;
+  }
+  tick();
+  setInterval(tick, 30000);
+})();
+
+/* ── 打包完成慶祝 ── */
+var _origUpdateProgress = updateChecklistProgress;
+updateChecklistProgress = function() {
+  _origUpdateProgress();
+  var total = document.querySelectorAll('.checklist .check-item input[type=checkbox]').length;
+  var checked = document.querySelectorAll('.checklist .check-item input[type=checkbox]:checked').length;
+  var cel = document.getElementById('chkCelebration');
+  if (cel && total > 0 && checked === total) {
+    cel.classList.add('shown');
+  } else if (cel) {
+    cel.classList.remove('shown');
+  }
+};
+
+/* ── 行程 TAB 切換：今日滾動 + 方向滑動 ── */
+var TABS_ORDER = ['overview','itinerary','budget','photo','reminders'];
 var _origShowTab = showTab;
 showTab = function(name, btn) {
+  var curSec  = document.querySelector('.section.active');
+  var curName = curSec ? curSec.id.replace('tab-','') : '';
+  var curIdx  = TABS_ORDER.indexOf(curName);
+  var newIdx  = TABS_ORDER.indexOf(name);
+
   _origShowTab(name, btn);
+
+  // Directional slide animation
+  if (curName !== name && curIdx !== -1 && newIdx !== -1) {
+    var newSec = document.getElementById('tab-' + name);
+    if (newSec) {
+      var dir = newIdx > curIdx ? 'tab-slide-r' : 'tab-slide-l';
+      newSec.classList.remove('tab-slide-r', 'tab-slide-l');
+      void newSec.offsetWidth;
+      newSec.classList.add(dir);
+      setTimeout(function() { newSec.classList.remove('tab-slide-r','tab-slide-l'); }, 350);
+    }
+  }
+
+  // Auto-scroll to today in itinerary
   if (name === 'itinerary') {
     setTimeout(function() {
       var today = document.querySelector('#tab-itinerary .day-card.today');
