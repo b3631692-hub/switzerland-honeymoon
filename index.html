@@ -4341,6 +4341,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
     <!-- 行程搜尋 -->
     <div class="itinerary-search-wrap">
       <input class="itinerary-search" id="itinSearch" type="search" placeholder="🔍 搜尋活動、城市、景點…" oninput="filterItinerary(this.value)" onsearch="filterItinerary(this.value)">
+      <span id="itinSearchCnt" style="display:none;font-size:10px;font-weight:700;color:var(--primary);white-space:nowrap;padding:0 4px"></span>
       <button class="itinerary-search-clear" id="itinSearchClear" onclick="clearItinSearch()">✕</button>
     </div>
     <div class="search-no-result" id="itinNoResult">找不到相符的行程</div>
@@ -10176,6 +10177,7 @@ window.filterItinerary = (function() {
 
     var blocks = document.querySelectorAll('#tab-itinerary .base-block');
     var cards  = document.querySelectorAll('#tab-itinerary .day-card');
+    var cntEl  = document.getElementById('itinSearchCnt');
 
     if (!q) {
       // Restore
@@ -10191,6 +10193,7 @@ window.filterItinerary = (function() {
       });
       _savedOpen = null;
       if (noResult) noResult.classList.remove('vis');
+      if (cntEl) cntEl.style.display = 'none';
       var jumpRow = document.getElementById('dayJumpRow');
       if (jumpRow) jumpRow.style.display = '';
       return;
@@ -10202,19 +10205,36 @@ window.filterItinerary = (function() {
       cards.forEach(function(card) { if (card.classList.contains('dc-open')) _savedOpen.add(card); });
     }
 
-    var anyVisible = false;
+    var anyVisible = false, matchCount = 0, firstMatch = null;
     blocks.forEach(function(block) {
       var bCards = block.querySelectorAll('.day-card');
       var blockHasVisible = false;
       bCards.forEach(function(card) {
         var match = card.textContent.toLowerCase().indexOf(q) !== -1;
         card.style.display = match ? '' : 'none';
-        if (match) { blockHasVisible = true; anyVisible = true; card.classList.add('dc-open'); }
+        if (match) {
+          blockHasVisible = true; anyVisible = true; matchCount++;
+          card.classList.add('dc-open');
+          if (!firstMatch) firstMatch = card;
+        }
       });
       var header = block.querySelector('.base-header');
       if (header) header.style.display = blockHasVisible ? '' : 'none';
     });
     if (noResult) noResult.classList.toggle('vis', !anyVisible);
+    if (cntEl) {
+      if (matchCount > 0) {
+        cntEl.textContent = matchCount + '筆';
+        cntEl.style.display = 'inline';
+      } else {
+        cntEl.style.display = 'none';
+      }
+    }
+    if (firstMatch) {
+      setTimeout(function() {
+        firstMatch.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 80);
+    }
     var jumpRow2 = document.getElementById('dayJumpRow');
     if (jumpRow2) jumpRow2.style.display = 'none';
   };
@@ -10222,6 +10242,8 @@ window.filterItinerary = (function() {
 window.clearItinSearch = function() {
   var inp = document.getElementById('itinSearch');
   if (inp) { inp.value = ''; filterItinerary(''); }
+  var cnt = document.getElementById('itinSearchCnt');
+  if (cnt) cnt.style.display = 'none';
   document.querySelectorAll('.cf-chip').forEach(function(c){ c.classList.remove('active'); });
   var first = document.querySelector('.cf-chip');
   if(first) first.classList.add('active');
