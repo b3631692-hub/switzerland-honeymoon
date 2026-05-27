@@ -8342,7 +8342,8 @@ window._fetchWeather = (function() {
       { name:'Silsersee 湖畔倒影', tip:'傍晚黃金時刻架腳架等側光', t:'golden_pm' }
     ]},
     '6/21': { city:'冰河列車全程', day: 6, spots:[
-      { name:'萊茵峽谷 Ruinaulta', tip:'出發後 30 分白堊岩壁 + 翡翠綠河，坐右側 1/500s 防震', t:'day', best:true },
+      { name:'Landwasser 高架橋（Albula 線）', tip:'Pontresina→Chur 坐右側，12:30–13:00 過 Filisur 後廣角快拍', t:'day_am' },
+      { name:'萊茵峽谷 Ruinaulta', tip:'Chur 出發後 30 分白堊岩壁 + 翡翠綠河，坐右側 1/500s 防震', t:'day', best:true },
       { name:'Oberalp 埡口 2,033m', tip:'廣角收雪原全景，偏光鏡壓藍天，高原孤寂感強', t:'day' }
     ]},
     '6/22': { city:'策馬特 · Riffelsee', day: 7, spots:[
@@ -8366,8 +8367,8 @@ window._fetchWeather = (function() {
       { name:'楚格湖畔倒影', tip:'抵達後傍晚藍調時分架腳架', t:'blue' }
     ]},
     '6/27': { city:'楚格 + 琉森', day:12, spots:[
-      { name:'Kapellbrücke 藍調時刻', tip:'22:00 前後藍調，三腳架長曝 30s', t:'blue', best:true },
-      { name:'琉森湖日落倒影', tip:'Kursaal 廣場，傍晚黃金光', t:'golden_pm' }
+      { name:'琉森湖日落倒影', tip:'Kursaal 廣場，傍晚黃金光', t:'golden_pm' },
+      { name:'Kapellbrücke 藍調時刻', tip:'22:00 前後藍調，三腳架長曝 30s', t:'blue', best:true }
     ]},
     '6/28': { city:'瑞吉山 + Goldau', day:13, spots:[
       { name:'瑞吉山頂全景', tip:'360° 四湖全景，偏光鏡壓藍天，木架瞭望台為前景', t:'day', best:true },
@@ -8375,15 +8376,16 @@ window._fetchWeather = (function() {
       { name:'Lauerzersee 夕陽野餐', tip:'廣角三腳架等夕陽染橙，瑞吉 Mythen 雙峰倒映', t:'golden_pm' }
     ]},
     '6/29': { city:'蘇黎世', day:14, spots:[
-      { name:'蘇黎世湖傍晚黃金', tip:'船運碼頭 Bürkliplatz 廣角', t:'golden_pm', best:true },
-      { name:'Lindenhügel 俯瞰老城', tip:'廣角全景鳥瞰，黃昏最美', t:'golden_pm' }
+      { name:'Lindenhügel 俯瞰老城', tip:'16:00 廣角鳥瞰 Grossmünster 雙塔 + 舊城', t:'day_pm' },
+      { name:'蘇黎世湖傍晚黃金', tip:'船運碼頭 Bürkliplatz 廣角，晚餐 Quai 61 含湖景', t:'golden_pm', best:true }
     ]},
     '6/30': { city:'萊茵瀑布 + ZRH', day:15, spots:[
       { name:'萊茵瀑布中央岩石', tip:'搭路線 4 小船，使用 ND 長曝', t:'day', best:true },
       { name:'Stein am Rhein 彩繪房屋', tip:'廣角街景構圖，色彩繽紛的立面', t:'day' }
     ]},
     '7/1': { city:'ZRH 機場（回程）', day:16, spots:[
-      { name:'機場 Observation Deck', tip:'離境前最後一拍，飛機 + 阿爾卑斯', t:'day', best:true }
+      { name:'Lindenhügel 最後俯瞰', tip:'12:00 老城 + Grossmünster 雙塔全景，廣角 24mm', t:'day' },
+      { name:'機場 Observation Deck B', tip:'16:00 離境前最後一拍，飛機 + 阿爾卑斯，19:30 前離開', t:'day', best:true }
     ]}
   };
 
@@ -11934,16 +11936,16 @@ window.togglePhotoLayer = (function() {
     '6/19':[{t:'08:02',e:'🚂'},{t:'10:30',e:'📸'},{t:'14:30',e:'🏛'}],
     '6/20':[{t:'09:00',e:'📸'},{t:'14:00',e:'📸'}],
     '6/21':[{t:'09:00',e:'📸'},{t:'14:32',e:'🚂'},{t:'15:05',e:'📸'},{t:'21:00',e:'🌃'}],
-    '6/22':[{t:'06:00',e:'🌅'},{t:'17:00',e:'📸'}],
+    '6/22':[{t:'07:00',e:'🌅'},{t:'17:00',e:'📸'}],
     '6/23':[{t:'08:30',e:'💍'},{t:'10:30',e:'📸'},{t:'17:00',e:'🌇'}],
     '6/24':[{t:'09:30',e:'📸'},{t:'19:30',e:'🌅'}],
     '6/25':[{t:'07:00',e:'🌅'},{t:'19:30',e:'📸'}],
     '6/26':[{t:'09:00',e:'📸'},{t:'19:30',e:'🌇'}],
-    '6/27':[{t:'06:00',e:'🌅'},{t:'22:00',e:'🌃'}],
+    '6/27':[{t:'10:00',e:'🌉'},{t:'22:00',e:'🌃'}],
     '6/28':[{t:'09:30',e:'📸'},{t:'14:00',e:'🦌'},{t:'19:00',e:'🌅'}],
     '6/29':[{t:'16:00',e:'📸'},{t:'19:30',e:'🌇'}],
     '6/30':[{t:'09:00',e:'📸'},{t:'13:30',e:'🏘'}],
-    '7/1' :[{t:'07:30',e:'✈️'}]
+    '7/1' :[{t:'12:00',e:'📸'},{t:'22:00',e:'✈️'}]
   };
 
   function toMin(t) { var p = t.split(':'); return +p[0]*60 + +p[1]; }
