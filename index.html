@@ -2272,6 +2272,17 @@ body.dark-mode .ts-item { background: #0D1A24; }
 }
 .day-note-area.open { display: block; }
 .day-note-area:focus { border-color: var(--primary); }
+.mood-strip { display: flex; align-items: center; gap: 5px; margin-top: 10px;
+  padding-top: 10px; border-top: 1px dashed var(--border); }
+.mood-lbl { font-size: 9px; color: var(--text-light); white-space: nowrap; margin-right: 1px; }
+.mood-btn { font-size: 18px; padding: 2px; background: none; border: none; cursor: pointer;
+  opacity: 0.28; transition: opacity 0.15s, transform 0.15s; border-radius: 4px;
+  line-height: 1; flex-shrink: 0; }
+.mood-btn.sel { opacity: 1; transform: scale(1.22); }
+.mood-btn:active { transform: scale(1.05); }
+.mood-dot { font-size: 13px; margin-top: 3px; min-height: 16px; text-align: center;
+  line-height: 1; user-select: none; }
+.day-card:not(.dc-open) .mood-strip { display: none; }
 
 /* ── 行前待辦 ── */
 .predep-grid { display: flex; flex-direction: column; gap: 8px; }
@@ -8031,6 +8042,61 @@ window.shareItinerary = function() {
     wrap.appendChild(toggle);
     wrap.appendChild(area);
     right.appendChild(wrap);
+  });
+})();
+
+/* ── 每日心情標記 ── */
+(function(){
+  var KEY = 'mood_v1';
+  var OPTS = ['😴','🙂','😍','🥰','✨'];
+  var TIPS = ['需要休息','不錯的一天','太棒了！','好浪漫❤','夢幻時刻✨'];
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function save(d){ try{ localStorage.setItem(KEY, JSON.stringify(d)); }catch(e){} }
+
+  document.querySelectorAll('#tab-itinerary .day-card').forEach(function(card){
+    var dateEl = card.querySelector('.db-date');
+    if(!dateEl) return;
+    var dateStr = dateEl.textContent.trim();
+    var right = card.querySelector('.day-right');
+    var left  = card.querySelector('.day-left');
+    if(!right) return;
+
+    var dot = document.createElement('div');
+    dot.className = 'mood-dot';
+    if(left) left.appendChild(dot);
+
+    var strip = document.createElement('div');
+    strip.className = 'mood-strip';
+    var lbl = document.createElement('span');
+    lbl.className = 'mood-lbl';
+    lbl.textContent = '今日心情：';
+    strip.appendChild(lbl);
+
+    var btns = [];
+    OPTS.forEach(function(m, i){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'mood-btn';
+      btn.textContent = m;
+      btn.title = TIPS[i];
+      btn.addEventListener('click', function(){
+        var data = load();
+        var cur = data[dateStr]||0;
+        data[dateStr] = (cur === i+1) ? 0 : i+1;
+        save(data);
+        haptic(6);
+        refresh(data[dateStr]);
+      });
+      btns.push(btn);
+      strip.appendChild(btn);
+    });
+    right.appendChild(strip);
+
+    function refresh(val){
+      btns.forEach(function(b, i){ b.classList.toggle('sel', val === i+1); });
+      dot.textContent = val > 0 ? OPTS[val-1] : '';
+    }
+    refresh(load()[dateStr]||0);
   });
 })();
 
