@@ -1444,6 +1444,60 @@ footer small {
 }
 .check-add-btn:hover { background: var(--primary-dk); }
 
+/* ── 住宿卡圖片 ── */
+.hh-card {
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.hh-photo {
+  height: 110px; width: 100%;
+  background-size: cover; background-position: center;
+  flex-shrink: 0;
+}
+.hh-inner {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px 16px;
+}
+.hh-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+
+/* ── CHF 換算器 ── */
+.fx-wrap { margin-top: 8px; }
+.fx-row { display: flex; align-items: center; gap: 6px; }
+.fx-input {
+  width: 80px; padding: 6px 10px;
+  font-size: 16px; font-weight: 700;
+  font-family: var(--font-body);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--bg); color: var(--primary);
+  outline: none;
+}
+.fx-input:focus { border-color: var(--primary); }
+.fx-label { font-size: 14px; font-weight: 700; color: var(--text-sub); }
+.fx-result {
+  font-size: 15px; font-weight: 700; color: var(--primary);
+  margin-top: 6px; letter-spacing: 0.3px;
+}
+.fx-note { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+
+/* ── 回頂按鈕 ── */
+#scrollTopBtn {
+  position: fixed; bottom: 86px; right: 14px; z-index: 400;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  font-size: 20px; line-height: 1;
+  box-shadow: 0 4px 16px rgba(44,95,138,0.35);
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; border: none;
+  transition: opacity 0.25s, transform 0.25s;
+  opacity: 0; transform: translateY(8px);
+}
+#scrollTopBtn.vis { display: flex; opacity: 1; transform: translateY(0); }
+@media (min-width: 768px) {
+  #scrollTopBtn { bottom: 24px; right: 24px; }
+}
+
 /* ── 旅途進行中 flip-clock 替代畫面 ── */
 .fc-trip-live { padding: 4px 0 8px; }
 .fc-trip-day {
@@ -2003,57 +2057,75 @@ footer small {
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🏨 住宿概覽</div>
     <div class="hotel-highlight-grid">
       <div class="hh-card reveal">
-        <div class="hh-icon">✈️</div>
-        <div class="hh-body">
-          <div class="hh-name">Trip Inn Jet Hotel</div>
-          <div class="hh-loc">蘇黎世機場 · 6/16（1晚）</div>
-          <div class="hh-desc">機場步行可達，方便抵達首夜休息。</div>
-          <span class="hh-badge hh-badge-ok">已確認</span>
+        <div class="hh-photo" style="background-image:url('https://images.unsplash.com/photo-1559896803-08e424847117?w=420&q=75&fit=crop')"></div>
+        <div class="hh-inner">
+          <div class="hh-icon">✈️</div>
+          <div class="hh-body">
+            <div class="hh-name">Trip Inn Jet Hotel</div>
+            <div class="hh-loc">蘇黎世機場 · 6/16（1晚）</div>
+            <div class="hh-desc">機場步行可達，方便抵達首夜休息。</div>
+            <span class="hh-badge hh-badge-ok">已確認</span>
+          </div>
         </div>
       </div>
       <div class="hh-card reveal">
-        <div class="hh-icon">🏔</div>
-        <div class="hh-body">
-          <div class="hh-name">Hotel Station Pontresina</div>
-          <div class="hh-loc">Pontresina · 6/17–6/21（4晚）</div>
-          <div class="hh-desc">含 Engadin Inclusive Card，4大纜車全免，省 TWD 12,565。</div>
-          <span class="hh-badge hh-badge-ok">已確認</span>
+        <div class="hh-photo" style="background-image:url('https://images.unsplash.com/photo-1690482575072-21ec5620f964?w=420&q=75&fit=crop')"></div>
+        <div class="hh-inner">
+          <div class="hh-icon">🏔</div>
+          <div class="hh-body">
+            <div class="hh-name">Hotel Station Pontresina</div>
+            <div class="hh-loc">Pontresina · 6/17–6/21（4晚）</div>
+            <div class="hh-desc">含 Engadin Inclusive Card，4大纜車全免，省 TWD 12,565。</div>
+            <span class="hh-badge hh-badge-ok">已確認</span>
+          </div>
         </div>
       </div>
       <div class="hh-card reveal">
-        <div class="hh-icon">💍</div>
-        <div class="hh-body">
-          <div class="hh-name">Chalet Achat by Zermatt Premium</div>
-          <div class="hh-loc">策馬特 · 6/21–6/24（3晚）</div>
-          <div class="hh-desc">蜜月精品 Chalet，馬特洪峰近距離，已付清。需盡快填寫 pre-checkin。</div>
-          <span class="hh-badge hh-badge-paid">已付清</span>
+        <div class="hh-photo" style="background-image:url('https://images.unsplash.com/photo-1595923941716-39a9c58a9661?w=420&q=75&fit=crop')"></div>
+        <div class="hh-inner">
+          <div class="hh-icon">💍</div>
+          <div class="hh-body">
+            <div class="hh-name">Chalet Achat by Zermatt Premium</div>
+            <div class="hh-loc">策馬特 · 6/21–6/24（3晚）</div>
+            <div class="hh-desc">蜜月精品 Chalet，馬特洪峰近距離，已付清。需盡快填寫 pre-checkin。</div>
+            <span class="hh-badge hh-badge-paid">已付清</span>
+          </div>
         </div>
       </div>
       <div class="hh-card reveal">
-        <div class="hh-icon">🏛</div>
-        <div class="hh-body">
-          <div class="hh-name">Swissôtel Kursaal Bern</div>
-          <div class="hh-loc">伯恩 · 6/24–6/26（2晚）</div>
-          <div class="hh-desc">五星連鎖，UNESCO 古城核心，眺望阿爾卑斯山。⚠️ 取消期限 6/24 18:00。</div>
-          <span class="hh-badge hh-badge-ok">已確認</span>
+        <div class="hh-photo" style="background-image:url('https://images.unsplash.com/photo-1513636648814-c4b6a2e5a082?w=420&q=75&fit=crop')"></div>
+        <div class="hh-inner">
+          <div class="hh-icon">🏛</div>
+          <div class="hh-body">
+            <div class="hh-name">Swissôtel Kursaal Bern</div>
+            <div class="hh-loc">伯恩 · 6/24–6/26（2晚）</div>
+            <div class="hh-desc">五星連鎖，UNESCO 古城核心，眺望阿爾卑斯山。⚠️ 取消期限 6/24 18:00。</div>
+            <span class="hh-badge hh-badge-ok">已確認</span>
+          </div>
         </div>
       </div>
       <div class="hh-card reveal">
-        <div class="hh-icon">🌊</div>
-        <div class="hh-body">
-          <div class="hh-name">Hotel Zugertor</div>
-          <div class="hh-loc">楚格 · 6/26–6/29（3晚）</div>
-          <div class="hh-desc">楚加湖畔，步行即達老城 Zytturm，位置絕佳。⚠️ 取消期限 6/20。</div>
-          <span class="hh-badge hh-badge-ok">已確認</span>
+        <div class="hh-photo" style="background-image:url('https://images.unsplash.com/photo-1618846042125-0a2fd483fbc0?w=420&q=75&fit=crop')"></div>
+        <div class="hh-inner">
+          <div class="hh-icon">🌊</div>
+          <div class="hh-body">
+            <div class="hh-name">Hotel Zugertor</div>
+            <div class="hh-loc">楚格 · 6/26–6/29（3晚）</div>
+            <div class="hh-desc">楚加湖畔，步行即達老城 Zytturm，位置絕佳。⚠️ 取消期限 6/20。</div>
+            <span class="hh-badge hh-badge-ok">已確認</span>
+          </div>
         </div>
       </div>
       <div class="hh-card reveal">
-        <div class="hh-icon">🛫</div>
-        <div class="hh-body">
-          <div class="hh-name">Ibis Budget Zurich Airport</div>
-          <div class="hh-loc">蘇黎世機場 · 6/29–7/1（2晚）</div>
-          <div class="hh-desc">機場步行可達，末日返程前最後基地。⚠️ 取消期限 6/27。</div>
-          <span class="hh-badge hh-badge-ok">已確認</span>
+        <div class="hh-photo" style="background-image:url('https://images.unsplash.com/photo-1529335764857-3f1164d1cb24?w=420&q=75&fit=crop')"></div>
+        <div class="hh-inner">
+          <div class="hh-icon">🛫</div>
+          <div class="hh-body">
+            <div class="hh-name">Ibis Budget Zurich Airport</div>
+            <div class="hh-loc">蘇黎世機場 · 6/29–7/1（2晚）</div>
+            <div class="hh-desc">機場步行可達，末日返程前最後基地。⚠️ 取消期限 6/27。</div>
+            <span class="hh-badge hh-badge-ok">已確認</span>
+          </div>
         </div>
       </div>
     </div>
@@ -2063,8 +2135,17 @@ footer small {
     <div class="prac-grid">
       <div class="prac-card reveal">
         <div class="prac-icon">💱</div>
-        <div class="prac-title">匯率</div>
-        <div class="prac-body"><strong>CHF 1 ≈ TWD 35</strong><br>CHF 10 ≈ TWD 350<br>CHF 100 ≈ TWD 3,500</div>
+        <div class="prac-title">匯率換算</div>
+        <div class="prac-body">
+          <div class="fx-wrap">
+            <div class="fx-row">
+              <input type="number" id="chfInput" class="fx-input" value="1" min="0" step="1">
+              <span class="fx-label">CHF</span>
+            </div>
+            <div class="fx-result" id="fxResult">≈ TWD 35</div>
+            <div class="fx-note">CHF 1 ≈ TWD 35（參考值）</div>
+          </div>
+        </div>
       </div>
       <div class="prac-card reveal">
         <div class="prac-icon">🔌</div>
@@ -3381,6 +3462,9 @@ footer small {
 
 </main>
 
+<!-- ══ SCROLL TOP BUTTON ══ -->
+<button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回頂">↑</button>
+
 <!-- ══ LIGHTBOX ══ -->
 <div id="gallery-lb" onclick="if(event.target===this)closeLightbox()">
   <button class="lb-close" onclick="closeLightbox()">✕</button>
@@ -4001,8 +4085,7 @@ window.addEventListener('load', function() {
   }
 
   update();
-  setInterval(update, 60000);
-  setTimeout(update, 0);
+  setInterval(update, 1000);
 })();
 
 /* ── SCROLL ANIMATIONS ── */
@@ -4269,6 +4352,30 @@ function updateChecklistProgress() {
 document.addEventListener('change', function(e) {
   if (e.target.closest && e.target.closest('.checklist')) updateChecklistProgress();
 });
+
+/* ── CHF/TWD CONVERTER ── */
+(function() {
+  var input = document.getElementById('chfInput');
+  var result = document.getElementById('fxResult');
+  if (!input || !result) return;
+  var RATE = 35;
+  function calc() {
+    var chf = parseFloat(input.value);
+    if (isNaN(chf) || chf < 0) { result.textContent = '─'; return; }
+    result.textContent = '≈ TWD ' + Math.round(chf * RATE).toLocaleString();
+  }
+  input.addEventListener('input', calc);
+  calc();
+})();
+
+/* ── SCROLL TOP BUTTON ── */
+(function() {
+  var btn = document.getElementById('scrollTopBtn');
+  if (!btn) return;
+  window.addEventListener('scroll', function() {
+    btn.classList.toggle('vis', window.scrollY > 350);
+  }, { passive: true });
+})();
 
 /* ── LIGHTBOX TOUCH SWIPE ── */
 (function() {
