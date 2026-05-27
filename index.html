@@ -551,6 +551,18 @@ body.dark-mode .chip-wx.warm { background: rgba(251,191,36,0.1); border-color: r
   border: 1px solid rgba(140,123,110,0.18); border-radius: 5px; padding: 2px 8px; margin-top: 5px; }
 .hotel-nav-btn:active { opacity: 0.7; }
 body.dark-mode .hotel-nav-btn { background: rgba(140,123,110,0.12); border-color: rgba(140,123,110,0.22); }
+/* ── 住宿 WiFi 密碼速查 ── */
+.hh-wifi-row { display: flex; align-items: center; gap: 5px; margin-top: 7px; flex-wrap: nowrap; }
+.hh-wifi-lbl { font-size: 9px; font-weight: 800; color: var(--text-light); white-space: nowrap; letter-spacing: 0.3px; }
+.hh-wifi-inp { flex: 1; min-width: 0; font-size: 11px; padding: 4px 7px; border-radius: 6px; border: 1px dashed var(--border); background: var(--bg); color: var(--text); font-family: var(--font-body); }
+.hh-wifi-inp::placeholder { color: var(--text-light); font-size: 10px; }
+.hh-wifi-inp:focus { outline: none; border-style: solid; border-color: var(--primary); background: var(--card); }
+.hh-wifi-inp:not(:placeholder-shown) { border-style: solid; border-color: rgba(140,123,110,0.4); }
+.hh-wifi-copy { font-size: 9.5px; font-weight: 700; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--border); background: var(--bg); color: var(--primary); cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: opacity 0.15s; }
+.hh-wifi-copy:active { opacity: 0.6; }
+body.dark-mode .hh-wifi-inp { background: rgba(140,123,110,0.08); border-color: #3A3830; }
+body.dark-mode .hh-wifi-inp:focus { background: #1C1A16; }
+body.dark-mode .hh-wifi-copy { background: #252320; border-color: #3A3830; }
 
 /* ═══════════════════════════════════════
    DAY CARDS (Timeline)
@@ -12063,6 +12075,59 @@ window.togglePhotoLayer = (function() {
   document.addEventListener('touchend', check, { passive: true });
 })();
 
+/* ── 住宿 WiFi 密碼速查 ── */
+(function(){
+  var KEY = 'hotel_wifi_v1';
+  var NAMES = ['Trip Inn Jet Hotel','Hotel Station Pontresina','Chalet Achat Zermatt','Swissôtel Bern','Hotel Zugertor','Ibis Budget Airport'];
+  function loadAll(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function saveAll(d){ try{ localStorage.setItem(KEY, JSON.stringify(d)); }catch(e){} }
+  var cards = document.querySelectorAll('.hh-card');
+  var data = loadAll();
+  cards.forEach(function(card, i){
+    if(i >= NAMES.length) return;
+    var body = card.querySelector('.hh-body');
+    if(!body) return;
+    var row = document.createElement('div');
+    row.className = 'hh-wifi-row';
+    var lbl = document.createElement('span');
+    lbl.className = 'hh-wifi-lbl';
+    lbl.textContent = '📶 WiFi';
+    var inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'hh-wifi-inp';
+    inp.placeholder = '入住後填入密碼';
+    inp.autocomplete = 'off';
+    inp.spellcheck = false;
+    if(data[i]) inp.value = data[i];
+    (function(idx, input){
+      input.addEventListener('input', function(){
+        var d = loadAll();
+        if(input.value.trim()) d[idx] = input.value;
+        else delete d[idx];
+        saveAll(d);
+      });
+    })(i, inp);
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'hh-wifi-copy';
+    copyBtn.textContent = '複製';
+    (function(input){
+      copyBtn.addEventListener('click', function(){
+        if(!input.value.trim()){ haptic(6); return; }
+        haptic(10);
+        var txt = input.value;
+        if(navigator.clipboard){ navigator.clipboard.writeText(txt).catch(function(){}); }
+        else { var t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); }
+        copyBtn.textContent = '✓ 已複製';
+        setTimeout(function(){ copyBtn.textContent = '複製'; }, 1500);
+      });
+    })(inp);
+    row.appendChild(lbl);
+    row.appendChild(inp);
+    row.appendChild(copyBtn);
+    body.appendChild(row);
+  });
+})();
+
 /* ── EUR/TWD 換算（6/19 Tirano 用）── */
 (function(){
   var _eurRate = 38; // fallback
@@ -12108,8 +12173,8 @@ window.togglePhotoLayer = (function() {
     if(now < DEPART){
       var daysLeft = Math.ceil((DEPART - now) / msDay);
       ic0.textContent = '⏳';
-      v0.textContent = daysLeft;
-      l0.textContent = daysLeft === 1 ? '明天出發！' : '天後出發';
+      v0.textContent = daysLeft === 1 ? '明日' : daysLeft + '天';
+      l0.textContent = daysLeft === 1 ? '✈️ 明天出發！' : '後出發';
       // card1 stays static
     } else if(now <= RETURN){
       var dayNum = Math.floor((now - DEPART) / msDay) + 1;
@@ -12118,8 +12183,8 @@ window.togglePhotoLayer = (function() {
       v0.textContent = '第' + dayNum + '天';
       l0.textContent = '旅程進行中';
       ic1.textContent = '🏠';
-      v1.textContent = remaining > 0 ? remaining : 0;
-      l1.textContent = remaining > 0 ? '天後返台' : '今日返台！';
+      v1.textContent = remaining > 0 ? remaining + '天' : '今日';
+      l1.textContent = remaining > 0 ? '後返台' : '✈️ 返台日！';
     } else {
       ic0.textContent = '💍';
       v0.textContent = '完成';
