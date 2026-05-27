@@ -6229,8 +6229,13 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     <div class="card psc-card reveal" id="pscCard">
       <div class="psc-title">📸 拍攝地點打卡清單</div>
       <div class="psc-sub">旅途中逐一打勾，自動儲存進度</div>
-      <div class="psc-prog-lbl">已完成 <span id="pscDoneCount">0</span> / 22 個景點</div>
+      <div class="psc-prog-lbl">已完成 <span id="pscDoneCount">0</span> / 25 個景點</div>
       <div class="psc-prog-bar"><div class="psc-prog-fill" id="pscProgFill" style="width:0%"></div></div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">✈️ 蘇黎世機場 <span class="psc-chip">6/16 & 7/1</span></div>
+        <label class="psc-item" data-id="p22" onclick="togglePsc('p22')"><input type="checkbox" id="p22"><div class="psc-box"></div><div><div class="psc-name">Pistenende 跑道端</div><div class="psc-tip">Bus 510 終點，正面對降落來機，200–600mm 追焦</div></div></label>
+      </div>
 
       <div class="psc-city">
         <div class="psc-city-hdr">🏔 恩加丁 · 伯尼納線 <span class="psc-chip">6/17–21</span></div>
@@ -6270,12 +6275,14 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
         <div class="psc-city-hdr">🌊 楚格 · 琉森 <span class="psc-chip">6/27–29</span></div>
         <label class="psc-item" data-id="p17" onclick="togglePsc('p17')"><input type="checkbox" id="p17"><div class="psc-box"></div><div><div class="psc-name">琉森卡貝爾橋藍調</div><div class="psc-tip">22:00 三腳架 15–30s，橋燈倒影入水面</div></div></label>
         <label class="psc-item" data-id="p18" onclick="togglePsc('p18')"><input type="checkbox" id="p18"><div class="psc-box"></div><div><div class="psc-name">瑞吉山全景</div><div class="psc-tip">廣角四湖全景，STP 全免，晴天視野 50km</div></div></label>
+        <label class="psc-item" data-id="p23" onclick="togglePsc('p23')"><input type="checkbox" id="p23"><div class="psc-box"></div><div><div class="psc-name">Lauerzersee 湖畔野餐</div><div class="psc-tip">瑞吉山 + Mythen 雙峰倒映，傍晚夕陽染橙</div></div></label>
       </div>
 
       <div class="psc-city">
         <div class="psc-city-hdr">🏙 蘇黎世近郊 <span class="psc-chip">6/29–7/1</span></div>
         <label class="psc-item" data-id="p19" onclick="togglePsc('p19')"><input type="checkbox" id="p19"><div class="psc-box"></div><div><div class="psc-name">萊茵瀑布 ND 長曝</div><div class="psc-tip">ND10 絲絨水流，中央岩石小船 CHF 8，帶毛巾</div></div></label>
         <label class="psc-item" data-id="p20" onclick="togglePsc('p20')"><input type="checkbox" id="p20"><div class="psc-box"></div><div><div class="psc-name">蘇黎世湖畔黃昏</div><div class="psc-tip">Quaibrücke，湖景 + 山景，19:30 黃金時段</div></div></label>
+        <label class="psc-item" data-id="p24" onclick="togglePsc('p24')"><input type="checkbox" id="p24"><div class="psc-box"></div><div><div class="psc-name">Stein am Rhein 彩繪老城</div><div class="psc-tip">中世紀壁畫屋立面，下午側光最飽和，廣角收整排建築</div></div></label>
       </div>
     </div>
 
@@ -11294,7 +11301,7 @@ window.spFilter = function(gear, btn){
 /* ── 攝影打卡清單 ── */
 (function(){
   var KEY = 'photo_spots_v1';
-  var TOTAL = 22;
+  var TOTAL = 25;
   function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
   function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
   function updateUI(){
@@ -11347,6 +11354,9 @@ window.spFilter = function(gear, btn){
     'p19': [47.6790, 8.6160],   // Rhine Falls
     'p20': [47.3660, 8.5440],   // Zurich lake Quaibrücke
     'p21': [46.3976, 9.9748],   // Alp Grüm
+    'p22': [47.4430, 8.5550],   // Pistenende ZRH
+    'p23': [47.1010, 8.5410],   // Lauerzersee
+    'p24': [47.6590, 8.8580],   // Stein am Rhein
   };
   document.querySelectorAll('.psc-item[data-id]').forEach(function(item){
     var id = item.getAttribute('data-id');
