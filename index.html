@@ -1679,6 +1679,55 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   padding: 2px 9px; border-radius: 100px; margin-bottom: 6px;
 }
 
+/* ── 花費追蹤 ── */
+.spend-tracker { padding: 18px 16px 16px; }
+.st-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+.st-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.st-reset {
+  font-size: 11px; padding: 4px 12px;
+  color: var(--text-light); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 100px; cursor: pointer;
+  transition: background 0.15s;
+}
+.st-reset:hover { background: #FEE2E2; color: #EF4444; border-color: #FCA5A5; }
+.st-note { font-size: 12px; color: var(--text-light); margin-bottom: 16px; }
+.st-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.st-row { display: grid; grid-template-columns: 1fr 90px; gap: 8px; align-items: center; }
+.st-row-l { display: flex; flex-direction: column; gap: 4px; }
+.st-cat { font-size: 12px; font-weight: 600; color: var(--text-sub); }
+.st-bar-wrap { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.st-bar-actual {
+  height: 100%; width: 0%; border-radius: 3px;
+  background: var(--primary); transition: width 0.4s ease, background 0.3s;
+}
+.st-input {
+  width: 100%; padding: 7px 10px; font-size: 14px; font-weight: 700;
+  font-family: var(--font-body);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--bg); color: var(--primary);
+  outline: none; text-align: right;
+  -moz-appearance: textfield;
+}
+.st-input:focus { border-color: var(--primary); }
+.st-input::-webkit-outer-spin-button,
+.st-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.st-divider { height: 1px; background: var(--border); margin: 4px 0 14px; }
+.st-sum-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; margin-bottom: 6px;
+}
+.st-sum-label { color: var(--text-sub); }
+.st-sum-val { font-weight: 700; color: var(--text); }
+.st-remain-pos { color: #15803D !important; }
+.st-remain-neg { color: #EF4444 !important; }
+.st-remain-warn { color: #F59E0B !important; }
+.st-total-bar { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; margin-top: 12px; }
+.st-total-fill {
+  height: 100%; width: 0%; border-radius: 4px;
+  background: var(--primary); transition: width 0.4s ease, background 0.3s;
+}
+.st-pct-label { text-align: right; font-size: 11px; color: var(--text-light); margin-top: 5px; }
+
 /* ── 行程折疊 ── */
 .day-collapse-ctrl {
   display: flex; justify-content: flex-end;
@@ -2042,7 +2091,10 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
       <div class="day-sel-wrap">
         <div class="day-sel-top">
           <span class="day-sel-label">選擇第幾天查看行程</span>
-          <button class="day-sel-reset" id="mapReset" onclick="mapResetView()">全覽</button>
+          <div style="display:flex;gap:6px">
+            <button class="day-sel-reset" id="photoToggle" onclick="togglePhotoLayer()" title="顯示/隱藏攝影景點">📸 攝影點</button>
+            <button class="day-sel-reset" id="mapReset" onclick="mapResetView()">全覽</button>
+          </div>
         </div>
         <div class="day-sel-row" id="daySel"></div>
       </div>
@@ -3319,6 +3371,74 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
           <tr><td>其他雜費</td><td></td><td class="amount-cell">180</td><td><span class="tag-est">估算</span></td></tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- 花費追蹤 -->
+    <div class="card reveal spend-tracker" style="margin-top:24px">
+      <div class="st-header">
+        <div class="st-title">💸 旅途花費追蹤</div>
+        <button class="st-reset" onclick="resetSpending()">重設</button>
+      </div>
+      <div class="st-note">出發後記錄各類實際花費，即時對比預算</div>
+      <div class="st-rows">
+        <div class="st-row">
+          <div class="st-row-l">
+            <div class="st-cat">✈️ 機票　　預算 61,388</div>
+            <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-0"></div></div>
+          </div>
+          <input type="number" id="st-0" class="st-input" data-budget="61388" min="0" placeholder="0" oninput="updateSpend()">
+        </div>
+        <div class="st-row">
+          <div class="st-row-l">
+            <div class="st-cat">🏠 住宿　　預算 120,233</div>
+            <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-1"></div></div>
+          </div>
+          <input type="number" id="st-1" class="st-input" data-budget="120233" min="0" placeholder="0" oninput="updateSpend()">
+        </div>
+        <div class="st-row">
+          <div class="st-row-l">
+            <div class="st-cat">🚂 交通　　預算 42,062</div>
+            <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-2"></div></div>
+          </div>
+          <input type="number" id="st-2" class="st-input" data-budget="42062" min="0" placeholder="0" oninput="updateSpend()">
+        </div>
+        <div class="st-row">
+          <div class="st-row-l">
+            <div class="st-cat">🎿 景點　　預算 15,350</div>
+            <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-3"></div></div>
+          </div>
+          <input type="number" id="st-3" class="st-input" data-budget="15350" min="0" placeholder="0" oninput="updateSpend()">
+        </div>
+        <div class="st-row">
+          <div class="st-row-l">
+            <div class="st-cat">🍽 餐飲　　預算 50,000</div>
+            <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-4"></div></div>
+          </div>
+          <input type="number" id="st-4" class="st-input" data-budget="50000" min="0" placeholder="0" oninput="updateSpend()">
+        </div>
+        <div class="st-row">
+          <div class="st-row-l">
+            <div class="st-cat">🛍 購物　　預算 17,580</div>
+            <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-5"></div></div>
+          </div>
+          <input type="number" id="st-5" class="st-input" data-budget="17580" min="0" placeholder="0" oninput="updateSpend()">
+        </div>
+      </div>
+      <div class="st-divider"></div>
+      <div class="st-sum-row">
+        <span class="st-sum-label">總預算</span>
+        <span class="st-sum-val">TWD 306,613</span>
+      </div>
+      <div class="st-sum-row">
+        <span class="st-sum-label">已花費</span>
+        <span class="st-sum-val" id="stActualTotal">TWD 0</span>
+      </div>
+      <div class="st-sum-row">
+        <span class="st-sum-label">剩餘預算</span>
+        <span class="st-sum-val st-remain-pos" id="stRemainVal">TWD 306,613</span>
+      </div>
+      <div class="st-total-bar"><div class="st-total-fill" id="stTotalFill"></div></div>
+      <div class="st-pct-label" id="stPctLabel">已使用 0%</div>
     </div>
   </div>
 
@@ -4917,6 +5037,116 @@ window.toggleAllDays = function() {
     if (btn) btn.textContent = '折疊全部';
   }
 };
+
+/* ── 旅途花費追蹤 ── */
+(function() {
+  var BUDGETS = [61388, 120233, 42062, 15350, 50000, 17580];
+  var TOTAL = 306613;
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem('spend_v1')) || {}; } catch(e) { return {}; }
+  }
+  function save(data) {
+    try { localStorage.setItem('spend_v1', JSON.stringify(data)); } catch(e) {}
+  }
+
+  window.updateSpend = function() {
+    var data = {};
+    var total = 0;
+    for (var i = 0; i < 6; i++) {
+      var inp = document.getElementById('st-' + i);
+      var val = inp ? (parseFloat(inp.value) || 0) : 0;
+      data[i] = val;
+      total += val;
+      var bar = document.getElementById('stbar-' + i);
+      if (bar) {
+        var pct = BUDGETS[i] > 0 ? Math.min(105, val / BUDGETS[i] * 100) : 0;
+        bar.style.width = pct + '%';
+        bar.style.background = pct > 100 ? '#EF4444' : pct > 80 ? '#F59E0B' : 'var(--primary)';
+      }
+    }
+    save(data);
+    var tpct = Math.min(105, total / TOTAL * 100);
+    var el = document.getElementById('stActualTotal');
+    var rem = document.getElementById('stRemainVal');
+    var fill = document.getElementById('stTotalFill');
+    var pctLbl = document.getElementById('stPctLabel');
+    if (el) el.textContent = 'TWD ' + Math.round(total).toLocaleString();
+    if (rem) {
+      var remaining = TOTAL - total;
+      rem.textContent = 'TWD ' + Math.abs(Math.round(remaining)).toLocaleString() + (remaining < 0 ? ' (超支)' : '');
+      rem.className = 'st-sum-val ' + (remaining < 0 ? 'st-remain-neg' : remaining < 30000 ? 'st-remain-warn' : 'st-remain-pos');
+    }
+    if (fill) {
+      fill.style.width = tpct + '%';
+      fill.style.background = tpct > 100 ? '#EF4444' : tpct > 80 ? '#F59E0B' : 'var(--primary)';
+    }
+    if (pctLbl) pctLbl.textContent = '已使用 ' + Math.round(tpct) + '%';
+  };
+
+  window.resetSpending = function() {
+    if (!confirm('確定清除所有花費記錄？')) return;
+    try { localStorage.removeItem('spend_v1'); } catch(e) {}
+    for (var i = 0; i < 6; i++) {
+      var inp = document.getElementById('st-' + i);
+      if (inp) inp.value = '';
+    }
+    updateSpend();
+  };
+
+  // Restore saved values
+  var saved = load();
+  for (var i = 0; i < 6; i++) {
+    if (saved[i] !== undefined && saved[i] > 0) {
+      var inp = document.getElementById('st-' + i);
+      if (inp) inp.value = saved[i];
+    }
+  }
+  updateSpend();
+})();
+
+/* ── 地圖攝影景點圖層 ── */
+window.togglePhotoLayer = (function() {
+  var _layer = null, _visible = false;
+  var SPOTS = [
+    { lat:45.986, lng:7.720,  n:'Riffelsee', t:'🏆 No.1 倒影點，首班車 07:00 上山' },
+    { lat:46.004, lng:7.740,  n:'Stellisee 5湖倒影', t:'土撥鼠棲息，傍晚側光最美' },
+    { lat:46.021, lng:7.781,  n:'Schwarzsee 馬特洪峰婚紗', t:'近距離正對馬特洪峰，日落逆光' },
+    { lat:46.519, lng:9.876,  n:'Muottas Muragl 三湖全景', t:'傍晚 16–19 時側光，Engadin Card 免費' },
+    { lat:46.411, lng:9.969,  n:'Diavolezza 2978m 冰川', t:'Pers 冰川 + Piz Bernina，上午最清' },
+    { lat:46.448, lng:9.828,  n:'Corvatsch 3303m 五湖', t:'09:00 前上山，Biancograt 倒影湖' },
+    { lat:46.409, lng:10.008, n:'Ospizio Bernina 鐵道湖', t:'Lago Bianco 白色湖，STP 免費停靠' },
+    { lat:46.248, lng:10.126, n:'Brusio 螺旋橋 UNESCO', t:'仰/俯拍螺旋，火車過橋時連拍' },
+    { lat:46.497, lng:7.723,  n:'Oeschinensee 冰川湖', t:'UNESCO 土耳其藍湖，野生羱羊' },
+    { lat:47.050, lng:8.305,  n:'琉森卡貝爾橋', t:'藍調 22:00，架腳架 + 長曝必備' },
+    { lat:46.948, lng:7.447,  n:'伯恩玫瑰花園俯瞰', t:'UNESCO 舊城全景，傍晚逆光' },
+    { lat:47.679, lng:8.615,  n:'萊茵瀑布中央岩石', t:'搭小船仰拍 CHF 8，帶 ND 濾鏡' },
+  ];
+
+  return function togglePhotoLayer() {
+    if (!_layer && typeof L !== 'undefined' && _routeMap) {
+      var ico = L.divIcon({
+        html: '<div style="background:#D52B1E;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.4);border:2.5px solid #fff">📷</div>',
+        className: '', iconSize: [24,24], iconAnchor: [12,12], popupAnchor: [0,-14]
+      });
+      _layer = L.layerGroup();
+      SPOTS.forEach(function(s) {
+        L.marker([s.lat, s.lng], { icon: ico })
+          .bindPopup('<b style="color:#D52B1E">📷 ' + s.n + '</b><br><small style="color:#555">' + s.t + '</small>')
+          .addTo(_layer);
+      });
+    }
+    _visible = !_visible;
+    var btn = document.getElementById('photoToggle');
+    if (_visible) {
+      if (_layer) _layer.addTo(_routeMap);
+      if (btn) { btn.style.background = '#D52B1E'; btn.style.color = '#fff'; }
+    } else {
+      if (_layer && _routeMap) _routeMap.removeLayer(_layer);
+      if (btn) { btn.style.background = ''; btn.style.color = ''; }
+    }
+  };
+})();
 </script>
 </body>
 </html>
