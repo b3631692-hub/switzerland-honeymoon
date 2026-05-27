@@ -2315,6 +2315,28 @@ body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
 .day-card:not(.dc-open) .cost-row,
 .day-card:not(.dc-open) .photo-box { display: none; }
 
+/* ── 每日拍攝計畫 ── */
+.shoot-plan-card { padding: 16px 16px 12px; margin-bottom: 20px; }
+.sp-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.sp-rows { display: flex; flex-direction: column; gap: 3px; }
+.sp-row {
+  display: grid; grid-template-columns: 38px 1fr 52px;
+  gap: 6px; padding: 6px 8px; border-radius: 8px; background: var(--bg);
+  align-items: start;
+}
+.sp-date { font-size: 11.5px; font-weight: 800; color: var(--primary); }
+.sp-spot { font-size: 11.5px; font-weight: 600; color: var(--text-sub); line-height: 1.3; }
+.sp-tip  { font-size: 10.5px; color: var(--text-light); line-height: 1.4; margin-top: 1px; }
+.sp-gear {
+  font-size: 9.5px; font-weight: 700; text-align: center; align-self: start;
+  background: #EFF6FF; color: #1D4ED8;
+  border-radius: 5px; padding: 2px 4px; margin-top: 2px; white-space: nowrap;
+}
+body.dark-mode .sp-row { background: #0D1A24; }
+body.dark-mode .sp-gear { background: #1D3A6B; color: #60A5FA; }
+.sp-gear.tripod { background: #F3E8FF; color: #7C3AED; }
+body.dark-mode .sp-gear.tripod { background: #2D1060; color: #C084FC; }
+
 /* ── 黃金拍攝時段 ── */
 .gh-card {
   background: linear-gradient(135deg, #071828 0%, #0F2D45 100%);
@@ -4790,6 +4812,78 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <strong>CPL 順光偏光：</strong>消除水面反光，讓湖水更透藍 ·
         <strong>ND10：</strong>萊茵瀑布豐水期水流強，10 格 ND 可拍出絲絨感 ·
         <strong>A7R5 連拍：</strong>Hi+（120fps 電子快門）追列車最佳
+      </div>
+    </div>
+
+    <!-- ── 每日拍攝計畫速覽 ── -->
+    <div class="card shoot-plan-card reveal">
+      <div class="sp-title">📅 每日拍攝計畫速覽</div>
+      <div class="sp-rows">
+        <div class="sp-row">
+          <div class="sp-date">6/17</div>
+          <div><div class="sp-spot">Muottas Muragl 夕陽全景</div><div class="sp-tip">廣角 24mm 掃描恩加丁盆地，找前景雜草增加層次感</div></div>
+          <div class="sp-gear">24–70</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/18</div>
+          <div><div class="sp-spot">Alp Languard 羱羊 + Diavolezza 婚紗</div><div class="sp-tip">長焦靜音拍動物；傍晚冰川前廣角全景，婚紗側光黃金時段 18:00–21:00</div></div>
+          <div class="sp-gear">兩支鏡</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/19</div>
+          <div><div class="sp-spot">Brusio 螺旋橋過橋瞬間</div><div class="sp-tip">定點在橋上等列車進入螺旋，長焦壓縮彎道，快門 1/500s 以上凝結動態</div></div>
+          <div class="sp-gear">200–600</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/20</div>
+          <div><div class="sp-spot">Corvatsch 高山 + Fex Valley 馬車</div><div class="sp-tip">山頂廣角藍天大景；Fex 谷長焦追拍馬車動態，開放光圈虛化草地</div></div>
+          <div class="sp-gear">兩支鏡</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/21</div>
+          <div><div class="sp-spot">冰河列車萊茵峽谷窗景</div><div class="sp-tip">坐右側（Chur→Zermatt），快門 1/500s+ 凍結速度感，拍橋梁 / 峽谷切面</div></div>
+          <div class="sp-gear">24–70</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/22</div>
+          <div><div class="sp-spot">Riffelsee 倒影 ＋ Stellisee 五湖</div><div class="sp-tip">首班 07:00 無風最佳，三腳架超低角度貼近水面，有雲立刻拍不要等</div></div>
+          <div class="sp-gear tripod">三腳架</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/23</div>
+          <div><div class="sp-spot">Klein Matterhorn 冰宮 + Schwarzsee 婚紗</div><div class="sp-tip">冰宮超廣角仰拍冰壁；Schwarzsee 馬特洪峰入鏡背景，婚紗站在湖邊草地</div></div>
+          <div class="sp-gear">24–70</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/24</div>
+          <div><div class="sp-spot">Oeschinensee 翡翠湖色 + Spiez 城堡</div><div class="sp-tip">長焦壓縮湖景讓山峰更近；Spiez 城堡配葡萄園梯田，廣角帶全景</div></div>
+          <div class="sp-gear">兩支鏡</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/25</div>
+          <div><div class="sp-spot">伯恩拱廊街長廊透視</div><div class="sp-tip">廣角置於廊道中線，利用拱柱引導視線；時鐘塔前景壓縮長焦效果佳</div></div>
+          <div class="sp-gear">24–70</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/26</div>
+          <div><div class="sp-spot">Lauterbrunnen Staubbachfall 婚紗</div><div class="sp-tip">廣角仰拍 300m 直落瀑布，婚紗站瀑布前方，注意水霧護鏡頭</div></div>
+          <div class="sp-gear">24–70</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/27</div>
+          <div><div class="sp-spot">琉森卡貝爾橋藍調 22:00</div><div class="sp-tip">三腳架長曝 15–30s，ISO 400，橋燈倒影入水面，天空保留最後一絲藍</div></div>
+          <div class="sp-gear tripod">三腳架</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/28</div>
+          <div><div class="sp-spot">瑞吉山全景 + Lauerzersee 野餐</div><div class="sp-tip">廣角大景掃描四湖；湖邊婚紗候選備用地點，午光柔散射利於拍人像</div></div>
+          <div class="sp-gear">24–70</div>
+        </div>
+        <div class="sp-row">
+          <div class="sp-date">6/30</div>
+          <div><div class="sp-spot">萊茵瀑布 ND10 長曝</div><div class="sp-tip">ND10 濾鏡配三腳架拍絲絨水流，乘小船近距離岩石特寫，帶備用毛巾</div></div>
+          <div class="sp-gear tripod">ND+三腳</div>
+        </div>
       </div>
     </div>
 
