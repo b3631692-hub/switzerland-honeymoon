@@ -2341,6 +2341,55 @@ body.dark-mode .donut-ct-sub { fill: #91C2D8; }
 .ms-days.ms-today { color: #16A34A; }
 body.dark-mode .ms-row { background: #0D1A24; }
 
+/* ── Sony A7R5 相機設定卡 ── */
+.cam-card {
+  background: linear-gradient(135deg, #071828 0%, #0A2035 100%);
+  border-radius: var(--radius); padding: 20px 16px; margin-bottom: 24px;
+}
+.cam-title {
+  font-family: var(--font-serif); font-size: 15px; font-weight: 600;
+  color: #fff; margin-bottom: 3px;
+}
+.cam-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+.cam-rows { display: flex; flex-direction: column; gap: 7px; }
+.cam-row {
+  background: rgba(255,255,255,0.05); border-radius: 8px;
+  padding: 8px 11px;
+  display: grid; grid-template-columns: 100px 1fr; gap: 8px; align-items: center;
+}
+@media (max-width: 380px) { .cam-row { grid-template-columns: 1fr; gap: 3px; } }
+.cam-scene { font-size: 12px; font-weight: 700; color: var(--gold); }
+.cam-scene small { font-size: 9.5px; color: rgba(255,255,255,0.35); font-weight: 400; display: block; margin-top: 1px; }
+.cam-vals { display: flex; flex-wrap: wrap; gap: 5px; }
+.cam-val {
+  font-size: 10.5px; font-weight: 600;
+  background: rgba(255,255,255,0.08); border-radius: 5px;
+  padding: 2px 7px; color: rgba(255,255,255,0.75); white-space: nowrap;
+}
+.cam-val.cv-ss { color: #93C5FD; }
+.cam-val.cv-ap { color: #6EE7B7; }
+.cam-val.cv-iso { color: #FCD34D; }
+.cam-val.cv-nd { color: #FCA5A5; }
+.cam-note {
+  font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.7;
+  border-top: 1px solid rgba(255,255,255,0.07); padding-top: 11px; margin-top: 4px;
+}
+.cam-note strong { color: rgba(255,255,255,0.7); }
+
+/* ── 超市物價參考 ── */
+.price-card { padding: 16px 16px 10px; }
+.price-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.price-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pr-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 9px; border-radius: 8px; background: var(--bg);
+  font-size: 12px;
+}
+.pr-name { color: var(--text-sub); }
+.pr-chf { font-weight: 700; color: var(--primary); white-space: nowrap; }
+.price-note { font-size: 10.5px; color: var(--text-light); margin-top: 8px; line-height: 1.5; }
+body.dark-mode .pr-item { background: #0D1A24; }
+
 </style>
 </head>
 <body>
@@ -3208,6 +3257,24 @@ body.dark-mode .ms-row { background: #0D1A24; }
         <div class="prac-title">付款方式</div>
         <div class="prac-body">VISA / Mastercard 廣泛接受<br><em>備少量現金</em><br>高山小店可能需現金</div>
       </div>
+    </div>
+
+    <!-- ── 瑞士超市物價參考 ── -->
+    <div class="card price-card reveal">
+      <div class="price-title">🛒 Coop / Migros 物價參考</div>
+      <div class="price-rows">
+        <div class="pr-item"><span class="pr-name">☕ 咖啡（外帶）</span><span class="pr-chf">CHF 3.5–5</span></div>
+        <div class="pr-item"><span class="pr-name">🍺 罐裝啤酒</span><span class="pr-chf">CHF 1.5–2.5</span></div>
+        <div class="pr-item"><span class="pr-name">🥖 超市三明治</span><span class="pr-chf">CHF 5–8</span></div>
+        <div class="pr-item"><span class="pr-name">💧 礦泉水 500ml</span><span class="pr-chf">CHF 1–1.5</span></div>
+        <div class="pr-item"><span class="pr-name">🍫 Toblerone 100g</span><span class="pr-chf">CHF 2–3</span></div>
+        <div class="pr-item"><span class="pr-name">🧀 起司 200g</span><span class="pr-chf">CHF 4–7</span></div>
+        <div class="pr-item"><span class="pr-name">🍕 冷凍披薩</span><span class="pr-chf">CHF 4–6</span></div>
+        <div class="pr-item"><span class="pr-name">🥗 沙拉盒</span><span class="pr-chf">CHF 4–6</span></div>
+        <div class="pr-item"><span class="pr-name">🍓 草莓 250g</span><span class="pr-chf">CHF 3–4</span></div>
+        <div class="pr-item"><span class="pr-name">🧴 洗髮精（小）</span><span class="pr-chf">CHF 2–4</span></div>
+      </div>
+      <div class="price-note">⚠️ 觀光景點餐廳約貴 2–3 倍。山頂小屋可能需現金。Coop / Migros 週日大多照常營業，是週日補給首選。</div>
     </div>
   </div>
 
@@ -4291,6 +4358,68 @@ body.dark-mode .ms-row { background: #0D1A24; }
         Muottas Muragl / Corvatsch → 09:00 前上山雲量最少<br>
         Stellisee / Fex Valley → 傍晚 19:30–21:00 側光最柔<br>
         琉森卡貝爾橋 → 22:00 藍調‧架腳架長曝必備
+      </div>
+    </div>
+
+    <!-- ── Sony A7R5 相機設定速查 ── -->
+    <div class="cam-card reveal">
+      <div class="cam-title">📷 Sony A7R5 相機設定速查</div>
+      <div class="cam-sub">A7R5 × 24–70mm f/2.8 ／ 200–600mm · 參考值，依現場微調</div>
+      <div class="cam-rows">
+        <div class="cam-row">
+          <div class="cam-scene">🏔 山頂全景<small>Diavolezza / Matterhorn</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">1/250s</span><span class="cam-val cv-ap">f/8–11</span>
+            <span class="cam-val cv-iso">ISO 100–400</span><span class="cam-val">CPL 濾鏡</span>
+          </div>
+        </div>
+        <div class="cam-row">
+          <div class="cam-scene">💧 湖面倒影<small>Riffelsee / Stellisee</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">1/4–2s</span><span class="cam-val cv-ap">f/11</span>
+            <span class="cam-val cv-iso">ISO 100</span><span class="cam-val">腳架必備</span>
+          </div>
+        </div>
+        <div class="cam-row">
+          <div class="cam-scene">💍 婚紗人像<small>Lauterbrunnen / Schwarzsee</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">1/320s</span><span class="cam-val cv-ap">f/2.8–4</span>
+            <span class="cam-val cv-iso">ISO 200</span><span class="cam-val">散景背景</span>
+          </div>
+        </div>
+        <div class="cam-row">
+          <div class="cam-scene">🚂 列車過橋<small>Brusio 螺旋橋</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">1/1000s</span><span class="cam-val cv-ap">f/8</span>
+            <span class="cam-val cv-iso">ISO 400</span><span class="cam-val">連拍高速</span>
+          </div>
+        </div>
+        <div class="cam-row">
+          <div class="cam-scene">🌊 瀑布長曝<small>萊茵瀑布 / Staubbachfall</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">1–4s</span><span class="cam-val cv-ap">f/14–16</span>
+            <span class="cam-val cv-iso">ISO 100</span><span class="cam-val cv-nd">ND10 必備</span>
+          </div>
+        </div>
+        <div class="cam-row">
+          <div class="cam-scene">🦙 野生動物<small>土撥鼠 / 羱羊</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">1/1600s</span><span class="cam-val cv-ap">f/5.6</span>
+            <span class="cam-val cv-iso">ISO 800–3200</span><span class="cam-val">200–600mm</span>
+          </div>
+        </div>
+        <div class="cam-row">
+          <div class="cam-scene">🌃 藍調夜景<small>琉森橋 / 伯恩</small></div>
+          <div class="cam-vals">
+            <span class="cam-val cv-ss">10–30s</span><span class="cam-val cv-ap">f/8</span>
+            <span class="cam-val cv-iso">ISO 400</span><span class="cam-val">腳架 + 快門線</span>
+          </div>
+        </div>
+      </div>
+      <div class="cam-note">
+        <strong>CPL 順光偏光：</strong>消除水面反光，讓湖水更透藍 ·
+        <strong>ND10：</strong>萊茵瀑布豐水期水流強，10 格 ND 可拍出絲絨感 ·
+        <strong>A7R5 連拍：</strong>Hi+（120fps 電子快門）追列車最佳
       </div>
     </div>
 
