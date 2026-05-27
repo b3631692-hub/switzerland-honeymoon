@@ -2456,6 +2456,29 @@ body.dark-mode .tc-tag.ek    { background: #2D0A0A; color: #FCA5A5; }
 .price-note { font-size: 10.5px; color: var(--text-light); margin-top: 8px; line-height: 1.5; }
 body.dark-mode .pr-item { background: #0D1A24; }
 
+/* ── 美食指南卡 ── */
+.food-card { padding: 16px 16px 12px; margin-bottom: 20px; }
+.food-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.food-city-rows { display: flex; flex-direction: column; gap: 8px; }
+.food-city-row { border-radius: 10px; background: var(--bg); overflow: hidden; }
+.food-city-hdr {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 10px 5px;
+  font-size: 11.5px; font-weight: 700; color: var(--primary);
+  border-bottom: 1px solid var(--border);
+}
+.food-city-icon { font-size: 14px; }
+.food-city-name { flex: 1; }
+.food-city-spec { font-size: 10px; color: var(--gold); font-weight: 600; background: var(--gold-lt); border-radius: 4px; padding: 1px 6px; }
+.food-dishes { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 10px 8px; }
+.food-dish { font-size: 10.5px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--text-sub); }
+.food-dish.must { color: #92400E; border-color: #FDE68A; background: #FFFBEB; }
+.food-note { font-size: 10px; color: var(--text-light); margin-top: 8px; line-height: 1.6; }
+body.dark-mode .food-city-row { background: #0D1A24; }
+body.dark-mode .food-dish { background: #152233; }
+body.dark-mode .food-dish.must { background: #201500; border-color: #78350F; color: #FCD34D; }
+body.dark-mode .food-city-spec { background: #1A1108; }
+
 </style>
 </head>
 <body>
@@ -4852,6 +4875,59 @@ body.dark-mode .pr-item { background: #0D1A24; }
       </div>
     </div>
 
+
+    <!-- ─── 瑞士美食指南 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🍽 各城市必吃美食</div>
+    <div class="card food-card reveal">
+      <div class="food-title">瑞士傳統美食 × 各城特色</div>
+      <div class="food-city-rows">
+        <div class="food-city-row">
+          <div class="food-city-hdr"><span class="food-city-icon">🏔</span><span class="food-city-name">Pontresina ／ 恩加丁地區</span><span class="food-city-spec">⭐ 特產：Nusstorte</span></div>
+          <div class="food-dishes">
+            <span class="food-dish must">Maluns（馬鈴薯炒麵糊）</span>
+            <span class="food-dish must">Engadiner Nusstorte（核桃塔）</span>
+            <span class="food-dish">Fondue 起司火鍋 CHF 25–35</span>
+            <span class="food-dish">Alp Grüm 露台餐廳（冰川景）</span>
+          </div>
+        </div>
+        <div class="food-city-row">
+          <div class="food-city-hdr"><span class="food-city-icon">⛰</span><span class="food-city-name">策馬特</span><span class="food-city-spec">⭐ 特產：Raclette</span></div>
+          <div class="food-dishes">
+            <span class="food-dish must">Raclette 刮起司 CHF 20–30/人</span>
+            <span class="food-dish must">Fondue 起司火鍋 CHF 25–40/人</span>
+            <span class="food-dish">Schäferstube 蜜月晚餐（需訂位）</span>
+            <span class="food-dish">Ristorante Capri（唯一米其林）</span>
+          </div>
+        </div>
+        <div class="food-city-row">
+          <div class="food-city-hdr"><span class="food-city-icon">🏛</span><span class="food-city-name">伯恩</span><span class="food-city-spec">⭐ 特產：Berner Platte</span></div>
+          <div class="food-dishes">
+            <span class="food-dish must">Berner Platte 伯恩盤 CHF 30–40</span>
+            <span class="food-dish">Älplermagronen 高山通心粉 CHF 20</span>
+            <span class="food-dish">Altes Tramdepot 啤酒廠（需訂位）</span>
+            <span class="food-dish">Toblerone 巧克力（發源地！）</span>
+          </div>
+        </div>
+        <div class="food-city-row">
+          <div class="food-city-hdr"><span class="food-city-icon">🏰</span><span class="food-city-name">楚格 ／ 琉森</span><span class="food-city-spec">⭐ 特產：Zuger Kirschtorte</span></div>
+          <div class="food-dishes">
+            <span class="food-dish must">Zuger Kirschtorte 楚格櫻桃蛋糕</span>
+            <span class="food-dish">Rösti 薯餅（配任何主食）CHF 8–12</span>
+            <span class="food-dish">Cordon Bleu 瑞士版乳酪豬排 CHF 25</span>
+            <span class="food-dish">琉森 Rathaus Brauerei 河邊餐廳</span>
+          </div>
+        </div>
+        <div class="food-city-row">
+          <div class="food-city-hdr"><span class="food-city-icon">🌉</span><span class="food-city-name">蘇黎世</span><span class="food-city-spec">⭐ 特產：Geschnetzeltes</span></div>
+          <div class="food-dishes">
+            <span class="food-dish must">Zürcher Geschnetzeltes 奶油小牛肉 CHF 28–35</span>
+            <span class="food-dish">Rivella（瑞士本地汽水，必試）</span>
+            <span class="food-dish">機場 Migros／Coop 超市（省錢首選）</span>
+          </div>
+        </div>
+      </div>
+      <div class="food-note">💡 <strong>通用省錢技巧</strong>：午餐點 Tagesmenu（每日套餐）約 CHF 18–25，比單點划算。酒水費用高，可請 Leitungswasser（自來水）免費。週日超市照常，觀光景點餐廳約貴 2–3 倍。</div>
+    </div>
 
     <!-- ─── 德語實用短句 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🗣 旅途實用短句</div>
