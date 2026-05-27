@@ -2351,6 +2351,32 @@ body.dark-mode .donut-ct-sub { fill: #91C2D8; }
 .ms-days.ms-today { color: #16A34A; }
 body.dark-mode .ms-row { background: #0D1A24; }
 
+/* ── 關鍵跨城交通速查卡 ── */
+.transport-card { padding: 16px 16px 12px; margin-bottom: 20px; }
+.tc-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.tc-rows { display: flex; flex-direction: column; gap: 6px; }
+.tc-row {
+  display: grid; grid-template-columns: 40px 1fr auto;
+  align-items: start; gap: 8px;
+  padding: 8px 10px; border-radius: 10px; background: var(--bg);
+}
+.tc-date { font-size: 12px; font-weight: 800; color: var(--primary); text-align: center; line-height: 1.2; }
+.tc-date span { display: block; font-size: 9px; font-weight: 500; color: var(--text-light); }
+.tc-mid { display: flex; flex-direction: column; gap: 2px; }
+.tc-route { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.tc-note { font-size: 10px; color: var(--text-light); }
+.tc-tags { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.tc-tag { font-size: 9.5px; font-weight: 700; padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
+.tc-tag.stp   { background: #DCFCE7; color: #15803D; }
+.tc-tag.first { background: #FFFBEB; color: #92400E; }
+.tc-tag.fee   { background: #FEE2E2; color: #991B1B; }
+.tc-tag.ek    { background: #FFF0F0; color: #C8102E; }
+body.dark-mode .tc-row   { background: #0D1A24; }
+body.dark-mode .tc-tag.stp   { background: #071A0E; color: #4ADE80; }
+body.dark-mode .tc-tag.first { background: #201500; color: #FCD34D; }
+body.dark-mode .tc-tag.fee   { background: #200909; color: #FCA5A5; }
+body.dark-mode .tc-tag.ek    { background: #2D0A0A; color: #FCA5A5; }
+
 /* ── Sony A7R5 相機設定卡 ── */
 .cam-card {
   background: linear-gradient(135deg, #071828 0%, #0A2035 100%);
@@ -2611,6 +2637,80 @@ body.dark-mode .pr-item { background: #0D1A24; }
 
     <!-- 重要時刻倒數 (JS 動態填入) -->
     <div class="card milestone-card reveal" id="milestoneCard" style="display:none"></div>
+
+    <!-- ── 關鍵跨城交通速查 ── -->
+    <div class="card transport-card reveal">
+      <div class="tc-title">🚂 關鍵跨城交通速查</div>
+      <div class="tc-rows">
+        <div class="tc-row">
+          <div class="tc-date">6/17<span>三</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">ZRH 機場 → Pontresina</div>
+            <div class="tc-note">約 09:35 ZRH HB 出發，抵達約 13:16</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag stp">STP 全免</span></div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">6/19<span>五</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">伯尼納線 → Tirano → 返回</div>
+            <div class="tc-note">Regio 區間車，UNESCO 世界遺產鐵道，各站按鈴下車</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag stp">STP 全免</span></div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">6/21<span>日</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">冰河列車 Chur → Zermatt</div>
+            <div class="tc-note">14:32 Chur 出發，約 20:05 抵達策馬特（~5.5h）</div>
+          </div>
+          <div class="tc-tags">
+            <span class="tc-tag first">一等艙</span>
+            <span class="tc-tag fee">訂位費 CHF 13/人</span>
+          </div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">6/25<span>四</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">策馬特 → 伯恩</div>
+            <div class="tc-note">via Visp → Lötschberg 隧道 → Bern，約 3 小時</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag stp">STP 全免</span></div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">6/27<span>六</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">伯恩 → 楚格</div>
+            <div class="tc-note">IC 直達，約 50 分鐘</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag stp">STP 全免</span></div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">6/28<span>日</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">楚格 → Goldau 野生動物園</div>
+            <div class="tc-note">S3 約 30 分鐘，09:30 開園前抵達</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag stp">STP 全免</span></div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">6/29<span>一</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">楚格 → 萊茵瀑布 → ZRH 機場</div>
+            <div class="tc-note">Neuhausen → ZRH Airport，全程 STP，末日行李大移動</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag stp">STP 全免</span></div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-date">7/1<span>三</span></div>
+          <div class="tc-mid">
+            <div class="tc-route">ZRH → DXB → TPE 返台</div>
+            <div class="tc-note">EK086 22:00 出發，7/2 21:20 桃園落地 T2</div>
+          </div>
+          <div class="tc-tags"><span class="tc-tag ek">EK086/386</span></div>
+        </div>
+      </div>
+    </div>
 
     <!-- ─── 即時天氣 ─── -->
     <p class="swiss-time-bar">🕐 現在瑞士時間 <strong id="swissTime">--:--</strong> <span id="swissDate" style="font-size:10px;opacity:0.7"></span></p>
@@ -5507,7 +5607,8 @@ window.addEventListener('load', function() {
     void card.offsetWidth;
     card.classList.add('fc-flip');
     setTimeout(function() {
-      card.querySelector('.fc-lower .fc-num').textContent = newV;
+      card.querySelector('.fc-lower .fc-num').textContent    = newV;
+      card.querySelector('.fc-anim-top .fc-num').textContent = newV;
       card.classList.remove('fc-flip');
     }, 500);
   }
