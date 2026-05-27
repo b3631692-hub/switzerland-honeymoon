@@ -2395,6 +2395,8 @@ body.dark-mode .ts-item { background: #1C1A16; }
 .tcc-prep-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--primary), var(--gold)); transition: width 0.4s ease; }
 .tcc-cancel-warn { font-size: 10.5px; font-weight: 700; color: #FCD34D; background: rgba(252,211,77,0.10); border: 1px solid rgba(252,211,77,0.25); border-radius: 6px; padding: 4px 10px; margin: 6px 0 2px; display: inline-block; }
 .tcc-cancel-urgent { color: #FCA5A5; background: rgba(252,165,165,0.12); border-color: rgba(252,165,165,0.3); }
+.tcc-jump-btn { margin-top: 10px; display: block; width: 100%; font-size: 11px; font-weight: 700; padding: 7px 0; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.75); cursor: pointer; letter-spacing: 0.5px; transition: background 0.15s; }
+.tcc-jump-btn:active { background: rgba(255,255,255,0.16); }
 
 /* ── 關鍵末班倒數橫幅 ── */
 #critTimeBanner { border-radius: 10px; padding: 9px 13px; font-size: 11.5px; font-weight: 700;
@@ -10151,6 +10153,22 @@ window.shareItinerary = function() {
     var wxCache = readWxCache();
     var wxHtml = buildWxChip(wxCache && wxCache.data, gearKey, 'tccWxChip');
     var goldenHtml = buildGoldenHtml(gearKey);
+    // Hotel cancellation deadline alert within 48h
+    var TRIP_CANCELS = [
+      { label:'Hotel Zugertor', ts: new Date('2026-06-20T23:59:00+02:00').getTime() },
+      { label:'Swissôtel Bern ⚠️ 當天 18:00 截止', ts: new Date('2026-06-24T18:00:00+02:00').getTime() },
+      { label:'Ibis Budget Airport', ts: new Date('2026-06-27T23:59:00+02:00').getTime() },
+    ];
+    var cancelAlertHtml = '';
+    TRIP_CANCELS.forEach(function(c) {
+      var ms = c.ts - now.getTime();
+      if (ms > 0 && ms < 172800000) {
+        var hrs = Math.ceil(ms / 3600000);
+        cancelAlertHtml = '<div class="tcc-cancel-warn tcc-cancel-urgent">🏨 ' + c.label + ' 取消期限剩 ' + hrs + ' 小時</div>';
+      }
+    });
+    // Jump-to-today link
+    var jumpHtml = '<button class="tcc-jump-btn" onclick="showTab(\'itinerary\',null);setTimeout(function(){var el=document.querySelector(\'#tab-itinerary .day-card.today\');if(el){el.scrollIntoView({behavior:\'smooth\',block:\'start\'});}},150);haptic&&haptic(5)">→ 今日行程</button>';
     html = '<div class="tcc-state tcc-live">旅程進行中</div>'
       + '<div class="tcc-day-num">第 ' + daysIn + ' 天</div>'
       + (baseText ? '<div class="tcc-city-name">' + baseText + '</div>' : '')
@@ -10159,6 +10177,8 @@ window.shareItinerary = function() {
       + (titleText ? '<div class="tcc-activity">' + titleText + '</div>' : '')
       + gearHtml
       + hotelHtml
+      + cancelAlertHtml
+      + jumpHtml
       + (daysLeft > 0 ? '<div class="tcc-remain">距返台還有 ' + daysLeft + ' 天</div>' : '<div class="tcc-remain tcc-urgent">今天回家了！</div>');
     card.classList.add('visible');
     window._wxReadyCbs = window._wxReadyCbs || [];
