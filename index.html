@@ -7004,24 +7004,24 @@ window.addEventListener('load', () => {
   window.addEventListener('resize', resize);
   resize();
 
-  const HEARTS = ['♥', '♡', '❄', '✦', '✧', '·', '❅'];
+  const GLYPHS = ['✦', '✧', '❋', '·', '✿', '✩', '❀', '✦', '·', '✧'];
   function Particle() {
     this.reset();
   }
   Particle.prototype.reset = function() {
     this.x  = Math.random() * W;
     this.y  = H + 10;
-    this.vx = (Math.random() - 0.5) * 0.6;
-    this.vy = -(0.4 + Math.random() * 0.8);
+    this.vx = (Math.random() - 0.5) * 0.5;
+    this.vy = -(0.3 + Math.random() * 0.6);
     this.alpha = 0;
-    this.size  = 8 + Math.random() * 10;
-    this.char  = HEARTS[Math.floor(Math.random() * HEARTS.length)];
-    this.isHeart = Math.random() > 0.55;
-    this.color = this.isHeart
-      ? `hsl(${340 + Math.random()*20},75%,${70+Math.random()*15}%)`
-      : `hsl(${195 + Math.random()*30},75%,${78+Math.random()*15}%)`;
+    this.size  = 7 + Math.random() * 9;
+    this.char  = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    this.isWarm = Math.random() > 0.4;
+    this.color = this.isWarm
+      ? `hsl(${35 + Math.random()*20},${55+Math.random()*20}%,${74+Math.random()*14}%)`
+      : `hsl(${42 + Math.random()*10},${30+Math.random()*15}%,${86+Math.random()*10}%)`;
     this.life  = 0;
-    this.maxLife = 180 + Math.random() * 120;
+    this.maxLife = 220 + Math.random() * 160;
   };
   Particle.prototype.update = function() {
     this.life++;
