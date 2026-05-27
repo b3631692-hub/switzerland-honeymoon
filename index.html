@@ -7221,7 +7221,9 @@ function showTab(name, btn) {
       b.classList.add('active');
     }
   });
-  window.scrollTo({ top: document.querySelector('.top-nav')?.offsetTop || 0, behavior: 'smooth' });
+  var _nav = document.querySelector('.top-nav');
+  var _navTop = (_nav && getComputedStyle(_nav).display !== 'none') ? _nav.offsetTop : (document.querySelector('.main')?.offsetTop || 0);
+  window.scrollTo({ top: _navTop, behavior: 'smooth' });
   if (name === 'budget') animateBudget();
   if (name === 'overview') {
     setTimeout(function(){
