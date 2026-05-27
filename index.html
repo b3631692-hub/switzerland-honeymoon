@@ -2568,6 +2568,26 @@ body.dark-mode .dlc-inp { background: #0D1A24; border-color: #1D3348; }
   font-size: 8px; color: var(--primary); font-weight: 700; background: var(--card);
   padding: 0 2px; line-height: 1; }
 
+/* ── 今日推薦拍攝卡片 ── */
+.tpc-wrap { padding: 14px 16px 12px; }
+.tpc-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.tpc-label { font-size: 11px; font-weight: 800; color: var(--text-sub); flex: 1; }
+.tpc-day { font-size: 9px; font-weight: 700; color: var(--gold); background: rgba(201,169,110,0.15);
+  padding: 2px 7px; border-radius: 5px; }
+.tpc-rows { display: flex; flex-direction: column; gap: 6px; }
+.tpc-row { display: grid; grid-template-columns: 42px 1fr auto; align-items: start;
+  gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.tpc-row:last-child { border-bottom: none; }
+.tpc-row.tpc-best { background: rgba(201,169,110,0.07); border-radius: 9px;
+  padding: 9px 10px; border-bottom: none; margin-bottom: 2px; }
+body.dark-mode .tpc-row.tpc-best { background: rgba(201,169,110,0.1); }
+.tpc-time { text-align: center; }
+.tpc-hr { font-size: 13px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+.tpc-period { font-size: 9px; color: var(--text-sub); line-height: 1.4; }
+.tpc-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.tpc-tip { font-size: 10px; color: var(--text-sub); line-height: 1.4; }
+.tpc-star { font-size: 10px; font-weight: 800; color: var(--gold); white-space: nowrap; }
+
 /* ── 下一班交通卡片 ── */
 .ntc-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
 .ntc-label { font-size: 11px; font-weight: 800; color: var(--text-sub); flex: 1; }
@@ -5440,6 +5460,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <div id="tab-photo" class="section">
     <div class="sec-title">攝影指南</div>
 
+    <!-- 今日推薦拍攝 (JS 動態填入) -->
+    <div id="todayPhotoCard" style="display:none;margin-bottom:16px"></div>
+
     <!-- 攝影天氣評分卡 -->
     <div id="photoWxCard" class="card photo-wx-card reveal" style="display:none">
       <div class="photo-wx-title">📸 今日攝影條件評分</div>
@@ -7547,6 +7570,145 @@ window._fetchWeather = (function() {
   try { var c=JSON.parse(localStorage.getItem('wx_cache5')); if(c&&c.data) render(c.data); } catch(e){}
   window._wxReadyCbs = window._wxReadyCbs || [];
   window._wxReadyCbs.push(function(d){ render(d); });
+})();
+
+/* ── 今日推薦拍攝 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var el = document.getElementById('todayPhotoCard');
+  if (!el) return;
+  var now = new Date();
+  if (now < DEPART || now > RETURN) return;
+
+  // GOLDEN_HOURS: sunrise/sunset in Swiss CEST (UTC+2)
+  var GOLDEN = {
+    '6/16':['05:29','21:21'],'6/17':['05:28','21:22'],
+    '6/18':['05:28','21:22'],'6/19':['05:28','21:23'],
+    '6/20':['05:28','21:23'],'6/21':['05:28','21:23'],
+    '6/22':['05:29','21:23'],'6/23':['05:29','21:22'],
+    '6/24':['05:30','21:22'],'6/25':['05:31','21:21'],
+    '6/26':['05:31','21:21'],'6/27':['05:32','21:20'],
+    '6/28':['05:33','21:19'],'6/29':['05:34','21:18'],
+    '6/30':['05:35','21:17'],'7/1':['05:36','21:16']
+  };
+
+  // Per-day top photo recommendations
+  var DAY_SPOTS = {
+    '6/16': { city:'ZRH 機場', day: 1, spots:[
+      { name:'Observation Deck B', tip:'Terminal B 頂樓，飛機起降俯瞰', t:'day' },
+      { name:'Pistenende 跑道端', tip:'降落正面來機，帶 200–300mm', t:'day' },
+      { name:'The Circle 夜景', tip:'藍調後建築燈光構圖', t:'blue' }
+    ]},
+    '6/17': { city:'恩加丁 · Pontresina', day: 2, spots:[
+      { name:'Muottas Muragl 三湖全景', tip:'廣角掃描恩加丁三湖，傍晚側光最佳', t:'golden_pm' },
+      { name:'Pontresina 村落石板路', tip:'廣角低角度，黃金光影打亮石屋', t:'golden_am' }
+    ]},
+    '6/18': { city:'恩加丁 · Alp Languard', day: 3, spots:[
+      { name:'Diavolezza 冰川全景', tip:'Pers 冰川 + Piz Bernina，09:00 前上山', t:'day_am' },
+      { name:'Alp Languard 羱羊', tip:'200–600mm 靜音追拍，沿步道慢行', t:'day' }
+    ]},
+    '6/19': { city:'Bernina Express 鐵道', day: 4, spots:[
+      { name:'Brusio 螺旋橋', tip:'火車進橋時連拍，快門 1/500s+ 凝結', t:'day', best:true },
+      { name:'Ospizio Bernina 白湖', tip:'2,253m 高山湖泊 + 鐵道構圖', t:'day' }
+    ]},
+    '6/20': { city:'Corvatsch + Fex Valley', day: 5, spots:[
+      { name:'Corvatsch 五湖俯瞰', tip:'3,303m 廣角俯瞰，09:00 前上山', t:'day_am', best:true },
+      { name:'Silsersee 湖畔倒影', tip:'傍晚黃金時刻架腳架等側光', t:'golden_pm' }
+    ]},
+    '6/21': { city:'冰河列車全程', day: 6, spots:[
+      { name:'Oberalp Pass 景觀', tip:'坐右側，從窗拍雪山與峽谷', t:'day', best:true },
+      { name:'Visp 河谷彎道', tip:'1/250s 凝結移動前景，廣角', t:'day' }
+    ]},
+    '6/22': { city:'策馬特 · Riffelsee', day: 7, spots:[
+      { name:'Riffelsee 馬特洪峰倒影', tip:'06:40 首班，黎明藍調到晨間黃金', t:'golden_am', best:true },
+      { name:'Stellisee 倒影', tip:'僻靜湖面，廣角或中焦 85mm', t:'golden_pm' }
+    ]},
+    '6/23': { city:'策馬特 · Klein Matterhorn', day: 8, spots:[
+      { name:'Klein Matterhorn 3,883m', tip:'歐洲最高纜車站，廣角俯瞰冰川', t:'day_am', best:true },
+      { name:'Schwarzsee 馬特洪峰婚紗', tip:'2,583m 教堂前，標誌構圖', t:'day' }
+    ]},
+    '6/24': { city:'Kandersteg + 伯恩', day: 9, spots:[
+      { name:'Oeschinensee 冰川湖', tip:'翡翠綠湖 + 峭壁，廣角全景', t:'day', best:true },
+      { name:'伯恩玫瑰園俯瞰', tip:'晚霞黃金時段俯瞰老城', t:'golden_pm' }
+    ]},
+    '6/25': { city:'伯恩老城', day:10, spots:[
+      { name:'Zytglogge 天文鐘', tip:'整點前卡位拍機關人偶，快門 1/125s', t:'day', best:true },
+      { name:'玫瑰園黃金時刻', tip:'老城 + 阿爾卑斯，傍晚 19:30', t:'golden_pm' }
+    ]},
+    '6/26': { city:'Lauterbrunnen + 楚格', day:11, spots:[
+      { name:'Staubbachfall 300m 瀑布', tip:'大光圈 + ND 長曝，f/11 1/2s', t:'day', best:true },
+      { name:'楚格湖畔倒影', tip:'抵達後傍晚藍調時分架腳架', t:'blue' }
+    ]},
+    '6/27': { city:'楚格 + 琉森', day:12, spots:[
+      { name:'Kapellbrücke 藍調時刻', tip:'22:00 前後藍調，三腳架長曝 30s', t:'blue', best:true },
+      { name:'琉森湖日落倒影', tip:'Kursaal 廣場，傍晚黃金光', t:'golden_pm' }
+    ]},
+    '6/28': { city:'瑞吉山 + Goldau', day:13, spots:[
+      { name:'瑞吉山頂全景', tip:'遠眺盧森湖及阿爾卑斯群峰', t:'day', best:true },
+      { name:'Tierpark Goldau 動物', tip:'200–600mm 靜音連拍動物', t:'day' }
+    ]},
+    '6/29': { city:'蘇黎世', day:14, spots:[
+      { name:'蘇黎世湖傍晚黃金', tip:'船運碼頭 Bürkliplatz 廣角', t:'golden_pm', best:true },
+      { name:'Lindenhügel 俯瞰老城', tip:'廣角全景鳥瞰，黃昏最美', t:'golden_pm' }
+    ]},
+    '6/30': { city:'萊茵瀑布 + ZRH', day:15, spots:[
+      { name:'萊茵瀑布中央岩石', tip:'搭路線 4 小船，使用 ND 長曝', t:'day', best:true },
+      { name:'Stein am Rhein 彩繪房屋', tip:'廣角街景構圖，色彩繽紛的立面', t:'day' }
+    ]},
+    '7/1': { city:'ZRH 機場（回程）', day:16, spots:[
+      { name:'機場 Observation Deck', tip:'離境前最後一拍，飛機 + 阿爾卑斯', t:'day', best:true }
+    ]}
+  };
+
+  function parseHM(s, h) {
+    var p = s.split(':');
+    var d = new Date(h);
+    d.setHours(+p[0], +p[1], 0, 0);
+    return d;
+  }
+  function fmtTime(d) {
+    var h = d.getHours(), m = d.getMinutes();
+    return (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+  }
+  function getChNow() {
+    return new Date(now.getTime() + now.getTimezoneOffset()*60000 + 2*3600000);
+  }
+
+  var ch = getChNow();
+  var key = (ch.getMonth()+1) + '/' + ch.getDate();
+  var info = DAY_SPOTS[key];
+  var g = GOLDEN[key];
+  if (!info || !g) return;
+
+  var sr = parseHM(g[0], ch); // sunrise
+  var ss = parseHM(g[1], ch); // sunset
+
+  var TIMES = {
+    'dawn':      { label:'黎明藍調', time: fmtTime(new Date(sr.getTime()-30*60000)) },
+    'golden_am': { label:'晨間黃金', time: fmtTime(sr) },
+    'day_am':    { label:'上午最佳', time: '08:30' },
+    'day':       { label:'日間佳',   time: '10:00' },
+    'golden_pm': { label:'傍晚黃金', time: fmtTime(new Date(ss.getTime()-55*60000)) },
+    'blue':      { label:'藍調時段', time: fmtTime(new Date(ss.getTime()+3*60000)) }
+  };
+
+  var rows = '';
+  info.spots.forEach(function(s, idx) {
+    var t = TIMES[s.t] || TIMES['day'];
+    var isBest = s.best || idx === 0;
+    rows += '<div class="tpc-row' + (isBest ? ' tpc-best' : '') + '">'
+      + '<div class="tpc-time"><div class="tpc-hr">' + t.time + '</div><div class="tpc-period">' + t.label + '</div></div>'
+      + '<div><div class="tpc-name">' + s.name + '</div><div class="tpc-tip">' + s.tip + '</div></div>'
+      + (isBest ? '<div class="tpc-star">★ 最佳</div>' : '<div></div>')
+      + '</div>';
+  });
+
+  el.innerHTML = '<div class="card tpc-wrap">'
+    + '<div class="tpc-header"><span class="tpc-label">📸 今日推薦拍攝</span>'
+    + '<span class="tpc-day">第 ' + info.day + ' 天 · ' + info.city + '</span></div>'
+    + '<div class="tpc-rows">' + rows + '</div></div>';
+  el.style.display = 'block';
 })();
 
 /* ── GALLERY (P6) ── */
