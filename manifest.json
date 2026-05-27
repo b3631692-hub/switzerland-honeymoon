@@ -1,0 +1,20 @@
+{
+  "name": "瑞士蜜月旅行 2026",
+  "short_name": "瑞士蜜月",
+  "description": "信瑋 ＆ 映儒 2026 蜜月行程 6/16–7/1",
+  "start_url": "/switzerland-honeymoon/",
+  "scope": "/switzerland-honeymoon/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#071828",
+  "theme_color": "#2C5F8A",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

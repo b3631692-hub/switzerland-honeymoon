@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#D52B1E"/>
+  <!-- Swiss Cross -->
+  <rect x="192" y="96"  width="128" height="320" rx="16" fill="#FFFFFF"/>
+  <rect x="96"  y="192" width="320" height="128" rx="16" fill="#FFFFFF"/>
+</svg>
