@@ -1679,6 +1679,47 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   padding: 2px 9px; border-radius: 100px; margin-bottom: 6px;
 }
 
+/* ── 取消期限倒數 ── */
+.cancel-dl-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 16px;
+  margin-bottom: 24px; box-shadow: var(--shadow);
+}
+.cancel-dl-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.cancel-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px; margin-bottom: 6px;
+}
+.cancel-row.cr-urgent { background: #FEF2F2; }
+.cancel-row.cr-warn   { background: #FFFBEB; }
+.cancel-row.cr-safe   { background: #F0FDF4; }
+.cancel-row.cr-paid   { background: #F0FDF4; }
+.cancel-row.cr-passed { background: var(--bg); opacity: 0.6; }
+.cancel-info { flex: 1; }
+.cancel-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.cancel-date { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+.cancel-badge {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 100px; white-space: nowrap; flex-shrink: 0;
+}
+.cancel-badge.cr-urgent { background: #FEE2E2; color: #991B1B; }
+.cancel-badge.cr-warn   { background: #FEF3C7; color: #92400E; }
+.cancel-badge.cr-safe   { background: #DCFCE7; color: #15803D; }
+.cancel-badge.cr-paid   { background: #DCFCE7; color: #15803D; }
+.cancel-badge.cr-passed { background: var(--border); color: var(--text-light); }
+
+/* ── 行前待辦 ── */
+.predep-grid { display: flex; flex-direction: column; gap: 8px; }
+.predep-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; cursor: pointer; color: var(--text); line-height: 1.4;
+}
+.predep-item input[type=checkbox] {
+  width: 18px; height: 18px; flex-shrink: 0;
+  cursor: pointer; accent-color: var(--primary); margin-top: 1px;
+}
+.predep-item:has(input:checked) span { text-decoration: line-through; color: var(--text-light); }
+
 /* ── 花費追蹤 ── */
 .spend-tracker { padding: 18px 16px 16px; }
 .st-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
@@ -3682,6 +3723,31 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   <div id="tab-reminders" class="section">
     <div class="sec-title">重要提醒</div>
 
+    <!-- 取消期限倒數 -->
+    <div class="cancel-dl-card reveal">
+      <div class="cancel-dl-title">🗓 飯店取消期限倒數</div>
+      <div id="cancelDlRows"></div>
+    </div>
+
+    <!-- 行前待辦清單 -->
+    <div class="card reveal" style="padding:18px;margin-bottom:24px">
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px">✅ 行前待辦清單</div>
+      <div class="predep-grid">
+        <label class="predep-item"><input type="checkbox" id="pd0" onchange="savePredep()"><span>Chalet Achat pre-checkin 填寫（已付清，盡快！）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd1" onchange="savePredep()"><span>Fex Valley 馬車預約（+41 81 826 56 73）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd2" onchange="savePredep()"><span>購買冰河列車訂位費 CHF 13/人（6/21）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd3" onchange="savePredep()"><span>預約 Altes Tramdepot 伯恩晚餐（6/25）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd4" onchange="savePredep()"><span>確認旅遊保險（含登山 ＋ REGA 山難救援）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd5" onchange="savePredep()"><span>下載 SBB App 並設定離線路線</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd6" onchange="savePredep()"><span>截圖所有住宿確認信（無網路備份）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd7" onchange="savePredep()"><span>列印 / 截圖 Swiss Travel Pass 憑證</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd8" onchange="savePredep()"><span>確認護照效期 ＋ 影本備份</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd9" onchange="savePredep()"><span>國際漫遊 / SIM 卡啟用（2 支手機）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd10" onchange="savePredep()"><span>備妥緊急聯絡卡（印出放錢包）</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd11" onchange="savePredep()"><span>換匯現金 CHF（約 CHF 300–500）</span></label>
+      </div>
+    </div>
+
     <div class="reminder-grid">
       <div class="reminder-card reveal">
         <h3>🔴 緊急：出發前必辦</h3>
@@ -5106,6 +5172,66 @@ window.toggleAllDays = function() {
 })();
 
 /* ── 地圖攝影景點圖層 ── */
+/* ── 飯店取消期限倒數 ── */
+(function() {
+  var DEADLINES = [
+    { name: 'Trip Inn Jet Hotel',   date: '2026-06-14T23:59:00+08:00', desc: '蘇黎世機場 6/16（1晚）' },
+    { name: 'Hotel Zugertor',       date: '2026-06-20T23:59:00+02:00', desc: '楚格 6/26–6/29（3晚）' },
+    { name: 'Swissôtel Bern',       date: '2026-06-24T18:00:00+02:00', desc: '伯恩 6/24–6/26 ⚠️ 抵達當天' },
+    { name: 'Ibis Budget Airport',  date: '2026-06-27T23:59:00+02:00', desc: '蘇黎世機場 6/29–7/1（2晚）' },
+    { name: 'Hotel Station Pontresina', date: '2026-06-09T23:59:00+02:00', desc: 'Pontresina 6/17–6/21' },
+    { name: 'Chalet Achat Zermatt', date: null,                         desc: '策馬特 已付清，無需取消' },
+  ];
+  var container = document.getElementById('cancelDlRows');
+  if (!container) return;
+  var now = Date.now();
+  var html = '';
+  DEADLINES.forEach(function(d) {
+    if (!d.date) {
+      html += '<div class="cancel-row cr-paid"><div class="cancel-info"><div class="cancel-name">' + d.name + '</div><div class="cancel-date">' + d.desc + '</div></div><span class="cancel-badge cr-paid">✓ 已付清</span></div>';
+      return;
+    }
+    var dl = new Date(d.date);
+    var diff = dl.getTime() - now;
+    var days = Math.ceil(diff / 86400000);
+    var cls, badge;
+    if (diff < 0) {
+      cls = 'cr-passed'; badge = '已過期';
+    } else if (days <= 7) {
+      cls = 'cr-urgent'; badge = '⚠️ 剩 ' + days + ' 天';
+    } else if (days <= 21) {
+      cls = 'cr-warn'; badge = '⏰ 剩 ' + days + ' 天';
+    } else {
+      cls = 'cr-safe'; badge = '✓ 剩 ' + days + ' 天';
+    }
+    html += '<div class="cancel-row ' + cls + '"><div class="cancel-info"><div class="cancel-name">' + d.name + '</div><div class="cancel-date">' + d.desc + '</div></div><span class="cancel-badge ' + cls + '">' + badge + '</span></div>';
+  });
+  container.innerHTML = html;
+})();
+
+/* ── 行前待辦清單 ── */
+(function() {
+  var KEY = 'predep_v1';
+  function save() {
+    var data = {};
+    for (var i = 0; i <= 11; i++) {
+      var cb = document.getElementById('pd' + i);
+      if (cb) data[i] = cb.checked;
+    }
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) {}
+  }
+  function restore() {
+    var data = {};
+    try { data = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
+    for (var i = 0; i <= 11; i++) {
+      var cb = document.getElementById('pd' + i);
+      if (cb && data[i]) cb.checked = true;
+    }
+  }
+  window.savePredep = save;
+  restore();
+})();
+
 window.togglePhotoLayer = (function() {
   var _layer = null, _visible = false;
   var SPOTS = [
