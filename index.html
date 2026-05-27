@@ -2043,8 +2043,8 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 }
 .st-reset:hover { background: #FEE2E2; color: #EF4444; border-color: #FCA5A5; }
 .st-note { font-size: 12px; color: var(--text-light); margin-bottom: 16px; }
-.st-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-.st-row { display: grid; grid-template-columns: 1fr 90px; gap: 8px; align-items: center; }
+.st-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.st-row { display: flex; flex-direction: column; gap: 6px; }
 .st-row-l { display: flex; flex-direction: column; gap: 4px; }
 .st-cat { font-size: 12px; font-weight: 600; color: var(--text-sub); }
 .st-bar-wrap { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
@@ -2052,17 +2052,27 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   height: 100%; width: 0%; border-radius: 3px;
   background: var(--primary); transition: width 0.4s ease, background 0.3s;
 }
+.st-inp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.st-inp-wrap { display: flex; flex-direction: column; gap: 2px; }
+.st-cur-lbl { font-size: 9.5px; font-weight: 700; color: var(--text-light); padding-left: 2px; }
+.st-cur-lbl.chf-lbl { color: #2563EB; }
+body.dark-mode .st-cur-lbl.chf-lbl { color: #60A5FA; }
 .st-input {
-  width: 100%; padding: 7px 10px; font-size: 14px; font-weight: 700;
+  width: 100%; padding: 6px 8px; font-size: 13px; font-weight: 700;
   font-family: var(--font-body);
   border: 1.5px solid var(--border); border-radius: 8px;
   background: var(--bg); color: var(--primary);
   outline: none; text-align: right;
-  -moz-appearance: textfield;
+  -moz-appearance: textfield; box-sizing: border-box;
 }
+.st-input.st-chf-inp { color: #2563EB; border-color: #BFDBFE; }
+.st-input.st-chf-inp:focus { border-color: #3B82F6; }
+body.dark-mode .st-input.st-chf-inp { color: #60A5FA; border-color: #1D3A6B; }
+body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
 .st-input:focus { border-color: var(--primary); }
 .st-input::-webkit-outer-spin-button,
 .st-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.st-fx-hint { font-size: 10px; color: var(--text-light); text-align: right; margin-top: 2px; }
 .st-divider { height: 1px; background: var(--border); margin: 4px 0 14px; }
 .st-sum-row {
   display: flex; justify-content: space-between; align-items: center;
@@ -4195,49 +4205,103 @@ body.dark-mode .pr-item { background: #0D1A24; }
         <div class="st-title">💸 旅途花費追蹤</div>
         <button class="st-reset" onclick="resetSpending()">重設</button>
       </div>
-      <div class="st-note">出發後記錄各類實際花費，即時對比預算</div>
+      <div class="st-note">出發後記錄各類實際花費，即時對比預算　<span id="stFxHint" class="st-fx-hint"></span></div>
       <div class="st-rows">
         <div class="st-row">
           <div class="st-row-l">
             <div class="st-cat">✈️ 機票　　預算 61,388</div>
             <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-0"></div></div>
           </div>
-          <input type="number" id="st-0" class="st-input" data-budget="61388" min="0" placeholder="0" oninput="updateSpend()">
+          <div class="st-inp-pair">
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl chf-lbl">CHF 輸入 → 自動換算</span>
+              <input type="number" id="st-chf-0" class="st-input st-chf-inp" min="0" placeholder="0" oninput="fromChf(0)">
+            </div>
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl">TWD 實際花費</span>
+              <input type="number" id="st-0" class="st-input" data-budget="61388" min="0" placeholder="0" oninput="clearChf(0);updateSpend()">
+            </div>
+          </div>
         </div>
         <div class="st-row">
           <div class="st-row-l">
             <div class="st-cat">🏠 住宿　　預算 120,233</div>
             <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-1"></div></div>
           </div>
-          <input type="number" id="st-1" class="st-input" data-budget="120233" min="0" placeholder="0" oninput="updateSpend()">
+          <div class="st-inp-pair">
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl chf-lbl">CHF 輸入 → 自動換算</span>
+              <input type="number" id="st-chf-1" class="st-input st-chf-inp" min="0" placeholder="0" oninput="fromChf(1)">
+            </div>
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl">TWD 實際花費</span>
+              <input type="number" id="st-1" class="st-input" data-budget="120233" min="0" placeholder="0" oninput="clearChf(1);updateSpend()">
+            </div>
+          </div>
         </div>
         <div class="st-row">
           <div class="st-row-l">
             <div class="st-cat">🚂 交通　　預算 42,062</div>
             <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-2"></div></div>
           </div>
-          <input type="number" id="st-2" class="st-input" data-budget="42062" min="0" placeholder="0" oninput="updateSpend()">
+          <div class="st-inp-pair">
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl chf-lbl">CHF 輸入 → 自動換算</span>
+              <input type="number" id="st-chf-2" class="st-input st-chf-inp" min="0" placeholder="0" oninput="fromChf(2)">
+            </div>
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl">TWD 實際花費</span>
+              <input type="number" id="st-2" class="st-input" data-budget="42062" min="0" placeholder="0" oninput="clearChf(2);updateSpend()">
+            </div>
+          </div>
         </div>
         <div class="st-row">
           <div class="st-row-l">
             <div class="st-cat">🎿 景點　　預算 15,350</div>
             <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-3"></div></div>
           </div>
-          <input type="number" id="st-3" class="st-input" data-budget="15350" min="0" placeholder="0" oninput="updateSpend()">
+          <div class="st-inp-pair">
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl chf-lbl">CHF 輸入 → 自動換算</span>
+              <input type="number" id="st-chf-3" class="st-input st-chf-inp" min="0" placeholder="0" oninput="fromChf(3)">
+            </div>
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl">TWD 實際花費</span>
+              <input type="number" id="st-3" class="st-input" data-budget="15350" min="0" placeholder="0" oninput="clearChf(3);updateSpend()">
+            </div>
+          </div>
         </div>
         <div class="st-row">
           <div class="st-row-l">
             <div class="st-cat">🍽 餐飲　　預算 50,000</div>
             <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-4"></div></div>
           </div>
-          <input type="number" id="st-4" class="st-input" data-budget="50000" min="0" placeholder="0" oninput="updateSpend()">
+          <div class="st-inp-pair">
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl chf-lbl">CHF 輸入 → 自動換算</span>
+              <input type="number" id="st-chf-4" class="st-input st-chf-inp" min="0" placeholder="0" oninput="fromChf(4)">
+            </div>
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl">TWD 實際花費</span>
+              <input type="number" id="st-4" class="st-input" data-budget="50000" min="0" placeholder="0" oninput="clearChf(4);updateSpend()">
+            </div>
+          </div>
         </div>
         <div class="st-row">
           <div class="st-row-l">
             <div class="st-cat">🛍 購物　　預算 17,580</div>
             <div class="st-bar-wrap"><div class="st-bar-actual" id="stbar-5"></div></div>
           </div>
-          <input type="number" id="st-5" class="st-input" data-budget="17580" min="0" placeholder="0" oninput="updateSpend()">
+          <div class="st-inp-pair">
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl chf-lbl">CHF 輸入 → 自動換算</span>
+              <input type="number" id="st-chf-5" class="st-input st-chf-inp" min="0" placeholder="0" oninput="fromChf(5)">
+            </div>
+            <div class="st-inp-wrap">
+              <span class="st-cur-lbl">TWD 實際花費</span>
+              <input type="number" id="st-5" class="st-input" data-budget="17580" min="0" placeholder="0" oninput="clearChf(5);updateSpend()">
+            </div>
+          </div>
         </div>
       </div>
       <div class="st-divider"></div>
@@ -5829,11 +5893,15 @@ document.addEventListener('change', function(e) {
   var RATE = 35;
   var FX_CACHE_KEY = 'fx_chf_twd_v1';
   var FX_TTL = 3600000; // 1h
+  window._fxRate = RATE;
 
   function applyRate(rate, label) {
     RATE = rate;
+    window._fxRate = rate;
     var note = document.querySelector('.fx-note');
     if (note) note.textContent = 'CHF 1 ≈ TWD ' + rate.toFixed(2) + '　' + (label || '');
+    var hint = document.getElementById('stFxHint');
+    if (hint) hint.textContent = 'CHF 1 ≈ TWD ' + rate.toFixed(1);
     calcChf('chf');
   }
 
@@ -6105,12 +6173,33 @@ window.toggleAllDays = function() {
     if (pctLbl) pctLbl.textContent = '已使用 ' + Math.round(tpct) + '%';
   };
 
+  window.fromChf = function(i) {
+    var chfInp = document.getElementById('st-chf-' + i);
+    var twdInp = document.getElementById('st-' + i);
+    if (!chfInp || !twdInp) return;
+    var chf = parseFloat(chfInp.value);
+    if (!isNaN(chf) && chf >= 0) {
+      var rate = (window._fxRate && window._fxRate > 0) ? window._fxRate : 35;
+      twdInp.value = Math.round(chf * rate);
+    } else {
+      twdInp.value = '';
+    }
+    updateSpend();
+  };
+
+  window.clearChf = function(i) {
+    var chfInp = document.getElementById('st-chf-' + i);
+    if (chfInp) chfInp.value = '';
+  };
+
   window.resetSpending = function() {
     if (!confirm('確定清除所有花費記錄？')) return;
     try { localStorage.removeItem('spend_v1'); } catch(e) {}
     for (var i = 0; i < 6; i++) {
       var inp = document.getElementById('st-' + i);
       if (inp) inp.value = '';
+      var chfInp = document.getElementById('st-chf-' + i);
+      if (chfInp) chfInp.value = '';
     }
     updateSpend();
   };
