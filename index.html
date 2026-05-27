@@ -484,6 +484,12 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .chip-stp    { background: #DBEAFE; color: #1E40AF; }
 .chip-warn   { background: #FEE2E2; color: #991B1B; }
 .chip-gold   { background: var(--gold-lt); color: #92400E; }
+.chip-wx     { background: rgba(44,95,138,0.09); color: var(--primary); border: 1px solid rgba(44,95,138,0.2); font-size: 11px; }
+.chip-wx.cold { background: rgba(147,197,253,0.12); color: #2563EB; border-color: rgba(147,197,253,0.35); }
+.chip-wx.warm { background: rgba(251,191,36,0.1);  color: #D97706; border-color: rgba(251,191,36,0.3); }
+body.dark-mode .chip-wx      { background: rgba(44,95,138,0.2);  border-color: rgba(44,95,138,0.4); }
+body.dark-mode .chip-wx.cold { background: rgba(96,165,250,0.1); border-color: rgba(96,165,250,0.3); color: #60A5FA; }
+body.dark-mode .chip-wx.warm { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); color: #FCD34D; }
 
 /* ═══════════════════════════════════════
    COST PILLS
@@ -7515,6 +7521,67 @@ window.shareItinerary = function() {
     }
   }
   // Don't show card if trip hasn't started yet and > 30 days away (or after trip)
+})();
+
+/* ── 行程卡片天氣預報徽章 ── */
+(function(){
+  var DATE_WX = {
+    '6/16':0,'6/17':1,'6/18':1,'6/19':1,'6/20':1,
+    '6/21':2,'6/22':2,'6/23':2,'6/24':3,'6/25':3,
+    '6/26':4,'6/27':4,'6/28':4,'6/29':0,'6/30':0,'7/1':0
+  };
+  var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+    51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
+    71:'❄️',73:'❄️',75:'❄️',80:'🌦',81:'🌧',95:'⛈',99:'⛈'};
+
+  function getWxForDate(wxData, dateStr) {
+    var cityIdx = DATE_WX[dateStr];
+    if (cityIdx === undefined || !wxData || !wxData[cityIdx]) return null;
+    var d = wxData[cityIdx];
+    if (!d.daily || !d.daily.time) return null;
+    var idx = d.daily.time.indexOf('2026-0' + (dateStr.startsWith('7') ? '7' : dateStr.replace('/','-').replace(/^(\d)\//, '0$1/').replace('/','-')));
+    // parse date properly
+    var parts = dateStr.split('/');
+    var iso = '2026-' + String(parts[0]).padStart(2,'0') + '-' + String(parts[1]).padStart(2,'0');
+    idx = d.daily.time.indexOf(iso);
+    if (idx < 0) return null;
+    return {
+      icon: WMO[d.daily.weather_code[idx]] || '🌡',
+      max: Math.round(d.daily.temperature_2m_max[idx]),
+      min: Math.round(d.daily.temperature_2m_min[idx]),
+      rain: d.daily.precipitation_probability_max ? d.daily.precipitation_probability_max[idx] : null
+    };
+  }
+
+  function injectChips(wxData) {
+    var cards = document.querySelectorAll('#tab-itinerary .day-card');
+    cards.forEach(function(card) {
+      var dateEl = card.querySelector('.db-date');
+      if (!dateEl) return;
+      var dateStr = dateEl.textContent.trim();
+      var existing = card.querySelector('.chip-wx');
+      if (existing) existing.remove();
+      var wx = getWxForDate(wxData, dateStr);
+      if (!wx) return;
+      var tempCls = wx.max < 12 ? ' cold' : (wx.max > 22 ? ' warm' : '');
+      var rainStr = (wx.rain != null && wx.rain >= 30) ? ' ☂' + wx.rain + '%' : '';
+      var span = document.createElement('span');
+      span.className = 'chip chip-wx' + tempCls;
+      span.textContent = wx.icon + ' ' + wx.min + '–' + wx.max + '°C' + rainStr;
+      var chipsRow = card.querySelector('.day-chips');
+      if (chipsRow) chipsRow.appendChild(span);
+    });
+  }
+
+  function readCache() {
+    try { return JSON.parse(localStorage.getItem('wx_cache5')); } catch(e) { return null; }
+  }
+
+  var cached = readCache();
+  if (cached && cached.data) injectChips(cached.data);
+
+  window._wxReadyCbs = window._wxReadyCbs || [];
+  window._wxReadyCbs.push(function(wxData) { injectChips(wxData); });
 })();
 
 /* ── 重要時刻倒數 ── */
