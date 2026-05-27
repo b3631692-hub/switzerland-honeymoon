@@ -2483,14 +2483,20 @@ body.dark-mode .ms-row { background: #0D1A24; }
   display: grid; grid-template-columns: 44px 52px 1fr;
   align-items: center; gap: 6px;
   padding: 6px 10px; border-radius: 8px; background: var(--bg);
+  cursor: pointer; transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
 }
+.dtrow:hover { background: rgba(44,95,138,0.09); }
+.dtrow:active { transform: scale(0.97); }
 .dtrow.dt-today { background: rgba(201,169,110,0.14); border: 1.5px solid var(--gold); }
+.dtrow.dt-today:hover { background: rgba(201,169,110,0.22); }
 .dt-date { font-size: 12px; font-weight: 800; color: var(--primary); }
 .dt-day  { font-size: 10px; color: var(--text-light); }
 .dt-city { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; color: #fff; width: fit-content; }
 .dt-act  { font-size: 11.5px; color: var(--text-sub); line-height: 1.3; }
 .dtrow .dt-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; color: #fff; margin-right: 4px; vertical-align: middle; }
 body.dark-mode .dtrow { background: #0D1A24; }
+body.dark-mode .dtrow:hover { background: rgba(44,95,138,0.14); }
 body.dark-mode .dtrow.dt-today { background: rgba(201,169,110,0.10); }
 
 /* ── 關鍵跨城交通速查卡 ── */
@@ -6755,6 +6761,33 @@ showTab = function(name, btn) {
     }, 400);
   }
 };
+
+/* ── 16 天表點擊跳到行程日 ── */
+(function() {
+  var tbl = document.querySelector('.daytbl');
+  if (!tbl) return;
+  tbl.addEventListener('click', function(e) {
+    var row = e.target.closest('.dtrow');
+    if (!row) return;
+    var dateEl = row.querySelector('.dt-date');
+    if (!dateEl) return;
+    var dateStr = dateEl.textContent.trim();
+    haptic(10);
+    var itinBtn = document.querySelector('[onclick*="showTab(\'itinerary\'"]');
+    showTab('itinerary', itinBtn);
+    setTimeout(function() {
+      var cards = document.querySelectorAll('#tab-itinerary .day-card');
+      for (var i = 0; i < cards.length; i++) {
+        var badge = cards[i].querySelector('.db-date');
+        if (badge && badge.textContent.trim() === dateStr) {
+          cards[i].classList.add('dc-open');
+          cards[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+          break;
+        }
+      }
+    }, 420);
+  });
+})();
 
 /* ── 行程折疊展開 ── */
 (function() {
