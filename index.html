@@ -7051,6 +7051,15 @@ window.shareItinerary = function() {
   var now = new Date();
   var html = '';
 
+  var HOTEL_REMINDER = {
+    '6/16': '🏨 Trip Inn Jet Hotel 入住（機場步行可達）',
+    '6/17': '🏨 Hotel Station Pontresina 入住（14:00+），記得領 Engadin Card！',
+    '6/21': '🏨 深夜約 20:05 抵策馬特，Chalet Achat 入住（已付清，帶訂房確認）',
+    '6/24': '⚠️ Zermatt 退房 11:00 前 → Swissôtel Bern 入住 + 取消期限今日 18:00！',
+    '6/26': '🏨 Swissôtel Bern 退房 → Hotel Zugertor 楚格入住（14:00+）',
+    '6/29': '🏨 Hotel Zugertor 退房 → Ibis Budget Airport 入住（大行李可先寄放）',
+  };
+
   var DAILY_GEAR = {
     '6/17': ['STP 首次啟用', '登山鞋', '防水外套', 'Engadin Card（飯店領取）'],
     '6/18': ['防水登山鞋（殘雪）', 'CPL 濾鏡', '備用電池×3', '防曬霜 SPF50+'],
@@ -7085,11 +7094,14 @@ window.shareItinerary = function() {
     var gearHtml = gear.length ? ('<div class="tcc-gear"><div class="tcc-gear-title">今日必帶</div><div class="tcc-gear-list">'
       + gear.map(function(g) { return '<span class="tcc-gear-item">' + g + '</span>'; }).join('')
       + '</div></div>') : '';
+    var hotel = HOTEL_REMINDER[gearKey] || '';
+    var hotelHtml = hotel ? ('<div class="tcc-action" style="margin-top:8px;display:block">' + hotel + '</div>') : '';
     html = '<div class="tcc-state tcc-live">旅程進行中</div>'
       + '<div class="tcc-day-num">第 ' + daysIn + ' 天</div>'
       + (baseText ? '<div class="tcc-city-name">' + baseText + '</div>' : '')
       + (titleText ? '<div class="tcc-activity">' + titleText + '</div>' : '')
       + gearHtml
+      + hotelHtml
       + (daysLeft > 0 ? '<div class="tcc-remain">距返台還有 ' + daysLeft + ' 天</div>' : '<div class="tcc-remain tcc-urgent">今天回家了！</div>');
     card.classList.add('visible');
   } else if (now < DEPART) {
