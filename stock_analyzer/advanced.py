@@ -351,3 +351,104 @@ def _expand_grid(grid: Dict[str, List]) -> List[Dict]:
                 new_combos.append(c)
         combos = new_combos
     return combos
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Drawdown Recovery Analysis
+# ═══════════════════════════════════════════════════════════════
+class DrawdownAnalyzer:
+    """Analyze drawdown periods from an equity curve.
+
+    Identifies every drawdown period, its depth, duration, and recovery time.
+    Also computes the underwater curve (% below peak at each point).
+    """
+
+    def analyze(self, equity_curve: List[float]) -> Dict[str, Any]:
+        if not equity_curve or len(equity_curve) < 2:
+            return {"drawdowns": [], "underwater_curve": [], "max_drawdown": None}
+
+        # --- Compute underwater curve ---
+        underwater: List[float] = []
+        peak = equity_curve[0]
+        peaks: List[float] = []
+        for eq in equity_curve:
+            if eq > peak:
+                peak = eq
+            peaks.append(peak)
+            dd_pct = (peak - eq) / peak * 100 if peak > 0 else 0.0
+            underwater.append(round(dd_pct, 4))
+
+        # --- Identify drawdown events ---
+        drawdowns: List[Dict[str, Any]] = []
+        in_drawdown = False
+        start_idx = 0
+        trough_idx = 0
+        trough_val = 0.0
+
+        for i in range(len(equity_curve)):
+            if underwater[i] > 0:
+                if not in_drawdown:
+                    # Start of a new drawdown
+                    in_drawdown = True
+                    start_idx = i - 1 if i > 0 else 0  # peak was at previous bar
+                    trough_idx = i
+                    trough_val = equity_curve[i]
+                else:
+                    # Still in drawdown - check if deeper
+                    if equity_curve[i] < trough_val:
+                        trough_idx = i
+                        trough_val = equity_curve[i]
+            else:
+                if in_drawdown:
+                    # Recovery complete at bar i
+                    recovery_idx = i
+                    peak_val = peaks[start_idx]
+                    depth_pct = (peak_val - trough_val) / peak_val * 100 if peak_val > 0 else 0
+                    duration_bars = recovery_idx - start_idx
+                    recovery_bars = recovery_idx - trough_idx
+
+                    drawdowns.append({
+                        "start_idx": start_idx,
+                        "trough_idx": trough_idx,
+                        "recovery_idx": recovery_idx,
+                        "depth_pct": round(depth_pct, 4),
+                        "duration_bars": duration_bars,
+                        "recovery_bars": recovery_bars,
+                        "peak_value": round(peak_val, 2),
+                        "trough_value": round(trough_val, 2),
+                    })
+                    in_drawdown = False
+
+        # Handle ongoing drawdown (no recovery yet)
+        if in_drawdown:
+            peak_val = peaks[start_idx]
+            depth_pct = (peak_val - trough_val) / peak_val * 100 if peak_val > 0 else 0
+            duration_bars = len(equity_curve) - 1 - start_idx
+            drawdowns.append({
+                "start_idx": start_idx,
+                "trough_idx": trough_idx,
+                "recovery_idx": None,  # not yet recovered
+                "depth_pct": round(depth_pct, 4),
+                "duration_bars": duration_bars,
+                "recovery_bars": None,
+                "peak_value": round(peak_val, 2),
+                "trough_value": round(trough_val, 2),
+            })
+
+        # Sort by depth (deepest first)
+        drawdowns.sort(key=lambda d: d["depth_pct"], reverse=True)
+
+        max_dd = drawdowns[0] if drawdowns else None
+
+        return {
+            "drawdowns": drawdowns,
+            "underwater_curve": [round(u, 2) for u in underwater],
+            "max_drawdown": max_dd,
+            "total_drawdown_events": len(drawdowns),
+            "avg_depth_pct": round(sum(d["depth_pct"] for d in drawdowns) / len(drawdowns), 2) if drawdowns else 0,
+            "avg_duration_bars": round(sum(d["duration_bars"] for d in drawdowns) / len(drawdowns), 1) if drawdowns else 0,
+            "avg_recovery_bars": round(
+                sum(d["recovery_bars"] for d in drawdowns if d["recovery_bars"] is not None)
+                / max(sum(1 for d in drawdowns if d["recovery_bars"] is not None), 1), 1
+            ),
+        }

@@ -7,8 +7,9 @@ from urllib.parse import urlparse, parse_qs
 from .data_provider import generate_sample_data, fetch_yahoo_data, PRESETS
 from .strategies import STRATEGIES
 from .backtester import Backtester
-from .advanced import MonteCarloSimulator, WalkForwardAnalyzer, GridSearchOptimizer, DEFAULT_PARAM_GRIDS
+from .advanced import MonteCarloSimulator, WalkForwardAnalyzer, GridSearchOptimizer, DrawdownAnalyzer, DEFAULT_PARAM_GRIDS
 from .indicators import sma, ema, rsi, macd, bollinger_bands, atr, kdj, obv
+from .risk_manager import StrategyScorer
 
 DASHBOARD_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -56,6 +57,9 @@ class APIHandler(SimpleHTTPRequestHandler):
             "/api/montecarlo": self._handle_montecarlo,
             "/api/walkforward": self._handle_walkforward,
             "/api/optimize": self._handle_optimize,
+            "/api/compare": self._handle_compare,
+            "/api/score": self._handle_score,
+            "/api/export": self._handle_export,
             "/api/strategies": lambda p: self._json_response({"strategies": list(STRATEGIES.keys())}),
             "/api/presets": lambda p: self._json_response({"presets": list(PRESETS.keys())}),
         }
@@ -100,6 +104,10 @@ class APIHandler(SimpleHTTPRequestHandler):
         tp_v = bt_kw.get("take_profit")
         ts_v = bt_kw.get("trailing_stop_pct")
 
+        # Drawdown analysis
+        dd_analyzer = DrawdownAnalyzer()
+        drawdown_analysis = dd_analyzer.analyze(result.equity_curve)
+
         self._json_response({
             "data": data,
             "indicators": {
@@ -111,6 +119,7 @@ class APIHandler(SimpleHTTPRequestHandler):
             },
             "signals": [s.to_dict() for s in signals],
             "backtest": result.to_dict(),
+            "drawdown_analysis": drawdown_analysis,
             "strategy_name": strategy.name,
             "config": {
                 "stop_loss": sl_v,
@@ -159,6 +168,105 @@ class APIHandler(SimpleHTTPRequestHandler):
         opt = GridSearchOptimizer()
         opt_result = opt.optimize(data["closes"], strategy_name, capital=capital, rank_by=rank_by, **bt_kw)
         self._json_response(opt_result)
+
+    def _handle_compare(self, params):
+        """Run all strategies on the same data and return comparison table."""
+        data = _get_data(params)
+        capital = float(params.get("capital", ["1000000"])[0])
+        bt_kw = _bt_kwargs(params)
+        closes = data["closes"]
+
+        compare_strategies = ["golden_cross", "rsi", "macd", "bollinger", "composite"]
+        results = []
+
+        for name in compare_strategies:
+            strategy_cls = STRATEGIES.get(name)
+            if not strategy_cls:
+                continue
+            strategy = strategy_cls()
+            signals = strategy.generate_signals(closes)
+            bt = Backtester(initial_capital=capital, **bt_kw)
+            result = bt.run(closes, signals, data["dates"])
+            results.append({
+                "strategy_key": name,
+                "strategy_name": strategy.name,
+                "return_pct": round(result.total_return_pct, 2),
+                "sharpe": round(result.sharpe_ratio, 3),
+                "win_rate": round(result.win_rate, 1),
+                "max_drawdown_pct": round(result.max_drawdown_pct, 2),
+                "total_trades": result.total_trades,
+                "profit_factor": round(result.profit_factor, 3),
+            })
+
+        self._json_response({"strategies": results})
+
+    def _handle_score(self, params):
+        """Score a strategy using StrategyScorer and return grade + breakdown."""
+        data = _get_data(params)
+        strategy_name = params.get("strategy", ["composite"])[0]
+        capital = float(params.get("capital", ["1000000"])[0])
+        bt_kw = _bt_kwargs(params)
+        closes = data["closes"]
+
+        strategy_cls = STRATEGIES.get(strategy_name, STRATEGIES["composite"])
+        strategy = strategy_cls()
+        signals = strategy.generate_signals(closes)
+        bt = Backtester(initial_capital=capital, **bt_kw)
+        result = bt.run(closes, signals, data["dates"])
+
+        scorer = StrategyScorer()
+        score_result = scorer.score(result)
+        score_result["strategy_name"] = strategy.name
+        self._json_response(score_result)
+
+    def _handle_export(self, params):
+        """Return JSON with trade list and equity data for export."""
+        data = _get_data(params)
+        strategy_name = params.get("strategy", ["composite"])[0]
+        capital = float(params.get("capital", ["1000000"])[0])
+        bt_kw = _bt_kwargs(params)
+
+        closes = data["closes"]
+        dates = data["dates"]
+
+        strategy_cls = STRATEGIES.get(strategy_name, STRATEGIES["composite"])
+        strategy = strategy_cls()
+        signals = strategy.generate_signals(closes)
+
+        bt = Backtester(initial_capital=capital, **bt_kw)
+        result = bt.run(closes, signals, dates)
+
+        trades_list = []
+        for t in result.trades:
+            entry_date = dates[t.entry_idx] if t.entry_idx < len(dates) else ""
+            exit_date = dates[t.exit_idx] if t.exit_idx is not None and t.exit_idx < len(dates) else ""
+            holding_days = (t.exit_idx - t.entry_idx) if t.exit_idx is not None else 0
+            trades_list.append({
+                "entry_date": entry_date,
+                "exit_date": exit_date,
+                "direction": t.direction,
+                "entry_price": round(t.entry_price, 2),
+                "exit_price": round(t.exit_price, 2) if t.exit_price is not None else None,
+                "stop_loss": round(t.stop_loss_price, 2) if t.stop_loss_price is not None else None,
+                "take_profit": round(t.take_profit_price, 2) if t.take_profit_price is not None else None,
+                "exit_reason": t.exit_reason,
+                "pnl": round(t.pnl, 2),
+                "pnl_pct": round(t.pnl_pct, 2),
+                "holding_days": holding_days,
+            })
+
+        equity_data = []
+        for i, eq in enumerate(result.equity_curve):
+            date = dates[i] if i < len(dates) else ""
+            equity_data.append({"date": date, "equity": round(eq, 2)})
+
+        self._json_response({
+            "strategy_name": strategy.name,
+            "total_trades": len(trades_list),
+            "total_return_pct": round(result.total_return_pct, 2),
+            "trades": trades_list,
+            "equity_curve": equity_data,
+        })
 
     def _json_response(self, data):
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")

@@ -1,6 +1,9 @@
 """Risk management and position sizing."""
 import math
-from typing import List, Dict, Any
+from typing import List, Dict, Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .backtester import BacktestResult
 
 
 class RiskManager:
@@ -106,3 +109,119 @@ class RiskManager:
                 "signal_score": round(sig_score, 1),
             }
         }
+
+
+class StrategyScorer:
+    """Grades a BacktestResult on an A-F scale based on multiple metrics.
+
+    Scoring weights:
+      - Sharpe ratio:   25%
+      - Profit factor:  20%
+      - Win rate:       20%
+      - Max drawdown:   20%
+      - Consistency:    15%  (1 - coefficient of variation of monthly returns)
+
+    Grade scale: A >= 80, B >= 65, C >= 50, D >= 35, F < 35
+    """
+
+    def score(self, result: "BacktestResult") -> Dict[str, Any]:
+        from .backtester import BacktestResult
+
+        # --- Sharpe score (25%) ---
+        # Map sharpe: <=0 -> 0, >=3 -> 100
+        raw_sharpe = result.sharpe_ratio
+        sharpe_pct = max(0.0, min(raw_sharpe / 3.0, 1.0)) * 100
+
+        # --- Profit factor score (20%) ---
+        # Map PF: <=0.5 -> 0, >=3 -> 100
+        raw_pf = result.profit_factor
+        pf_pct = max(0.0, min((raw_pf - 0.5) / 2.5, 1.0)) * 100
+
+        # --- Win rate score (20%) ---
+        # Map win_rate: 0% -> 0, 100% -> 100 (it's already a percentage)
+        raw_wr = result.win_rate  # already 0-100
+        wr_pct = max(0.0, min(raw_wr, 100.0))
+
+        # --- Max drawdown score (20%) ---
+        # Lower is better: 0% dd -> 100, >=50% dd -> 0
+        raw_dd = result.max_drawdown_pct
+        dd_pct = max(0.0, min((50.0 - raw_dd) / 50.0, 1.0)) * 100
+
+        # --- Consistency score (15%) ---
+        consistency_pct = self._calc_consistency(result.equity_curve)
+
+        # Weighted total
+        total_score = (
+            sharpe_pct * 0.25
+            + pf_pct * 0.20
+            + wr_pct * 0.20
+            + dd_pct * 0.20
+            + consistency_pct * 0.15
+        )
+        total_score = max(0.0, min(total_score, 100.0))
+
+        # Grade
+        if total_score >= 80:
+            grade = "A"
+        elif total_score >= 65:
+            grade = "B"
+        elif total_score >= 50:
+            grade = "C"
+        elif total_score >= 35:
+            grade = "D"
+        else:
+            grade = "F"
+
+        # Recommendation in Chinese
+        recommendations = {
+            "A": "策略表現優異，各項指標均衡，建議持續使用並適度加大部位。",
+            "B": "策略表現良好，可投入實盤但需注意風控，建議搭配移動停損。",
+            "C": "策略表現中等，建議先用小部位測試或結合其他策略使用。",
+            "D": "策略表現偏弱，建議優化參數或更換策略後再行使用。",
+            "F": "策略表現不佳，不建議投入實盤，請重新檢視策略邏輯與參數。",
+        }
+
+        return {
+            "total_score": round(total_score, 1),
+            "grade": grade,
+            "recommendation": recommendations.get(grade, ""),
+            "breakdown": {
+                "sharpe": round(sharpe_pct, 1),
+                "profit_factor": round(pf_pct, 1),
+                "win_rate": round(wr_pct, 1),
+                "max_drawdown": round(dd_pct, 1),
+                "consistency": round(consistency_pct, 1),
+            },
+        }
+
+    def _calc_consistency(self, equity_curve: List[float]) -> float:
+        """Consistency = (1 - CV of monthly returns) * 100, clamped to [0, 100].
+
+        Monthly returns are approximated by splitting the equity curve into
+        ~21-day segments (trading days per month).
+        """
+        if not equity_curve or len(equity_curve) < 42:
+            return 50.0  # not enough data, neutral score
+
+        month_len = 21
+        monthly_returns = []
+        for i in range(0, len(equity_curve) - month_len, month_len):
+            start_val = equity_curve[i]
+            end_val = equity_curve[i + month_len]
+            if start_val > 0:
+                monthly_returns.append((end_val - start_val) / start_val)
+
+        if len(monthly_returns) < 2:
+            return 50.0
+
+        mean_ret = sum(monthly_returns) / len(monthly_returns)
+        if mean_ret == 0:
+            return 50.0
+
+        variance = sum((r - mean_ret) ** 2 for r in monthly_returns) / (len(monthly_returns) - 1)
+        std_ret = math.sqrt(variance)
+        cv = abs(std_ret / mean_ret)
+
+        # Map: CV 0 -> 100, CV >= 3 -> 0
+        consistency = max(0.0, min((3.0 - cv) / 3.0, 1.0)) * 100
+        return consistency

@@ -71,6 +71,21 @@ body{font-family:'SF Mono','Cascadia Code','Fira Code',monospace;background:var(
 .mc-stat{background:var(--card2);border-radius:8px;padding:10px;text-align:center}
 .mc-stat .ms-l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
 .mc-stat .ms-v{font-size:18px;font-weight:700;margin-top:2px}
+.grade-circle{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;border:4px solid;margin:0 auto 10px}
+.grade-circle.A{color:var(--green);border-color:var(--green);background:rgba(16,185,129,.1)}
+.grade-circle.B{color:var(--cyan);border-color:var(--cyan);background:rgba(6,182,212,.1)}
+.grade-circle.C{color:var(--gold);border-color:var(--gold);background:rgba(245,158,11,.1)}
+.grade-circle.D{color:var(--orange);border-color:var(--orange);background:rgba(249,115,22,.1)}
+.grade-circle.F{color:var(--red);border-color:var(--red);background:rgba(239,68,68,.1)}
+.score-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center}
+.score-left{text-align:center}
+.score-right{position:relative;height:250px}
+.score-rec{text-align:center;margin-top:8px;color:var(--dim);font-size:12px;line-height:1.5}
+.compare-table{width:100%;border-collapse:collapse;font-size:12px}
+.compare-table th{text-align:center;padding:8px 6px;color:var(--dim);border-bottom:1px solid var(--border);font-weight:500;text-transform:uppercase;letter-spacing:1px;font-size:10px}
+.compare-table td{padding:7px 6px;border-bottom:1px solid rgba(30,58,95,.2);text-align:center}
+.compare-table tr:hover{background:rgba(59,130,246,.05)}
+.compare-table .best-val{color:var(--gold);font-weight:700}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 </style>
 </head>
@@ -88,13 +103,19 @@ body{font-family:'SF Mono','Cascadia Code','Fira Code',monospace;background:var(
   <div class="controls">
     <select id="presetSel"><option value="default">預設模擬</option><option value="uptrend">上漲趨勢</option><option value="volatile">高波動</option><option value="bearish">下跌趨勢</option></select>
     <input id="symbolInput" style="width:90px" placeholder="股票代碼">
-    <select id="strategySel"><option value="composite">綜合策略</option><option value="golden_cross">均線交叉</option><option value="rsi">RSI</option><option value="macd">MACD</option><option value="bollinger">布林帶</option></select>
+    <select id="strategySel"><option value="composite">綜合策略</option><option value="golden_cross">均線交叉</option><option value="rsi">RSI</option><option value="macd">MACD</option><option value="bollinger">布林帶</option><option value="ema_cross">EMA交叉</option><option value="volume_breakout">量價突破</option><option value="rr_filtered">RR過濾</option></select>
     <input id="capitalInput" type="number" value="1000000" style="width:100px">
     <div class="grp"><label style="color:var(--red)">停損%</label><input id="slInput" type="number" value="5" step="1" min="0"></div>
     <div class="grp"><label style="color:var(--green)">停利%</label><input id="tpInput" type="number" value="10" step="1" min="0"></div>
     <div class="grp"><label style="color:var(--orange)">移停%</label><input id="tsInput" type="number" value="0" step="1" min="0"></div>
     <div class="grp"><label>加碼層</label><input id="mpInput" type="number" value="1" step="1" min="1" max="5"></div>
     <label class="chk"><input type="checkbox" id="shortChk">做空</label>
+    <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
+    <label class="chk"><input type="checkbox" id="autoRefreshChk" onchange="toggleAutoRefresh()">自動更新</label>
+    <select id="autoRefreshInterval" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:3px 6px;border-radius:4px;font-size:11px;font-family:inherit" onchange="resetAutoRefresh()">
+      <option value="10">10s</option><option value="30" selected>30s</option><option value="60">60s</option>
+    </select>
+    <span id="autoRefreshCountdown" style="font-size:11px;color:var(--gold);min-width:30px"></span>
   </div>
 </div>
 
@@ -103,6 +124,21 @@ body{font-family:'SF Mono','Cascadia Code','Fira Code',monospace;background:var(
     <h2><span class="dot" style="background:var(--cyan)"></span>價格走勢 & 停損停利區間</h2>
     <div class="chart-wrap tall"><canvas id="priceChart"></canvas></div>
   </div>
+
+  <!-- Round 10: Comprehensive Score Card -->
+  <div class="card full" id="scoreCard" style="display:none">
+    <h2><span class="dot" style="background:var(--gold)"></span>綜合評分</h2>
+    <div class="score-layout">
+      <div class="score-left">
+        <div class="grade-circle" id="gradeCircle">-</div>
+        <div style="font-size:22px;font-weight:700;margin-bottom:4px" id="scoreValue">--</div>
+        <div style="font-size:11px;color:var(--dim)">綜合評分 / 100</div>
+        <div class="score-rec" id="scoreRec">等待分析...</div>
+      </div>
+      <div class="score-right"><canvas id="radarChart"></canvas></div>
+    </div>
+  </div>
+
   <div class="card"><h2><span class="dot" style="background:var(--green)"></span>回測績效</h2><div class="stats" id="perfStats"><div class="loading"><div class="spinner"></div>等待分析...</div></div></div>
   <div class="card"><h2><span class="dot" style="background:var(--gold)"></span>風險指標</h2><div class="risk-grid" id="riskStats"><div class="loading"><div class="spinner"></div>等待分析...</div></div></div>
   <div class="card full"><h2><span class="dot" style="background:var(--blue)"></span>權益曲線</h2><div class="chart-wrap"><canvas id="equityChart"></canvas></div></div>
@@ -129,6 +165,12 @@ body{font-family:'SF Mono','Cascadia Code','Fira Code',monospace;background:var(
   <div class="card"><h2><span class="dot" style="background:var(--cyan)"></span>成交量 & OBV</h2><div class="chart-wrap"><canvas id="volumeChart"></canvas></div></div>
   <div class="card"><h2><span class="dot" style="background:var(--green)"></span>交易訊號</h2><div class="signal-list" id="signalList"><div class="loading"><div class="spinner"></div>等待分析...</div></div></div>
   <div class="card"><h2><span class="dot" style="background:var(--gold)"></span>交易紀錄</h2><div style="max-height:300px;overflow-y:auto" id="tradeList"><div class="loading"><div class="spinner"></div>等待分析...</div></div></div>
+
+  <!-- Round 6: Strategy Comparison Table -->
+  <div class="card full" id="compareCard" style="display:none">
+    <h2><span class="dot" style="background:var(--purple)"></span>策略擂台</h2>
+    <div id="compareContent"><div class="loading"><div class="spinner"></div>載入策略比較中...</div></div>
+  </div>
 </div>
 
 <script>
@@ -188,7 +230,7 @@ async function runGS(){
   }catch(e){document.getElementById('gsContent').innerHTML=`<div style="color:var(--red)">失敗: ${e.message}</div>`}
 }
 
-function renderAll(r){renderPriceChart(r);renderEquityChart(r);renderRSIChart(r);renderVolumeChart(r);renderPerfStats(r.backtest);renderRiskStats(r.backtest);renderSignals(r);renderTrades(r)}
+function renderAll(r){renderPriceChart(r);renderEquityChart(r);renderRSIChart(r);renderVolumeChart(r);renderPerfStats(r.backtest);renderRiskStats(r.backtest);renderSignals(r);renderTrades(r);fetchCompare();fetchScore()}
 
 /* ═══ SL/TP Zone Plugin ═══ */
 const slTpZonePlugin={
@@ -461,6 +503,155 @@ function renderGS(r){
     h+=`</tbody></table>`;
   }
   el.innerHTML=h;
+}
+
+/* ═══ Round 6: Strategy Comparison ═══ */
+async function fetchCompare(){
+  const card=document.getElementById('compareCard');card.style.display='block';
+  document.getElementById('compareContent').innerHTML='<div class="loading"><div class="spinner"></div>載入策略比較中...</div>';
+  try{
+    const p=getParams();
+    const r=await(await fetch(`/api/compare?${p}`)).json();
+    renderCompare(r);
+  }catch(e){document.getElementById('compareContent').innerHTML=`<div style="color:var(--red)">載入失敗: ${e.message}</div>`}
+}
+
+function renderCompare(r){
+  const el=document.getElementById('compareContent');
+  if(!r.strategies||!r.strategies.length){el.innerHTML='<div style="color:var(--dim)">無策略資料</div>';return}
+  const s=r.strategies;
+  // Find best in each column
+  const bestReturn=Math.max(...s.map(x=>x.return_pct));
+  const bestSharpe=Math.max(...s.map(x=>x.sharpe));
+  const bestWR=Math.max(...s.map(x=>x.win_rate));
+  const bestDD=Math.min(...s.map(x=>x.max_drawdown_pct));// lower is better
+  const bestPF=Math.max(...s.map(x=>x.profit_factor));
+  const bestTrades=Math.max(...s.map(x=>x.total_trades));
+
+  let h=`<table class="compare-table"><thead><tr><th>策略</th><th>報酬率%</th><th>夏普比率</th><th>勝率%</th><th>最大回撤%</th><th>交易數</th><th>獲利因子</th></tr></thead><tbody>`;
+  s.forEach(x=>{
+    const rc=x.return_pct===bestReturn?'best-val':'';
+    const sc=x.sharpe===bestSharpe?'best-val':'';
+    const wc=x.win_rate===bestWR?'best-val':'';
+    const dc=x.max_drawdown_pct===bestDD?'best-val':'';
+    const tc=x.total_trades===bestTrades?'best-val':'';
+    const pc=x.profit_factor===bestPF?'best-val':'';
+    const retColor=x.return_pct>=0?'var(--green)':'var(--red)';
+    h+=`<tr>
+      <td style="text-align:left;font-weight:600">${x.strategy_name}</td>
+      <td class="${rc}" style="color:${retColor}">${x.return_pct>=0?'+':''}${x.return_pct.toFixed(2)}</td>
+      <td class="${sc}">${x.sharpe.toFixed(3)}</td>
+      <td class="${wc}">${x.win_rate.toFixed(1)}</td>
+      <td class="${dc}">${x.max_drawdown_pct.toFixed(2)}</td>
+      <td class="${tc}">${x.total_trades}</td>
+      <td class="${pc}">${x.profit_factor.toFixed(3)}</td>
+    </tr>`;
+  });
+  h+=`</tbody></table>`;
+  el.innerHTML=h;
+}
+
+/* ═══ Round 10: Comprehensive Score Card ═══ */
+async function fetchScore(){
+  const card=document.getElementById('scoreCard');card.style.display='block';
+  try{
+    const p=getParams();
+    const r=await(await fetch(`/api/score?${p}`)).json();
+    renderScore(r);
+  }catch(e){
+    document.getElementById('gradeCircle').textContent='?';
+    document.getElementById('scoreValue').textContent='--';
+    document.getElementById('scoreRec').textContent='載入失敗: '+e.message;
+  }
+}
+
+function renderScore(r){
+  const circle=document.getElementById('gradeCircle');
+  const val=document.getElementById('scoreValue');
+  const rec=document.getElementById('scoreRec');
+  const grade=r.grade||'F';
+
+  circle.textContent=grade;
+  circle.className='grade-circle '+grade;
+  val.textContent=r.total_score.toFixed(1);
+  val.style.color=gradeColor(grade);
+  rec.textContent=r.recommendation||'';
+
+  // Render radar chart
+  if(charts.radar)charts.radar.destroy();
+  const ctx=document.getElementById('radarChart').getContext('2d');
+  const bd=r.breakdown||{};
+  charts.radar=new Chart(ctx,{
+    type:'radar',
+    data:{
+      labels:['報酬率','夏普比率','勝率','回撤控制','穩定性'],
+      datasets:[{
+        label:'策略評分',
+        data:[bd.profit_factor||0,bd.sharpe||0,bd.win_rate||0,bd.max_drawdown||0,bd.consistency||0],
+        backgroundColor:'rgba(59,130,246,.15)',
+        borderColor:'var(--blue)',
+        borderWidth:2,
+        pointBackgroundColor:'var(--blue)',
+        pointBorderColor:'var(--blue)',
+        pointRadius:4
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      scales:{
+        r:{
+          min:0,max:100,
+          ticks:{stepSize:20,color:'#475569',backdropColor:'transparent',font:{size:9}},
+          grid:{color:'rgba(30,58,95,.4)'},
+          angleLines:{color:'rgba(30,58,95,.4)'},
+          pointLabels:{color:'#94a3b8',font:{size:11,weight:'600'}}
+        }
+      },
+      plugins:{legend:{display:false}}
+    }
+  });
+}
+
+function gradeColor(g){
+  const m={A:'var(--green)',B:'var(--cyan)',C:'var(--gold)',D:'var(--orange)',F:'var(--red)'};
+  return m[g]||'var(--dim)';
+}
+
+/* ═══ Round 9: Auto-Refresh ═══ */
+let autoRefreshTimer=null;
+let countdownTimer=null;
+let countdownValue=0;
+
+function toggleAutoRefresh(){
+  const on=document.getElementById('autoRefreshChk').checked;
+  if(on){startAutoRefresh()}else{stopAutoRefresh()}
+}
+
+function resetAutoRefresh(){
+  if(document.getElementById('autoRefreshChk').checked){stopAutoRefresh();startAutoRefresh()}
+}
+
+function startAutoRefresh(){
+  stopAutoRefresh();
+  const sec=parseInt(document.getElementById('autoRefreshInterval').value)||30;
+  countdownValue=sec;
+  updateCountdown();
+  countdownTimer=setInterval(()=>{
+    countdownValue--;
+    if(countdownValue<=0){countdownValue=sec;runAnalysis()}
+    updateCountdown();
+  },1000);
+}
+
+function stopAutoRefresh(){
+  if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null}
+  if(autoRefreshTimer){clearInterval(autoRefreshTimer);autoRefreshTimer=null}
+  countdownValue=0;
+  document.getElementById('autoRefreshCountdown').textContent='';
+}
+
+function updateCountdown(){
+  document.getElementById('autoRefreshCountdown').textContent=countdownValue>0?countdownValue+'s':'';
 }
 
 window.addEventListener('load',()=>runAnalysis());

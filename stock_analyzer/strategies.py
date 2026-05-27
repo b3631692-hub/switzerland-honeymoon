@@ -180,6 +180,116 @@ class CompositeStrategy:
         return signals
 
 
+class EMACrossStrategy:
+    """EMA crossover with EMA200 trend filter.
+
+    Buy when short EMA crosses above long EMA AND price > EMA200.
+    Sell when short EMA crosses below long EMA AND price < EMA200.
+    """
+
+    def __init__(self, short_period: int = 12, long_period: int = 26, trend_period: int = 200):
+        self.short_period = short_period
+        self.long_period = long_period
+        self.trend_period = trend_period
+        self.name = f"EMA CrossOver({short_period}/{long_period}) Trend({trend_period})"
+
+    def generate_signals(self, closes: List[float]) -> List[Signal]:
+        short_ema = ema(closes, self.short_period)
+        long_ema = ema(closes, self.long_period)
+        trend_ema = ema(closes, self.trend_period)
+        signals = []
+        for i in range(1, len(closes)):
+            if all(v is not None for v in [short_ema[i], long_ema[i], short_ema[i - 1], long_ema[i - 1]]):
+                # Bullish crossover: short EMA crosses above long EMA
+                if short_ema[i - 1] <= long_ema[i - 1] and short_ema[i] > long_ema[i]:
+                    # Trend filter: only take longs when price > EMA200
+                    if trend_ema[i] is None or closes[i] > trend_ema[i]:
+                        gap = (short_ema[i] - long_ema[i]) / long_ema[i]
+                        signals.append(Signal(
+                            Signal.BUY, min(0.5 + gap * 20, 1.0),
+                            f"EMA金叉 EMA{self.short_period}↑EMA{self.long_period} (趨勢濾網通過)", i
+                        ))
+                # Bearish crossover: short EMA crosses below long EMA
+                elif short_ema[i - 1] >= long_ema[i - 1] and short_ema[i] < long_ema[i]:
+                    # Trend filter: only take shorts when price < EMA200
+                    if trend_ema[i] is None or closes[i] < trend_ema[i]:
+                        gap = (long_ema[i] - short_ema[i]) / long_ema[i]
+                        signals.append(Signal(
+                            Signal.SELL, min(0.5 + gap * 20, 1.0),
+                            f"EMA死叉 EMA{self.short_period}↓EMA{self.long_period} (趨勢濾網通過)", i
+                        ))
+        return signals
+
+
+class VolumeBreakoutStrategy:
+    """Volume breakout strategy with divergence detection.
+
+    Buy when volume > 2x average volume AND price closes above 20-day high.
+    Sell when volume > 2x average volume AND price closes below 20-day low.
+    Also generates sell warnings on volume-price divergence (price up + volume down).
+    """
+
+    def __init__(self, vol_multiplier: float = 2.0, lookback: int = 20):
+        self.vol_multiplier = vol_multiplier
+        self.lookback = lookback
+        self.name = f"Volume Breakout({lookback}d, {vol_multiplier}x)"
+
+    def generate_signals(self, closes: List[float], volumes: List[float] = None,
+                         highs: List[float] = None, lows: List[float] = None) -> List[Signal]:
+        if volumes is None:
+            # Cannot operate without volume data; return empty
+            return []
+        if highs is None:
+            highs = closes
+        if lows is None:
+            lows = closes
+
+        signals = []
+        n = len(closes)
+        for i in range(self.lookback, n):
+            # Average volume over lookback window (excluding current bar)
+            avg_vol = sum(volumes[i - self.lookback:i]) / self.lookback
+            if avg_vol <= 0:
+                continue
+
+            vol_ratio = volumes[i] / avg_vol
+            high_volume = vol_ratio >= self.vol_multiplier
+
+            # 20-day high/low (excluding current bar)
+            period_high = max(highs[i - self.lookback:i])
+            period_low = min(lows[i - self.lookback:i])
+
+            # Buy: high volume + price closes above 20-day high
+            if high_volume and closes[i] > period_high:
+                strength = min(0.5 + (vol_ratio - self.vol_multiplier) * 0.15, 1.0)
+                signals.append(Signal(
+                    Signal.BUY, strength,
+                    f"量價突破 成交量{vol_ratio:.1f}x + 突破{self.lookback}日高點", i
+                ))
+
+            # Sell: high volume + price closes below 20-day low
+            elif high_volume and closes[i] < period_low:
+                strength = min(0.5 + (vol_ratio - self.vol_multiplier) * 0.15, 1.0)
+                signals.append(Signal(
+                    Signal.SELL, strength,
+                    f"量價崩跌 成交量{vol_ratio:.1f}x + 跌破{self.lookback}日低點", i
+                ))
+
+            # Volume-price divergence: price up but volume declining
+            elif i >= self.lookback + 5:
+                price_up = closes[i] > closes[i - 5]
+                recent_avg_vol = sum(volumes[i - 5:i]) / 5
+                prev_avg_vol = sum(volumes[i - 10:i - 5]) / 5 if i >= self.lookback + 10 else avg_vol
+                vol_declining = recent_avg_vol < prev_avg_vol * 0.8 if prev_avg_vol > 0 else False
+                if price_up and vol_declining:
+                    signals.append(Signal(
+                        Signal.SELL, 0.4,
+                        f"量價背離警告 價格上漲但成交量萎縮", i
+                    ))
+
+        return signals
+
+
 class RiskRewardFilter:
     """Wraps any strategy and filters signals by risk/reward ratio.
 
@@ -263,5 +373,7 @@ STRATEGIES = {
     "bollinger": BollingerStrategy,
     "kdj": KDJStrategy,
     "composite": CompositeStrategy,
+    "ema_cross": EMACrossStrategy,
+    "volume_breakout": VolumeBreakoutStrategy,
     "rr_filtered": RiskRewardFilter,
 }

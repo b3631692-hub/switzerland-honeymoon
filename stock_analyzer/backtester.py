@@ -282,6 +282,7 @@ class Backtester:
                             to_close.append(pos)
                 for pos in to_close:
                     capital = self._close_position(pos, i, price, "take_profit", capital, result)
+                    closed_trades.append(result.trades[-1])
                     high_watermarks.pop(id(pos), None)
                     positions.remove(pos)
 
@@ -294,18 +295,35 @@ class Backtester:
                 if sig.action == Signal.BUY:
                     for pos in shorts:
                         capital = self._close_position(pos, i, price, "signal", capital, result)
+                        closed_trades.append(result.trades[-1])
                         high_watermarks.pop(id(pos), None)
                     positions = [p for p in positions if p.direction == "LONG"]
 
                     if len(longs) < self.max_positions:
                         buy_price = price * (1 + self.slippage)
-                        alloc = self.position_size / self.max_positions
-                        available = capital * alloc
-                        cost = available * self.commission_rate
-                        shares = (available - cost) / buy_price
+
+                        # --- Dynamic position sizing ---
+                        if self.sizing_mode == "kelly" and closed_trades:
+                            kelly_frac = self._calc_kelly_fraction(closed_trades)
+                            alloc = kelly_frac / self.max_positions
+                            available = capital * alloc
+                            cost = available * self.commission_rate
+                            shares = (available - cost) / buy_price
+                        elif self.sizing_mode == "atr" and atr_values[i] is not None:
+                            shares = self._calc_atr_shares(capital, buy_price, atr_values[i])
+                            cost = buy_price * shares * self.commission_rate
+                        else:
+                            alloc = self.position_size / self.max_positions
+                            available = capital * alloc
+                            cost = available * self.commission_rate
+                            shares = (available - cost) / buy_price
+
                         if shares > 0 and capital > buy_price * shares + cost:
                             sl_p = buy_price * (1 - self.stop_loss) if self.stop_loss else None
                             tp_p = buy_price * (1 + self.take_profit) if self.take_profit else None
+                            # For ATR sizing, set stop based on ATR if no explicit stop_loss
+                            if self.sizing_mode == "atr" and sl_p is None and atr_values[i] is not None:
+                                sl_p = buy_price - atr_values[i] * self.atr_stop_multiplier
                             new_pos = Trade(i, buy_price, shares, "LONG", sl_p, tp_p)
                             capital -= buy_price * shares + cost
                             positions.append(new_pos)
@@ -314,18 +332,35 @@ class Backtester:
                 elif sig.action == Signal.SELL:
                     for pos in longs:
                         capital = self._close_position(pos, i, price, "signal", capital, result)
+                        closed_trades.append(result.trades[-1])
                         high_watermarks.pop(id(pos), None)
                     positions = [p for p in positions if p.direction == "SHORT"]
 
                     if self.allow_short and len(shorts) < self.max_positions:
                         sell_price = price * (1 - self.slippage)
-                        alloc = self.position_size / self.max_positions
-                        available = capital * alloc
-                        cost = available * self.commission_rate
-                        shares = (available - cost) / sell_price
+
+                        # --- Dynamic position sizing ---
+                        if self.sizing_mode == "kelly" and closed_trades:
+                            kelly_frac = self._calc_kelly_fraction(closed_trades)
+                            alloc = kelly_frac / self.max_positions
+                            available = capital * alloc
+                            cost = available * self.commission_rate
+                            shares = (available - cost) / sell_price
+                        elif self.sizing_mode == "atr" and atr_values[i] is not None:
+                            shares = self._calc_atr_shares(capital, sell_price, atr_values[i])
+                            cost = sell_price * shares * self.commission_rate
+                        else:
+                            alloc = self.position_size / self.max_positions
+                            available = capital * alloc
+                            cost = available * self.commission_rate
+                            shares = (available - cost) / sell_price
+
                         if shares > 0:
                             sl_p = sell_price * (1 + self.stop_loss) if self.stop_loss else None
                             tp_p = sell_price * (1 - self.take_profit) if self.take_profit else None
+                            # For ATR sizing, set stop based on ATR if no explicit stop_loss
+                            if self.sizing_mode == "atr" and sl_p is None and atr_values[i] is not None:
+                                sl_p = sell_price + atr_values[i] * self.atr_stop_multiplier
                             new_pos = Trade(i, sell_price, shares, "SHORT", sl_p, tp_p)
                             capital += sell_price * shares - cost
                             positions.append(new_pos)

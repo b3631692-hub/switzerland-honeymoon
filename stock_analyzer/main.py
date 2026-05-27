@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """CLI entry point for stock analyzer."""
 import argparse
+import csv
 import json
 import sys
 import os
@@ -354,6 +355,65 @@ def run_full_analysis(data: dict, capital: float):
         print(f"  建議金額:   ${capital * kelly:,.0f}")
 
 
+def export_trades(data: dict, strategy_name: str, capital: float, bt_kw: dict):
+    """Export trades to CSV and equity curve to a separate CSV."""
+    closes = data["closes"]
+    dates = data["dates"]
+    symbol = data.get("symbol", "stock")
+
+    strategy_cls = STRATEGIES.get(strategy_name)
+    if not strategy_cls:
+        print(f"未知策略: {strategy_name}")
+        return
+    strategy = strategy_cls()
+    signals = strategy.generate_signals(closes)
+
+    bt = Backtester(initial_capital=capital, **bt_kw)
+    result = bt.run(closes, signals, dates)
+
+    # --- Export trades CSV ---
+    trades_file = f"{symbol}_trades.csv"
+    with open(trades_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            "entry_date", "exit_date", "direction", "entry_price", "exit_price",
+            "stop_loss", "take_profit", "exit_reason", "pnl", "pnl_pct", "holding_days"
+        ])
+        for t in result.trades:
+            entry_date = dates[t.entry_idx] if t.entry_idx < len(dates) else ""
+            exit_date = dates[t.exit_idx] if t.exit_idx is not None and t.exit_idx < len(dates) else ""
+            holding_days = (t.exit_idx - t.entry_idx) if t.exit_idx is not None else 0
+            writer.writerow([
+                entry_date,
+                exit_date,
+                t.direction,
+                round(t.entry_price, 2),
+                round(t.exit_price, 2) if t.exit_price is not None else "",
+                round(t.stop_loss_price, 2) if t.stop_loss_price is not None else "",
+                round(t.take_profit_price, 2) if t.take_profit_price is not None else "",
+                t.exit_reason,
+                round(t.pnl, 2),
+                round(t.pnl_pct, 2),
+                holding_days,
+            ])
+
+    # --- Export equity curve CSV ---
+    equity_file = f"{symbol}_equity.csv"
+    with open(equity_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["date", "equity"])
+        for i, eq in enumerate(result.equity_curve):
+            date = dates[i] if i < len(dates) else ""
+            writer.writerow([date, round(eq, 2)])
+
+    print_header(f"📋 交易紀錄匯出 - {strategy.name}")
+    print(f"  策略:       {strategy.name}")
+    print(f"  交易筆數:   {len(result.trades)}")
+    print(f"  交易紀錄:   {trades_file}")
+    print(f"  權益曲線:   {equity_file}")
+    print(f"  總報酬率:   {result.total_return_pct:+.2f}%")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="📊 無情獲利股票分析系統",
@@ -369,7 +429,7 @@ def main():
   python -m stock_analyzer.main full --preset uptrend --capital 1000000
   python -m stock_analyzer.main server --port 8888
 
-策略: golden_cross, rsi, macd, bollinger, kdj, composite
+策略: golden_cross, rsi, macd, bollinger, kdj, composite, ema_cross, volume_breakout
 資料: uptrend, volatile, bearish, default
         """
     )
@@ -438,6 +498,14 @@ def main():
     p_json.add_argument("--strategy", type=str, default="composite")
     p_json.add_argument("--capital", type=float, default=1_000_000)
 
+    p_export = sub.add_parser("export", help="匯出交易紀錄與權益曲線至 CSV")
+    p_export.add_argument("--symbol", type=str)
+    p_export.add_argument("--csv", type=str)
+    p_export.add_argument("--preset", type=str, default="default")
+    p_export.add_argument("--strategy", type=str, default="composite")
+    p_export.add_argument("--capital", type=float, default=1_000_000)
+    _add_bt_args(p_export)
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
@@ -467,6 +535,8 @@ def main():
         print_optimize(data, args.strategy, args.capital, _bt_kwargs(args), args.rank_by)
     elif args.command == "full":
         run_full_analysis(data, args.capital)
+    elif args.command == "export":
+        export_trades(data, args.strategy, args.capital, _bt_kwargs(args))
     elif args.command == "json":
         output = _build_json(data, args.strategy, args.capital)
         print(json.dumps(output, ensure_ascii=False, indent=2))
