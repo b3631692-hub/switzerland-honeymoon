@@ -6255,7 +6255,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     <div class="card psc-card reveal" id="pscCard">
       <div class="psc-title">📸 拍攝地點打卡清單</div>
       <div class="psc-sub">旅途中逐一打勾，自動儲存進度</div>
-      <div class="psc-prog-lbl">已完成 <span id="pscDoneCount">0</span> / 25 個景點</div>
+      <div class="psc-prog-lbl">已完成 <span id="pscDoneCount">0</span> / 26 個景點</div>
       <div class="psc-prog-bar"><div class="psc-prog-fill" id="pscProgFill" style="width:0%"></div></div>
 
       <div class="psc-city">
@@ -6279,6 +6279,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
       <div class="psc-city">
         <div class="psc-city-hdr">🚂 冰河列車 <span class="psc-chip">6/21</span></div>
         <label class="psc-item" data-id="p8" onclick="togglePsc('p8')"><input type="checkbox" id="p8"><div class="psc-box"></div><div><div class="psc-name">萊茵峽谷窗景</div><div class="psc-tip">坐右側，快門 1/500s，拍橋梁 / 峽谷切面</div></div></label>
+        <label class="psc-item" data-id="p25" onclick="togglePsc('p25')"><input type="checkbox" id="p25"><div class="psc-box"></div><div><div class="psc-name">Landwasser 高架橋（Albula 線）</div><div class="psc-tip">坐右側，12:30–13:00 過 Filisur，廣角連拍 65m 石拱橋穿入山洞瞬間</div></div></label>
       </div>
 
       <div class="psc-city">
@@ -11324,7 +11325,7 @@ window.spFilter = function(gear, btn){
 /* ── 攝影打卡清單 ── */
 (function(){
   var KEY = 'photo_spots_v1';
-  var TOTAL = 25;
+  var TOTAL = 26;
   function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
   function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
   function updateUI(){
