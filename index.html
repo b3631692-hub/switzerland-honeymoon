@@ -1811,6 +1811,13 @@ body.dark-mode .wx-suit-bad  { background: #200909; color: #FCA5A5; }
 }
 .stp-leg { display: flex; align-items: center; gap: 5px; }
 .stp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.stp-day.stp-today { outline: 2.5px solid var(--gold); outline-offset: 1px; }
+.stp-day.stp-past { opacity: 0.38; }
+.stp-progress { display: flex; align-items: center; gap: 8px; margin-top: 10px;
+  padding-top: 10px; border-top: 1px dashed var(--border); }
+.stp-progress-txt { font-size: 10.5px; color: var(--text-sub); white-space: nowrap; }
+.stp-progress-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.stp-progress-fill { height: 100%; background: #16A34A; border-radius: 3px; transition: width 0.5s ease; }
 
 /* ── Footer 美化 ── */
 footer {
@@ -3572,6 +3579,10 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="stp-leg"><div class="stp-leg-dot" style="background:#F5F5F5;border:1px solid #ccc"></div>ZVV 計費（6/16）</div>
         <div class="stp-leg"><div class="stp-leg-dot" style="background:#DCFCE7"></div>STP 二等艙（6/17–7/1）</div>
         <div class="stp-leg"><div class="stp-leg-dot" style="background:#FEF9EE;border:1.5px solid #FCD34D"></div>冰河列車一等艙升等（6/21）</div>
+      </div>
+      <div class="stp-progress" id="stpProgress">
+        <span class="stp-progress-txt" id="stpProgressTxt">STP 尚未開始</span>
+        <div class="stp-progress-bar"><div class="stp-progress-fill" id="stpProgressFill" style="width:0%"></div></div>
       </div>
     </div>
 
@@ -7191,6 +7202,47 @@ function highlightToday() {
   var dtRow = document.getElementById(rowId);
   if (dtRow) dtRow.classList.add('dt-today');
 }
+
+/* ── STP 日曆今日高亮 + 進度 ── */
+(function(){
+  var STP_START = new Date('2026-06-17T00:00:00+08:00');
+  var now = new Date();
+  var m = now.getMonth()+1, d = now.getDate();
+  var todayStr = m+'/'+d;
+
+  document.querySelectorAll('.stp-day .stp-day-date').forEach(function(el){
+    var chip = el.closest('.stp-day');
+    if(!chip) return;
+    var ds = el.textContent.trim();
+    if(ds === todayStr){ chip.classList.add('stp-today'); return; }
+    var pts = ds.split('/');
+    var cm = parseInt(pts[0]), cd = parseInt(pts[1]);
+    var chipDate = new Date(2026, cm-1, cd);
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if(chipDate < today) chip.classList.add('stp-past');
+  });
+
+  var txt = document.getElementById('stpProgressTxt');
+  var fill = document.getElementById('stpProgressFill');
+  if(!txt || !fill) return;
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var stpStartDay = new Date(2026, 5, 17);
+  var stpEndDay   = new Date(2026, 6, 1);
+  if(today < stpStartDay){
+    var daysTo = Math.ceil((stpStartDay - today)/86400000);
+    txt.textContent = 'STP 將在 '+daysTo+' 天後開始（6/17 起用）';
+    fill.style.width = '0%';
+  } else if(today > stpEndDay){
+    txt.textContent = 'STP 15 天全部使用完畢 ✓';
+    fill.style.width = '100%';
+    fill.style.background = '#C9A96E';
+  } else {
+    var used = Math.min(15, Math.floor((today - stpStartDay)/86400000)+1);
+    var left = Math.max(0, 15 - used);
+    txt.textContent = 'STP 已用 '+used+'/15 天 · 剩餘 '+left+' 天';
+    fill.style.width = Math.round(used/15*100)+'%';
+  }
+})();
 
 /* ── 打包進度條 ── */
 function updateChecklistProgress() {
