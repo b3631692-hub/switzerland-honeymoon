@@ -1,5 +1,5 @@
 /* Switzerland Honeymoon 2026 — Service Worker */
-const CACHE = 'honeymoon-v6';
+const CACHE = 'honeymoon-v7';
 const CORE = [
   '/switzerland-honeymoon/',
   '/switzerland-honeymoon/index.html',
@@ -44,7 +44,7 @@ self.addEventListener('fetch', e => {
       if (url.includes('switzerland-honeymoon/index.html') || url === location.origin + '/switzerland-honeymoon/') {
         return cached || network;
       }
-      return cached || network;
+      return network;
     })
   );
 });
