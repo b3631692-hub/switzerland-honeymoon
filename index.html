@@ -1679,6 +1679,35 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   padding: 2px 9px; border-radius: 100px; margin-bottom: 6px;
 }
 
+/* ── 離線橫幅 ── */
+#offlineBar {
+  display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9997;
+  background: #B45309; color: #fff; text-align: center;
+  font-size: 12px; padding: 7px 16px; font-weight: 600;
+}
+#updateBar {
+  display: none; position: fixed; bottom: 76px; left: 12px; right: 12px; z-index: 400;
+  background: var(--primary); color: #fff;
+  border-radius: 12px; text-align: center; padding: 10px 16px;
+  font-size: 13px; cursor: pointer; box-shadow: 0 4px 20px rgba(44,95,138,0.4);
+}
+
+/* ── 狀態看板 ── */
+.status-board { padding: 14px 16px; margin-bottom: 20px; }
+.sb-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.sb-rows { display: flex; flex-direction: column; gap: 9px; }
+.sb-row {
+  display: grid; grid-template-columns: 20px 1fr auto 80px;
+  align-items: center; gap: 8px; font-size: 12px;
+}
+.sb-icon { font-size: 14px; }
+.sb-label { color: var(--text-sub); font-weight: 600; }
+.sb-val { font-weight: 700; color: var(--primary); font-size: 12px; white-space: nowrap; }
+.sb-val.sb-urgent { color: #EF4444; }
+.sb-val.sb-warn { color: #F59E0B; }
+.sb-bar { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.sb-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.4s; }
+
 /* ── Hero 分享按鈕 ── */
 .hero-share-btn {
   display: inline-flex; align-items: center; gap: 5px;
@@ -1928,6 +1957,10 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 </head>
 <body>
 
+<!-- ══ OFFLINE / UPDATE BANNERS ══ -->
+<div id="offlineBar">📵 離線模式 · 顯示緩存資料</div>
+<div id="updateBar" onclick="location.reload()">🔄 有新版本可用，點擊重新整理</div>
+
 <!-- ══ LOADING ══ -->
 <div id="loading">
   <div class="loading-heart">💕</div>
@@ -2040,6 +2073,31 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
         <div class="sc-icon">💍</div>
         <div class="sc-val">6</div>
         <div class="sc-label">基地城市</div>
+      </div>
+    </div>
+
+    <!-- 旅行狀態看板 -->
+    <div class="card status-board reveal">
+      <div class="sb-title">📊 旅行整備狀態</div>
+      <div class="sb-rows">
+        <div class="sb-row">
+          <span class="sb-icon">✅</span>
+          <span class="sb-label">行前待辦</span>
+          <span class="sb-val" id="sbPredep">0 / 12</span>
+          <div class="sb-bar"><div class="sb-fill" id="sbPredepFill"></div></div>
+        </div>
+        <div class="sb-row">
+          <span class="sb-icon">🎒</span>
+          <span class="sb-label">打包清單</span>
+          <span class="sb-val" id="sbPack">0 / 0</span>
+          <div class="sb-bar"><div class="sb-fill" id="sbPackFill"></div></div>
+        </div>
+        <div class="sb-row">
+          <span class="sb-icon">🗓</span>
+          <span class="sb-label">最近取消期限</span>
+          <span class="sb-val" id="sbDeadline">載入中</span>
+          <div></div>
+        </div>
       </div>
     </div>
 
@@ -5011,11 +5069,7 @@ window.addEventListener('load', function() {
   if (typeof _fetchWeather === 'function') _fetchWeather();
   highlightToday();
   updateChecklistProgress();
-  // Register service worker for offline support
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/switzerland-honeymoon/sw.js')
-      .catch(function() {});
-  }
+  // Service worker registered separately below
 });
 
 /* ── 行程今日高亮 ── */
@@ -5541,6 +5595,100 @@ window.shareItinerary = function() {
   }
   window.savePredep = save;
   restore();
+})();
+
+/* ── 旅行狀態看板 ── */
+(function() {
+  var DEADLINES = [
+    { name: 'Hotel Station Pontresina', date: '2026-06-09T23:59:00+02:00' },
+    { name: 'Trip Inn Jet Hotel',        date: '2026-06-14T23:59:00+08:00' },
+    { name: 'Hotel Zugertor',            date: '2026-06-20T23:59:00+02:00' },
+    { name: 'Swissôtel Bern',            date: '2026-06-24T18:00:00+02:00' },
+    { name: 'Ibis Budget Airport',       date: '2026-06-27T23:59:00+02:00' },
+  ];
+
+  function updateBoard() {
+    var now = Date.now();
+
+    // Predep
+    var predepTotal = 12;
+    var predepDone = 0;
+    for (var i = 0; i <= 11; i++) {
+      var cb = document.getElementById('pd' + i);
+      if (cb && cb.checked) predepDone++;
+    }
+    var pdEl  = document.getElementById('sbPredep');
+    var pdFil = document.getElementById('sbPredepFill');
+    if (pdEl) {
+      pdEl.textContent = predepDone + ' / ' + predepTotal;
+      pdEl.className = 'sb-val' + (predepDone === predepTotal ? '' : predepDone >= predepTotal * 0.8 ? ' sb-warn' : '');
+    }
+    if (pdFil) pdFil.style.width = Math.round(predepDone / predepTotal * 100) + '%';
+
+    // Packing
+    var packAll = document.querySelectorAll('.checklist .check-item input[type=checkbox]');
+    var packDone = 0;
+    packAll.forEach(function(c) { if (c.checked) packDone++; });
+    var packTotal = packAll.length;
+    var pkEl  = document.getElementById('sbPack');
+    var pkFil = document.getElementById('sbPackFill');
+    if (pkEl) {
+      pkEl.textContent = packDone + ' / ' + packTotal;
+      pkEl.className = 'sb-val' + (packTotal > 0 && packDone === packTotal ? '' : '');
+    }
+    if (pkFil) pkFil.style.width = packTotal > 0 ? Math.round(packDone / packTotal * 100) + '%' : '0%';
+
+    // Next deadline
+    var dlEl = document.getElementById('sbDeadline');
+    if (dlEl) {
+      var next = null, minDays = Infinity;
+      DEADLINES.forEach(function(d) {
+        var diff = new Date(d.date).getTime() - now;
+        var days = Math.ceil(diff / 86400000);
+        if (diff > 0 && days < minDays) { minDays = days; next = d; }
+      });
+      if (next) {
+        dlEl.textContent = next.name.split(' ')[0] + '・' + minDays + '天';
+        dlEl.className = 'sb-val' + (minDays <= 7 ? ' sb-urgent' : minDays <= 21 ? ' sb-warn' : '');
+      } else {
+        dlEl.textContent = '全部已過';
+        dlEl.className = 'sb-val';
+      }
+    }
+  }
+
+  updateBoard();
+  // Re-run whenever a predep or packing checkbox changes
+  document.addEventListener('change', function(e) {
+    if (e.target.type === 'checkbox') updateBoard();
+  });
+})();
+
+/* ── 離線偵測 ── */
+(function() {
+  var bar = document.getElementById('offlineBar');
+  if (!bar) return;
+  function sync() { bar.style.display = navigator.onLine ? 'none' : 'block'; }
+  sync();
+  window.addEventListener('online',  sync);
+  window.addEventListener('offline', sync);
+})();
+
+/* ── Service Worker 更新通知 ── */
+(function() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('/switzerland-honeymoon/sw.js').then(function(reg) {
+    reg.addEventListener('updatefound', function() {
+      var newWorker = reg.installing;
+      if (!newWorker) return;
+      newWorker.addEventListener('statechange', function() {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          var bar = document.getElementById('updateBar');
+          if (bar) bar.style.display = 'block';
+        }
+      });
+    });
+  }).catch(function() {});
 })();
 
 window.togglePhotoLayer = (function() {
