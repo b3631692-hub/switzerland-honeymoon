@@ -3181,6 +3181,26 @@ body.dark-mode .tc-tag.first { background: #201500; color: #FCD34D; }
 body.dark-mode .tc-tag.fee   { background: #200909; color: #FCA5A5; }
 body.dark-mode .tc-tag.ek    { background: #2D0A0A; color: #FCA5A5; }
 
+/* ── 16日攝影規劃總覽 ── */
+.pcc-card { padding: 14px 16px 12px; margin-bottom: 20px; }
+.pcc-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.pcc-title { font-size: 12.5px; font-weight: 800; color: var(--text-sub); }
+.pcc-hint { font-size: 9.5px; color: var(--text-light); }
+.pcc-row { display: flex; align-items: center; gap: 7px; padding: 5px 6px; border-radius: 7px;
+  cursor: pointer; margin: 0 -6px; transition: background 0.12s; border-bottom: 1px solid transparent; }
+.pcc-row:last-child { border-bottom: none; }
+.pcc-row:active, .pcc-row:hover { background: rgba(44,95,138,0.07); }
+.pcc-row.pcc-today { background: rgba(201,169,110,0.1); border-radius: 8px; }
+.pcc-date { font-size: 11px; font-weight: 700; color: var(--text); min-width: 31px; flex-shrink: 0; }
+.pcc-wday { font-size: 9px; color: var(--text-light); min-width: 12px; flex-shrink: 0; }
+.pcc-city-chip { font-size: 7px; font-weight: 800; letter-spacing: 0.3px; border-radius: 3px;
+  padding: 2px 4px; color: #fff; white-space: nowrap; flex-shrink: 0; }
+.pcc-spot { font-size: 10px; color: var(--text); flex: 1; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+.pcc-time { font-size: 12px; flex-shrink: 0; }
+body.dark-mode .pcc-row:active, body.dark-mode .pcc-row:hover { background: rgba(44,95,138,0.15); }
+body.dark-mode .pcc-row.pcc-today { background: rgba(201,169,110,0.12); }
+
 /* ── Sony A7R5 相機設定卡 ── */
 .cam-card {
   background: linear-gradient(135deg, #071828 0%, #0A2035 100%);
@@ -5621,6 +5641,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="gallery-item-caption">Diavolezza 冰川</div>
       </div>
     </div>
+
+    <!-- ── 16日攝影規劃總覽 ── -->
+    <div class="card pcc-card reveal" id="pccCard"></div>
 
     <!-- ── 黃金拍攝時段 ── -->
     <div class="gh-card reveal">
@@ -10849,6 +10872,74 @@ window.togglePhotoLayer = (function() {
   });
 
   renderList();
+})();
+
+/* ── 16日攝影規劃總覽 ── */
+(function(){
+  var card = document.getElementById('pccCard');
+  if (!card) return;
+
+  var DAYS = [
+    { date:'6/16', wd:'二', city:'ZRH', col:'#2C5F8A', spot:'機場 Observation Deck B', time:'🌃' },
+    { date:'6/17', wd:'三', city:'SMO', col:'#16A34A', spot:'⭐ Muottas Muragl 三湖全景', time:'🌇' },
+    { date:'6/18', wd:'四', city:'SMO', col:'#16A34A', spot:'Diavolezza 冰川 + 羱羊', time:'☀️' },
+    { date:'6/19', wd:'五', city:'SMO', col:'#16A34A', spot:'⭐ Brusio 螺旋橋', time:'☀️' },
+    { date:'6/20', wd:'六', city:'SMO', col:'#16A34A', spot:'⭐ Corvatsch 五湖俯瞰', time:'☀️' },
+    { date:'6/21', wd:'日', city:'GEX', col:'#C9A96E', spot:'⭐ 冰河列車 Oberalp Pass', time:'☀️' },
+    { date:'6/22', wd:'一', city:'ZMT', col:'#b45309', spot:'⭐ Riffelsee 馬特洪峰倒影', time:'🌅' },
+    { date:'6/23', wd:'二', city:'ZMT', col:'#b45309', spot:'⭐ Klein Matterhorn 3,883m', time:'☀️' },
+    { date:'6/24', wd:'三', city:'KDR', col:'#7C3AED', spot:'⭐ Oeschinensee 冰川湖', time:'☀️' },
+    { date:'6/25', wd:'四', city:'BRN', col:'#7C3AED', spot:'玫瑰園黃金時刻 19:30', time:'🌇' },
+    { date:'6/26', wd:'五', city:'ZUG', col:'#0891B2', spot:'⭐ Staubbachfall 瀑布長曝', time:'☀️' },
+    { date:'6/27', wd:'六', city:'ZUG', col:'#0891B2', spot:'⭐ Kapellbrücke 藍調 22:00', time:'🌃' },
+    { date:'6/28', wd:'日', city:'ZUG', col:'#0891B2', spot:'⭐ 瑞吉山頂全景', time:'☀️' },
+    { date:'6/29', wd:'一', city:'ZRH', col:'#2C5F8A', spot:'⭐ 蘇黎世湖傍晚黃金', time:'🌇' },
+    { date:'6/30', wd:'二', city:'ZRH', col:'#2C5F8A', spot:'⭐ 萊茵瀑布中央岩石', time:'☀️' },
+    { date:'7/1',  wd:'三', city:'ZRH', col:'#2C5F8A', spot:'ZRH Deck 最後一拍 ✈️', time:'☀️' }
+  ];
+
+  var now = new Date();
+  var todayStr = (now.getMonth()+1) + '/' + now.getDate();
+
+  var html = '<div class="pcc-hdr"><div class="pcc-title">📅 16日攝影規劃</div>'
+    + '<div class="pcc-hint">點列跳轉行程 →</div></div>';
+
+  DAYS.forEach(function(day) {
+    var isToday = day.date === todayStr;
+    html += '<div class="pcc-row' + (isToday ? ' pcc-today' : '') + '" data-pccdate="' + day.date + '">'
+      + '<div class="pcc-date">' + day.date + '</div>'
+      + '<div class="pcc-wday">' + day.wd + '</div>'
+      + '<span class="pcc-city-chip" style="background:' + day.col + '">' + day.city + '</span>'
+      + '<div class="pcc-spot">' + day.spot + '</div>'
+      + '<div class="pcc-time">' + day.time + '</div>'
+      + '</div>';
+  });
+
+  card.innerHTML = html;
+
+  card.addEventListener('click', function(e) {
+    var row = e.target.closest('.pcc-row[data-pccdate]');
+    if (!row) return;
+    var dateKey = row.getAttribute('data-pccdate');
+    haptic(6);
+    var all = document.querySelectorAll('#tab-itinerary .day-card');
+    for (var i = 0; i < all.length; i++) {
+      var b = all[i].querySelector('.db-date');
+      if (b && b.textContent.trim() === dateKey) {
+        (function(el) {
+          var itinActive = document.getElementById('tab-itinerary').classList.contains('active');
+          var itinBtn = document.querySelector('[onclick*="showTab(\'itinerary\'"]');
+          if (!itinActive) {
+            showTab('itinerary', itinBtn || null);
+            setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 450);
+          } else {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        })(all[i]);
+        break;
+      }
+    }
+  });
 })();
 
 /* ── 底部導航今日花費 badge ── */
