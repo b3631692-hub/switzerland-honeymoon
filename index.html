@@ -2561,6 +2561,24 @@ body.dark-mode .dlc-inp { background: #0D1A24; border-color: #1D3348; }
 .cs-footer strong { color: var(--text); }
 body.dark-mode .cs-bar-wrap { background: #0D1A24; }
 
+/* ── 今明兩日快覽 ── */
+.q2d-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.q2d-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 12px 10px; cursor: pointer; transition: transform 0.15s;
+  -webkit-tap-highlight-color: transparent; }
+.q2d-card:active { transform: scale(0.97); }
+.q2d-card.today-card { border-color: var(--gold); background: rgba(201,169,110,0.07); }
+.q2d-badge { font-size: 9px; font-weight: 800; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.q2d-card.today-card .q2d-badge { color: var(--gold); }
+.q2d-date { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+.q2d-title { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.4;
+  margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.q2d-star { font-size: 10px; color: var(--gold); line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+body.dark-mode .q2d-card { border-color: #1D3348; }
+body.dark-mode .q2d-card.today-card { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+
 /* ── 行程折疊 ── */
 .day-collapse-ctrl {
   display: flex; justify-content: flex-end;
@@ -4196,6 +4214,10 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <!-- 行程 -->
   <div id="tab-itinerary" class="section">
     <div class="sec-title">每日行程</div>
+
+    <!-- 今明兩日快覽 (JS 動態填入) -->
+    <div id="quick2DayWrap" style="display:none;margin-bottom:16px"></div>
+
     <!-- 行程搜尋 -->
     <div class="itinerary-search-wrap">
       <input class="itinerary-search" id="itinSearch" type="search" placeholder="🔍 搜尋活動、城市、景點…" oninput="filterItinerary(this.value)" onsearch="filterItinerary(this.value)">
@@ -7777,6 +7799,82 @@ updateCategoryProgress();
     if (name !== 'itinerary') fab.classList.remove('vis');
     else updateFabLabel();
   };
+})();
+
+/* ── 今明兩日快覽 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var DLC_DATES = ['6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30','7/1'];
+
+  function getTodayStr() {
+    var now = new Date();
+    return (now.getMonth()+1) + '/' + now.getDate();
+  }
+
+  function getCardInfo(dateStr) {
+    var cards = document.querySelectorAll('#tab-itinerary .day-card');
+    for (var i = 0; i < cards.length; i++) {
+      var badge = cards[i].querySelector('.db-date');
+      if (badge && badge.textContent.trim() === dateStr) {
+        var title = cards[i].querySelector('.day-title');
+        var star  = cards[i].querySelector('.star');
+        var day   = cards[i].querySelector('.db-day');
+        return {
+          title: title ? title.textContent.trim() : '—',
+          star:  star  ? star.textContent.replace('★','').trim() : '',
+          day:   day   ? day.textContent.trim() : '',
+          el:    cards[i]
+        };
+      }
+    }
+    return null;
+  }
+
+  function render() {
+    var wrap = document.getElementById('quick2DayWrap');
+    if (!wrap) return;
+    var now = Date.now();
+    var todayStr = getTodayStr();
+    var todayIdx = DLC_DATES.indexOf(todayStr);
+
+    // Show for trip days only
+    if (now < DEPART.getTime() - 86400000 * 3 || now > RETURN.getTime()) { wrap.style.display='none'; return; }
+
+    // Pre-trip (within 3 days): show first 2 days
+    if (todayIdx < 0) { todayIdx = 0; }
+    var tomorrowIdx = Math.min(todayIdx + 1, DLC_DATES.length - 1);
+
+    var d1 = getCardInfo(DLC_DATES[todayIdx]);
+    var d2 = getCardInfo(DLC_DATES[tomorrowIdx]);
+    if (!d1 && !d2) { wrap.style.display='none'; return; }
+
+    var isToday = DLC_DATES[todayIdx] === todayStr;
+    var html = '<div class="q2d-wrap">';
+    if (d1) {
+      html += '<div class="q2d-card'+(isToday?' today-card':'')+'" onclick="(function(){var el=document.querySelector(\'#tab-itinerary .day-card.today\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'});haptic(6);})()">'+
+        '<div class="q2d-badge">'+(isToday?'今天':'出發日')+'</div>'+
+        '<div class="q2d-date">'+DLC_DATES[todayIdx]+'　'+d1.day+'</div>'+
+        '<div class="q2d-title">'+d1.title+'</div>'+
+        (d1.star?'<div class="q2d-star">★ '+d1.star+'</div>':'')+
+        '</div>';
+    }
+    if (d2 && tomorrowIdx !== todayIdx) {
+      html += '<div class="q2d-card" onclick="(function(){var all=document.querySelectorAll(\'#tab-itinerary .day-card\');for(var i=0;i<all.length;i++){var b=all[i].querySelector(\'.db-date\');if(b&&b.textContent.trim()===\''+DLC_DATES[tomorrowIdx]+'\'){all[i].scrollIntoView({behavior:\'smooth\',block:\'start\'});haptic(6);break;}}})()">'+
+        '<div class="q2d-badge">明天</div>'+
+        '<div class="q2d-date">'+DLC_DATES[tomorrowIdx]+'　'+d2.day+'</div>'+
+        '<div class="q2d-title">'+d2.title+'</div>'+
+        (d2.star?'<div class="q2d-star">★ '+d2.star+'</div>':'')+
+        '</div>';
+    }
+    html += '</div>';
+    wrap.innerHTML = html;
+    wrap.style.display = '';
+  }
+
+  render();
+  // Refresh every minute
+  setInterval(render, 60000);
 })();
 
 /* ── LIGHTBOX TOUCH SWIPE ── */
