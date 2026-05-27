@@ -5012,14 +5012,52 @@ body.dark-mode .pr-item { background: #0D1A24; }
         <label class="check-item"><input type="checkbox"> 登山鞋（冰川殘雪）</label>
         <label class="check-item"><input type="checkbox"> 保暖外套（山頂低溫）</label>
         <label class="check-item"><input type="checkbox"> 防水外套</label>
-        <label class="check-item"><input type="checkbox"> 備用毛巾（瀑布水花）</label>
-        <label class="check-item"><input type="checkbox"> 太陽眼鏡＋防曬</label>
+        <label class="check-item"><input type="checkbox"> 抓絨中層衣</label>
+        <label class="check-item"><input type="checkbox"> 保暖手套（Klein Matterhorn）</label>
+        <label class="check-item"><input type="checkbox"> 圍巾 ／ 脖圍</label>
+        <label class="check-item"><input type="checkbox"> 保暖帽</label>
+        <label class="check-item"><input type="checkbox"> 防曬帽（戶外用）</label>
+        <label class="check-item"><input type="checkbox"> 輕便城市鞋（非登山）</label>
+        <label class="check-item"><input type="checkbox"> 快乾毛巾（瀑布水花）</label>
+        <label class="check-item"><input type="checkbox"> 太陽眼鏡＋防曬 SPF50</label>
         <label class="check-item"><input type="checkbox"> 婚紗／禮服</label>
       </div>
       <div class="check-add-row">
         <input type="text" class="check-add-input" placeholder="新增衣物..."
           onkeydown="if(event.key==='Enter')addCheckItem('clothing',this)">
         <button class="check-add-btn" onclick="addCheckItem('clothing',this.previousElementSibling)">＋</button>
+      </div>
+      <h3>🏥 藥品急救</h3>
+      <div class="check-grid" id="chk-grid-medicine">
+        <label class="check-item"><input type="checkbox"> 止痛退燒藥（Panadol）</label>
+        <label class="check-item"><input type="checkbox"> 腸胃藥（止瀉 ／ 腸胃炎）</label>
+        <label class="check-item"><input type="checkbox"> 暈車暈機藥</label>
+        <label class="check-item"><input type="checkbox"> OK繃 ／ 彈性繃帶</label>
+        <label class="check-item"><input type="checkbox"> 消毒棉片</label>
+        <label class="check-item"><input type="checkbox"> 護唇膏（高山乾燥）</label>
+        <label class="check-item"><input type="checkbox"> 潤膚乳液</label>
+        <label class="check-item"><input type="checkbox"> 眼藥水（乾眼用）</label>
+        <label class="check-item"><input type="checkbox"> 個人常備處方藥</label>
+      </div>
+      <div class="check-add-row">
+        <input type="text" class="check-add-input" placeholder="新增藥品..."
+          onkeydown="if(event.key==='Enter')addCheckItem('medicine',this)">
+        <button class="check-add-btn" onclick="addCheckItem('medicine',this.previousElementSibling)">＋</button>
+      </div>
+      <h3>🔌 電子設備</h3>
+      <div class="check-grid" id="chk-grid-electronics">
+        <label class="check-item"><input type="checkbox"> 手機充電器 ×2</label>
+        <label class="check-item"><input type="checkbox"> Sony A7R5 充電器</label>
+        <label class="check-item"><input type="checkbox"> Type J 插座轉接頭 ×2</label>
+        <label class="check-item"><input type="checkbox"> 行動電源（飛機用）</label>
+        <label class="check-item"><input type="checkbox"> 快充 USB 數據線</label>
+        <label class="check-item"><input type="checkbox"> 瑞士 eSIM / SIM 卡</label>
+        <label class="check-item"><input type="checkbox"> 藍牙快門線（長曝攝影）</label>
+      </div>
+      <div class="check-add-row">
+        <input type="text" class="check-add-input" placeholder="新增電子設備..."
+          onkeydown="if(event.key==='Enter')addCheckItem('electronics',this)">
+        <button class="check-add-btn" onclick="addCheckItem('electronics',this.previousElementSibling)">＋</button>
       </div>
       <h3>📄 旅行文件 ／ 票券</h3>
       <div class="check-grid" id="chk-grid-docs">
@@ -5777,7 +5815,7 @@ function animateBudget() {
     saveState();
   };
   // restore custom items first
-  ['camera','clothing','docs'].forEach(function(cat) {
+  ['camera','clothing','medicine','electronics','docs'].forEach(function(cat) {
     var items = [];
     try { items = JSON.parse(localStorage.getItem('chk_custom_' + cat) || '[]'); } catch(e){}
     items.forEach(function(it) { addItemToGrid(cat, it.text, it.done); });
