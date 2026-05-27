@@ -2560,6 +2560,17 @@ body.dark-mode .dlc-inp { background: #0D1A24; border-color: #1D3348; }
   font-size: 8px; color: var(--primary); font-weight: 700; background: var(--card);
   padding: 0 2px; line-height: 1; }
 
+/* ── 蜜月小語卡片 ── */
+#loveQuoteCard { padding: 14px 16px 12px; margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(44,95,138,0.10) 0%, rgba(201,169,110,0.10) 100%);
+  border: 1px solid rgba(201,169,110,0.35); border-radius: var(--radius-sm); }
+body.dark-mode #loveQuoteCard { background: linear-gradient(135deg, rgba(44,95,138,0.18) 0%, rgba(201,169,110,0.12) 100%); }
+.lq-eyebrow { font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+.lq-text { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.6;
+  letter-spacing: 0.02em; }
+.lq-sub { font-size: 10.5px; color: var(--text-sub); margin-top: 5px; line-height: 1.5; }
+
 /* ── 累積走勢圖 ── */
 .dlc-trend-title { font-size: 10.5px; font-weight: 700; color: var(--text-sub); margin-bottom: 6px; }
 .dlc-trend-svg { width: 100%; display: block; }
@@ -3368,6 +3379,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
 
     <!-- 今日速查 (JS 動態填入) -->
     <div id="todayCtxCard" class="today-ctx-card reveal"></div>
+
+    <!-- 今日蜜月小語 (JS 動態填入) -->
+    <div id="loveQuoteCard" style="display:none" class="reveal"></div>
 
     <!-- 五城市天氣速覽 (JS 動態填入) -->
     <div class="card reveal" id="ovWxStripCard" style="padding:12px 16px 8px;margin-bottom:20px;display:none">
@@ -8822,6 +8836,83 @@ window.shareItinerary = function() {
     }
   }
   // Don't show card if trip hasn't started yet and > 30 days away (or after trip)
+})();
+
+/* ── 今日蜜月小語 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var el = document.getElementById('loveQuoteCard');
+  if (!el) return;
+
+  var DAY_QUOTES = {
+    '6/16': { t: '今天，我們的蜜月旅程正式開始了！✈️', s: '桃園起飛，飛向那片白雪皚皚的山峰' },
+    '6/17': { t: '歡迎來到上恩加丁！高山湖泊映著兩個人的笑臉 🏔️', s: '記得領 Engadin Card，精彩的 5 天剛剛開始' },
+    '6/18': { t: '腳踩瑞士山徑，手牽你的手，這就是幸福 🌿', s: '海拔 3000 米的空氣，呼吸一口都是愛' },
+    '6/19': { t: '螺旋橋的弧線，像我們故事的開場 🌀', s: '信瑋 ＆ 映儒，走過世界上最美的橋' },
+    '6/20': { t: '最後一個恩加丁早晨，記住這片蔚藍吧 💙', s: '每個日出都是上天為我們特別安排的' },
+    '6/21': { t: '今天乘坐世界上最浪漫的火車 🚂', s: '坐右側，窗外流過的山川就是我們愛情的見證' },
+    '6/22': { t: '清晨登 Riffelsee，馬特洪峰映在你眼裡 🏔️', s: '06:40 出門，越早出門越接近那個完美的倒影' },
+    '6/23': { t: '海拔 3883 米的擁抱，全世界最靠近天空的吻 💋', s: '記得把手套帶好，但最好的保暖方式是牽著你' },
+    '6/24': { t: '告別馬特洪峰，帶走了滿心的感動 🧡', s: '前往伯恩，老城的鐘聲等著為我們響起' },
+    '6/25': { t: '漫步中世紀老城，愛你在光陰流轉裡 🕐', s: '六公里的拱廊長廊，每一步都走進了歷史' },
+    '6/26': { t: '72 道瀑布，每一道都像是對你說的 I Love You 💦', s: '帶好備用毛巾——瀑布的水霧也是浪漫的一部分' },
+    '6/27': { t: '日落時分的楚格湖，是我們故事裡最溫柔的那頁 🌅', s: '晚上 22:00 橋的藍調，記得帶三腳架' },
+    '6/28': { t: '湖上漂流的下午，時間慢下來了 ⛵', s: '盧森的舊橋，走了幾百年，今天為我們而走' },
+    '6/29': { t: '最後的蘇黎世漫步，把這座城市裝進心裡 🌆', s: '大行李已送機場，今天輕裝愛你' },
+    '6/30': { t: '歐洲最大瀑布的轟鳴，是旅程最後的驚嘆號 💪', s: '萊茵瀑布，最後一個晚上，好好珍惜每分每秒' },
+    '7/1':  { t: '今天踏上歸程，帶著滿滿的愛與回憶 ✈️🏠', s: '22:00 登機，瑞士刀記得放托運！' }
+  };
+
+  function dateKey(d) {
+    return (d.getMonth()+1) + '/' + d.getDate();
+  }
+
+  function render() {
+    var now = new Date();
+    var msDay = 86400000;
+    var daysTo = Math.ceil((DEPART - now) / msDay);
+    var daysIn = Math.floor((now - DEPART) / msDay) + 1;
+    var eyebrow, text, sub;
+
+    if (now >= DEPART && now <= RETURN) {
+      var key = dateKey(now);
+      var q = DAY_QUOTES[key];
+      eyebrow = '💍 第 ' + daysIn + ' 天 · 蜜月小語';
+      text = q ? q.t : '今天也是美好的一天，一起享受吧 ✨';
+      sub  = q ? q.s : '';
+    } else if (now < DEPART && daysTo <= 30) {
+      eyebrow = '💍 蜜月倒數 · ' + daysTo + ' 天';
+      if (daysTo <= 3) {
+        text = '再 ' + daysTo + ' 天，就出發了！行李打好了嗎？🧳';
+        sub  = '桃園機場 T2 · 6/16 00:30 起飛';
+      } else if (daysTo <= 7) {
+        text = '距離瑞士只剩 ' + daysTo + ' 天，期待又緊張💕';
+        sub  = '記得確認護照、STP Pass 和每日裝備清單';
+      } else {
+        text = '信瑋 ＆ 映儒的瑞士蜜月，距出發還有 ' + daysTo + ' 天 💍';
+        sub  = '2026/6/16–7/1 · 16 天 15 夜 · STP 二等艙';
+      }
+    } else if (now > RETURN) {
+      eyebrow = '💍 蜜月回憶';
+      text = '瑞士蜜月已結束，但那份愛永遠不會結束 💕';
+      sub  = '2026/6/16–7/1 · 每一個瞬間都永遠珍藏';
+    } else {
+      el.style.display = 'none';
+      return;
+    }
+
+    el.innerHTML = '<div class="lq-eyebrow">' + eyebrow + '</div>'
+      + '<div class="lq-text">' + text + '</div>'
+      + (sub ? '<div class="lq-sub">' + sub + '</div>' : '');
+    el.style.display = 'block';
+  }
+
+  render();
+  // Refresh at midnight
+  var now = new Date();
+  var msToMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1) - now;
+  setTimeout(function() { render(); setInterval(render, 86400000); }, msToMidnight);
 })();
 
 /* ── 行程卡片天氣預報徽章 ── */
