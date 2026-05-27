@@ -2341,6 +2341,20 @@ body.dark-mode .ts-item { background: #0D1A24; }
 .tcc-wx-chip.warm { border-color: rgba(251,191,36,0.35); }
 .tcc-wx-rain { color: #93C5FD; margin-left: 2px; font-size: 11px; }
 
+/* ── 關鍵末班倒數橫幅 ── */
+#critTimeBanner { border-radius: 10px; padding: 9px 13px; font-size: 11.5px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px; line-height: 1.35; }
+.ctb-ok   { background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.3);  color: #16A34A; }
+.ctb-warn { background: rgba(234,88,12,0.1);  border: 1px solid rgba(234,88,12,0.3);  color: #EA580C; }
+.ctb-red  { background: rgba(220,38,38,0.1);  border: 1px solid rgba(220,38,38,0.3);  color: #DC2626; }
+.ctb-icon { font-size: 16px; flex-shrink: 0; }
+.ctb-body { flex: 1; }
+.ctb-name { display: block; }
+.ctb-time { font-size: 9.5px; font-weight: 400; opacity: 0.75; }
+body.dark-mode .ctb-ok   { background: rgba(22,163,74,0.08); }
+body.dark-mode .ctb-warn { background: rgba(234,88,12,0.1); }
+body.dark-mode .ctb-red  { background: rgba(220,38,38,0.12); }
+
 /* ── 取消期限倒數 ── */
 .cancel-dl-card {
   background: var(--card); border: 1px solid var(--border);
@@ -4416,6 +4430,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
 
     <!-- 今日天氣建議橫幅 (JS 動態填入) -->
     <div id="itinWxBanner" style="display:none;border-radius:10px;padding:10px 14px 10px 12px;margin-bottom:12px;font-size:11.5px;line-height:1.5;position:relative"></div>
+
+    <!-- 今日關鍵末班/截止時刻倒數 (JS 動態填入) -->
+    <div id="critTimeBanner" style="display:none;margin-bottom:10px"></div>
 
     <!-- 今明兩日快覽 (JS 動態填入) -->
     <div id="quick2DayWrap" style="display:none;margin-bottom:16px"></div>
@@ -8264,6 +8281,88 @@ updateCategoryProgress();
     if (name !== 'itinerary') fab.classList.remove('vis');
     else updateFabLabel();
   };
+})();
+
+/* ── 今日關鍵末班/截止時刻倒數 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var banner = document.getElementById('critTimeBanner');
+  if (!banner) return;
+
+  // Critical times per day: [name, Swiss local HH, MM, icon, note]
+  var CRITS = {
+    '6/16': [['ZRH 觀景台 Deck B 最後入場', 20, 30, '🛬', '21:00 關閉前 30 分']],
+    '6/18': [['Alp Languard 吊椅末班上山', 16, 45, '🚡', '17:00 末班，提前排隊'],
+             ['Diavolezza 纜車末班下山', 16, 30, '🚡', '17:00 末班，需提前 30 分']],
+    '6/19': [['Tirano 末班 Regio 返回', 16, 41, '🚂', '17:41 前離開 Tirano']],
+    '6/20': [['Corvatsch 末班纜車下山', 16, 30, '🚡', '17:00 末班，天氣惡化需更早']],
+    '6/21': [['冰河列車 Chur 站出發', 14, 2, '🚂', '14:32 Chur 出發，勿遲到！']],
+    '6/22': [['Gornergrat 末班登山火車', 19, 18, '🚂', '19:48 末班，提前 30 分到']],
+    '6/23': [['Klein Matterhorn 末班纜車上山', 15, 15, '🚡', '15:45 末班，⚠️ 嚴格！']],
+    '6/24': [['Oeschinensee 纜車末班下山', 17, 30, '🚡', '18:00 末班，提前排隊']],
+    '6/25': [['Zytglogge 天文鐘塔最後入場', 17, 0, '🕐', '18:00 關閉']],
+    '6/27': [['末班火車返楚格（琉森出發）', 23, 50, '🚂', '00:20 末班，切勿錯過']],
+    '6/28': [['Tierpark Goldau 關園', 17, 30, '🦁', '18:00 關園，提前 30 分離開']],
+    '7/1':  [['EK086 check-in 截止', 19, 30, '✈️', '22:00 起飛，20:00 截止 check-in']]
+  };
+
+  function getChNow() {
+    var now = new Date();
+    return new Date(now.getTime() + now.getTimezoneOffset()*60000 + 2*3600000);
+  }
+
+  function fmtCountdown(ms) {
+    var m = Math.max(0, Math.round(ms / 60000));
+    if (m < 60) return m + ' 分鐘後';
+    var h = Math.floor(m / 60), mm = m % 60;
+    return h + ' 小時' + (mm ? mm + ' 分' : '') + '後';
+  }
+
+  var _alertedRed = false;
+
+  function render() {
+    var now = new Date();
+    if (now < DEPART || now > RETURN) { banner.style.display = 'none'; return; }
+
+    var ch = getChNow();
+    var dateKey = (ch.getMonth()+1) + '/' + ch.getDate();
+    var crits = CRITS[dateKey];
+    if (!crits) { banner.style.display = 'none'; return; }
+
+    var chMs = ch.getTime();
+    var found = null;
+    for (var i = 0; i < crits.length; i++) {
+      var c = crits[i];
+      var target = new Date(ch.getFullYear(), ch.getMonth(), ch.getDate(), c[1], c[2], 0, 0);
+      var diff = target.getTime() - chMs;
+      if (diff > 0 && diff < 6 * 3600000) { found = { crit: c, diff: diff, time: target }; break; }
+    }
+
+    if (!found) { banner.style.display = 'none'; return; }
+
+    var diffMs = found.diff;
+    var cls = diffMs > 3 * 3600000 ? 'ctb-ok' : (diffMs > 3600000 ? 'ctb-warn' : 'ctb-red');
+    var icon = found.crit[3];
+    var name = found.crit[0];
+    var note = found.crit[4];
+    var h = found.time.getHours(), m = found.time.getMinutes();
+    var timeStr = (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+
+    if (cls === 'ctb-red' && !_alertedRed) { haptic(40); _alertedRed = true; }
+    if (cls !== 'ctb-red') _alertedRed = false;
+
+    banner.className = cls;
+    banner.style.display = 'flex';
+    banner.innerHTML = '<span class="ctb-icon">' + icon + '</span>'
+      + '<div class="ctb-body">'
+      + '<span class="ctb-name">' + name + '　' + fmtCountdown(diffMs) + '</span>'
+      + '<span class="ctb-time">' + timeStr + ' · ' + note + '</span>'
+      + '</div>';
+  }
+
+  render();
+  setInterval(render, 60000);
 })();
 
 /* ── 今日天氣建議橫幅 ── */
