@@ -1743,6 +1743,24 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .cancel-badge.cr-paid   { background: #DCFCE7; color: #15803D; }
 .cancel-badge.cr-passed { background: var(--border); color: var(--text-light); }
 
+/* ── 德語實用短句 ── */
+.phrase-section { margin-bottom: 24px; }
+.phrase-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.phrase-tab {
+  font-size: 12px; padding: 5px 14px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: var(--bg); color: var(--text-sub);
+  cursor: pointer; transition: all 0.2s;
+}
+.phrase-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.phrase-group { display: none; }
+.phrase-group.active { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 400px) { .phrase-group.active { grid-template-columns: 1fr; } }
+.phrase-item { background: var(--bg); border-radius: 8px; padding: 9px 11px; cursor: pointer; transition: background 0.15s; }
+.phrase-item:active { background: var(--border); }
+.phrase-de { font-size: 13px; font-weight: 700; color: var(--text); }
+.phrase-zh { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+.phrase-copy-hint { font-size: 10px; color: var(--text-light); text-align: right; margin-top: 8px; }
+
 /* ── 飯店導航按鈕 ── */
 .hh-nav-btn {
   display: inline-flex; align-items: center; gap: 4px;
@@ -3893,6 +3911,52 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
     </div>
 
 
+    <!-- ─── 德語實用短句 ─── -->
+    <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🗣 旅途實用短句</div>
+    <div class="card reveal phrase-section" style="padding:18px 16px">
+      <div class="phrase-tabs">
+        <button class="phrase-tab active" onclick="switchPhraseTab('de',this)">🇩🇪 德語（主要）</button>
+        <button class="phrase-tab" onclick="switchPhraseTab('it',this)">🇮🇹 義大利語</button>
+        <button class="phrase-tab" onclick="switchPhraseTab('fr',this)">🇫🇷 法語</button>
+      </div>
+      <!-- 德語 -->
+      <div class="phrase-group active" id="pg-de">
+        <div class="phrase-item" onclick="copyPhrase('Hallo / Grüezi')"><div class="phrase-de">Hallo / Grüezi</div><div class="phrase-zh">你好（Grüezi 是瑞士德語）</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Danke schön')"><div class="phrase-de">Danke schön</div><div class="phrase-zh">非常謝謝</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Bitte')"><div class="phrase-de">Bitte</div><div class="phrase-zh">請 / 不客氣</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Entschuldigung')"><div class="phrase-de">Entschuldigung</div><div class="phrase-zh">對不起 / 不好意思</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Sprechen Sie Englisch?')"><div class="phrase-de">Sprechen Sie Englisch?</div><div class="phrase-zh">您會說英語嗎？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Wie viel kostet das?')"><div class="phrase-de">Wie viel kostet das?</div><div class="phrase-zh">這多少錢？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Kann ich mit Karte zahlen?')"><div class="phrase-de">Kann ich mit Karte zahlen?</div><div class="phrase-zh">可以刷卡嗎？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Die Rechnung bitte')"><div class="phrase-de">Die Rechnung bitte</div><div class="phrase-zh">請結帳</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Einen Tisch für zwei, bitte')"><div class="phrase-de">Einen Tisch für zwei, bitte</div><div class="phrase-zh">請給兩人的座位</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Das schmeckt sehr gut!')"><div class="phrase-de">Das schmeckt sehr gut!</div><div class="phrase-zh">這真的很好吃！</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Wo ist die Toilette?')"><div class="phrase-de">Wo ist die Toilette?</div><div class="phrase-zh">廁所在哪裡？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Hilfe!')"><div class="phrase-de">Hilfe!</div><div class="phrase-zh">救命！</div></div>
+      </div>
+      <!-- 義大利語 -->
+      <div class="phrase-group" id="pg-it">
+        <div class="phrase-item" onclick="copyPhrase('Ciao / Buongiorno')"><div class="phrase-de">Ciao / Buongiorno</div><div class="phrase-zh">你好 / 早安（Tirano 地區）</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Grazie mille')"><div class="phrase-de">Grazie mille</div><div class="phrase-zh">非常感謝</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Per favore')"><div class="phrase-de">Per favore</div><div class="phrase-zh">請</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Mi scusi')"><div class="phrase-de">Mi scusi</div><div class="phrase-zh">對不起 / 請問</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Parla inglese?')"><div class="phrase-de">Parla inglese?</div><div class="phrase-zh">您說英語嗎？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Quanto costa?')"><div class="phrase-de">Quanto costa?</div><div class="phrase-zh">多少錢？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Il conto per favore')"><div class="phrase-de">Il conto per favore</div><div class="phrase-zh">請結帳</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Un tavolo per due')"><div class="phrase-de">Un tavolo per due</div><div class="phrase-zh">兩人的桌子</div></div>
+      </div>
+      <!-- 法語 -->
+      <div class="phrase-group" id="pg-fr">
+        <div class="phrase-item" onclick="copyPhrase('Bonjour')"><div class="phrase-de">Bonjour</div><div class="phrase-zh">你好（伯恩近法語區）</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Merci beaucoup')"><div class="phrase-de">Merci beaucoup</div><div class="phrase-zh">非常感謝</div></div>
+        <div class="phrase-item" onclick="copyPhrase('S\'il vous plaît')"><div class="phrase-de">S'il vous plaît</div><div class="phrase-zh">請</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Excusez-moi')"><div class="phrase-de">Excusez-moi</div><div class="phrase-zh">對不起 / 不好意思</div></div>
+        <div class="phrase-item" onclick="copyPhrase('Parlez-vous anglais?')"><div class="phrase-de">Parlez-vous anglais?</div><div class="phrase-zh">您說英語嗎？</div></div>
+        <div class="phrase-item" onclick="copyPhrase('L\'addition, s\'il vous plaît')"><div class="phrase-de">L'addition, s'il vous plaît</div><div class="phrase-zh">請結帳</div></div>
+      </div>
+      <div class="phrase-copy-hint">點擊短句可複製到剪貼板</div>
+    </div>
+
     <!-- ─── 緊急聯絡 ─── -->
     <div class="sec-title reveal" style="font-size:20px;margin-top:8px">🆘 緊急聯絡</div>
     <div class="em-grid">
@@ -5243,6 +5307,28 @@ window.toggleAllDays = function() {
 })();
 
 /* ── 地圖攝影景點圖層 ── */
+/* ── 短句複製 + 切換 ── */
+window.copyPhrase = function(text) {
+  var tmp = document.createElement('textarea');
+  tmp.value = text; document.body.appendChild(tmp);
+  tmp.select(); document.execCommand('copy'); document.body.removeChild(tmp);
+  // Brief visual feedback
+  var items = document.querySelectorAll('.phrase-item');
+  items.forEach(function(el) {
+    if (el.querySelector('.phrase-de') && el.querySelector('.phrase-de').textContent === text) {
+      el.style.background = '#DCFCE7';
+      setTimeout(function() { el.style.background = ''; }, 600);
+    }
+  });
+};
+window.switchPhraseTab = function(lang, btn) {
+  document.querySelectorAll('.phrase-tab').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.phrase-group').forEach(function(g) { g.classList.remove('active'); });
+  btn.classList.add('active');
+  var grp = document.getElementById('pg-' + lang);
+  if (grp) grp.classList.add('active');
+};
+
 /* ── 分享按鈕 ── */
 window.shareItinerary = function() {
   var shareData = {
