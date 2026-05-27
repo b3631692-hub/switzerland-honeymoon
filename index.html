@@ -2654,14 +2654,26 @@ body.dark-mode .dlc-row.dlc-today { background: rgba(201,169,110,0.09); }
 .dlc-bar-fill.ok   { background: #6E8A5E; }
 .dlc-bar-fill.warn { background: #D97706; }
 .dlc-bar-fill.over { background: #DC2626; }
-.dlc-inp-col { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
-.dlc-inp { width: 90px; text-align: right; font-size: 12.5px; font-weight: 600;
+.dlc-inp-col { display: flex; flex-direction: column; align-items: stretch; gap: 1px; width: 90px; }
+.dlc-inp { width: 100%; box-sizing: border-box; text-align: right; font-size: 12.5px; font-weight: 600;
   background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 6px;
   color: var(--text); }
 .dlc-inp:focus { border-color: var(--primary); outline: none; }
 .dlc-inp-label { font-size: 9px; color: var(--text-sub); }
 .dlc-chf { font-size: 8px; color: var(--text-sub); text-align: right; min-height: 11px;
   line-height: 1; margin-top: 1px; opacity: 0.65; white-space: nowrap; }
+/* CHF 快速輸入列 */
+.dlc-chf-row { display: flex; align-items: center; gap: 3px; width: 100%; margin-bottom: 2px; }
+.dlc-chf-lbl { font-size: 8px; font-weight: 800; color: var(--primary); opacity: 0.75;
+  white-space: nowrap; letter-spacing: 0.02em; }
+.dlc-chf-inp { flex: 1; min-width: 0; text-align: right; font-size: 11px; font-weight: 500;
+  background: rgba(140,123,110,0.07); border: 1px dashed rgba(140,123,110,0.35);
+  border-radius: 5px; padding: 2px 5px; color: var(--text-sub); }
+.dlc-chf-inp:focus { border-color: var(--primary); border-style: solid; outline: none;
+  color: var(--text); background: var(--bg); }
+.dlc-chf-inp:not(:placeholder-shown) { border-style: solid; color: var(--text); }
+body.dark-mode .dlc-chf-inp { background: rgba(140,123,110,0.10); border-color: rgba(140,123,110,0.30); }
+body.dark-mode .dlc-chf-inp:focus { background: #1C1A16; }
 .dlc-total-row { display: flex; justify-content: space-between; align-items: center;
   margin-top: 12px; padding-top: 10px; border-top: 2px solid var(--border); }
 .dlc-total-label { font-size: 12px; color: var(--text-sub); font-weight: 600; }
@@ -9178,9 +9190,41 @@ window.toggleAllDays = function() {
     for(var i = 0; i < TOTAL; i++){
       var inp = document.getElementById('dlc-'+i);
       if(inp) inp.value = '';
+      var ci = document.getElementById('dlci-'+i);
+      if(ci) ci.value = '';
     }
     updateDailyLog();
   };
+
+  // 注入 CHF 快速輸入列（在台幣輸入框上方）
+  window.dlcChfFill = function(i, inp){
+    var chf = parseFloat(inp.value);
+    var rate = window._fxRate || 35;
+    var twdInp = document.getElementById('dlc-'+i);
+    if(twdInp){
+      twdInp.value = (chf > 0) ? Math.round(chf * rate) : '';
+      updateDailyLog();
+      haptic(4);
+    }
+  };
+  (function(){
+    for(var n = 0; n < TOTAL; n++){
+      var col = document.querySelector('#dlcRows .dlc-row:nth-child('+(n+1)+') .dlc-inp-col');
+      if(!col || col.querySelector('.dlc-chf-row')) continue;
+      var row = document.createElement('div');
+      row.className = 'dlc-chf-row';
+      var lbl = document.createElement('span');
+      lbl.className = 'dlc-chf-lbl';
+      lbl.textContent = 'CHF→';
+      var cinp = document.createElement('input');
+      cinp.type = 'number'; cinp.id = 'dlci-'+n;
+      cinp.className = 'dlc-chf-inp'; cinp.min = '0'; cinp.step = '0.5';
+      cinp.placeholder = '0';
+      cinp.setAttribute('oninput', 'dlcChfFill('+n+',this)');
+      row.appendChild(lbl); row.appendChild(cinp);
+      col.insertBefore(row, col.firstChild);
+    }
+  })();
 
   var saved = load();
   for(var i = 0; i < TOTAL; i++){
