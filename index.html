@@ -2521,6 +2521,20 @@ body.dark-mode .dlc-inp { background: #0D1A24; border-color: #1D3348; }
   font-size: 8px; color: var(--primary); font-weight: 700; background: var(--card);
   padding: 0 2px; line-height: 1; }
 
+/* ── 城市花費分析 ── */
+.city-spend-card { padding: 14px 16px 12px; margin-bottom: 20px; display: none; }
+.cs-title { font-size: 12px; font-weight: 800; color: var(--text-sub); margin-bottom: 10px; }
+.cs-rows { display: flex; flex-direction: column; gap: 7px; }
+.cs-row { display: grid; grid-template-columns: 80px 1fr 60px; align-items: center; gap: 8px; }
+.cs-name { font-size: 11px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cs-bar-wrap { height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.cs-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.cs-amt { font-size: 10px; color: var(--text-sub); text-align: right; white-space: nowrap; }
+.cs-footer { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-light); }
+.cs-footer strong { color: var(--text); }
+body.dark-mode .cs-bar-wrap { background: #0D1A24; }
+
 /* ── 行程折疊 ── */
 .day-collapse-ctrl {
   display: flex; justify-content: flex-end;
@@ -5235,6 +5249,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="dlc-remain-val ok" id="dlcRemainVal">TWD 306,613</div>
       </div>
     </div>
+
+    <!-- ── 城市花費分析 ── -->
+    <div class="card city-spend-card reveal" id="citySpendCard"></div>
 
     <!-- ── 購物退稅 × 台灣海關速查 ── -->
     <div class="card vat-card reveal">
@@ -8089,6 +8106,8 @@ window.toggleAllDays = function() {
       rv.textContent = 'TWD ' + Math.abs(Math.round(rem)).toLocaleString() + (rem < 0 ? ' (超支)' : '');
       rv.className = 'dlc-remain-val ' + (rem < 0 ? 'over' : rem < 50000 ? 'warn' : 'ok');
     }
+    // City spend analysis
+    if(window.updateCitySpend) window.updateCitySpend(data);
   };
 
   window.resetDailyLog = function(){
@@ -8109,6 +8128,39 @@ window.toggleAllDays = function() {
     }
   }
   updateDailyLog();
+})();
+
+/* ── 城市花費分析 ── */
+(function(){
+  var GROUPS = [
+    { name: '蘇黎世/機場', idx: [0,13,14,15], color: '#2C5F8A', days: 4 },
+    { name: '恩加丁',      idx: [1,2,3,4,5],  color: '#0891B2', days: 5 },
+    { name: '策馬特',      idx: [6,7],         color: '#16A34A', days: 3 },
+    { name: '伯恩',        idx: [8,9],         color: '#CA8A04', days: 2 },
+    { name: '楚格/琉森',   idx: [10,11,12],    color: '#9333EA', days: 3 }
+  ];
+  window.updateCitySpend = function(data){
+    var card = document.getElementById('citySpendCard');
+    if(!card) return;
+    var totals = GROUPS.map(function(g){ return g.idx.reduce(function(s,i){ return s+(data[i]||0); },0); });
+    var grand = totals.reduce(function(a,b){ return a+b; },0);
+    if(grand < 1){ card.style.display='none'; return; }
+    card.style.display='';
+    var maxT = Math.max.apply(null, totals) || 1;
+    var html = '<div class="cs-title">🌍 城市花費分佈</div><div class="cs-rows">';
+    GROUPS.forEach(function(g,i){
+      var amt = totals[i];
+      var pct = Math.round(amt/grand*100);
+      var barW = Math.round(amt/maxT*100);
+      html += '<div class="cs-row">'
+        + '<div class="cs-name">'+g.name+'</div>'
+        + '<div class="cs-bar-wrap"><div class="cs-bar-fill" style="width:'+barW+'%;background:'+g.color+'"></div></div>'
+        + '<div class="cs-amt">'+(amt>0?pct+'% · '+(Math.round(amt/1000)/1)+'k':'—')+'</div>'
+        + '</div>';
+    });
+    html += '</div><div class="cs-footer"><span>共 '+GROUPS.length+' 城市</span><span>總計 <strong>TWD '+Math.round(grand).toLocaleString()+'</strong></span></div>';
+    card.innerHTML = html;
+  };
 })();
 
 /* ── 地圖攝影景點圖層 ── */
