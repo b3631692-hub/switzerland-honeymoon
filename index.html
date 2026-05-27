@@ -409,7 +409,7 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 .section.active { display: block; animation: sectionFadeIn 0.35s ease both; }
 @keyframes sectionFadeIn {
   from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ═══════════════════════════════════════
@@ -1930,11 +1930,11 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 /* ── 分頁方向滑動轉場 ── */
 @keyframes tabSlideFromRight {
   from { opacity: 0; transform: translateX(40px); }
-  to   { opacity: 1; transform: translateX(0); }
+  to   { opacity: 1; transform: none; }
 }
 @keyframes tabSlideFromLeft {
   from { opacity: 0; transform: translateX(-40px); }
-  to   { opacity: 1; transform: translateX(0); }
+  to   { opacity: 1; transform: none; }
 }
 .section.active.tab-slide-r { animation: tabSlideFromRight 0.28s ease both !important; }
 .section.active.tab-slide-l { animation: tabSlideFromLeft 0.28s ease both !important; }
