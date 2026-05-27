@@ -2355,6 +2355,26 @@ body.dark-mode .ctb-ok   { background: rgba(22,163,74,0.08); }
 body.dark-mode .ctb-warn { background: rgba(234,88,12,0.1); }
 body.dark-mode .ctb-red  { background: rgba(220,38,38,0.12); }
 
+/* ── 旅途預算健康橫幅 ── */
+#budgetHealthBanner { padding: 13px 16px 11px; margin-bottom: 18px; border-radius: 12px; }
+.bhb-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+.bhb-title { font-size: 11.5px; font-weight: 800; color: var(--text-sub); }
+.bhb-badge { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
+.bhb-badge.ok   { background: rgba(22,163,74,0.12); color: #16A34A; }
+.bhb-badge.warn { background: rgba(234,88,12,0.12); color: #EA580C; }
+.bhb-badge.over { background: rgba(220,38,38,0.12); color: #DC2626; }
+.bhb-nums { display: flex; gap: 0; margin-bottom: 9px; }
+.bhb-num-cell { flex: 1; text-align: center; padding: 5px 0; border-right: 1px solid var(--border); }
+.bhb-num-cell:last-child { border-right: none; }
+.bhb-num { font-size: 15px; font-weight: 900; color: var(--text); letter-spacing: -0.5px; line-height: 1; }
+.bhb-num.over-color { color: #DC2626; }
+.bhb-num.ok-color { color: #16A34A; }
+.bhb-num-label { font-size: 8.5px; color: var(--text-light); margin-top: 3px; }
+.bhb-bar-wrap { height: 6px; border-radius: 3px; background: var(--bg); overflow: hidden; margin-bottom: 5px; }
+.bhb-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+.bhb-bar-note { display: flex; justify-content: space-between; font-size: 8.5px; color: var(--text-light); }
+body.dark-mode #budgetHealthBanner { }
+
 /* ── 取消期限倒數 ── */
 .cancel-dl-card {
   background: var(--card); border: 1px solid var(--border);
@@ -5226,6 +5246,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <!-- 預算 -->
   <div id="tab-budget" class="section">
     <div class="sec-title">費用預算</div>
+
+    <!-- 旅途預算健康橫幅 (JS 動態填入) -->
+    <div id="budgetHealthBanner" class="card reveal" style="display:none"></div>
 
     <div class="budget-hero reveal">
       <div class="bh-label">🏆 旅遊總預算（雙人）</div>
@@ -11251,6 +11274,81 @@ window.togglePhotoLayer = (function() {
 
   render();
   setInterval(render, 60000);
+})();
+
+/* ── 旅途預算健康橫幅 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var BUDGET = 306613;
+  var DAILY_AVG = 19163;
+  var TOTAL_DAYS = 16;
+  var DLC_DATES = ['6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30','7/1'];
+
+  var el = document.getElementById('budgetHealthBanner');
+  if (!el) return;
+
+  function fmt(n) {
+    if (n >= 10000) return Math.round(n/1000) + 'k';
+    return n.toLocaleString();
+  }
+
+  function render() {
+    var now = new Date();
+    if (now < DEPART || now > RETURN) { el.style.display = 'none'; return; }
+
+    var daysPassed = Math.max(1, Math.ceil((now - DEPART) / 86400000));
+    var daysLeft   = Math.max(0, Math.ceil((RETURN  - now) / 86400000));
+
+    var spent = 0;
+    for (var i = 0; i < DLC_DATES.length; i++) {
+      var inp = document.getElementById('dlc-' + i);
+      if (inp && inp.value) spent += (+inp.value || 0);
+    }
+
+    var remaining = BUDGET - spent;
+    var pace      = daysPassed > 0 ? spent / daysPassed : 0;
+    var projected = Math.round(pace * TOTAL_DAYS);
+    var dailyLeft = daysLeft > 0 ? Math.round(remaining / daysLeft) : remaining;
+
+    var pct = Math.min(100, Math.round(spent / BUDGET * 100));
+    var status, badgeCls, barCol;
+    if (pace <= DAILY_AVG * 1.05) {
+      status = '✅ 預算健康'; badgeCls = 'ok'; barCol = '#16A34A';
+    } else if (pace <= DAILY_AVG * 1.2) {
+      status = '⚡ 略超日均'; badgeCls = 'warn'; barCol = '#EA580C';
+    } else {
+      status = '⚠️ 超支預警'; badgeCls = 'over'; barCol = '#DC2626';
+    }
+
+    var remainCls = remaining >= 0 ? 'ok-color' : 'over-color';
+    var projCls   = projected <= BUDGET ? 'ok-color' : 'over-color';
+
+    el.style.display = 'block';
+    el.style.background = 'var(--card)';
+    el.style.border = '1px solid var(--border)';
+    el.innerHTML =
+      '<div class="bhb-top">'
+      + '<span class="bhb-title">💰 旅途預算健康</span>'
+      + '<span class="bhb-badge ' + badgeCls + '">' + status + '</span>'
+      + '</div>'
+      + '<div class="bhb-nums">'
+      + '<div class="bhb-num-cell"><div class="bhb-num">' + fmt(spent) + '</div><div class="bhb-num-label">已花費 TWD</div></div>'
+      + '<div class="bhb-num-cell"><div class="bhb-num ' + remainCls + '">' + fmt(Math.abs(remaining)) + '</div><div class="bhb-num-label">' + (remaining >= 0 ? '剩餘預算' : '超支金額') + '</div></div>'
+      + '<div class="bhb-num-cell"><div class="bhb-num ' + projCls + '">' + fmt(projected) + '</div><div class="bhb-num-label">預估總花費</div></div>'
+      + '<div class="bhb-num-cell"><div class="bhb-num">' + fmt(dailyLeft) + '</div><div class="bhb-num-label">今後每日可用</div></div>'
+      + '</div>'
+      + '<div class="bhb-bar-wrap"><div class="bhb-bar-fill" style="width:' + pct + '%;background:' + barCol + '"></div></div>'
+      + '<div class="bhb-bar-note">'
+      + '<span>第 ' + daysPassed + ' 天 /' + TOTAL_DAYS + ' 天　日均 TWD ' + Math.round(pace).toLocaleString() + '</span>'
+      + '<span>已用 ' + pct + '%</span>'
+      + '</div>';
+  }
+
+  render();
+
+  var _origDlc = window.updateDailyLog;
+  window.updateDailyLog = function() { if (_origDlc) _origDlc.apply(this, arguments); render(); };
 })();
 
 /* ── 底部導航今日花費 badge ── */
