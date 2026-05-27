@@ -29,9 +29,9 @@
   --gold-lt:    #FDF5E8;
   --bg:         #F2F7FB;
   --card:       #FFFFFF;
-  --text:       #1C3347;
-  --text-sub:   #3E6275;
-  --text-light: #7A9BAD;
+  --text:       #162C3E;
+  --text-sub:   #375669;
+  --text-light: #5E8498;
   --border:     #C8DDE8;
   --shadow:     0 4px 24px rgba(44,95,138,0.10);
   --shadow-lg:  0 12px 48px rgba(44,95,138,0.16);
@@ -47,9 +47,9 @@
 body.dark-mode {
   --bg:         #0D1A24;
   --card:       #152233;
-  --text:       #DDE9F2;
-  --text-sub:   #7DACC4;
-  --text-light: #4F7A96;
+  --text:       #E8F2F8;
+  --text-sub:   #91C2D8;
+  --text-light: #6BAFC8;
   --border:     #1D3348;
   --rose-lt:    #0C1E14;
   --gold-lt:    #1A1108;
@@ -2011,6 +2011,45 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   cursor: pointer; transition: background 0.2s;
 }
 .dc-btn:hover { background: var(--bg); }
+/* ── 蜜月心願清單 ── */
+.wishlist-card {
+  padding: 18px 16px; margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(201,169,110,0.06) 0%, rgba(201,169,110,0.02) 100%);
+  border: 1px solid rgba(201,169,110,0.3);
+}
+.wl-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+.wl-title { font-size: 14px; font-weight: 800; color: var(--text); }
+.wl-count { font-size: 12px; font-weight: 700; color: var(--gold); }
+.wl-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+@media (max-width: 360px) { .wl-grid { grid-template-columns: 1fr; } }
+.wl-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 8px 10px; border-radius: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  font-size: 12px; color: var(--text-sub);
+}
+.wl-item:active { background: var(--bg); }
+.wl-item input[type=checkbox] { display: none; }
+.wl-check {
+  width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;
+  border: 2px solid var(--border); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; transition: border-color 0.2s, background 0.2s;
+}
+.wl-item.done .wl-check { background: var(--gold); border-color: var(--gold); }
+.wl-item.done .wl-text { text-decoration: line-through; opacity: 0.5; }
+.wl-text { line-height: 1.4; flex: 1; }
+.wl-day { font-size: 9px; color: var(--text-light); display: block; margin-top: 2px; }
+body.dark-mode .wishlist-card { border-color: rgba(201,169,110,0.2); }
+body.dark-mode .wl-item { background: #1A2E3F; border-color: #1D3348; }
+
 /* ── 城市基地速查卡 ── */
 .base-city-scroll {
   display: flex; overflow-x: auto; gap: 10px;
@@ -2399,6 +2438,28 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
         <div class="wx-temp">--°C</div>
         <div class="wx-wind">載入中...</div>
         <div class="wx-forecast"></div>
+      </div>
+    </div>
+
+    <!-- 蜜月心願清單 -->
+    <div class="card wishlist-card reveal">
+      <div class="wl-header">
+        <div class="wl-title">💍 蜜月必體驗清單</div>
+        <div class="wl-count" id="wlCount">0 / 12</div>
+      </div>
+      <div class="wl-grid">
+        <label class="wl-item" id="wl0"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">第一眼看到馬特洪峰<span class="wl-day">6/21 入住策馬特</span></div></label>
+        <label class="wl-item" id="wl1"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Riffelsee 倒影攝影<span class="wl-day">6/22 首班 07:00</span></div></label>
+        <label class="wl-item" id="wl2"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">冰河列車一等艙<span class="wl-day">6/21 14:32 Chur</span></div></label>
+        <label class="wl-item" id="wl3"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Klein Matterhorn 頂峰<span class="wl-day">6/23 -5°C 超涼</span></div></label>
+        <label class="wl-item" id="wl4"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Schwarzsee 婚紗攝影<span class="wl-day">6/23 下午</span></div></label>
+        <label class="wl-item" id="wl5"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Lauterbrunnen 瀑布婚紗<span class="wl-day">6/26 上午</span></div></label>
+        <label class="wl-item" id="wl6"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">琉森橋藍調時刻<span class="wl-day">6/27 22:00 架腳架</span></div></label>
+        <label class="wl-item" id="wl7"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Diavolezza 冰川全景<span class="wl-day">6/18 早上 09:00</span></div></label>
+        <label class="wl-item" id="wl8"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Brusio 螺旋橋火車過橋<span class="wl-day">6/19 伯尼納線</span></div></label>
+        <label class="wl-item" id="wl9"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">Oeschinensee 遇到羱羊<span class="wl-day">6/26 Kandersteg</span></div></label>
+        <label class="wl-item" id="wl10"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">吃到起司鍋 Fondue<span class="wl-day">策馬特或伯恩</span></div></label>
+        <label class="wl-item" id="wl11"><input type="checkbox"><div class="wl-check">✓</div><div class="wl-text">萊茵瀑布中央岩石登臨<span class="wl-day">6/30 搭小船 CHF 8</span></div></label>
       </div>
     </div>
 
@@ -5983,6 +6044,46 @@ window.shareItinerary = function() {
       });
     });
   }).catch(function() {});
+})();
+
+/* ── 蜜月心願清單 ── */
+(function() {
+  var KEY = 'wishlist_v1';
+  var TOTAL = 12;
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; }
+  }
+  function save(data) {
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) {}
+  }
+  function updateCount() {
+    var done = document.querySelectorAll('.wl-item.done').length;
+    var el = document.getElementById('wlCount');
+    if (el) {
+      el.textContent = done + ' / ' + TOTAL;
+      el.style.color = done === TOTAL ? '#16A34A' : 'var(--gold)';
+    }
+  }
+
+  var data = load();
+  for (var i = 0; i < TOTAL; i++) {
+    (function(idx) {
+      var item = document.getElementById('wl' + idx);
+      if (!item) return;
+      var cb = item.querySelector('input[type=checkbox]');
+      if (data[idx]) { item.classList.add('done'); if (cb) cb.checked = true; }
+      item.addEventListener('click', function() {
+        haptic(12);
+        item.classList.toggle('done');
+        var d = load();
+        d[idx] = item.classList.contains('done');
+        save(d);
+        updateCount();
+      });
+    })(i);
+  }
+  updateCount();
 })();
 
 /* ── 攝影地點 Google Maps 導航連結 ── */
