@@ -4170,7 +4170,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     <div class="reveal">
       <div class="alert alert-blue">
         <strong>🔵 需提前預約</strong>
-        Restaurant Schäferstube 蜜月晚餐（6/23）｜ Fex Valley 馬車 <a href="tel:+41818265673" style="color:inherit;font-weight:700" onclick="haptic(8)">+41 81 826 56 73</a>（6/20）｜ <a href="https://altestramdepot.ch" target="_blank" rel="noopener" style="color:inherit;font-weight:700" onclick="haptic(8)">Altes Tramdepot</a> 伯恩晚餐（6/25）｜ 冰河列車訂位費 CHF 13/人（6/21）
+        Restaurant Schäferstube 蜜月晚餐（6/23）｜ <a href="https://quai61.ch" target="_blank" rel="noopener" style="color:inherit;font-weight:700" onclick="haptic(8)">Quai 61</a> 蜜月晚餐（6/29）｜ Fex Valley 馬車 <a href="tel:+41818265673" style="color:inherit;font-weight:700" onclick="haptic(8)">+41 81 826 56 73</a>（6/20）｜ <a href="https://altestramdepot.ch" target="_blank" rel="noopener" style="color:inherit;font-weight:700" onclick="haptic(8)">Altes Tramdepot</a> 伯恩晚餐（6/25）｜ 冰河列車訂位費 CHF 13/人（6/21）
       </div>
     </div>
     <div class="reveal">
@@ -5192,7 +5192,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
               <p>獅子紀念碑（Löwendenkmal），琉森湖畔漫步，老城自由探索</p>
               <p class="star">★ 傍晚留至藍調時刻（日落後 20–30 分，約 22:00）</p>
               <p>卡貝爾橋燈光倒影最夢幻</p>
-              <span class="warn">⚠️ 週五人潮多，提早去卡貝爾橋架腳架佔位</span>
+              <span class="warn">⚠️ 週六遊客多，提早去卡貝爾橋架腳架佔位</span>
             </div>
             <div class="db">
               <p>✅ 末班火車返楚格約 00:20，可安心留至藍調後再回</p>
@@ -6464,6 +6464,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
         <label class="predep-item"><input type="checkbox" id="pd14" onchange="savePredep()"><span>A7R5 備用電池 ×3 充飽，記憶卡容量確認（建議 2TB 以上備援）</span></label>
         <label class="predep-item"><input type="checkbox" id="pd15" onchange="savePredep()"><span>手機相片備份至雲端 / 硬碟，清出儲存空間迎接 16 天拍攝</span></label>
         <label class="predep-item"><input type="checkbox" id="pd16" onchange="savePredep()"><span>預約 Restaurant Schäferstube 蜜月晚餐（6/23 策馬特）→ 提前 2–3 週訂位！</span></label>
+        <label class="predep-item"><input type="checkbox" id="pd17" onchange="savePredep()"><span>預約 Quai 61 蜜月晚餐（6/29 蘇黎世湖畔）→ <a href="https://quai61.ch" target="_blank" rel="noopener" onclick="haptic(8)">quai61.ch</a></span></label>
       </div>
     </div>
 
@@ -6476,6 +6477,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
           <li><span class="li-icon">🐴</span>預約 Fex Valley 馬車（6/20）電話：<a href="tel:+41818265673" onclick="haptic(8)">+41 81 826 56 73</a></li>
           <li><span class="li-icon">🚂</span>購買冰河列車訂位費 CHF 13/人（6/21，14:32 Chur 出發）</li>
           <li><span class="li-icon">🍺</span>預約 Altes Tramdepot 伯恩晚餐（6/25）<a href="https://altestramdepot.ch" target="_blank" rel="noopener" onclick="haptic(8)">altestramdepot.ch</a></li>
+          <li><span class="li-icon">🍷</span>預約 Quai 61 蜜月晚餐（6/29 蘇黎世湖畔）→ <a href="https://quai61.ch" target="_blank" rel="noopener" onclick="haptic(8)">quai61.ch</a></li>
         </ul>
       </div>
 
@@ -10950,7 +10952,7 @@ window.shareItinerary = function() {
 /* ── 行前準備度儀表板 ── */
 (function(){
   var DEPART = new Date('2026-06-16T00:30:00+08:00');
-  var PREDEP_TOTAL = 17, PACK_TOTAL = 46;
+  var PREDEP_TOTAL = 18, PACK_TOTAL = 46;
 
   function calcPredep(){
     var done=0;
@@ -10989,7 +10991,7 @@ window.shareItinerary = function() {
 /* ── 智能行前提示卡 ── */
 (function(){
   var DEPART = new Date('2026-06-16T00:30:00+08:00');
-  var URGENT = [0,1,2,3,16];
+  var URGENT = [0,1,2,3,16,17];
   var W3 = [4,8,13];
   var W2 = [5,9,11];
   var W1 = [6,7,12,14];
