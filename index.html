@@ -2195,6 +2195,17 @@ body.dark-mode .ts-item { background: #0D1A24; }
   margin-bottom: 20px; color: #fff; text-align: center;
 }
 .today-ctx-card.visible { display: block; }
+.prep-dash-card { padding: 14px 16px 12px; margin-bottom: 20px; }
+.pd-title { font-size: 12px; font-weight: 800; color: var(--text-sub); margin-bottom: 10px; }
+.pd-row { margin-bottom: 8px; }
+.pd-row:last-of-type { margin-bottom: 0; }
+.pd-hdr { display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 11px; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+.pd-hdr-cnt { font-size: 10px; color: var(--text-sub); font-weight: 400; }
+.pd-bar-bg { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.pd-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; background: var(--primary); }
+.pd-bar-fill.done { background: #16A34A; }
+.pd-total { margin-top: 8px; font-size: 10.5px; color: var(--text-sub); text-align: center; }
 .tcc-state { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
 .tcc-state.tcc-live { color: var(--gold); }
 .tcc-day-num { font-family: var(--font-serif); font-size: 32px; font-weight: 600; color: var(--gold); line-height: 1; margin-bottom: 4px; }
@@ -3247,6 +3258,9 @@ body.dark-mode .food-city-spec { background: #1A1108; }
 
     <!-- 今日速查 (JS 動態填入) -->
     <div id="todayCtxCard" class="today-ctx-card reveal"></div>
+
+    <!-- 行前準備度儀表板 (JS 動態填入) -->
+    <div id="prepDashCard" class="card prep-dash-card reveal" style="display:none"></div>
 
     <!-- 重要時刻倒數 (JS 動態填入) -->
     <div class="card milestone-card reveal" id="milestoneCard" style="display:none"></div>
@@ -7416,6 +7430,7 @@ document.addEventListener('change', function(e) {
   if (e.target.closest && e.target.closest('.checklist')) {
     updateChecklistProgress();
     updateCategoryProgress();
+    if(window.updatePrepDash) window.updatePrepDash();
   }
 });
 updateCategoryProgress();
@@ -8570,9 +8585,48 @@ window.shareItinerary = function() {
     if (unchecked === 0) { badge.style.display = 'none'; }
     else { badge.textContent = unchecked; badge.style.display = 'block'; }
   }
-  window.savePredep = function() { haptic(10); save(); updateBadge(); if(window.updateSmartRemind) window.updateSmartRemind(); };
+  window.savePredep = function() { haptic(10); save(); updateBadge(); if(window.updateSmartRemind) window.updateSmartRemind(); if(window.updatePrepDash) window.updatePrepDash(); };
   restore();
   updateBadge();
+})();
+
+/* ── 行前準備度儀表板 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var PREDEP_TOTAL = 16, PACK_TOTAL = 44;
+
+  function calcPredep(){
+    var done=0;
+    for(var i=0;i<PREDEP_TOTAL;i++){ var c=document.getElementById('pd'+i); if(c&&c.checked) done++; }
+    return done;
+  }
+  function calcPack(){
+    var all = document.querySelectorAll('.checklist .check-item input[type=checkbox]');
+    var done=0; all.forEach(function(c){ if(c.checked) done++; });
+    return done;
+  }
+
+  window.updatePrepDash = function(){
+    var card = document.getElementById('prepDashCard');
+    if(!card) return;
+    var daysTo = Math.ceil((DEPART - Date.now())/86400000);
+    if(daysTo <= 0 || daysTo > 90){ card.style.display='none'; return; }
+    card.style.display = '';
+    var pd = calcPredep(), pk = calcPack();
+    var pdPct = Math.round(pd/PREDEP_TOTAL*100);
+    var pkPct = Math.round(pk/PACK_TOTAL*100);
+    var total = pd+pk, totalMax = PREDEP_TOTAL+PACK_TOTAL;
+    var totalPct = Math.round(total/totalMax*100);
+    card.innerHTML =
+      '<div class="pd-title">🚀 出發準備度（距出發 '+daysTo+' 天）</div>'
+      +'<div class="pd-row"><div class="pd-hdr"><span>✅ 行前待辦</span><span class="pd-hdr-cnt">'+pd+' / '+PREDEP_TOTAL+' 完成</span></div>'
+      +'<div class="pd-bar-bg"><div class="pd-bar-fill'+(pdPct===100?' done':'')+'" style="width:'+pdPct+'%"></div></div></div>'
+      +'<div class="pd-row"><div class="pd-hdr"><span>🎒 打包清單</span><span class="pd-hdr-cnt">'+pk+' / '+PACK_TOTAL+' 完成</span></div>'
+      +'<div class="pd-bar-bg"><div class="pd-bar-fill'+(pkPct===100?' done':'')+'" style="width:'+pkPct+'%"></div></div></div>'
+      +'<div class="pd-total">'+(totalPct>=100?'🎉 全部準備完成！準備出發！'
+        :'整體準備度 '+totalPct+'%　剩餘 '+(totalMax-total)+' 項未完成')+'</div>';
+  };
+  updatePrepDash();
 })();
 
 /* ── 智能行前提示卡 ── */
