@@ -1784,11 +1784,45 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 .phrase-group { display: none; }
 .phrase-group.active { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 @media (max-width: 400px) { .phrase-group.active { grid-template-columns: 1fr; } }
-.phrase-item { background: var(--bg); border-radius: 8px; padding: 9px 11px; cursor: pointer; transition: background 0.15s; }
+.phrase-item { background: var(--bg); border-radius: 8px; padding: 9px 38px 9px 11px; cursor: pointer; transition: background 0.15s; position: relative; }
 .phrase-item:active { background: var(--border); }
 .phrase-de { font-size: 13px; font-weight: 700; color: var(--text); }
 .phrase-zh { font-size: 11px; color: var(--text-light); margin-top: 2px; }
 .phrase-copy-hint { font-size: 10px; color: var(--text-light); text-align: right; margin-top: 8px; }
+.phrase-speak {
+  position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--card); border: 1.5px solid var(--border);
+  font-size: 13px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  padding: 0; line-height: 1;
+  transition: background 0.15s, border-color 0.15s;
+}
+.phrase-speak:active, .phrase-speak.speaking { background: var(--primary); border-color: var(--primary); }
+
+/* ── 行程搜尋 ── */
+.itinerary-search-wrap {
+  margin-bottom: 10px; position: relative;
+}
+.itinerary-search {
+  width: 100%; padding: 9px 36px 9px 14px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: var(--card);
+  font-family: var(--font-body); font-size: 13px; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.itinerary-search:focus { border-color: var(--primary); }
+.itinerary-search-clear {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  width: 22px; height: 22px; border-radius: 50%; background: var(--border);
+  border: none; cursor: pointer; font-size: 11px; font-weight: 700;
+  color: var(--text-sub); display: none; align-items: center; justify-content: center;
+}
+.itinerary-search-clear.vis { display: flex; }
+.search-no-result {
+  text-align: center; padding: 32px; color: var(--text-light);
+  font-size: 14px; display: none;
+}
+.search-no-result.vis { display: block; }
 
 /* ── 飯店導航按鈕 ── */
 .hh-nav-btn {
@@ -2742,6 +2776,13 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
   <!-- 行程 -->
   <div id="tab-itinerary" class="section">
     <div class="sec-title">每日行程</div>
+    <!-- 行程搜尋 -->
+    <div class="itinerary-search-wrap">
+      <input class="itinerary-search" id="itinSearch" type="search" placeholder="🔍 搜尋活動、城市、景點…" oninput="filterItinerary(this.value)" onsearch="filterItinerary(this.value)">
+      <button class="itinerary-search-clear" id="itinSearchClear" onclick="clearItinSearch()">✕</button>
+    </div>
+    <div class="search-no-result" id="itinNoResult">找不到相符的行程</div>
+
     <!-- 快速跳轉芯片 (JS 動態填入) -->
     <div class="day-jump-row" id="dayJumpRow"></div>
 
@@ -5765,6 +5806,70 @@ window.shareItinerary = function() {
     });
   }).catch(function() {});
 })();
+
+/* ── 語言會話朗讀 ── */
+(function() {
+  if (!window.speechSynthesis) return;
+  var LANG_MAP = { 'pg-de': 'de-DE', 'pg-it': 'it-IT', 'pg-fr': 'fr-FR' };
+
+  window.speakPhrase = function(text, lang) {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || 'de-DE';
+    u.rate = 0.82;
+    window.speechSynthesis.speak(u);
+  };
+
+  document.querySelectorAll('.phrase-group').forEach(function(grp) {
+    var lang = LANG_MAP[grp.id] || 'de-DE';
+    grp.querySelectorAll('.phrase-item').forEach(function(item) {
+      var deEl = item.querySelector('.phrase-de');
+      if (!deEl) return;
+      var text = deEl.textContent.trim();
+      var btn = document.createElement('button');
+      btn.className = 'phrase-speak';
+      btn.title = '朗讀';
+      btn.innerHTML = '🔊';
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelectorAll('.phrase-speak.speaking').forEach(function(b){ b.classList.remove('speaking'); });
+        btn.classList.add('speaking');
+        speakPhrase(text, lang);
+        setTimeout(function() { btn.classList.remove('speaking'); }, 2500);
+      });
+      item.appendChild(btn);
+    });
+  });
+})();
+
+/* ── 行程搜尋 ── */
+window.filterItinerary = function(q) {
+  var clrBtn = document.getElementById('itinSearchClear');
+  var noResult = document.getElementById('itinNoResult');
+  if (clrBtn) clrBtn.classList.toggle('vis', q.length > 0);
+  q = q.trim().toLowerCase();
+  var blocks = document.querySelectorAll('#tab-itinerary .base-block');
+  var anyVisible = false;
+  blocks.forEach(function(block) {
+    var cards = block.querySelectorAll('.day-card');
+    var blockHasVisible = false;
+    cards.forEach(function(card) {
+      var match = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
+      card.style.display = match ? '' : 'none';
+      if (match) { blockHasVisible = true; anyVisible = true; }
+      if (match && q) card.classList.add('dc-open');
+    });
+    var header = block.querySelector('.base-header');
+    if (header) header.style.display = blockHasVisible ? '' : 'none';
+  });
+  if (noResult) noResult.classList.toggle('vis', q.length > 0 && !anyVisible);
+  var jumpRow = document.getElementById('dayJumpRow');
+  if (jumpRow) jumpRow.style.display = q ? 'none' : '';
+};
+window.clearItinSearch = function() {
+  var inp = document.getElementById('itinSearch');
+  if (inp) { inp.value = ''; filterItinerary(''); }
+};
 
 /* ── 行程快速跳轉芯片 ── */
 (function() {
