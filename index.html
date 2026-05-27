@@ -2470,6 +2470,33 @@ body.dark-mode .sp-gear { background: #1D3A6B; color: #60A5FA; }
 .sp-gear.tripod { background: #F3E8FF; color: #7C3AED; }
 body.dark-mode .sp-gear.tripod { background: #2D1060; color: #C084FC; }
 
+/* ── 攝影打卡清單 ── */
+.psc-card { padding: 20px 16px 16px; margin-bottom: 24px; }
+.psc-title { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+.psc-sub { font-size: 11px; color: var(--text-sub); margin-bottom: 10px; }
+.psc-prog-lbl { font-size: 11px; color: var(--text-sub); margin-bottom: 6px; }
+.psc-prog-lbl span { color: var(--primary); font-weight: 700; }
+.psc-prog-bar { height: 5px; background: var(--border); border-radius: 3px; margin-bottom: 18px; overflow: hidden; }
+.psc-prog-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.4s ease; }
+.psc-city { margin-bottom: 14px; }
+.psc-city-hdr { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700;
+  color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+.psc-city-hdr::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.psc-chip { font-size: 9px; font-weight: 700; background: var(--primary); color: #fff;
+  border-radius: 10px; padding: 1px 6px; white-space: nowrap; flex-shrink: 0; }
+.psc-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0;
+  border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+.psc-item:last-child { border-bottom: none; }
+.psc-item input[type=checkbox] { display: none; }
+.psc-box { width: 20px; height: 20px; min-width: 20px; border-radius: 50%;
+  border: 2px solid var(--border); display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; margin-top: 1px; flex-shrink: 0; }
+.psc-item.done .psc-box { background: #16A34A; border-color: #16A34A; }
+.psc-item.done .psc-box::after { content: '✓'; font-size: 11px; color: #fff; font-weight: 800; }
+.psc-item.done .psc-name { text-decoration: line-through; opacity: 0.5; }
+.psc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.psc-tip { font-size: 10.5px; color: var(--text-sub); line-height: 1.4; margin-top: 2px; }
+
 /* ── 黃金拍攝時段 ── */
 .gh-card {
   background: linear-gradient(135deg, #071828 0%, #0F2D45 100%);
@@ -5141,6 +5168,60 @@ body.dark-mode .food-city-spec { background: #1A1108; }
           <div><div class="sp-spot">萊茵瀑布 ND10 長曝</div><div class="sp-tip">ND10 濾鏡配三腳架拍絲絨水流，乘小船近距離岩石特寫，帶備用毛巾</div></div>
           <div class="sp-gear tripod">ND+三腳</div>
         </div>
+      </div>
+    </div>
+
+    <!-- ── 攝影打卡清單 ── -->
+    <div class="card psc-card reveal" id="pscCard">
+      <div class="psc-title">📸 拍攝地點打卡清單</div>
+      <div class="psc-sub">旅途中逐一打勾，自動儲存進度</div>
+      <div class="psc-prog-lbl">已完成 <span id="pscDoneCount">0</span> / 22 個景點</div>
+      <div class="psc-prog-bar"><div class="psc-prog-fill" id="pscProgFill" style="width:0%"></div></div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">🏔 恩加丁 · 聖莫里茲 <span class="psc-chip">6/17–21</span></div>
+        <label class="psc-item" data-id="p0" onclick="togglePsc('p0')"><input type="checkbox" id="p0"><div class="psc-box"></div><div><div class="psc-name">Muottas Muragl 三湖全景</div><div class="psc-tip">廣角掃描恩加丁三湖，傍晚側光最美</div></div></label>
+        <label class="psc-item" data-id="p1" onclick="togglePsc('p1')"><input type="checkbox" id="p1"><div class="psc-box"></div><div><div class="psc-name">Alp Languard 羱羊</div><div class="psc-tip">200–600mm 長焦靜音，沿步道慢行尋找</div></div></label>
+        <label class="psc-item" data-id="p2" onclick="togglePsc('p2')"><input type="checkbox" id="p2"><div class="psc-box"></div><div><div class="psc-name">Diavolezza 冰川全景</div><div class="psc-tip">Pers 冰川 + Piz Bernina，09:00 前上山雲最少</div></div></label>
+        <label class="psc-item" data-id="p3" onclick="togglePsc('p3')"><input type="checkbox" id="p3"><div class="psc-box"></div><div><div class="psc-name">Ospizio Bernina 鐵道湖</div><div class="psc-tip">2,253m，Lago Bianco 白湖 + 鐵道構圖</div></div></label>
+        <label class="psc-item" data-id="p4" onclick="togglePsc('p4')"><input type="checkbox" id="p4"><div class="psc-box"></div><div><div class="psc-name">Brusio 螺旋橋</div><div class="psc-tip">火車過橋時連拍，快門 1/500s+</div></div></label>
+        <label class="psc-item" data-id="p5" onclick="togglePsc('p5')"><input type="checkbox" id="p5"><div class="psc-box"></div><div><div class="psc-name">Corvatsch 五湖俯瞰</div><div class="psc-tip">3,303m 廣角俯瞰，09:00 前上山</div></div></label>
+        <label class="psc-item" data-id="p6" onclick="togglePsc('p6')"><input type="checkbox" id="p6"><div class="psc-box"></div><div><div class="psc-name">Fex Valley 馬車</div><div class="psc-tip">長焦追拍動態，f/4 開放虛化草地</div></div></label>
+        <label class="psc-item" data-id="p7" onclick="togglePsc('p7')"><input type="checkbox" id="p7"><div class="psc-box"></div><div><div class="psc-name">Pontresina / Lej da Staz 婚紗</div><div class="psc-tip">Diavolezza 下山後，18:00–21:00 黃金時段</div></div></label>
+      </div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">🚂 冰河列車 <span class="psc-chip">6/21</span></div>
+        <label class="psc-item" data-id="p8" onclick="togglePsc('p8')"><input type="checkbox" id="p8"><div class="psc-box"></div><div><div class="psc-name">萊茵峽谷窗景</div><div class="psc-tip">坐右側，快門 1/500s，拍橋梁 / 峽谷切面</div></div></label>
+      </div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">🏔 策馬特 <span class="psc-chip">6/21–24</span></div>
+        <label class="psc-item" data-id="p9" onclick="togglePsc('p9')"><input type="checkbox" id="p9"><div class="psc-box"></div><div><div class="psc-name">Riffelsee 馬特洪峰倒影</div><div class="psc-tip">首班 07:00，無風水面靜，有雲馬上拍</div></div></label>
+        <label class="psc-item" data-id="p10" onclick="togglePsc('p10')"><input type="checkbox" id="p10"><div class="psc-box"></div><div><div class="psc-name">Stellisee 五湖步道倒影</div><div class="psc-tip">傍晚側光，沿途土撥鼠出沒帶長焦</div></div></label>
+        <label class="psc-item" data-id="p11" onclick="togglePsc('p11')"><input type="checkbox" id="p11"><div class="psc-box"></div><div><div class="psc-name">Klein Matterhorn 冰宮</div><div class="psc-tip">-5°C，超廣角仰拍冰壁，備用電池放口袋保暖</div></div></label>
+        <label class="psc-item" data-id="p12" onclick="togglePsc('p12')"><input type="checkbox" id="p12"><div class="psc-box"></div><div><div class="psc-name">Schwarzsee 婚紗</div><div class="psc-tip">馬特洪峰入鏡，湖邊草地，STP 50% 折扣</div></div></label>
+      </div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">⛰️ 坎德斯泰格 · 伯恩 <span class="psc-chip">6/24–27</span></div>
+        <label class="psc-item" data-id="p13" onclick="togglePsc('p13')"><input type="checkbox" id="p13"><div class="psc-box"></div><div><div class="psc-name">Oeschinensee 翡翠湖</div><div class="psc-tip">UNESCO，土耳其藍 + 羱羊，早晨水面最靜</div></div></label>
+        <label class="psc-item" data-id="p14" onclick="togglePsc('p14')"><input type="checkbox" id="p14"><div class="psc-box"></div><div><div class="psc-name">Lauterbrunnen 瀑布婚紗</div><div class="psc-tip">Staubbachfall 300m 直落，09:00–12:00，護鏡頭</div></div></label>
+        <label class="psc-item" data-id="p15" onclick="togglePsc('p15')"><input type="checkbox" id="p15"><div class="psc-box"></div><div><div class="psc-name">伯恩玫瑰花園全景</div><div class="psc-tip">Rosengarten 俯瞰伯恩舊城 + 阿雷河灣</div></div></label>
+        <label class="psc-item" data-id="p16" onclick="togglePsc('p16')"><input type="checkbox" id="p16"><div class="psc-box"></div><div><div class="psc-name">伯恩拱廊街透視</div><div class="psc-tip">廣角置中線，時鐘塔前景長焦壓縮效果佳</div></div></label>
+      </div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">🌊 楚格 · 琉森 <span class="psc-chip">6/27–29</span></div>
+        <label class="psc-item" data-id="p17" onclick="togglePsc('p17')"><input type="checkbox" id="p17"><div class="psc-box"></div><div><div class="psc-name">琉森卡貝爾橋藍調</div><div class="psc-tip">22:00 三腳架 15–30s，橋燈倒影入水面</div></div></label>
+        <label class="psc-item" data-id="p18" onclick="togglePsc('p18')"><input type="checkbox" id="p18"><div class="psc-box"></div><div><div class="psc-name">瑞吉山全景</div><div class="psc-tip">廣角四湖全景，STP 全免，晴天視野 50km</div></div></label>
+      </div>
+
+      <div class="psc-city">
+        <div class="psc-city-hdr">🏙 蘇黎世近郊 <span class="psc-chip">6/29–7/1</span></div>
+        <label class="psc-item" data-id="p19" onclick="togglePsc('p19')"><input type="checkbox" id="p19"><div class="psc-box"></div><div><div class="psc-name">萊茵瀑布 ND 長曝</div><div class="psc-tip">ND10 絲絨水流，中央岩石小船 CHF 8，帶毛巾</div></div></label>
+        <label class="psc-item" data-id="p20" onclick="togglePsc('p20')"><input type="checkbox" id="p20"><div class="psc-box"></div><div><div class="psc-name">蘇黎世湖畔黃昏</div><div class="psc-tip">Quaibrücke，湖景 + 山景，19:30 黃金時段</div></div></label>
+        <label class="psc-item" data-id="p21" onclick="togglePsc('p21')"><input type="checkbox" id="p21"><div class="psc-box"></div><div><div class="psc-name">Alp Grüm 露台景觀</div><div class="psc-tip">百年老餐廳冰川全景，伯尼納線停靠</div></div></label>
       </div>
     </div>
 
@@ -7818,6 +7899,35 @@ window.shareItinerary = function() {
     })(i);
   }
   updateCount();
+})();
+
+/* ── 攝影打卡清單 ── */
+(function(){
+  var KEY = 'photo_spots_v1';
+  var TOTAL = 22;
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+  function updateUI(){
+    var s = load(), done = 0;
+    for(var i = 0; i < TOTAL; i++){
+      var item = document.querySelector('[data-id="p'+i+'"]');
+      if(!item) continue;
+      if(s['p'+i]){ item.classList.add('done'); done++; }
+      else { item.classList.remove('done'); }
+    }
+    var pct = Math.round(done/TOTAL*100);
+    var fill = document.getElementById('pscProgFill');
+    var dc = document.getElementById('pscDoneCount');
+    if(fill) fill.style.width = pct+'%';
+    if(dc) dc.textContent = done;
+  }
+  window.togglePsc = function(id){
+    var s = load();
+    s[id] = !s[id];
+    save(s);
+    updateUI();
+  };
+  updateUI();
 })();
 
 /* ── 攝影地點 Google Maps 導航連結 ── */
