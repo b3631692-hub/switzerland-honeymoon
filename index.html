@@ -1492,6 +1492,14 @@ body.dark-mode .ov-wx-chip { background: #0D1A24; }
 .dc-date { font-size: 10px; color: var(--text-sub); margin-top: 4px; }
 .dc-diff-note { font-size: 10px; color: var(--text-light); text-align: center; margin-top: 10px;
   padding-top: 8px; border-top: 1px dashed var(--border); }
+.clp-wrap { display: flex; align-items: center; gap: 7px; justify-content: center;
+  flex-wrap: wrap; margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--border); }
+.clp-icon { font-size: 15px; }
+.clp-phase { font-size: 11.5px; font-weight: 800; }
+.clp-bullet { font-size: 9px; color: var(--border); }
+.clp-next { font-size: 9.5px; color: var(--text-sub); }
+.clp-hot { animation: clp-pulse 2s ease-in-out infinite; }
+@keyframes clp-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
 /* ═══════════════════════════════════════
    EMERGENCY
@@ -3398,6 +3406,7 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         </div>
       </div>
       <div class="dc-diff-note">🕐 台灣領先瑞士 6 小時（夏令 CEST）· 台灣 20:00 = 瑞士 14:00</div>
+      <div id="chLightPhase" style="display:none"></div>
     </div>
 
     <!-- 今日速查 (JS 動態填入) -->
@@ -8636,6 +8645,99 @@ window.switchPhraseTab = function(lang, btn) {
   }
   tick();
   setInterval(tick, 1000);
+})();
+
+/* ── 瑞士天色指示器 ── */
+(function(){
+  var DEPART = new Date('2026-06-16T00:30:00+08:00');
+  var RETURN = new Date('2026-07-01T14:00:00+08:00');
+  var el = document.getElementById('chLightPhase');
+  if (!el) return;
+
+  var GOLDEN = {
+    '6/16':['05:29','21:21'],'6/17':['05:28','21:22'],
+    '6/18':['05:28','21:22'],'6/19':['05:28','21:23'],
+    '6/20':['05:28','21:23'],'6/21':['05:28','21:23'],
+    '6/22':['05:29','21:23'],'6/23':['05:29','21:22'],
+    '6/24':['05:30','21:22'],'6/25':['05:31','21:21'],
+    '6/26':['05:31','21:21'],'6/27':['05:32','21:20'],
+    '6/28':['05:33','21:19'],'6/29':['05:34','21:18'],
+    '6/30':['05:35','21:17'],'7/1':['05:36','21:16']
+  };
+
+  function getChNow() {
+    var now = new Date();
+    return new Date(now.getTime() + now.getTimezoneOffset()*60000 + 2*3600000);
+  }
+
+  function parseHM(s, ref) {
+    var p = s.split(':');
+    return new Date(ref.getFullYear(), ref.getMonth(), ref.getDate(), +p[0], +p[1], 0, 0);
+  }
+
+  function fmtMin(ms) {
+    var m = Math.max(0, Math.round(ms / 60000));
+    if (m < 60) return m + ' 分後';
+    var h = Math.floor(m/60), mm = m%60;
+    return h + 'h' + (mm ? mm+'m' : '') + ' 後';
+  }
+
+  function render() {
+    var now = new Date();
+    if (now < DEPART || now > RETURN) { el.style.display = 'none'; return; }
+
+    var ch = getChNow();
+    var key = (ch.getMonth()+1) + '/' + ch.getDate();
+    var g = GOLDEN[key];
+    if (!g) { el.style.display = 'none'; return; }
+
+    var sr = parseHM(g[0], ch); // sunrise
+    var ss = parseHM(g[1], ch); // sunset
+    var ms = ch.getTime();
+
+    // phase breakpoints (minutes offset from sunrise/sunset)
+    var dawn     = new Date(sr.getTime() - 45*60000);
+    var ghAMend  = new Date(sr.getTime() + 60*60000);
+    var ghPMst   = new Date(ss.getTime() - 60*60000);
+    var blueEnd  = new Date(ss.getTime() + 25*60000);
+
+    var phase, icon, color, isHot = false, nextLabel, nextMs;
+
+    if (ms < dawn.getTime()) {
+      phase = '夜晚'; icon = '🌑'; color = '#6B7280';
+      nextLabel = '黎明藍調'; nextMs = dawn.getTime() - ms;
+    } else if (ms < sr.getTime()) {
+      phase = '黎明藍調'; icon = '🌃'; color = '#60A5FA'; isHot = true;
+      nextLabel = '晨間黃金'; nextMs = sr.getTime() - ms;
+    } else if (ms < ghAMend.getTime()) {
+      phase = '晨間黃金時段'; icon = '🌅'; color = '#F59E0B'; isHot = true;
+      nextLabel = '日光'; nextMs = ghAMend.getTime() - ms;
+    } else if (ms < ghPMst.getTime()) {
+      phase = '日間光線'; icon = '☀️'; color = '#93C5FD';
+      nextLabel = '傍晚黃金'; nextMs = ghPMst.getTime() - ms;
+    } else if (ms < ss.getTime()) {
+      phase = '傍晚黃金時段'; icon = '🌇'; color = '#F59E0B'; isHot = true;
+      nextLabel = '藍調'; nextMs = ss.getTime() - ms;
+    } else if (ms < blueEnd.getTime()) {
+      phase = '藍調時段'; icon = '🌆'; color = '#3B82F6'; isHot = true;
+      nextLabel = '夜晚'; nextMs = blueEnd.getTime() - ms;
+    } else {
+      phase = '夜晚'; icon = '🌙'; color = '#6B7280';
+      var tomorrowDawn = new Date(dawn.getTime() + 86400000);
+      nextLabel = '明日黎明'; nextMs = tomorrowDawn.getTime() - ms;
+    }
+
+    el.innerHTML = '<div class="clp-wrap' + (isHot ? ' clp-hot' : '') + '">'
+      + '<span class="clp-icon">' + icon + '</span>'
+      + '<span class="clp-phase" style="color:' + color + '">' + phase + '</span>'
+      + '<span class="clp-bullet">·</span>'
+      + '<span class="clp-next">' + nextLabel + ' ' + fmtMin(nextMs) + '</span>'
+      + '</div>';
+    el.style.display = 'block';
+  }
+
+  render();
+  setInterval(render, 60000);
 })();
 
 /* ── 退稅試算 ── */
