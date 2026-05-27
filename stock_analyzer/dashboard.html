@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 無情獲利 - 股票分析系統</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e17;--card:#111827;--card2:#1a2332;--border:#1e3a5f;--text:#e2e8f0;--dim:#64748b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--gold:#f59e0b;--purple:#8b5cf6;--cyan:#06b6d4;--accent:#3b82f6}
+body{font-family:'SF Mono','Cascadia Code','Fira Code',monospace;background:var(--bg);color:var(--text);min-height:100vh}
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header h1{font-size:20px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;letter-spacing:1px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.controls select,.controls input,.controls button{background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-size:13px;font-family:inherit}
+.controls button{background:var(--accent);border-color:var(--accent);cursor:pointer;font-weight:600;transition:.2s}
+.controls button:hover{opacity:.85}
+.controls input{width:110px}
+.grid{display:grid;grid-template-columns:1fr;gap:12px;padding:12px;max-width:1600px;margin:0 auto}
+@media(min-width:1024px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:hidden}
+.card.full{grid-column:1/-1}
+.card h2{font-size:14px;color:var(--dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:8px}
+.card h2 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.stat{background:var(--card2);border-radius:8px;padding:12px;text-align:center}
+.stat .label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.stat .value{font-size:22px;font-weight:700;margin-top:4px}
+.stat .value.up{color:var(--green)}
+.stat .value.down{color:var(--red)}
+.stat .value.neutral{color:var(--blue)}
+.signal-list{max-height:320px;overflow-y:auto}
+.signal-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px;margin-bottom:4px;background:var(--card2);font-size:13px}
+.signal-item .badge{padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;min-width:48px;text-align:center}
+.signal-item .badge.buy{background:rgba(16,185,129,.15);color:var(--green)}
+.signal-item .badge.sell{background:rgba(239,68,68,.15);color:var(--red)}
+.signal-item .date{color:var(--dim);min-width:80px}
+.signal-item .reason{flex:1;color:var(--text);opacity:.8}
+.signal-item .price{font-weight:600;min-width:80px;text-align:right}
+.str-bar{height:4px;border-radius:2px;background:#1e293b;overflow:hidden;width:60px}
+.str-fill{height:100%;border-radius:2px}
+.trades-table{width:100%;border-collapse:collapse;font-size:12px}
+.trades-table th{text-align:left;padding:8px;color:var(--dim);border-bottom:1px solid var(--border);font-weight:500;text-transform:uppercase;letter-spacing:1px;font-size:10px}
+.trades-table td{padding:6px 8px;border-bottom:1px solid rgba(30,58,95,.3)}
+.trades-table .win{color:var(--green)}
+.trades-table .loss{color:var(--red)}
+.chart-wrap{position:relative;height:300px}
+.loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--dim);font-size:14px}
+.loading .spinner{width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-right:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.risk-item{background:var(--card2);border-radius:8px;padding:14px}
+.risk-item .rl{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.risk-item .rv{font-size:18px;font-weight:700;margin-top:4px}
+.gauge{width:100%;height:6px;background:#1e293b;border-radius:3px;margin-top:8px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:3px;transition:width .5s}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚡ 無情獲利分析系統</h1>
+  <div class="controls">
+    <select id="presetSel">
+      <option value="default">預設模擬</option>
+      <option value="uptrend">上漲趨勢</option>
+      <option value="volatile">高波動</option>
+      <option value="bearish">下跌趨勢</option>
+    </select>
+    <input id="symbolInput" placeholder="股票代碼" title="輸入如 AAPL, TSLA, 2330.TW">
+    <select id="strategySel">
+      <option value="composite">綜合策略</option>
+      <option value="golden_cross">均線交叉</option>
+      <option value="rsi">RSI</option>
+      <option value="macd">MACD</option>
+      <option value="bollinger">布林帶</option>
+    </select>
+    <input id="capitalInput" type="number" value="1000000" placeholder="初始資金">
+    <input id="slInput" type="number" value="0" step="0.01" placeholder="停損 %" title="停損百分比，如 0.05 = 5%">
+    <input id="tpInput" type="number" value="0" step="0.01" placeholder="停利 %" title="停利百分比，如 0.10 = 10%">
+    <button id="analyzeBtn" onclick="runAnalysis()">🔍 分析</button>
+  </div>
+</div>
+
+<div class="grid" id="mainGrid">
+  <div class="card full" id="priceCard">
+    <h2><span class="dot" style="background:var(--cyan)"></span>價格走勢 & 技術指標</h2>
+    <div class="chart-wrap"><canvas id="priceChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot" style="background:var(--green)"></span>回測績效</h2>
+    <div class="stats" id="perfStats">
+      <div class="loading"><div class="spinner"></div>等待分析...</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot" style="background:var(--gold)"></span>風險指標</h2>
+    <div class="risk-grid" id="riskStats">
+      <div class="loading"><div class="spinner"></div>等待分析...</div>
+    </div>
+  </div>
+
+  <div class="card full">
+    <h2><span class="dot" style="background:var(--blue)"></span>權益曲線</h2>
+    <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot" style="background:var(--purple)"></span>RSI & MACD</h2>
+    <div class="chart-wrap"><canvas id="rsiChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot" style="background:var(--cyan)"></span>成交量 & OBV</h2>
+    <div class="chart-wrap"><canvas id="volumeChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot" style="background:var(--green)"></span>交易訊號</h2>
+    <div class="signal-list" id="signalList">
+      <div class="loading"><div class="spinner"></div>等待分析...</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot" style="background:var(--gold)"></span>交易紀錄</h2>
+    <div style="max-height:320px;overflow-y:auto" id="tradeList">
+      <div class="loading"><div class="spinner"></div>等待分析...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let charts = {};
+
+function destroyCharts() {
+  Object.values(charts).forEach(c => c.destroy());
+  charts = {};
+}
+
+async function runAnalysis() {
+  const btn = document.getElementById('analyzeBtn');
+  btn.textContent = '⏳ 分析中...';
+  btn.disabled = true;
+
+  const symbol = document.getElementById('symbolInput').value.trim();
+  const preset = document.getElementById('presetSel').value;
+  const strategy = document.getElementById('strategySel').value;
+  const capital = document.getElementById('capitalInput').value || '1000000';
+  const sl = document.getElementById('slInput').value || '0';
+  const tp = document.getElementById('tpInput').value || '0';
+
+  const params = new URLSearchParams({preset, strategy, capital, stop_loss: sl, take_profit: tp});
+  if (symbol) params.set('symbol', symbol);
+
+  try {
+    const resp = await fetch(`/api/analyze?${params}`);
+    const result = await resp.json();
+    destroyCharts();
+    renderAll(result);
+  } catch (e) {
+    alert('分析失敗: ' + e.message);
+  } finally {
+    btn.textContent = '🔍 分析';
+    btn.disabled = false;
+  }
+}
+
+function renderAll(r) {
+  renderPriceChart(r);
+  renderEquityChart(r);
+  renderRSIChart(r);
+  renderVolumeChart(r);
+  renderPerfStats(r.backtest);
+  renderRiskStats(r.backtest);
+  renderSignals(r);
+  renderTrades(r);
+}
+
+function renderPriceChart(r) {
+  const ctx = document.getElementById('priceChart').getContext('2d');
+  const dates = r.data.dates;
+  const buySignals = r.signals.filter(s => s.action === 'BUY').map(s => ({x: dates[s.index], y: r.data.closes[s.index]}));
+  const sellSignals = r.signals.filter(s => s.action === 'SELL').map(s => ({x: dates[s.index], y: r.data.closes[s.index]}));
+
+  charts.price = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {label:'收盤價', data:r.data.closes, borderColor:'#06b6d4', borderWidth:1.5, pointRadius:0, fill:false, tension:0.1},
+        {label:'SMA20', data:r.indicators.sma20, borderColor:'#f59e0b', borderWidth:1, pointRadius:0, fill:false, borderDash:[4,2]},
+        {label:'SMA60', data:r.indicators.sma60, borderColor:'#8b5cf6', borderWidth:1, pointRadius:0, fill:false, borderDash:[4,2]},
+        {label:'布林上軌', data:r.indicators.bb_upper, borderColor:'rgba(239,68,68,.4)', borderWidth:1, pointRadius:0, fill:false, borderDash:[2,2]},
+        {label:'布林下軌', data:r.indicators.bb_lower, borderColor:'rgba(16,185,129,.4)', borderWidth:1, pointRadius:0, fill:'+1', backgroundColor:'rgba(59,130,246,.04)', borderDash:[2,2]},
+        {label:'買進', data:buySignals, type:'scatter', pointStyle:'triangle', pointRadius:8, pointBackgroundColor:'#10b981', showLine:false},
+        {label:'賣出', data:sellSignals, type:'scatter', pointStyle:'triangle', pointRadius:8, pointBackgroundColor:'#ef4444', pointRotation:180, showLine:false}
+      ]
+    },
+    options: chartOpts('價格')
+  });
+}
+
+function renderEquityChart(r) {
+  const ctx = document.getElementById('equityChart').getContext('2d');
+  const eq = r.backtest.equity_curve;
+  const dates = r.data.dates.slice(0, eq.length);
+  const init = r.backtest.initial_capital;
+  const bh = r.data.closes.map(c => init * c / r.data.closes[0]);
+
+  charts.equity = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {label:'策略權益', data:eq, borderColor:'#10b981', borderWidth:2, pointRadius:0, fill:true, backgroundColor:'rgba(16,185,129,.08)', tension:0.1},
+        {label:'買入持有', data:bh.slice(0,eq.length), borderColor:'#64748b', borderWidth:1, pointRadius:0, fill:false, borderDash:[4,2], tension:0.1}
+      ]
+    },
+    options: chartOpts('金額')
+  });
+}
+
+function renderRSIChart(r) {
+  const ctx = document.getElementById('rsiChart').getContext('2d');
+  const dates = r.data.dates;
+  charts.rsi = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {label:'RSI(14)', data:r.indicators.rsi, borderColor:'#f59e0b', borderWidth:1.5, pointRadius:0, fill:false, yAxisID:'y'},
+        {label:'MACD', data:r.indicators.macd, borderColor:'#3b82f6', borderWidth:1, pointRadius:0, fill:false, yAxisID:'y1'},
+        {label:'Signal', data:r.indicators.macd_signal, borderColor:'#ef4444', borderWidth:1, pointRadius:0, fill:false, yAxisID:'y1', borderDash:[3,2]},
+      ]
+    },
+    options: {
+      ...chartOpts('RSI'),
+      scales: {
+        x:{display:true, ticks:{maxTicksLimit:8, color:'#475569', font:{size:10}}, grid:{color:'rgba(30,58,95,.3)'}},
+        y:{position:'left', ticks:{color:'#f59e0b',font:{size:10}}, grid:{color:'rgba(30,58,95,.3)'},
+           afterBuildTicks: function(axis) {},
+        },
+        y1:{position:'right', ticks:{color:'#3b82f6',font:{size:10}}, grid:{drawOnChartArea:false}}
+      },
+      plugins:{...chartOpts('').plugins, annotation:undefined}
+    }
+  });
+}
+
+function renderVolumeChart(r) {
+  const ctx = document.getElementById('volumeChart').getContext('2d');
+  const colors = r.data.closes.map((c,i) => i>0 && c>=r.data.closes[i-1] ? 'rgba(16,185,129,.6)' : 'rgba(239,68,68,.6)');
+  charts.volume = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: r.data.dates,
+      datasets: [
+        {label:'成交量', data:r.data.volumes, backgroundColor:colors, yAxisID:'y'},
+        {label:'OBV', data:r.indicators.obv, type:'line', borderColor:'#8b5cf6', borderWidth:1.5, pointRadius:0, fill:false, yAxisID:'y1'}
+      ]
+    },
+    options: {
+      ...chartOpts('量'),
+      scales: {
+        x:{display:true, ticks:{maxTicksLimit:8,color:'#475569',font:{size:10}}, grid:{color:'rgba(30,58,95,.3)'}},
+        y:{position:'left', ticks:{color:'#64748b',font:{size:10}}, grid:{color:'rgba(30,58,95,.3)'}},
+        y1:{position:'right', ticks:{color:'#8b5cf6',font:{size:10}}, grid:{drawOnChartArea:false}}
+      }
+    }
+  });
+}
+
+function chartOpts(label) {
+  return {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    scales: {
+      x:{display:true, ticks:{maxTicksLimit:8, color:'#475569', font:{size:10}}, grid:{color:'rgba(30,58,95,.3)'}},
+      y:{ticks:{color:'#64748b',font:{size:10}}, grid:{color:'rgba(30,58,95,.3)'}}
+    },
+    plugins:{
+      legend:{labels:{color:'#94a3b8',font:{size:11},usePointStyle:true,pointStyle:'circle',padding:16}},
+      tooltip:{backgroundColor:'#1e293b',titleColor:'#e2e8f0',bodyColor:'#94a3b8',borderColor:'#334155',borderWidth:1,padding:10,displayColors:true}
+    }
+  };
+}
+
+function renderPerfStats(bt) {
+  const el = document.getElementById('perfStats');
+  const retClass = bt.total_return_pct >= 0 ? 'up' : 'down';
+  el.innerHTML = `
+    <div class="stat"><div class="label">總報酬率</div><div class="value ${retClass}">${bt.total_return_pct>=0?'+':''}${bt.total_return_pct.toFixed(2)}%</div></div>
+    <div class="stat"><div class="label">年化報酬</div><div class="value ${bt.annualized_return>=0?'up':'down'}">${bt.annualized_return>=0?'+':''}${bt.annualized_return.toFixed(2)}%</div></div>
+    <div class="stat"><div class="label">最終資金</div><div class="value neutral">$${Number(bt.final_capital.toFixed(0)).toLocaleString()}</div></div>
+    <div class="stat"><div class="label">總交易數</div><div class="value neutral">${bt.total_trades}</div></div>
+    <div class="stat"><div class="label">勝率</div><div class="value ${bt.win_rate>=50?'up':'down'}">${bt.win_rate.toFixed(1)}%</div></div>
+    <div class="stat"><div class="label">獲利因子</div><div class="value ${bt.profit_factor>=1?'up':'down'}">${bt.profit_factor.toFixed(2)}</div></div>
+    <div class="stat"><div class="label">平均獲利</div><div class="value up">+${bt.avg_win.toFixed(2)}%</div></div>
+    <div class="stat"><div class="label">平均虧損</div><div class="value down">${bt.avg_loss.toFixed(2)}%</div></div>
+  `;
+}
+
+function renderRiskStats(bt) {
+  const el = document.getElementById('riskStats');
+  const ddPct = Math.min(bt.max_drawdown_pct, 100);
+  const ddColor = ddPct < 10 ? 'var(--green)' : ddPct < 20 ? 'var(--gold)' : 'var(--red)';
+  const sharpeColor = bt.sharpe_ratio > 1 ? 'var(--green)' : bt.sharpe_ratio > 0 ? 'var(--gold)' : 'var(--red)';
+  el.innerHTML = `
+    <div class="risk-item">
+      <div class="rl">夏普比率</div>
+      <div class="rv" style="color:${sharpeColor}">${bt.sharpe_ratio.toFixed(3)}</div>
+      <div class="gauge"><div class="gauge-fill" style="width:${Math.min(Math.max(bt.sharpe_ratio+1,0)/4*100,100)}%;background:${sharpeColor}"></div></div>
+    </div>
+    <div class="risk-item">
+      <div class="rl">最大回撤</div>
+      <div class="rv" style="color:${ddColor}">${bt.max_drawdown_pct.toFixed(2)}%</div>
+      <div class="gauge"><div class="gauge-fill" style="width:${ddPct}%;background:${ddColor}"></div></div>
+    </div>
+    <div class="risk-item">
+      <div class="rl">期望值/筆</div>
+      <div class="rv" style="color:${bt.expectancy>=0?'var(--green)':'var(--red)'}">$${Number(bt.expectancy.toFixed(0)).toLocaleString()}</div>
+    </div>
+    <div class="risk-item">
+      <div class="rl">平均持倉天數</div>
+      <div class="rv" style="color:var(--blue)">${bt.avg_holding_days.toFixed(0)} 天</div>
+    </div>
+  `;
+}
+
+function renderSignals(r) {
+  const el = document.getElementById('signalList');
+  if (!r.signals.length) {
+    el.innerHTML = '<div style="padding:20px;color:var(--dim);text-align:center">此策略無訊號產生</div>';
+    return;
+  }
+  const recent = r.signals.slice(-30).reverse();
+  el.innerHTML = recent.map(s => {
+    const cls = s.action === 'BUY' ? 'buy' : 'sell';
+    const label = s.action === 'BUY' ? '買進' : '賣出';
+    const date = r.data.dates[s.index] || '';
+    const price = r.data.closes[s.index]?.toFixed(2) || '';
+    const pct = (s.strength * 100).toFixed(0);
+    const color = s.action === 'BUY' ? 'var(--green)' : 'var(--red)';
+    return `<div class="signal-item">
+      <span class="badge ${cls}">${label}</span>
+      <span class="date">${date}</span>
+      <span class="reason">${s.reason}</span>
+      <span class="price">$${price}</span>
+      <div class="str-bar"><div class="str-fill" style="width:${pct}%;background:${color}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderTrades(r) {
+  const el = document.getElementById('tradeList');
+  const trades = r.backtest.trades;
+  if (!trades.length) {
+    el.innerHTML = '<div style="padding:20px;color:var(--dim);text-align:center">無交易紀錄</div>';
+    return;
+  }
+  const rows = trades.slice(-20).reverse().map(t => {
+    const cls = t.pnl >= 0 ? 'win' : 'loss';
+    const icon = t.pnl >= 0 ? '✅' : '❌';
+    const entryDate = r.data.dates[t.entry_idx] || '';
+    const exitDate = t.exit_idx !== null ? (r.data.dates[t.exit_idx] || '') : '-';
+    return `<tr>
+      <td>${icon}</td>
+      <td>${entryDate}</td>
+      <td>${exitDate}</td>
+      <td>$${t.entry_price.toFixed(2)}</td>
+      <td>$${t.exit_price?.toFixed(2) || '-'}</td>
+      <td class="${cls}">${t.pnl_pct>=0?'+':''}${t.pnl_pct.toFixed(2)}%</td>
+      <td class="${cls}">$${Number(t.pnl.toFixed(0)).toLocaleString()}</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `<table class="trades-table">
+    <thead><tr><th></th><th>進場</th><th>出場</th><th>買入價</th><th>賣出價</th><th>報酬%</th><th>損益</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+window.addEventListener('load', () => runAnalysis());
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# No external dependencies required - pure Python + stdlib
+# Optional: uncomment for enhanced data fetching
+# yfinance>=0.2.0
+# pandas>=2.0.0
