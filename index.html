@@ -5256,7 +5256,7 @@ window._fetchWeather = (function() {
   }
   return function fetchWeather() {
     var cached = null;
-    try { cached = JSON.parse(localStorage.getItem('wx_cache2')); } catch(e){}
+    try { cached = JSON.parse(localStorage.getItem('wx_cache3')); } catch(e){}
     if (cached && cached.ts && Date.now() - cached.ts < 1800000) {
       CITIES.forEach(function(c,i) { if (cached.data[i]) updateCard(c, cached.data[i]); });
       return;
@@ -5274,7 +5274,7 @@ window._fetchWeather = (function() {
         updateCard(city, data);
         done++;
         if (done === CITIES.length) {
-          try { localStorage.setItem('wx_cache2', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
+          try { localStorage.setItem('wx_cache3', JSON.stringify({ts:Date.now(),data:results})); } catch(e){}
         }
       }).catch(function() {
         var el = document.getElementById(city.id);
@@ -6010,29 +6010,59 @@ window.shareItinerary = function() {
 })();
 
 /* ── 行程搜尋 ── */
-window.filterItinerary = function(q) {
-  var clrBtn = document.getElementById('itinSearchClear');
-  var noResult = document.getElementById('itinNoResult');
-  if (clrBtn) clrBtn.classList.toggle('vis', q.length > 0);
-  q = q.trim().toLowerCase();
-  var blocks = document.querySelectorAll('#tab-itinerary .base-block');
-  var anyVisible = false;
-  blocks.forEach(function(block) {
-    var cards = block.querySelectorAll('.day-card');
-    var blockHasVisible = false;
-    cards.forEach(function(card) {
-      var match = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
-      card.style.display = match ? '' : 'none';
-      if (match) { blockHasVisible = true; anyVisible = true; }
-      if (match && q) card.classList.add('dc-open');
+window.filterItinerary = (function() {
+  var _savedOpen = null;
+  return function(q) {
+    var clrBtn = document.getElementById('itinSearchClear');
+    var noResult = document.getElementById('itinNoResult');
+    if (clrBtn) clrBtn.classList.toggle('vis', q.length > 0);
+    q = q.trim().toLowerCase();
+
+    var blocks = document.querySelectorAll('#tab-itinerary .base-block');
+    var cards  = document.querySelectorAll('#tab-itinerary .day-card');
+
+    if (!q) {
+      // Restore
+      cards.forEach(function(card) {
+        card.style.display = '';
+        if (_savedOpen !== null) {
+          card.classList.toggle('dc-open', _savedOpen.has(card));
+        }
+      });
+      blocks.forEach(function(block) {
+        var h = block.querySelector('.base-header');
+        if (h) h.style.display = '';
+      });
+      _savedOpen = null;
+      if (noResult) noResult.classList.remove('vis');
+      var jumpRow = document.getElementById('dayJumpRow');
+      if (jumpRow) jumpRow.style.display = '';
+      return;
+    }
+
+    // Save open state before first search
+    if (_savedOpen === null) {
+      _savedOpen = new Set();
+      cards.forEach(function(card) { if (card.classList.contains('dc-open')) _savedOpen.add(card); });
+    }
+
+    var anyVisible = false;
+    blocks.forEach(function(block) {
+      var bCards = block.querySelectorAll('.day-card');
+      var blockHasVisible = false;
+      bCards.forEach(function(card) {
+        var match = card.textContent.toLowerCase().indexOf(q) !== -1;
+        card.style.display = match ? '' : 'none';
+        if (match) { blockHasVisible = true; anyVisible = true; card.classList.add('dc-open'); }
+      });
+      var header = block.querySelector('.base-header');
+      if (header) header.style.display = blockHasVisible ? '' : 'none';
     });
-    var header = block.querySelector('.base-header');
-    if (header) header.style.display = blockHasVisible ? '' : 'none';
-  });
-  if (noResult) noResult.classList.toggle('vis', q.length > 0 && !anyVisible);
-  var jumpRow = document.getElementById('dayJumpRow');
-  if (jumpRow) jumpRow.style.display = q ? 'none' : '';
-};
+    if (noResult) noResult.classList.toggle('vis', !anyVisible);
+    var jumpRow2 = document.getElementById('dayJumpRow');
+    if (jumpRow2) jumpRow2.style.display = 'none';
+  };
+})();
 window.clearItinSearch = function() {
   var inp = document.getElementById('itinSearch');
   if (inp) { inp.value = ''; filterItinerary(''); }
