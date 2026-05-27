@@ -4766,7 +4766,6 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
               <span class="chip chip-photo">📸 冰川攝影</span>
               <span class="chip chip-honey">💍 婚紗拍攝</span>
             </div>
-            <div class="correction-note">⚠️ 順序已修正：原計畫先 Diavolezza 後 Alp Languard 時間上不可能——Diavolezza 末班 17:00，返回需 20 分，Alp Languard 末班 17:30 根本趕不上。</div>
             <div class="db">
               <div class="time-label">🌅 上午 09:00 ｜ Alp Languard（先做）</div>
               <p>Card 免費吊椅纜車，俯瞰 Pontresina 村＋野生羱羊<br>約 9:00–12:00 輕鬆下山</p>
@@ -8826,15 +8825,17 @@ updateCategoryProgress();
   // Critical times per day: [name, Swiss local HH, MM, icon, note]
   var CRITS = {
     '6/16': [['ZRH 觀景台 Deck B 最後入場', 20, 30, '🛬', '21:00 關閉前 30 分']],
+    '6/17': [['Muottas Muragl 末班纜車', 16, 30, '🚡', '17:00 末班，提前下山']],
     '6/18': [['Alp Languard 吊椅末班上山', 16, 45, '🚡', '17:00 末班，提前排隊'],
              ['Diavolezza 纜車末班下山', 16, 30, '🚡', '17:00 末班，需提前 30 分']],
     '6/19': [['Tirano 末班 Regio 返回', 16, 41, '🚂', '17:41 前離開 Tirano']],
     '6/20': [['Corvatsch 末班纜車下山', 16, 30, '🚡', '17:00 末班，天氣惡化需更早']],
-    '6/21': [['冰河列車 Chur 站出發', 14, 2, '🚂', '14:32 Chur 出發，勿遲到！']],
+    '6/21': [['冰河列車 Chur 站出發', 13, 45, '🚂', '14:32 Chur 出發，勿遲到（一等艙需找座位）！']],
     '6/22': [['Gornergrat 末班登山火車', 19, 18, '🚂', '19:48 末班，提前 30 分到']],
     '6/23': [['Klein Matterhorn 末班纜車上山', 15, 15, '🚡', '15:45 末班，⚠️ 嚴格！']],
     '6/24': [['Oeschinensee 纜車末班下山', 17, 30, '🚡', '18:00 末班，提前排隊']],
     '6/25': [['Zytglogge 天文鐘塔最後入場', 17, 0, '🕐', '18:00 關閉']],
+    '6/26': [['Lauterbrunnen 返程取行李', 12, 45, '🚂', '出發返 Bern 取行李，目標 13:30']],
     '6/27': [['末班火車返楚格（琉森出發）', 23, 50, '🚂', '00:20 末班，切勿錯過']],
     '6/28': [['Tierpark Goldau 關園', 17, 30, '🦁', '18:00 關園，提前 30 分離開']],
     '7/1':  [['EK086 check-in 截止', 19, 30, '✈️', '22:00 起飛，20:00 截止 check-in']]
