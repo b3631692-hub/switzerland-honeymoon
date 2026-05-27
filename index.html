@@ -97,17 +97,6 @@ body.dark-mode .stat-card { background: #152233; border-color: #1D3348; }
 body.dark-mode .da-card { background: #152233; border-color: #1D3348; }
 body.dark-mode .hh-info { background: #152233; }
 body.dark-mode .day-note-area { background: #0D1A24; color: var(--text); border-color: #1D3348; }
-body.dark-mode .car-summary-hero { background: linear-gradient(135deg,#0F1E2B 0%,#0A1520 100%); }
-body.dark-mode .car-cat-chip { background: #1A2E3F; border-color: #1D3348; }
-body.dark-mode .car-cat-chip.active { background: #0C2A1A; }
-body.dark-mode .car-form { background: #152233; }
-body.dark-mode .car-input { background: #0D1A24; border-color: #1D3348; color: var(--text); }
-body.dark-mode .car-input:focus { border-color: var(--primary); }
-body.dark-mode .car-entry { background: #1A2E3F; border-color: #1D3348; }
-body.dark-mode .car-entry:hover { background: #1D3348; }
-body.dark-mode .car-empty { color: var(--text-light); }
-body.dark-mode .car-cat-bar-label { color: var(--text-sub); }
-body.dark-mode .car-donut-center { color: var(--text); }
 
 /* ── 深色模式：chip / badge / alert 等硬編碼淺色修正 ── */
 body.dark-mode .chip-photo  { background: #2D1A05; color: #FCD34D; }
@@ -1135,7 +1124,7 @@ body.dark-mode .pg-map-btn { background: #1A2E3F; color: #8AB4F8; border-color: 
 }
 .bottom-nav-inner {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   height: var(--bot-nav-h);
 }
 .bnav-btn {
@@ -2101,158 +2090,6 @@ body.dark-mode .st-input.st-chf-inp:focus { border-color: #2563EB; }
 }
 .st-pct-label { text-align: right; font-size: 11px; color: var(--text-light); margin-top: 5px; }
 
-/* ═══════════════════════════════════════
-   CAR EXPENSE MANAGER
-═══════════════════════════════════════ */
-.car-summary-hero {
-  background: linear-gradient(135deg, #1A3D5C 0%, #2C5F8A 50%, #2A7A50 100%);
-  border-radius: var(--radius);
-  padding: 24px 20px;
-  color: #fff;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.car-hero-icon { font-size: 36px; margin-bottom: 6px; }
-.car-hero-label { font-size: 12px; opacity: 0.85; margin-bottom: 4px; }
-.car-hero-amount { font-family: var(--font-serif); font-size: 32px; font-weight: 700; }
-.car-hero-sub { font-size: 11px; opacity: 0.7; margin-top: 6px; }
-.car-hero-stats {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px; margin-top: 16px;
-}
-.car-hero-stat {
-  background: rgba(255,255,255,0.13); border-radius: 10px;
-  padding: 10px 6px;
-}
-.car-hero-stat-val { font-family: var(--font-serif); font-size: 17px; font-weight: 600; }
-.car-hero-stat-lbl { font-size: 9.5px; opacity: 0.75; margin-top: 2px; }
-
-.car-cats-grid {
-  display: flex; flex-direction: column; gap: 10px;
-  margin-bottom: 20px;
-}
-.car-cat-bar-row {
-  display: flex; align-items: center; gap: 10px;
-}
-.car-cat-bar-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
-.car-cat-bar-label { font-size: 12px; font-weight: 600; color: var(--text-sub); width: 56px; flex-shrink: 0; }
-.car-cat-bar-track { flex: 1; height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden; }
-.car-cat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; min-width: 0; }
-.car-cat-bar-val { font-size: 12px; font-weight: 700; color: var(--text); width: 70px; text-align: right; flex-shrink: 0; }
-
-.car-donut-wrap {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  margin-top: 18px; padding-top: 14px;
-  border-top: 1px solid var(--border);
-}
-@media (min-width: 480px) { .car-donut-wrap { flex-direction: row; justify-content: center; } }
-.car-donut-svg { width: 140px; height: 140px; flex-shrink: 0; }
-.car-donut-center { font-size: 11px; font-weight: 700; fill: var(--text); }
-.car-donut-sub { font-size: 9px; fill: var(--text-light); }
-.car-donut-legend { display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
-.car-dl-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.car-dl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.car-dl-name { flex: 1; color: var(--text-sub); }
-.car-dl-pct { font-weight: 700; color: var(--text); }
-.car-dl-amt { font-size: 11px; color: var(--text-light); margin-left: 4px; }
-
-.car-form {
-  background: var(--card); border-radius: var(--radius);
-  padding: 18px 16px; border: 1.5px solid var(--border);
-}
-.car-form-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 14px; }
-.car-form-row { display: flex; gap: 8px; margin-bottom: 10px; }
-.car-form-row.col { flex-direction: column; }
-.car-form-label { font-size: 10px; font-weight: 700; color: var(--text-light); margin-bottom: 3px; }
-.car-input {
-  width: 100%; padding: 8px 10px; font-size: 13px;
-  font-family: var(--font-body);
-  border: 1.5px solid var(--border); border-radius: 8px;
-  background: var(--bg); color: var(--text);
-  outline: none; box-sizing: border-box;
-}
-.car-input:focus { border-color: var(--primary); }
-.car-input::-webkit-outer-spin-button,
-.car-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-.car-input[type=number] { -moz-appearance: textfield; text-align: right; font-weight: 700; color: var(--primary); }
-select.car-input { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235E8498' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
-
-.car-cat-chips {
-  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;
-}
-.car-cat-chip {
-  padding: 6px 12px; font-size: 12px; font-weight: 600;
-  border: 1.5px solid var(--border); border-radius: 100px;
-  background: var(--card); color: var(--text-sub);
-  cursor: pointer; transition: all 0.15s;
-}
-.car-cat-chip:hover { border-color: var(--primary); color: var(--primary); }
-.car-cat-chip.active {
-  background: #E6F4ED; border-color: #2A7A50; color: #2A7A50;
-}
-.car-add-btn {
-  width: 100%; padding: 10px; font-size: 13px; font-weight: 700;
-  font-family: var(--font-body);
-  background: linear-gradient(135deg, #2A7A50, #1A5C3A);
-  color: #fff; border: none; border-radius: 10px;
-  cursor: pointer; transition: opacity 0.15s;
-  margin-top: 4px;
-}
-.car-add-btn:hover { opacity: 0.9; }
-.car-add-btn:active { transform: scale(0.98); }
-
-.car-log-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 12px;
-}
-.car-log-title { font-size: 14px; font-weight: 800; color: var(--text); }
-.car-log-count { font-size: 11px; color: var(--text-light); }
-.car-entries { display: flex; flex-direction: column; gap: 8px; }
-.car-entry {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 10px;
-  background: var(--bg); border: 1px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
-}
-.car-entry:hover { background: var(--card); border-color: var(--border); }
-.car-entry-icon { font-size: 20px; flex-shrink: 0; }
-.car-entry-info { flex: 1; min-width: 0; }
-.car-entry-cat { font-size: 12px; font-weight: 700; color: var(--text); }
-.car-entry-desc { font-size: 11px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.car-entry-right { text-align: right; flex-shrink: 0; }
-.car-entry-amount { font-size: 13px; font-weight: 700; color: var(--primary); font-family: var(--font-serif); }
-.car-entry-date { font-size: 10px; color: var(--text-light); }
-.car-entry-del {
-  width: 26px; height: 26px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  border: none; background: none; cursor: pointer;
-  font-size: 14px; color: var(--text-light); border-radius: 50%;
-  transition: background 0.15s, color 0.15s;
-}
-.car-entry-del:hover { background: #FEE2E2; color: #EF4444; }
-
-.car-empty {
-  text-align: center; padding: 32px 16px;
-  color: var(--text-light); font-size: 13px;
-}
-.car-empty-icon { font-size: 36px; margin-bottom: 8px; opacity: 0.5; }
-
-.car-reset-row {
-  display: flex; justify-content: flex-end; margin-top: 14px;
-}
-.car-reset-btn {
-  font-size: 11px; padding: 5px 14px;
-  color: var(--text-light); background: var(--bg);
-  border: 1px solid var(--border); border-radius: 100px; cursor: pointer;
-  transition: background 0.15s;
-}
-.car-reset-btn:hover { background: #FEE2E2; color: #EF4444; border-color: #FCA5A5; }
-
-.car-chf-hint {
-  font-size: 10px; color: #2563EB; text-align: right; margin-top: 2px;
-}
-body.dark-mode .car-chf-hint { color: #60A5FA; }
-
 /* ── 行程折疊 ── */
 .day-collapse-ctrl {
   display: flex; justify-content: flex-end;
@@ -2652,7 +2489,6 @@ body.dark-mode .pr-item { background: #0D1A24; }
     <button class="tnav-btn"        onclick="showTab('budget',this)">💰 費用預算</button>
     <button class="tnav-btn"        onclick="showTab('photo',this)">📸 攝影指南</button>
     <button class="tnav-btn"        onclick="showTab('reminders',this)">💌 重要提醒</button>
-    <button class="tnav-btn"        onclick="showTab('car',this)">🚗 汽車開銷</button>
   </div>
 </nav>
 
@@ -5104,92 +4940,6 @@ body.dark-mode .pr-item { background: #0D1A24; }
     </div>
   </div>
 
-  <!-- 汽車開銷 -->
-  <div id="tab-car" class="section">
-    <div class="sec-title">汽車開銷管理</div>
-
-    <!-- 費用總覽 -->
-    <div class="car-summary-hero reveal">
-      <div class="car-hero-icon">🚗</div>
-      <div class="car-hero-label">汽車總花費</div>
-      <div class="car-hero-amount" id="carTotalAmount">TWD 0</div>
-      <div class="car-hero-sub" id="carTotalChf">≈ CHF 0</div>
-      <div class="car-hero-stats">
-        <div class="car-hero-stat">
-          <div class="car-hero-stat-val" id="carEntryCount">0</div>
-          <div class="car-hero-stat-lbl">筆記錄</div>
-        </div>
-        <div class="car-hero-stat">
-          <div class="car-hero-stat-val" id="carTopCat">—</div>
-          <div class="car-hero-stat-lbl">最大支出</div>
-        </div>
-        <div class="car-hero-stat">
-          <div class="car-hero-stat-val" id="carAvgDaily">0</div>
-          <div class="car-hero-stat-lbl">TWD/日均</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 分類長條圖 -->
-    <div class="card reveal" style="margin-bottom:20px">
-      <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px">📊 分類統計</div>
-      <div class="car-cats-grid" id="carCatBars"></div>
-      <div class="car-donut-wrap" id="carDonutWrap"></div>
-    </div>
-
-    <!-- 新增開銷表單 -->
-    <div class="car-form reveal" style="margin-bottom:20px">
-      <div class="car-form-title">➕ 新增開銷</div>
-      <div class="car-form-label">類別</div>
-      <div class="car-cat-chips" id="carCatChips">
-        <span class="car-cat-chip active" data-cat="rental">🔑 租車</span>
-        <span class="car-cat-chip" data-cat="fuel">⛽ 油費</span>
-        <span class="car-cat-chip" data-cat="parking">🅿️ 停車</span>
-        <span class="car-cat-chip" data-cat="toll">🛣 過路費</span>
-        <span class="car-cat-chip" data-cat="wash">🧽 洗車</span>
-        <span class="car-cat-chip" data-cat="other">📦 其他</span>
-      </div>
-      <div class="car-form-row">
-        <div style="flex:1">
-          <div class="car-form-label">日期</div>
-          <input type="date" class="car-input" id="carDate">
-        </div>
-        <div style="flex:1">
-          <div class="car-form-label">幣別</div>
-          <select class="car-input" id="carCurrency">
-            <option value="CHF">🇨🇭 CHF</option>
-            <option value="TWD">🇹🇼 TWD</option>
-            <option value="EUR">🇪🇺 EUR</option>
-          </select>
-        </div>
-      </div>
-      <div class="car-form-row">
-        <div style="flex:1">
-          <div class="car-form-label">金額</div>
-          <input type="number" class="car-input" id="carAmount" min="0" step="0.01" placeholder="0.00">
-        </div>
-        <div style="flex:1.5">
-          <div class="car-form-label">說明（選填）</div>
-          <input type="text" class="car-input" id="carDesc" placeholder="e.g. Shell Interlaken 加油" maxlength="60">
-        </div>
-      </div>
-      <div class="car-chf-hint" id="carConvertHint"></div>
-      <button class="car-add-btn" onclick="addCarExpense()">新增記錄</button>
-    </div>
-
-    <!-- 開銷記錄 -->
-    <div class="card reveal">
-      <div class="car-log-header">
-        <div class="car-log-title">📋 開銷記錄</div>
-        <div class="car-log-count" id="carLogCount"></div>
-      </div>
-      <div class="car-entries" id="carEntries"></div>
-      <div class="car-reset-row">
-        <button class="car-reset-btn" onclick="resetCarExpenses()">清除全部記錄</button>
-      </div>
-    </div>
-  </div>
-
 </main>
 
 <!-- ══ DARK MODE TOGGLE ══ -->
@@ -5231,9 +4981,6 @@ body.dark-mode .pr-item { background: #0D1A24; }
     </button>
     <button class="bnav-btn" onclick="showTab('reminders',this)">
       <span class="bn-icon">💌</span><span>提醒</span>
-    </button>
-    <button class="bnav-btn" onclick="showTab('car',this)">
-      <span class="bn-icon">🚗</span><span>汽車</span>
     </button>
   </div>
 </nav>
@@ -6225,7 +5972,7 @@ document.addEventListener('change', function(e) {
 
 /* ── 標籤頁左右滑動切換 ── */
 (function() {
-  var TABS = ['overview','itinerary','budget','photo','reminders','car'];
+  var TABS = ['overview','itinerary','budget','photo','reminders'];
   var tx = 0, ty = 0;
   var main = document.querySelector('.main');
   if (!main) return;
@@ -6300,7 +6047,7 @@ updateChecklistProgress = function() {
 };
 
 /* ── 行程 TAB 切換：今日滾動 + 方向滑動 ── */
-var TABS_ORDER = ['overview','itinerary','budget','photo','reminders','car'];
+var TABS_ORDER = ['overview','itinerary','budget','photo','reminders'];
 var _origShowTab = showTab;
 showTab = function(name, btn) {
   var curSec  = document.querySelector('.section.active');
@@ -7231,249 +6978,6 @@ window.togglePhotoLayer = (function() {
       if (btn) { btn.style.background = ''; btn.style.color = ''; }
     }
   };
-})();
-
-/* ══════════════════════════════════════
-   CAR EXPENSE MANAGER
-══════════════════════════════════════ */
-(function() {
-  var STORAGE_KEY = 'car_expenses_v1';
-  var CAT_META = {
-    rental:  { icon: '🔑', label: '租車',   color: '#2C5F8A' },
-    fuel:    { icon: '⛽', label: '油費',   color: '#F59E0B' },
-    parking: { icon: '🅿️', label: '停車',  color: '#8B5CF6' },
-    toll:    { icon: '🛣', label: '過路費', color: '#EF4444' },
-    wash:    { icon: '🧽', label: '洗車',   color: '#06B6D4' },
-    other:   { icon: '📦', label: '其他',   color: '#6B7280' }
-  };
-  var CAT_ORDER = ['rental','fuel','parking','toll','wash','other'];
-  var selectedCat = 'rental';
-
-  function load() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch(e) { return []; }
-  }
-  function save(data) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
-  }
-
-  function getRate() {
-    return (window._fxRate && window._fxRate > 0) ? window._fxRate : 35;
-  }
-
-  function toTWD(amount, currency) {
-    if (currency === 'TWD') return amount;
-    if (currency === 'CHF') return amount * getRate();
-    if (currency === 'EUR') return amount * getRate() * 1.04;
-    return amount;
-  }
-
-  function fmtNum(n) {
-    return Math.round(n).toLocaleString();
-  }
-
-  function renderAll() {
-    var entries = load();
-    var totalTWD = 0;
-    var catTotals = {};
-    CAT_ORDER.forEach(function(c) { catTotals[c] = 0; });
-
-    entries.forEach(function(e) {
-      var twd = toTWD(e.amount, e.currency);
-      totalTWD += twd;
-      if (catTotals[e.cat] !== undefined) catTotals[e.cat] += twd;
-      else catTotals.other += twd;
-    });
-
-    var heroAmt = document.getElementById('carTotalAmount');
-    var heroChf = document.getElementById('carTotalChf');
-    var heroCount = document.getElementById('carEntryCount');
-    var heroTopCat = document.getElementById('carTopCat');
-    var heroAvg = document.getElementById('carAvgDaily');
-    if (heroAmt) heroAmt.textContent = 'TWD ' + fmtNum(totalTWD);
-    if (heroChf) heroChf.textContent = '≈ CHF ' + (totalTWD / getRate()).toFixed(0);
-    if (heroCount) heroCount.textContent = entries.length;
-
-    var topCat = '—', topVal = 0;
-    CAT_ORDER.forEach(function(c) {
-      if (catTotals[c] > topVal) { topVal = catTotals[c]; topCat = CAT_META[c].label; }
-    });
-    if (heroTopCat) heroTopCat.textContent = entries.length > 0 ? topCat : '—';
-
-    if (heroAvg) {
-      if (entries.length > 0) {
-        var dates = entries.map(function(e) { return e.date; }).sort();
-        var first = new Date(dates[0]);
-        var last = new Date(dates[dates.length - 1]);
-        var days = Math.max(1, Math.round((last - first) / 86400000) + 1);
-        heroAvg.textContent = fmtNum(totalTWD / days);
-      } else {
-        heroAvg.textContent = '0';
-      }
-    }
-
-    var barsEl = document.getElementById('carCatBars');
-    if (barsEl) {
-      var maxCat = Math.max.apply(null, CAT_ORDER.map(function(c) { return catTotals[c]; })) || 1;
-      var html = '';
-      CAT_ORDER.forEach(function(c) {
-        var m = CAT_META[c];
-        var pct = (catTotals[c] / maxCat * 100).toFixed(1);
-        html += '<div class="car-cat-bar-row">'
-          + '<div class="car-cat-bar-icon">' + m.icon + '</div>'
-          + '<div class="car-cat-bar-label">' + m.label + '</div>'
-          + '<div class="car-cat-bar-track"><div class="car-cat-bar-fill" style="width:' + (catTotals[c] > 0 ? pct : '0') + '%;background:' + m.color + '"></div></div>'
-          + '<div class="car-cat-bar-val">' + fmtNum(catTotals[c]) + '</div>'
-          + '</div>';
-      });
-      barsEl.innerHTML = html;
-    }
-
-    var donutWrap = document.getElementById('carDonutWrap');
-    if (donutWrap) {
-      if (totalTWD <= 0) {
-        donutWrap.style.display = 'none';
-      } else {
-        donutWrap.style.display = '';
-        var C = 2 * Math.PI * 55;
-        var offset = 0;
-        var circles = '';
-        var legend = '';
-        CAT_ORDER.forEach(function(c) {
-          if (catTotals[c] <= 0) return;
-          var pct = catTotals[c] / totalTWD;
-          var dash = pct * C;
-          circles += '<circle cx="70" cy="70" r="55" fill="none" stroke="' + CAT_META[c].color + '" stroke-width="24"'
-            + ' stroke-dasharray="' + dash.toFixed(1) + ' ' + (C - dash).toFixed(1) + '"'
-            + ' stroke-dashoffset="' + (-offset).toFixed(1) + '"'
-            + ' transform="rotate(-90 70 70)"/>';
-          offset += dash;
-          legend += '<div class="car-dl-row">'
-            + '<div class="car-dl-dot" style="background:' + CAT_META[c].color + '"></div>'
-            + '<span class="car-dl-name">' + CAT_META[c].icon + ' ' + CAT_META[c].label + '</span>'
-            + '<span class="car-dl-pct">' + (pct * 100).toFixed(0) + '%</span>'
-            + '<span class="car-dl-amt">' + fmtNum(catTotals[c]) + '</span>'
-            + '</div>';
-        });
-        donutWrap.innerHTML = '<svg viewBox="0 0 140 140" class="car-donut-svg">'
-          + '<circle cx="70" cy="70" r="55" fill="none" stroke="var(--bg)" stroke-width="24"/>'
-          + circles
-          + '<text x="70" y="67" text-anchor="middle" class="car-donut-center">TWD</text>'
-          + '<text x="70" y="80" text-anchor="middle" class="car-donut-sub">' + fmtNum(totalTWD) + '</text>'
-          + '</svg>'
-          + '<div class="car-donut-legend">' + legend + '</div>';
-      }
-    }
-
-    var logCount = document.getElementById('carLogCount');
-    if (logCount) logCount.textContent = entries.length + ' 筆';
-
-    var entriesEl = document.getElementById('carEntries');
-    if (entriesEl) {
-      if (entries.length === 0) {
-        entriesEl.innerHTML = '<div class="car-empty"><div class="car-empty-icon">🚗</div>尚無記錄，新增第一筆汽車開銷吧！</div>';
-        return;
-      }
-      var sorted = entries.slice().sort(function(a,b) {
-        return b.date.localeCompare(a.date) || b.id - a.id;
-      });
-      var html2 = '';
-      sorted.forEach(function(e) {
-        var m = CAT_META[e.cat] || CAT_META.other;
-        var twdVal = toTWD(e.amount, e.currency);
-        var origLabel = e.currency !== 'TWD' ? ' (' + e.currency + ' ' + e.amount.toFixed(2) + ')' : '';
-        html2 += '<div class="car-entry">'
-          + '<div class="car-entry-icon">' + m.icon + '</div>'
-          + '<div class="car-entry-info">'
-          + '<div class="car-entry-cat">' + m.label + '</div>'
-          + '<div class="car-entry-desc">' + (e.desc || '—') + '</div>'
-          + '</div>'
-          + '<div class="car-entry-right">'
-          + '<div class="car-entry-amount">TWD ' + fmtNum(twdVal) + '</div>'
-          + '<div class="car-entry-date">' + e.date + origLabel + '</div>'
-          + '</div>'
-          + '<button class="car-entry-del" onclick="deleteCarExpense(' + e.id + ')" title="刪除">✕</button>'
-          + '</div>';
-      });
-      entriesEl.innerHTML = html2;
-    }
-  }
-
-  // Category chip selection
-  document.querySelectorAll('#carCatChips .car-cat-chip').forEach(function(chip) {
-    chip.addEventListener('click', function() {
-      document.querySelectorAll('#carCatChips .car-cat-chip').forEach(function(c) { c.classList.remove('active'); });
-      chip.classList.add('active');
-      selectedCat = chip.getAttribute('data-cat');
-    });
-  });
-
-  // Set default date
-  var dateInput = document.getElementById('carDate');
-  if (dateInput) {
-    var now = new Date();
-    dateInput.value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-  }
-
-  // Live conversion hint
-  var amtInput = document.getElementById('carAmount');
-  var curSelect = document.getElementById('carCurrency');
-  function updateHint() {
-    var hint = document.getElementById('carConvertHint');
-    if (!hint || !amtInput || !curSelect) return;
-    var val = parseFloat(amtInput.value);
-    var cur = curSelect.value;
-    if (!isNaN(val) && val > 0 && cur !== 'TWD') {
-      var twd = toTWD(val, cur);
-      hint.textContent = '≈ TWD ' + fmtNum(twd) + '（匯率 1 CHF = ' + getRate().toFixed(1) + ' TWD）';
-    } else {
-      hint.textContent = '';
-    }
-  }
-  if (amtInput) amtInput.addEventListener('input', updateHint);
-  if (curSelect) curSelect.addEventListener('change', updateHint);
-
-  window.addCarExpense = function() {
-    var amount = parseFloat(amtInput.value);
-    if (isNaN(amount) || amount <= 0) {
-      amtInput.style.borderColor = '#EF4444';
-      setTimeout(function() { amtInput.style.borderColor = ''; }, 1500);
-      return;
-    }
-    var entry = {
-      id: Date.now(),
-      cat: selectedCat,
-      date: dateInput.value,
-      currency: curSelect.value,
-      amount: amount,
-      desc: (document.getElementById('carDesc').value || '').trim()
-    };
-    var data = load();
-    data.push(entry);
-    save(data);
-    amtInput.value = '';
-    document.getElementById('carDesc').value = '';
-    document.getElementById('carConvertHint').textContent = '';
-    haptic(12);
-    renderAll();
-  };
-
-  window.deleteCarExpense = function(id) {
-    if (!confirm('確定刪除此筆記錄？')) return;
-    var data = load().filter(function(e) { return e.id !== id; });
-    save(data);
-    haptic(8);
-    renderAll();
-  };
-
-  window.resetCarExpenses = function() {
-    if (!confirm('確定清除所有汽車開銷記錄？此動作無法復原。')) return;
-    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
-    haptic(15);
-    renderAll();
-  };
-
-  renderAll();
 })();
 </script>
 </body>
