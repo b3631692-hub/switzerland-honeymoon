@@ -1899,6 +1899,46 @@ footer small { display: block; font-size: 11px; margin-top: 6px; opacity: 0.6; }
 @media (min-width: 768px) {
   #scrollTopBtn { bottom: 24px; right: 24px; }
 }
+/* ── 備忘錄浮動按鈕 ── */
+#memoFab {
+  position: fixed; bottom: 140px; right: 14px; z-index: 400;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gold); color: #fff; font-size: 18px;
+  box-shadow: 0 4px 16px rgba(201,169,110,0.45);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none; transition: transform 0.2s;
+}
+#memoFab:active { transform: scale(0.92); }
+@media (min-width: 768px) { #memoFab { bottom: 70px; right: 24px; } }
+#memoOverlay {
+  display: none; position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center;
+}
+#memoOverlay.open { display: flex; }
+#memoSheet {
+  background: var(--card); border-radius: 24px 24px 0 0; padding: 20px 16px 40px;
+  width: 100%; max-width: 560px; max-height: 80vh; overflow-y: auto;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
+  animation: memoSlideUp 0.25s ease;
+}
+@keyframes memoSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.memo-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.memo-hdr-title { font-size: 15px; font-weight: 800; }
+.memo-hdr-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-sub); }
+.memo-input-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.memo-input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 9px 12px; font-size: 13px; color: var(--text); resize: none; height: 56px;
+  font-family: inherit; }
+.memo-input:focus { border-color: var(--primary); outline: none; }
+.memo-add-btn { background: var(--primary); color: #fff; border: none; border-radius: 10px;
+  padding: 0 14px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.memo-list { display: flex; flex-direction: column; gap: 8px; }
+.memo-item { background: var(--bg); border-radius: 10px; padding: 9px 10px;
+  display: flex; align-items: flex-start; gap: 8px; }
+.memo-item-ts { font-size: 9px; color: var(--text-sub); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.memo-item-text { flex: 1; font-size: 12.5px; color: var(--text); line-height: 1.5; }
+.memo-item-del { background: none; border: none; color: var(--text-sub); cursor: pointer; font-size: 13px; flex-shrink: 0; }
+.memo-empty { text-align: center; color: var(--text-sub); font-size: 12px; padding: 20px 0; }
 
 /* ── 預算甜甜圈圖 ── */
 .donut-card {
@@ -6114,6 +6154,22 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <small>資料整理自行程規劃表，部分費用為估算，以當地實際為準</small>
 </footer>
 
+<!-- ══ 備忘錄 FAB ══ -->
+<button id="memoFab" onclick="openMemo()" aria-label="旅途備忘錄">📝</button>
+<div id="memoOverlay" onclick="if(event.target===this)closeMemo()">
+  <div id="memoSheet">
+    <div class="memo-hdr">
+      <div class="memo-hdr-title">📝 旅途備忘錄</div>
+      <button class="memo-hdr-close" onclick="closeMemo()">✕</button>
+    </div>
+    <div class="memo-input-row">
+      <textarea id="memoInput" class="memo-input" placeholder="記下任何備忘… 景點、心得、待確認事項"></textarea>
+      <button class="memo-add-btn" onclick="addMemo()">記下</button>
+    </div>
+    <div class="memo-list" id="memoList"></div>
+  </div>
+</div>
+
 <!-- ══ MOBILE BOTTOM NAV ══ -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
@@ -8612,6 +8668,72 @@ window.togglePhotoLayer = (function() {
       if (btn) { btn.style.background = ''; btn.style.color = ''; }
     }
   };
+})();
+
+/* ── 旅途備忘錄 ── */
+(function(){
+  var KEY = 'trip_notes_v1';
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ return []; } }
+  function save(d){ try{ localStorage.setItem(KEY, JSON.stringify(d)); }catch(e){} }
+
+  function fmtTs(ts) {
+    var d = new Date(ts);
+    return (d.getMonth()+1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+
+  function renderList() {
+    var list = document.getElementById('memoList');
+    if (!list) return;
+    var notes = load();
+    if (!notes.length) {
+      list.innerHTML = '<div class="memo-empty">尚無備忘記錄<br>旅途中隨時記下靈感與提醒</div>';
+      return;
+    }
+    list.innerHTML = notes.slice().reverse().map(function(n, ri) {
+      var i = notes.length - 1 - ri;
+      return '<div class="memo-item">'
+        + '<div class="memo-item-ts">' + fmtTs(n.ts) + '</div>'
+        + '<div class="memo-item-text">' + n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>') + '</div>'
+        + '<button class="memo-item-del" onclick="delMemo('+i+')" title="刪除">✕</button>'
+        + '</div>';
+    }).join('');
+  }
+
+  window.openMemo = function() {
+    var overlay = document.getElementById('memoOverlay');
+    if (overlay) { overlay.classList.add('open'); haptic(6); }
+    renderList();
+    var inp = document.getElementById('memoInput');
+    if (inp) setTimeout(function(){ inp.focus(); }, 100);
+  };
+  window.closeMemo = function() {
+    var overlay = document.getElementById('memoOverlay');
+    if (overlay) overlay.classList.remove('open');
+  };
+  window.addMemo = function() {
+    var inp = document.getElementById('memoInput');
+    var text = inp ? inp.value.trim() : '';
+    if (!text) return;
+    var notes = load();
+    notes.push({ ts: Date.now(), text: text });
+    save(notes);
+    inp.value = '';
+    haptic(12);
+    renderList();
+  };
+  window.delMemo = function(i) {
+    var notes = load();
+    notes.splice(i, 1);
+    save(notes);
+    renderList();
+  };
+
+  var inp = document.getElementById('memoInput');
+  if (inp) inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addMemo(); }
+  });
+
+  renderList();
 })();
 </script>
 </body>
