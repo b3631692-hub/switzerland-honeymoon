@@ -2381,6 +2381,24 @@ body.dark-mode .donut-ct-sub { fill: #91C2D8; }
 .ms-days.ms-today { color: #16A34A; }
 body.dark-mode .ms-row { background: #0D1A24; }
 
+/* ── 16天行程一覽表 ── */
+.daytbl-card { padding: 16px 16px 12px; margin-bottom: 20px; }
+.daytbl-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
+.daytbl { display: flex; flex-direction: column; gap: 4px; }
+.dtrow {
+  display: grid; grid-template-columns: 44px 52px 1fr;
+  align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 8px; background: var(--bg);
+}
+.dtrow.dt-today { background: rgba(201,169,110,0.14); border: 1.5px solid var(--gold); }
+.dt-date { font-size: 12px; font-weight: 800; color: var(--primary); }
+.dt-day  { font-size: 10px; color: var(--text-light); }
+.dt-city { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; color: #fff; width: fit-content; }
+.dt-act  { font-size: 11.5px; color: var(--text-sub); line-height: 1.3; }
+.dtrow .dt-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; color: #fff; margin-right: 4px; vertical-align: middle; }
+body.dark-mode .dtrow { background: #0D1A24; }
+body.dark-mode .dtrow.dt-today { background: rgba(201,169,110,0.10); }
+
 /* ── 關鍵跨城交通速查卡 ── */
 .transport-card { padding: 16px 16px 12px; margin-bottom: 20px; }
 .tc-title { font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; }
@@ -3438,6 +3456,93 @@ body.dark-mode .food-city-spec { background: #1A1108; }
         <div class="pr-item"><span class="pr-name">🧴 洗髮精（小）</span><span class="pr-chf">CHF 2–4</span></div>
       </div>
       <div class="price-note">⚠️ 觀光景點餐廳約貴 2–3 倍。山頂小屋可能需現金。Coop / Migros 週日大多照常營業，是週日補給首選。</div>
+    </div>
+
+    <!-- ── 16 天行程一覽 ── -->
+    <div class="card daytbl-card reveal">
+      <div class="daytbl-title">🗓 16 天行程一覽</div>
+      <div class="daytbl">
+        <div class="dtrow" id="dtrow-6-16">
+          <div><div class="dt-date">6/16</div><div class="dt-day">二</div></div>
+          <span class="dt-city" style="background:#1565C0">ZRH</span>
+          <div class="dt-act">✈️ 桃園 00:30 出發 → 蘇黎世 13:20 抵達，機場周邊探索</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-17">
+          <div><div class="dt-date">6/17</div><div class="dt-day">三</div></div>
+          <span class="dt-city" style="background:#1B5E3B">Engadin</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>ZRH → Pontresina，Muottas Muragl 夕陽全景</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-18">
+          <div><div class="dt-date">6/18</div><div class="dt-day">四</div></div>
+          <span class="dt-city" style="background:#1B5E3B">Engadin</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Diavolezza 冰川（3,978m）+ 婚紗攝影傍晚</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-19">
+          <div><div class="dt-date">6/19</div><div class="dt-day">五</div></div>
+          <span class="dt-city" style="background:#E65100">Bernina</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>伯尼納快車 Ospizio → Brusio 螺旋橋 → Tirano</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-20">
+          <div><div class="dt-date">6/20</div><div class="dt-day">六</div></div>
+          <span class="dt-city" style="background:#1B5E3B">Engadin</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Corvatsch（3,303m）→ Sils Maria → Fex Valley 馬車</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-21">
+          <div><div class="dt-date">6/21</div><div class="dt-day">日</div></div>
+          <span class="dt-city" style="background:#78350F">冰河線</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#92400E">★1st</span>冰河列車 Chur 14:32 → Zermatt 20:05（一等艙）</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-22">
+          <div><div class="dt-date">6/22</div><div class="dt-day">一</div></div>
+          <span class="dt-city" style="background:#C8102E">Zermatt</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Riffelsee 倒影攝影（首班 07:00）+ Stellisee</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-23">
+          <div><div class="dt-date">6/23</div><div class="dt-day">二</div></div>
+          <span class="dt-city" style="background:#C8102E">Zermatt</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Klein Matterhorn（3,883m）+ Schwarzsee 婚紗</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-24">
+          <div><div class="dt-date">6/24</div><div class="dt-day">三</div></div>
+          <span class="dt-city" style="background:#5D4037">Bern</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Kandersteg → Oeschinensee → Spiez 城堡 → 伯恩</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-25">
+          <div><div class="dt-date">6/25</div><div class="dt-day">四</div></div>
+          <span class="dt-city" style="background:#5D4037">Bern</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>伯恩老城深度遊（UNESCO 世界遺產）</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-26">
+          <div><div class="dt-date">6/26</div><div class="dt-day">五</div></div>
+          <span class="dt-city" style="background:#4A148C">Zug</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>Lauterbrunnen 瀑布婚紗（上午）→ 楚格</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-27">
+          <div><div class="dt-date">6/27</div><div class="dt-day">六</div></div>
+          <span class="dt-city" style="background:#4A148C">Luzern</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>楚格 → 琉森漫遊 + 卡貝爾橋藍調攝影 22:00</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-28">
+          <div><div class="dt-date">6/28</div><div class="dt-day">日</div></div>
+          <span class="dt-city" style="background:#4A148C">Zug</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>瑞吉山（輪船登頂）→ Tierpark → Lauerzersee 野餐</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-29">
+          <div><div class="dt-date">6/29</div><div class="dt-day">一</div></div>
+          <span class="dt-city" style="background:#1565C0">Zürich</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>楚格 → 蘇黎世市區，Bahnhofstrasse 採購</div>
+        </div>
+        <div class="dtrow" id="dtrow-6-30">
+          <div><div class="dt-date">6/30</div><div class="dt-day">二</div></div>
+          <span class="dt-city" style="background:#1565C0">Zürich</span>
+          <div class="dt-act"><span class="dt-badge" style="background:#1D4ED8">STP</span>萊茵瀑布 + Stein am Rhein 中世紀小鎮 → 機場</div>
+        </div>
+        <div class="dtrow" id="dtrow-7-1">
+          <div><div class="dt-date">7/1</div><div class="dt-day">三</div></div>
+          <span class="dt-city" style="background:#B71C1C">返台</span>
+          <div class="dt-act">✈️ EK086 蘇黎世 22:00 出發，隔日 18:05 抵桃園</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -6118,7 +6223,6 @@ window.addEventListener('load', function() {
 /* ── 行程今日高亮 ── */
 function highlightToday() {
   var now = new Date();
-  // Show in local time (Switzerland when travelling)
   var m = now.getMonth() + 1;
   var d = now.getDate();
   var todayStr = m + '/' + d; // e.g. "6/23"
@@ -6135,6 +6239,10 @@ function highlightToday() {
       }
     }
   });
+  // Highlight matching row in 16-day overview table
+  var rowId = 'dtrow-' + m + '-' + d;
+  var dtRow = document.getElementById(rowId);
+  if (dtRow) dtRow.classList.add('dt-today');
 }
 
 /* ── 打包進度條 ── */
