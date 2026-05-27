@@ -2793,6 +2793,32 @@ body.dark-mode .sp-fc { background: #152233; }
 .gh-sun-icon { font-size: 9px; }
 .gh-sun-val { color: var(--gold); font-weight: 700; font-size: 11px; font-family: 'Courier New',monospace; }
 
+/* ── 攝影天氣評分卡 ── */
+.photo-wx-card { padding: 14px 16px 12px; margin-bottom: 20px; }
+.photo-wx-title { font-size: 12px; font-weight: 800; color: var(--text-sub); margin-bottom: 9px;
+  display: flex; align-items: center; gap: 5px; }
+.photo-wx-rows { display: flex; flex-direction: column; gap: 5px; }
+.photo-wx-row { display: grid; grid-template-columns: 68px 22px 1fr auto auto;
+  align-items: center; gap: 6px; padding: 7px 10px; border-radius: 9px; background: var(--bg); }
+.pwx-name { font-size: 11px; font-weight: 700; color: var(--text); }
+.pwx-icon { font-size: 16px; text-align: center; }
+.pwx-temp { font-size: 10px; color: var(--text-sub); white-space: nowrap; }
+.pwx-dots { display: flex; gap: 2.5px; align-items: center; }
+.pwx-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.pwx-dot.on5 { background: #16A34A; }
+.pwx-dot.on4 { background: #65A30D; }
+.pwx-dot.on3 { background: #CA8A04; }
+.pwx-dot.on2 { background: #EA580C; }
+.pwx-dot.on1 { background: #DC2626; }
+.pwx-label { font-size: 9.5px; font-weight: 700; white-space: nowrap; min-width: 32px; text-align: right; }
+.pwx-label.sc5 { color: #16A34A; }
+.pwx-label.sc4 { color: #65A30D; }
+.pwx-label.sc3 { color: #CA8A04; }
+.pwx-label.sc2 { color: #EA580C; }
+.pwx-label.sc1,.pwx-label.sc0 { color: #DC2626; }
+.photo-wx-loading { font-size: 11px; color: var(--text-light); padding: 12px; text-align: center; }
+body.dark-mode .photo-wx-row { background: #0D1A24; }
+
 /* ── 打包清單進度條 ── */
 .chk-progress {
   background: var(--card); border: 1px solid var(--border);
@@ -5260,6 +5286,14 @@ body.dark-mode .food-city-spec { background: #1A1108; }
   <div id="tab-photo" class="section">
     <div class="sec-title">攝影指南</div>
 
+    <!-- 攝影天氣評分卡 -->
+    <div id="photoWxCard" class="card photo-wx-card reveal" style="display:none">
+      <div class="photo-wx-title">📸 今日攝影條件評分</div>
+      <div class="photo-wx-rows" id="photoWxRows">
+        <div class="photo-wx-loading">載入天氣資料中…</div>
+      </div>
+    </div>
+
     <!-- 相片牆 -->
     <div class="gallery-filters">
       <button class="gf-btn active" onclick="filterGallery('all',this)">全部</button>
@@ -7261,6 +7295,65 @@ window._fetchWeather = (function() {
       });
     });
   };
+})();
+
+/* ── 攝影天氣評分 ── */
+(function(){
+  var CITY_NAMES = ['蘇黎世','恩加丁','策馬特','伯恩','楚格/琉森'];
+  var WMO = {0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+    51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',
+    71:'❄️',73:'❄️',75:'❄️',77:'❄️',80:'🌦',81:'🌧',82:'⛈',
+    85:'❄️',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
+  var SCORE_LABEL = ['危險','不適合','較差','尚可','良好','最佳'];
+  var SCORE_CLS   = ['sc0','sc1','sc2','sc3','sc4','sc5'];
+
+  function wxScore(wmo, rain) {
+    if (wmo >= 95 || rain >= 70) return 0;
+    if (rain >= 50 || (wmo >= 65 && wmo <= 82)) return 1;
+    if (rain >= 30 || (wmo >= 55 && wmo <= 63)) return 2;
+    if (rain >= 15 || wmo === 3 || (wmo >= 51 && wmo <= 53)) return 3;
+    if (wmo === 2 || (wmo >= 71 && wmo <= 77)) return 4;
+    return 5;
+  }
+
+  function renderRows(wxData) {
+    var card = document.getElementById('photoWxCard');
+    var rows = document.getElementById('photoWxRows');
+    if (!card || !rows) return;
+    var html = '';
+    CITY_NAMES.forEach(function(name, i) {
+      var d = wxData && wxData[i];
+      if (!d || !d.current) {
+        html += '<div class="photo-wx-row"><span class="pwx-name">'+name+'</span><span style="color:var(--text-light);font-size:11px">—</span></div>';
+        return;
+      }
+      var wmo = d.current.weather_code;
+      var temp = Math.round(d.current.temperature_2m);
+      var rain = d.daily && d.daily.precipitation_probability_max ? (d.daily.precipitation_probability_max[0]||0) : 0;
+      var score = wxScore(wmo, rain);
+      var icon = WMO[wmo] || '🌡';
+      var dotHtml = '';
+      for (var j = 1; j <= 5; j++) {
+        dotHtml += '<div class="pwx-dot'+(j<=score?' on'+Math.max(1,score):'')+'"></div>';
+      }
+      html += '<div class="photo-wx-row">'
+        + '<span class="pwx-name">'+name+'</span>'
+        + '<span class="pwx-icon">'+icon+'</span>'
+        + '<span class="pwx-temp">'+temp+'°C · ☔'+rain+'%</span>'
+        + '<div class="pwx-dots">'+dotHtml+'</div>'
+        + '<span class="pwx-label '+SCORE_CLS[score]+'">'+SCORE_LABEL[score]+'</span>'
+        + '</div>';
+    });
+    rows.innerHTML = html;
+    card.style.display = '';
+  }
+
+  try {
+    var c = JSON.parse(localStorage.getItem('wx_cache5'));
+    if (c && c.data) renderRows(c.data);
+  } catch(e){}
+  window._wxReadyCbs = window._wxReadyCbs || [];
+  window._wxReadyCbs.push(function(wxData){ renderRows(wxData); });
 })();
 
 /* ── GALLERY (P6) ── */
