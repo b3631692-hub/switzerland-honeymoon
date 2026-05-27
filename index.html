@@ -7725,12 +7725,72 @@ window.shareItinerary = function() {
   function save(data) {
     try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) {}
   }
+
+  function launchConfetti(x, y) {
+    var canvas = document.getElementById('wlConfettiCanvas');
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.id = 'wlConfettiCanvas';
+      canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+      document.body.appendChild(canvas);
+    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext('2d');
+    var colors = ['#D52B1E','#FFFFFF','#C9A96E','#2C5F8A','#16A34A','#FCD34D'];
+    var parts = [];
+    for (var i = 0; i < 50; i++) {
+      parts.push({
+        x: x || canvas.width * 0.5,
+        y: y || canvas.height * 0.4,
+        r: Math.random() * 5 + 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 12,
+        vy: Math.random() * -14 - 3,
+        g: 0.5, alpha: 1,
+        rot: Math.random() * Math.PI * 2, rotS: (Math.random() - 0.5) * 0.25
+      });
+    }
+    var f = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      parts.forEach(function(p) {
+        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.rot += p.rotS; p.alpha -= 0.02;
+        if (p.alpha <= 0) return;
+        ctx.save(); ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.fillStyle = p.color;
+        ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r);
+        ctx.restore();
+      });
+      f++;
+      if (f < 70) requestAnimationFrame(draw);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    draw();
+  }
+
   function updateCount() {
     var done = document.querySelectorAll('.wl-item.done').length;
     var el = document.getElementById('wlCount');
     if (el) {
       el.textContent = done + ' / ' + TOTAL;
       el.style.color = done === TOTAL ? '#16A34A' : 'var(--gold)';
+    }
+    // Completion celebration
+    var card = document.querySelector('.wishlist-card');
+    if (done === TOTAL && card) {
+      if (!card.querySelector('.wl-complete-msg')) {
+        var msg = document.createElement('div');
+        msg.className = 'wl-complete-msg';
+        msg.innerHTML = '🎊 蜜月必體驗全部達成！心願成真了！✨';
+        msg.style.cssText = 'text-align:center;padding:10px;font-size:13px;font-weight:700;color:#16A34A;background:#DCFCE7;border-radius:8px;margin-top:10px;';
+        card.appendChild(msg);
+        launchConfetti();
+      }
+    } else {
+      var existing = document.querySelector('.wl-complete-msg');
+      if (existing) existing.remove();
     }
   }
 
@@ -7741,12 +7801,18 @@ window.shareItinerary = function() {
       if (!item) return;
       var cb = item.querySelector('input[type=checkbox]');
       if (data[idx]) { item.classList.add('done'); if (cb) cb.checked = true; }
-      item.addEventListener('click', function() {
+      item.addEventListener('click', function(e) {
         haptic(12);
+        var wasChecked = item.classList.contains('done');
         item.classList.toggle('done');
         var d = load();
         d[idx] = item.classList.contains('done');
         save(d);
+        // Confetti on check (not uncheck)
+        if (!wasChecked && item.classList.contains('done')) {
+          var rect = item.getBoundingClientRect();
+          launchConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        }
         updateCount();
       });
     })(i);
