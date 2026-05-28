@@ -1109,9 +1109,10 @@ body.dark-mode .pg-map-btn { background: #252320; color: #8AB4F8; border-color: 
 ═══════════════════════════════════════ */
 .stp-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 12px;
   margin-bottom: 24px;
+  align-items: start;
 }
 .stp-card {
   border-radius: var(--radius-sm);
@@ -1919,7 +1920,7 @@ body.dark-mode .wx-suit-bad  { background: #261E1E; color: #FCA5A5; }
 .check-add-btn:hover { background: var(--primary-dk); }
 
 /* ── STP 日曆條 ── */
-.stp-card {
+.stp-cal-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 18px 16px;
   box-shadow: var(--shadow); margin-bottom: 24px;
@@ -1936,12 +1937,12 @@ body.dark-mode .wx-suit-bad  { background: #261E1E; color: #FCA5A5; }
 }
 .stp-chip-2nd { background: #EEF2F5; color: #5A7A90; }
 .stp-chip-1st { background: #FEF9EE; color: #92400E; }
-.stp-grid {
+.stp-cal-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: 4px; margin-bottom: 10px;
 }
-@media (min-width: 480px) { .stp-grid { grid-template-columns: repeat(16, 1fr); } }
+@media (min-width: 480px) { .stp-cal-grid { grid-template-columns: repeat(16, 1fr); } }
 .stp-day {
   border-radius: 6px; padding: 4px 2px;
   text-align: center; font-size: 9.5px;
@@ -4153,7 +4154,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     </div>
 
     <!-- ─── STP 日曆 ─── -->
-    <div class="stp-card reveal">
+    <div class="stp-cal-card reveal">
       <div class="stp-hdr">
         <span class="stp-title">🎫 Swiss Travel Pass 使用日曆</span>
         <div class="stp-badge-wrap">
@@ -4161,7 +4162,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
           <span class="stp-chip stp-chip-1st">6/21 冰河列車升等</span>
         </div>
       </div>
-      <div class="stp-grid">
+      <div class="stp-cal-grid">
         <div class="stp-day inactive"><span>ZVV</span><span class="stp-day-date">6/16</span></div>
         <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/17</span></div>
         <div class="stp-day active"><span>STP</span><span class="stp-day-date">6/18</span></div>
