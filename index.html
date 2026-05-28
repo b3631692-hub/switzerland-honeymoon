@@ -180,7 +180,6 @@ body.dark-mode .stp-leg-dot   { filter: brightness(0.48) saturate(0.85); }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
   scroll-behavior: smooth;
-  height: -webkit-fill-available;
 }
 body {
   font-family: var(--font-body);
@@ -188,7 +187,7 @@ body {
   color: var(--text);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 p, li, span, div {
   word-break: break-word;
@@ -967,20 +966,59 @@ body.dark-mode .day-wx-mini-rain { color: #8BAFC4; }
   margin: 16px auto;
 }
 
-.budget-bars { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
-.bb-row { display: flex; align-items: center; gap: 12px; }
-.bb-label { width: 88px; font-size: 13px; font-weight: 600; flex-shrink: 0; }
-.bb-track {
-  flex: 1; height: 18px;
-  background: var(--border);
-  border-radius: 9px; overflow: hidden;
+/* ── BUDGET PIE CHART ── */
+.pie-wrap {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: center;
+  gap: 28px; margin-bottom: 28px;
 }
-.bb-fill {
-  height: 100%; border-radius: 9px;
-  width: 0;
-  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+.pie {
+  width: 210px; height: 210px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+  transform: scale(0.6) rotate(-25deg);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.34,1.56,0.64,1), opacity 0.7s ease;
 }
-.bb-val { width: 72px; font-size: 13px; font-weight: 700; text-align: right; flex-shrink: 0; color: var(--text); }
+.pie.pie-in { transform: scale(1) rotate(0); opacity: 1; }
+.pie-hole {
+  position: absolute; inset: 27%;
+  background: var(--card);
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+.pie-hole .ph-val {
+  font-family: var(--font-serif);
+  font-size: 22px; font-weight: 600;
+  color: var(--primary); line-height: 1;
+}
+.pie-hole .ph-lbl {
+  font-size: 10.5px; color: var(--text-light);
+  margin-top: 4px; letter-spacing: 0.5px;
+}
+.pie-legend {
+  display: flex; flex-direction: column;
+  gap: 9px; min-width: 230px; flex: 1;
+}
+.pl-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.pl-row:last-child { border-bottom: none; padding-bottom: 0; }
+.pl-dot { width: 13px; height: 13px; border-radius: 4px; flex-shrink: 0; }
+.pl-name { font-weight: 600; color: var(--text); flex: 1; }
+.pl-pct { font-weight: 800; color: var(--primary); width: 52px; text-align: right; flex-shrink: 0; }
+.pl-amt { color: var(--text-sub); width: 70px; text-align: right; font-size: 12px; flex-shrink: 0; }
+@media (max-width: 560px) {
+  .pie-wrap { flex-direction: column; gap: 22px; }
+  .pie-legend { width: 100%; min-width: 0; }
+}
 
 .budget-table {
   width: 100%; border-collapse: collapse;
@@ -5494,36 +5532,56 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     </div>
 
     <div class="card mb-24 reveal">
-      <div class="budget-bars">
-        <div class="bb-row">
-          <div class="bb-label">✈️ 機票</div>
-          <div class="bb-track"><div class="bb-fill" data-w="20%" style="background:#7A6B5F"></div></div>
-          <div class="bb-val">61,388</div>
+      <div class="pie-wrap">
+        <div class="pie" id="budgetPie" style="background:conic-gradient(
+          #7A6B5F 0deg 72.07deg,
+          #7A8C6E 72.07deg 213.23deg,
+          #6B8BA4 213.23deg 262.62deg,
+          #B08A6A 262.62deg 280.64deg,
+          #6E8A5E 280.64deg 339.35deg,
+          #5A7A8A 339.35deg 360deg)">
+          <div class="pie-hole">
+            <span class="ph-val">100%</span>
+            <span class="ph-lbl">TWD 306,613</span>
+          </div>
         </div>
-        <div class="bb-row">
-          <div class="bb-label">🏠 住宿</div>
-          <div class="bb-track"><div class="bb-fill" data-w="39%" style="background:#7A8C6E"></div></div>
-          <div class="bb-val">120,233</div>
-        </div>
-        <div class="bb-row">
-          <div class="bb-label">🚂 交通</div>
-          <div class="bb-track"><div class="bb-fill" data-w="14%" style="background:#6B8BA4"></div></div>
-          <div class="bb-val">42,062</div>
-        </div>
-        <div class="bb-row">
-          <div class="bb-label">🎿 景點</div>
-          <div class="bb-track"><div class="bb-fill" data-w="5%" style="background:#B08A6A"></div></div>
-          <div class="bb-val">15,350</div>
-        </div>
-        <div class="bb-row">
-          <div class="bb-label">🍽 餐飲</div>
-          <div class="bb-track"><div class="bb-fill" data-w="16%" style="background:#6E8A5E"></div></div>
-          <div class="bb-val">50,000</div>
-        </div>
-        <div class="bb-row">
-          <div class="bb-label">🛍 購物</div>
-          <div class="bb-track"><div class="bb-fill" data-w="6%" style="background:#5A7A8A"></div></div>
-          <div class="bb-val">17,580</div>
+        <div class="pie-legend">
+          <div class="pl-row">
+            <span class="pl-dot" style="background:#7A6B5F"></span>
+            <span class="pl-name">✈️ 機票</span>
+            <span class="pl-pct">20.0%</span>
+            <span class="pl-amt">61,388</span>
+          </div>
+          <div class="pl-row">
+            <span class="pl-dot" style="background:#7A8C6E"></span>
+            <span class="pl-name">🏠 住宿</span>
+            <span class="pl-pct">39.2%</span>
+            <span class="pl-amt">120,233</span>
+          </div>
+          <div class="pl-row">
+            <span class="pl-dot" style="background:#6B8BA4"></span>
+            <span class="pl-name">🚂 交通</span>
+            <span class="pl-pct">13.7%</span>
+            <span class="pl-amt">42,062</span>
+          </div>
+          <div class="pl-row">
+            <span class="pl-dot" style="background:#B08A6A"></span>
+            <span class="pl-name">🎿 景點</span>
+            <span class="pl-pct">5.0%</span>
+            <span class="pl-amt">15,350</span>
+          </div>
+          <div class="pl-row">
+            <span class="pl-dot" style="background:#6E8A5E"></span>
+            <span class="pl-name">🍽 餐飲</span>
+            <span class="pl-pct">16.3%</span>
+            <span class="pl-amt">50,000</span>
+          </div>
+          <div class="pl-row">
+            <span class="pl-dot" style="background:#5A7A8A"></span>
+            <span class="pl-name">🛍 購物</span>
+            <span class="pl-pct">5.7%</span>
+            <span class="pl-amt">17,580</span>
+          </div>
         </div>
       </div>
     </div>
@@ -8000,10 +8058,9 @@ let budgetAnimated = false;
 function animateBudget() {
   if (budgetAnimated) return;
   budgetAnimated = true;
-  // bars
-  document.querySelectorAll('.bb-fill[data-w]').forEach(el => {
-    setTimeout(() => { el.style.width = el.dataset.w; }, 200);
-  });
+  // pie chart entrance
+  const pie = document.getElementById('budgetPie');
+  if (pie) setTimeout(() => pie.classList.add('pie-in'), 150);
   // counter
   const el = document.getElementById('budgetTotal');
   if (!el) return;
