@@ -12460,10 +12460,11 @@ window.togglePhotoLayer = (function() {
 <!-- ⚠️ 臨時除錯標籤（診斷行程頁捲動後即移除） -->
 <div id="scrollDiag" style="display:none;position:fixed;left:6px;right:6px;bottom:80px;z-index:9500;background:rgba(0,0,0,0.9);color:#5Cff7a;font:11px/1.5 ui-monospace,monospace;padding:8px 10px;border-radius:8px;text-align:left;box-shadow:0 2px 12px rgba(0,0,0,.5)">
   <div id="sdInfo">診斷中…</div>
-  <div id="sdTouch" style="color:#ffd24a;margin-top:4px">（用手指按住行程內容並上滑試試）</div>
-  <div style="margin-top:6px;display:flex;gap:8px">
-    <button onclick="window.scrollBy({top:600,behavior:'auto'});setTimeout(window.__sdUpd,80)" style="flex:1;background:#1e6;color:#000;border:none;border-radius:6px;padding:6px;font-weight:700">測試捲動 ↓600</button>
-    <button onclick="document.getElementById('scrollDiag').style.display='none'" style="background:#444;color:#fff;border:none;border-radius:6px;padding:6px 10px">關閉</button>
+  <div id="sdResult" style="color:#ffd24a;margin-top:4px">各按一次 A、B，看是否變 ✅</div>
+  <div style="margin-top:6px;display:flex;gap:6px">
+    <button onclick="window.__sdTry('A')" style="flex:1;background:#1e6;color:#000;border:none;border-radius:6px;padding:7px;font-weight:700">試A overflow</button>
+    <button onclick="window.__sdTry('B')" style="flex:1;background:#4af;color:#000;border:none;border-radius:6px;padding:7px;font-weight:700">試B transform</button>
+    <button onclick="document.getElementById('scrollDiag').style.display='none'" style="background:#444;color:#fff;border:none;border-radius:6px;padding:7px 9px">✕</button>
   </div>
 </div>
 <script>
@@ -12491,10 +12492,31 @@ window.togglePhotoLayer = (function() {
       +' y='+Math.round(window.scrollY)+' bodyX='+getComputedStyle(document.body).overflowX;
   }
   window.__sdUpd=upd;
+  window.__sdTry=function(which){
+    var res=document.getElementById('sdResult');
+    document.documentElement.style.scrollBehavior='auto';
+    if(which==='A'){
+      document.body.style.overflowX='visible';
+      document.documentElement.style.overflowX='visible';
+    } else {
+      document.querySelectorAll('.section,.reveal,.day-card,.base-block,.days-wrap').forEach(function(n){
+        n.style.transform='none'; n.style.animation='none'; n.style.opacity='1';
+      });
+    }
+    var start=window.scrollY;
+    window.scrollBy({top:1200,behavior:'auto'});
+    setTimeout(function(){
+      var now=window.scrollY;
+      var held = now > start+400;
+      res.textContent='試'+which+'：捲後 y='+Math.round(now)+'（起 '+Math.round(start)+'）'+(held?' ✅ 有效！':' ❌ 又彈回');
+      res.style.color = held?'#5Cff7a':'#ff7a7a';
+      upd();
+    },700);
+  };
   document.addEventListener('touchstart',function(e){
     var t=e.touches[0]; if(!t)return;
-    var el=document.getElementById('sdTouch');
-    if(el) el.textContent='手指下: '+chainAt(t.clientX,t.clientY);
+    var el=document.getElementById('sdResult');
+    if(el && !el.dataset.lock) el.textContent='手指下: '+chainAt(t.clientX,t.clientY);
   },{passive:true});
   window.addEventListener('scroll',upd,{passive:true});
   setInterval(upd,600); setTimeout(upd,1600);
