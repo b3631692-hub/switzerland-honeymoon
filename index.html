@@ -11688,9 +11688,15 @@ window.cityFilter = function(keyword, btn) {
         if (idx < 0) return;
         var chips = row.querySelectorAll('.dj-chip');
         chips.forEach(function(c) { c.classList.remove('active'); });
-        if (chips[idx]) {
-          chips[idx].classList.add('active');
-          chips[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        var ac = chips[idx];
+        if (ac) {
+          ac.classList.add('active');
+          // 只水平捲動 chip 列本身；不可用 scrollIntoView，否則會連動整頁垂直捲動，
+          // 在 iOS Safari 會把頁面平滑拉回，導致行程頁無法向下捲動（彈回原位）。
+          var target = row.scrollLeft + ac.getBoundingClientRect().left
+                       - row.getBoundingClientRect().left
+                       - (row.clientWidth - ac.offsetWidth) / 2;
+          row.scrollTo({ left: target, behavior: 'smooth' });
         }
       });
     }, { threshold: 0.4 });
@@ -12457,85 +12463,5 @@ window.togglePhotoLayer = (function() {
 })();
 </script>
 
-<!-- ⚠️ 臨時除錯標籤（診斷行程頁捲動後即移除） -->
-<div id="scrollDiag" style="display:none;position:fixed;left:6px;right:6px;bottom:80px;z-index:9500;background:rgba(0,0,0,0.9);color:#5Cff7a;font:11px/1.5 ui-monospace,monospace;padding:8px 10px;border-radius:8px;text-align:left;box-shadow:0 2px 12px rgba(0,0,0,.5)">
-  <div id="sdInfo">診斷中…</div>
-  <div id="sdResult" style="color:#ffd24a;margin-top:4px">按 C 看軌跡、D 試隱藏fixed</div>
-  <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
-    <button onclick="window.__sdTraj()" style="flex:1;background:#fd6;color:#000;border:none;border-radius:6px;padding:7px;font-weight:700">C 軌跡</button>
-    <button onclick="window.__sdTry('D')" style="flex:1;background:#4af;color:#000;border:none;border-radius:6px;padding:7px;font-weight:700">D 隱fixed</button>
-    <button onclick="window.__sdTry('E')" style="flex:1;background:#1e6;color:#000;border:none;border-radius:6px;padding:7px;font-weight:700">E 無smooth</button>
-    <button onclick="document.getElementById('scrollDiag').style.display='none'" style="background:#444;color:#fff;border:none;border-radius:6px;padding:7px 9px">✕</button>
-  </div>
-</div>
-<script>
-(function(){
-  function chainAt(x,y){
-    var el=document.elementFromPoint(x,y); if(!el) return 'none';
-    var out=[], n=el, depth=0;
-    while(n && n!==document.body && depth<12){
-      var cs=getComputedStyle(n);
-      if(cs.overflowY!=='visible' || cs.overflowX!=='visible' || cs.transform!=='none'){
-        out.push((n.className?('.'+String(n.className).trim().split(/\s+/)[0]):n.tagName)
-          +'['+cs.overflowX+'/'+cs.overflowY+(cs.transform!=='none'?',TF':'')+']');
-      }
-      n=n.parentElement; depth++;
-    }
-    return out.length?out.join(' < '):'(全 visible/無transform)';
-  }
-  function upd(){
-    var d=document.getElementById('scrollDiag'); if(!d)return;
-    var itin=document.getElementById('tab-itinerary');
-    if(!(itin&&itin.classList.contains('active'))){ d.style.display='none'; return; }
-    d.style.display='block';
-    var se=document.scrollingElement;
-    document.getElementById('sdInfo').textContent='sH='+se.scrollHeight+' iH='+window.innerHeight
-      +' y='+Math.round(window.scrollY)+' bodyX='+getComputedStyle(document.body).overflowX;
-  }
-  window.__sdUpd=upd;
-  window.__sdTraj=function(){
-    var res=document.getElementById('sdResult'); res.dataset.lock='1';
-    document.documentElement.style.scrollBehavior='auto';
-    var start=window.scrollY, samples=[];
-    window.scrollBy({top:1500,behavior:'auto'});
-    var t0=Date.now();
-    var iv=setInterval(function(){
-      samples.push(Math.round(window.scrollY));
-      if(Date.now()-t0>1100){ clearInterval(iv);
-        res.textContent='軌跡(起'+Math.round(start)+'): '+samples.join('→');
-        res.style.color='#fd6';
-      }
-    },90);
-  };
-  window.__sdTry=function(which){
-    var res=document.getElementById('sdResult'); res.dataset.lock='1';
-    document.documentElement.style.scrollBehavior='auto';
-    if(which==='D'){
-      document.querySelectorAll('*').forEach(function(n){
-        var p=getComputedStyle(n).position;
-        if((p==='fixed'||p==='sticky') && n.id!=='scrollDiag'){ n.dataset._op=n.style.position; n.style.position='static'; }
-      });
-    } else if(which==='E'){
-      document.documentElement.style.scrollBehavior='auto';
-      try{ window.scrollTo({top:window.scrollY,behavior:'auto'}); }catch(e){}
-    }
-    var start=window.scrollY;
-    window.scrollBy({top:1500,behavior:'auto'});
-    setTimeout(function(){
-      var now=window.scrollY;
-      var held = now > start+400;
-      res.textContent='試'+which+'：y '+Math.round(start)+'→'+Math.round(now)+(held?' ✅ 有效！':' ❌ 又彈回');
-      res.style.color = held?'#5Cff7a':'#ff7a7a';
-    },800);
-  };
-  document.addEventListener('touchstart',function(e){
-    var t=e.touches[0]; if(!t)return;
-    var el=document.getElementById('sdResult');
-    if(el && !el.dataset.lock) el.textContent='手指下: '+chainAt(t.clientX,t.clientY);
-  },{passive:true});
-  window.addEventListener('scroll',upd,{passive:true});
-  setInterval(upd,600); setTimeout(upd,1600);
-})();
-</script>
 </body>
 </html>
