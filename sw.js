@@ -1,5 +1,5 @@
 /* Switzerland Honeymoon 2026 — Service Worker */
-const CACHE = 'honeymoon-v7';
+const CACHE = 'honeymoon-v8';
 const CORE = [
   '/switzerland-honeymoon/',
   '/switzerland-honeymoon/index.html',
