@@ -12458,28 +12458,46 @@ window.togglePhotoLayer = (function() {
 </script>
 
 <!-- ⚠️ 臨時除錯標籤（診斷行程頁捲動後即移除） -->
-<div id="scrollDiag" style="display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:80px;z-index:9500;background:rgba(0,0,0,0.88);color:#5Cff7a;font:11px/1.5 ui-monospace,monospace;padding:7px 11px;border-radius:8px;max-width:94vw;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.4)" onclick="this.style.display='none'">診斷中…（點我關閉）</div>
+<div id="scrollDiag" style="display:none;position:fixed;left:6px;right:6px;bottom:80px;z-index:9500;background:rgba(0,0,0,0.9);color:#5Cff7a;font:11px/1.5 ui-monospace,monospace;padding:8px 10px;border-radius:8px;text-align:left;box-shadow:0 2px 12px rgba(0,0,0,.5)">
+  <div id="sdInfo">診斷中…</div>
+  <div id="sdTouch" style="color:#ffd24a;margin-top:4px">（用手指按住行程內容並上滑試試）</div>
+  <div style="margin-top:6px;display:flex;gap:8px">
+    <button onclick="window.scrollBy({top:600,behavior:'auto'});setTimeout(window.__sdUpd,80)" style="flex:1;background:#1e6;color:#000;border:none;border-radius:6px;padding:6px;font-weight:700">測試捲動 ↓600</button>
+    <button onclick="document.getElementById('scrollDiag').style.display='none'" style="background:#444;color:#fff;border:none;border-radius:6px;padding:6px 10px">關閉</button>
+  </div>
+</div>
 <script>
 (function(){
+  function chainAt(x,y){
+    var el=document.elementFromPoint(x,y); if(!el) return 'none';
+    var out=[], n=el, depth=0;
+    while(n && n!==document.body && depth<12){
+      var cs=getComputedStyle(n);
+      if(cs.overflowY!=='visible' || cs.overflowX!=='visible' || cs.transform!=='none'){
+        out.push((n.className?('.'+String(n.className).trim().split(/\s+/)[0]):n.tagName)
+          +'['+cs.overflowX+'/'+cs.overflowY+(cs.transform!=='none'?',TF':'')+']');
+      }
+      n=n.parentElement; depth++;
+    }
+    return out.length?out.join(' < '):'(全 visible/無transform)';
+  }
   function upd(){
     var d=document.getElementById('scrollDiag'); if(!d)return;
     var itin=document.getElementById('tab-itinerary');
-    var active=itin&&itin.classList.contains('active');
-    if(!active){ d.style.display='none'; return; }
-    if(d.dataset.closed==='1') return;
+    if(!(itin&&itin.classList.contains('active'))){ d.style.display='none'; return; }
     d.style.display='block';
     var se=document.scrollingElement;
-    d.textContent='可捲高 sH='+se.scrollHeight+' / 視窗 iH='+window.innerHeight
-      +' / y='+Math.round(window.scrollY)
-      +' | bodyX='+getComputedStyle(document.body).overflowX
-      +' htmlH='+Math.round(parseFloat(getComputedStyle(document.documentElement).height));
+    document.getElementById('sdInfo').textContent='sH='+se.scrollHeight+' iH='+window.innerHeight
+      +' y='+Math.round(window.scrollY)+' bodyX='+getComputedStyle(document.body).overflowX;
   }
-  var d0=document.getElementById('scrollDiag');
-  if(d0) d0.addEventListener('click',function(){this.dataset.closed='1';});
-  document.addEventListener('click',function(){setTimeout(upd,150);},true);
+  window.__sdUpd=upd;
+  document.addEventListener('touchstart',function(e){
+    var t=e.touches[0]; if(!t)return;
+    var el=document.getElementById('sdTouch');
+    if(el) el.textContent='手指下: '+chainAt(t.clientX,t.clientY);
+  },{passive:true});
   window.addEventListener('scroll',upd,{passive:true});
-  setInterval(upd,600);
-  setTimeout(upd,1600);
+  setInterval(upd,600); setTimeout(upd,1600);
 })();
 </script>
 </body>
