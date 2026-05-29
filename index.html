@@ -3049,8 +3049,15 @@ body.dark-mode .wl-item { background: #252320; border-color: #3A3830; }
 .tt-cities {
   display: flex; justify-content: space-between;
   font-size: 9px; color: var(--text-light);
-  margin-top: 6px; font-weight: 600;
+  margin-top: 8px; font-weight: 600;
 }
+.tt-city {
+  flex: 0 0 auto; display: flex; flex-direction: column;
+  align-items: center; text-align: center; line-height: 1.25;
+}
+.tt-city b { font-size: 11px; font-weight: 700; }
+.tt-city i { font-size: 9px; font-style: normal; opacity: 0.85; }
+.tt-city u { font-size: 8px; text-decoration: none; opacity: 0.6; }
 
 .day-card:not(.dc-open) .day-img,
 .day-card:not(.dc-open) .day-chips,
@@ -11814,16 +11821,20 @@ window.cityFilter = function(keyword, btn) {
   wrap.innerHTML = html;
 
   if (citiesEl) {
-    var shown = {};
+    var fmtMD = function(iso) {
+      var p = iso.split('-');
+      return parseInt(p[1], 10) + '/' + parseInt(p[2], 10);
+    };
     var cityHtml = '';
     SEGS.forEach(function(s) {
-      var key = s.label + s.start;
-      if (!shown[key]) {
-        shown[key] = true;
-        var sd = new Date(s.start + 'T00:00:00+02:00');
-        var left = Math.max(0, (sd - TRIP_START) / TOTAL_MS * 100);
-        cityHtml += '<span style="flex:0 0 auto;color:' + s.color + '">' + s.label + '</span>';
-      }
+      var sd = new Date(s.start + 'T00:00:00+02:00');
+      var ed = new Date(s.end + 'T00:00:00+02:00');
+      var nights = Math.round((ed - sd) / 86400000);
+      cityHtml += '<span class="tt-city" style="color:' + s.color + '">' +
+        '<b>' + s.label + '</b>' +
+        '<i>' + fmtMD(s.start) + '–' + fmtMD(s.end) + '</i>' +
+        '<u>' + nights + '晚</u>' +
+        '</span>';
     });
     citiesEl.innerHTML = cityHtml;
     citiesEl.style.justifyContent = 'space-between';
