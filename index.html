@@ -3776,17 +3776,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     <!-- 今日蜜月小語 (JS 動態填入) -->
     <div id="loveQuoteCard" style="display:none" class="reveal"></div>
 
-    <!-- 五城市天氣速覽 (JS 動態填入) -->
-    <div class="card reveal" id="ovWxStripCard" style="padding:12px 16px 8px;margin-bottom:20px;display:none">
-      <div style="font-size:11px;font-weight:800;color:var(--text-sub);margin-bottom:8px">🌤 今日各基地城市天氣</div>
-      <div class="ov-wx-strip" id="ovWxStrip"><div style="font-size:11px;color:var(--text-light);padding:6px">載入中…</div></div>
-    </div>
-
-    <!-- 全行程城市時間軸 (JS 動態填入) -->
-    <div id="tripTimelineCard" class="card reveal" style="padding:14px 16px 10px;margin-bottom:20px;overflow:hidden;display:none"></div>
-
-    <!-- 行前準備度儀表板 (JS 動態填入) -->
-    <div id="prepDashCard" class="card prep-dash-card reveal" style="display:none"></div>
+    <!-- 五城市天氣速覽、全行程城市時間軸、行前準備度儀表板 三張卡已移除（與下方即時天氣／旅程進度時間軸／旅行整備狀態邏輯重複） -->
 
     <!-- 重要時刻倒數 (JS 動態填入) -->
     <div class="card milestone-card reveal" id="milestoneCard" style="display:none"></div>
@@ -9131,33 +9121,7 @@ updateCategoryProgress();
   }, { passive: true });
 })();
 
-/* ── 標籤頁左右滑動切換 ── */
-(function() {
-  var TABS = ['overview','itinerary','budget','photo','reminders'];
-  var tx = 0, ty = 0;
-  var main = document.querySelector('.main');
-  if (!main) return;
-  main.addEventListener('touchstart', function(e) {
-    tx = e.touches[0].clientX;
-    ty = e.touches[0].clientY;
-  }, { passive: true });
-  main.addEventListener('touchend', function(e) {
-    if (document.getElementById('gallery-lb').classList.contains('open')) return;
-    var dx = e.changedTouches[0].clientX - tx;
-    var dy = e.changedTouches[0].clientY - ty;
-    if (Math.abs(dx) < 64 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
-    var cur = document.querySelector('.section.active');
-    if (!cur) return;
-    var idx = TABS.indexOf(cur.id.replace('tab-',''));
-    var next = idx + (dx < 0 ? 1 : -1);
-    if (next < 0 || next >= TABS.length) return;
-    var tname = TABS[next];
-    var btn = Array.from(document.querySelectorAll('.bnav-btn')).find(function(b) {
-      return b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'" + tname + "'") > -1;
-    });
-    if (btn) showTab(tname, btn);
-  }, { passive: true });
-})();
+/* 標籤頁左右滑動切換已移除（太敏感易誤觸），改由下方導航列點選切換 */
 
 /* ── STP 日曆今日高亮 ── */
 (function() {
@@ -10421,73 +10385,9 @@ window.shareItinerary = function() {
     card.classList.add('visible');
     window._wxReadyCbs = window._wxReadyCbs || [];
     window._wxReadyCbs.push(function(wxData) { refreshWxChip(wxData, gearKey, 'tccWxChip'); });
-  } else if (now < DEPART) {
-    var daysTo = Math.ceil((DEPART - now) / 86400000);
-    // Show card when within 30 days of departure
-    if (daysTo <= 30) {
-      // Count pending pre-departure items
-      var pdPending = 0, pdTotal = 18;
-      var firstUnchecked = null;
-      for (var i = 0; i <= 17; i++) {
-        var cb = document.getElementById('pd' + i);
-        if (cb && !cb.checked) {
-          pdPending++;
-          if (!firstUnchecked) {
-            var lbl = cb.nextElementSibling;
-            if (lbl) firstUnchecked = lbl.textContent.trim();
-          }
-        }
-      }
-      var pdDone = pdTotal - pdPending;
-      // Count packing list items
-      var pkAll = document.querySelectorAll('.checklist .check-item input[type=checkbox]');
-      var pkDone = 0;
-      pkAll.forEach(function(c){ if(c.checked) pkDone++; });
-      var pkTotal = pkAll.length || 44;
-      var totalDone = pdDone + pkDone, totalAll = pdTotal + pkTotal;
-      var pct = Math.round(totalDone / totalAll * 100);
-
-      // Nearest hotel cancel deadline
-      var CANCEL_DLS = [
-        { label:'Trip Inn Jet Hotel', ts: new Date('2026-06-14T23:59:00+08:00').getTime() },
-        { label:'Swissôtel Bern',     ts: new Date('2026-06-24T18:00:00+02:00').getTime() },
-        { label:'Hotel Zugertor',     ts: new Date('2026-06-20T23:59:00+02:00').getTime() },
-        { label:'Ibis Budget Airport',ts: new Date('2026-06-27T23:59:00+02:00').getTime() },
-      ];
-      var nowMs = Date.now();
-      var nextCancel = null;
-      CANCEL_DLS.forEach(function(dl) {
-        if (dl.ts > nowMs) {
-          if (!nextCancel || dl.ts < nextCancel.ts) nextCancel = dl;
-        }
-      });
-
-      var urgentClass = daysTo <= 7 ? ' tcc-urgent' : '';
-      var wxCache2 = readWxCache();
-      var wxPreHtml = buildWxChip(wxCache2 && wxCache2.data, '6/16', 'tccWxPre');
-      var prepHtml = '<div class="tcc-prep-mini">'
-        + '<div class="tcc-prep-mini-lbl">行前準備度 ' + pct + '% · ' + totalDone + '/' + totalAll + ' 完成</div>'
-        + '<div class="tcc-prep-bar-bg"><div class="tcc-prep-bar-fill" style="width:' + pct + '%"></div></div>'
-        + '</div>';
-      var cancelHtml = '';
-      if (nextCancel) {
-        var cancelDays = Math.ceil((nextCancel.ts - nowMs) / 86400000);
-        var cancelCls = cancelDays <= 3 ? ' tcc-cancel-urgent' : '';
-        cancelHtml = '<div class="tcc-cancel-warn' + cancelCls + '">🗓 ' + nextCancel.label + ' 取消期限 · 剩 ' + cancelDays + ' 天</div>';
-      }
-      html = '<div class="tcc-state">出發倒數</div>'
-        + '<div class="tcc-day-num' + urgentClass + '">' + daysTo + ' 天</div>'
-        + '<div class="tcc-city-name">出發日：6/16 00:30 桃園 ✈️</div>'
-        + wxPreHtml
-        + prepHtml
-        + cancelHtml
-        + (firstUnchecked ? '<div class="tcc-action">👉 ' + (firstUnchecked.length > 32 ? firstUnchecked.substring(0,32)+'…' : firstUnchecked) + '</div>' : '<div class="tcc-action">✅ 行前待辦已全部完成！</div>');
-      card.classList.add('visible');
-      window._wxReadyCbs = window._wxReadyCbs || [];
-      window._wxReadyCbs.push(function(wxData) { refreshWxChip(wxData, '6/16', 'tccWxPre'); });
-    }
   }
-  // Don't show card if trip hasn't started yet and > 30 days away (or after trip)
+  // 出發前的「出發倒數大卡（含行前準備度）」已依使用者要求移除；旅途中仍會顯示今日速查卡。
+  // Don't show card if trip hasn't started yet (or after trip)
 })();
 
 /* ── 今日蜜月小語 ── */
