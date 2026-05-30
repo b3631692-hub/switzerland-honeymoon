@@ -8,37 +8,38 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#8C7B6E">
+<meta name="theme-color" content="#15803D">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="瑞士蜜月">
 <link rel="apple-touch-icon" href="icon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 
 /* ═══════════════════════════════════════
    VARIABLES
 ═══════════════════════════════════════ */
 :root {
-  --hero-bg:    #1C1A16;
-  --primary:    #8C7B6E;
-  --primary-dk: #6A5C51;
-  --rose:       #7A8C6E;
-  --rose-lt:    #EDEEE9;
-  --gold:       #B89A7E;
-  --gold-lt:    #F5F0E8;
-  --bg:         #F5F0EB;
-  --card:       #FEFCFA;
-  --text:       #2C2B28;
-  --text-sub:   #5C5A55;
-  --text-light: #8A8880;
-  --border:     #E0DBD5;
+  /* ── Alpine Editorial 設計系統（ui-ux-pro-max）── */
+  --hero-bg:    #14130F;
+  --primary:    #15803D;   /* alpine pine green 高山松綠 */
+  --primary-dk: #0E5E2D;
+  --rose:       #B5705F;   /* warm terracotta-rose 暖玫瑰（浪漫點綴）*/
+  --rose-lt:    #F4ECE8;
+  --gold:       #C8821F;   /* refined amber 琥珀（強調/CTA）*/
+  --gold-lt:    #F8F0E2;
+  --bg:         #F5F2EC;
+  --card:       #FFFFFF;
+  --text:       #1B1A16;
+  --text-sub:   #565049;
+  --text-light: #8C857C;
+  --border:     #E5E0D8;
   --shadow:     0 1px 8px rgba(44,42,38,0.07);
   --shadow-lg:  0 6px 28px rgba(44,42,38,0.10);
-  --radius:     12px;
-  --radius-sm:  8px;
-  --font-serif: 'Noto Serif TC', Georgia, serif;
-  --font-body:  'Noto Sans TC', -apple-system, sans-serif;
+  --radius:     14px;
+  --radius-sm:  9px;
+  --font-serif: 'Playfair Display', 'Noto Serif TC', Georgia, serif;
+  --font-body:  'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
   --nav-h:      56px;
   --bot-nav-h:  64px;
 }
@@ -51,6 +52,11 @@ body.dark-mode {
   --text-sub:   #A8A4A0;
   --text-light: #706E6A;
   --border:     #3A3830;
+  /* 深色加亮版強調色：在暖深底上維持對比與活力 */
+  --primary:    #43B074;
+  --primary-dk: #2E8A57;
+  --rose:       #D08E7E;
+  --gold:       #E0A23D;
   --rose-lt:    #1E2019;
   --gold-lt:    #211D14;
   --shadow:     0 2px 12px rgba(0,0,0,0.35);
