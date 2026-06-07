@@ -10,180 +10,216 @@
 <style>
   :root{
     --ink:#2A2622; --ink-soft:#5C544B; --ink-faint:#8A8076;
-    --paper:#FBF8F2; --paper-2:#F3EEE4; --line:#DED6C7;
-    --pine:#2F6B4F; --pine-d:#234F3B; --pine-bg:#EAF1EC;
-    --gold:#B8841F; --gold-bg:#F6EEDD;
-    --rose:#A8536A; --rose-bg:#F6E9ED;
+    --paper:#FBF8F2; --paper-2:#F0EAE0; --line:#DED6C7;
+    --pine:#2F6B4F; --pine-d:#1C4231; --pine-bg:#E6F0EB;
+    --gold:#B8841F; --gold-bg:#F5EBDA;
+    --rose:#A8536A; --rose-bg:#F5E8EC;
     --serif:'Playfair Display','Noto Serif TC',serif;
     --body:'Inter','Noto Sans TC',sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:#4a463f;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased}
+  html,body{background:#3a3730;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased}
 
-  /* ── 螢幕預覽：把每頁當卡片堆疊 ── */
-  .book{padding:28px 0;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .book{padding:24px 0;display:flex;flex-direction:column;align-items:center;gap:16px}
   .page{
     width:148mm;height:210mm;background:var(--paper);
     position:relative;overflow:hidden;
-    box-shadow:0 6px 30px rgba(0,0,0,.35);
-    padding:15mm 13mm 13mm;
+    box-shadow:0 4px 24px rgba(0,0,0,.4);
+    padding:0 11mm 9mm;
   }
   .page-inner{position:relative;height:100%;display:flex;flex-direction:column}
 
-  /* 頁眉／頁碼 */
-  .folio{position:absolute;bottom:6mm;left:0;right:0;display:flex;justify-content:space-between;
-    font-size:8pt;letter-spacing:.12em;color:var(--ink-faint);font-weight:500}
-  .running-head{font-size:7.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
-    font-weight:600;margin-bottom:9mm}
-  .running-head .rh-line{display:inline-block;width:14px;height:1px;background:var(--gold);
-    vertical-align:middle;margin-right:8px;margin-bottom:2px}
+  /* ── 頁首彩色條帶 ── */
+  .running-head{
+    background:var(--pine-d);color:#fff;
+    font-size:6pt;letter-spacing:.32em;text-transform:uppercase;font-weight:700;
+    margin:0 -11mm 5mm;
+    padding:2.8mm 11mm;
+    display:flex;align-items:center;justify-content:space-between;
+    min-height:9mm;
+  }
+  .running-head .rh-line{display:none}
+  /* 讓 folio 跟著條帶右側 */
+  .running-head::after{
+    content:attr(data-page);
+    font-family:var(--serif);font-size:8.5pt;font-weight:500;letter-spacing:0;color:rgba(255,255,255,.75)
+  }
+
+  .folio{
+    position:absolute;bottom:3.5mm;left:0;right:0;
+    display:flex;justify-content:space-between;
+    font-size:6.5pt;letter-spacing:.08em;color:var(--ink-faint);font-weight:500;
+    border-top:0.5px solid var(--line);padding-top:1.5mm;
+  }
 
   h1,h2,h3,.serif{font-family:var(--serif)}
 
   /* ── 封面 ── */
-  .cover{background:linear-gradient(160deg,#26402F 0%,#2F6B4F 55%,#3C7C5C 100%);color:#F4EFE3;
+  .cover{background:linear-gradient(155deg,#172B1F 0%,#2F6B4F 58%,#3D8060 100%);color:#F4EFE3;
     padding:0;display:flex;align-items:stretch}
-  .cover .cv{position:relative;width:100%;height:100%;padding:18mm 15mm;
-    display:flex;flex-direction:column;border:1px solid rgba(244,239,227,.28);margin:7mm;
-    outline:1px solid rgba(244,239,227,.14);outline-offset:3mm}
-  .cv-top{font-size:8.5pt;letter-spacing:.42em;text-transform:uppercase;color:#D9C9A0;font-weight:600}
+  .cover .cv{position:relative;width:100%;height:100%;padding:15mm 13mm;
+    display:flex;flex-direction:column;
+    border:1px solid rgba(244,239,227,.25);margin:6mm;
+    outline:1px solid rgba(244,239,227,.1);outline-offset:2.5mm}
+  .cv-top{font-size:7.5pt;letter-spacing:.44em;text-transform:uppercase;color:#D9C9A0;font-weight:600}
   .cv-mid{margin-top:auto;margin-bottom:auto}
-  .cv-zh{font-family:var(--serif);font-size:40pt;line-height:1.12;font-weight:700;letter-spacing:.02em}
-  .cv-zh small{display:block;font-size:15pt;font-weight:500;color:#E7DABA;margin-top:6mm;letter-spacing:.18em}
-  .cv-en{font-family:var(--serif);font-style:italic;font-size:13pt;color:#CDBFA0;margin-top:9mm;letter-spacing:.04em}
-  .cv-rule{width:38px;height:2px;background:#C9A961;margin:8mm 0}
-  .cv-bottom{display:flex;justify-content:space-between;align-items:flex-end;font-size:9pt;letter-spacing:.06em}
-  .cv-bottom .cb-date{font-family:var(--serif);font-size:13pt;color:#F4EFE3}
-  .cv-bottom .cb-sub{color:#CDBFA0;font-size:8pt;letter-spacing:.2em;text-transform:uppercase;margin-top:2mm}
-  .cv-emblem{font-size:20pt;letter-spacing:.1em}
+  .cv-zh{font-family:var(--serif);font-size:38pt;line-height:1.1;font-weight:700;letter-spacing:.02em}
+  .cv-zh small{display:block;font-size:13.5pt;font-weight:500;color:#E7DABA;margin-top:5mm;letter-spacing:.17em}
+  .cv-en{font-family:var(--serif);font-style:italic;font-size:11.5pt;color:#CDBFA0;margin-top:7mm;letter-spacing:.04em}
+  .cv-rule{width:36px;height:2px;background:#C9A961;margin:7mm 0}
+  .cv-bottom{display:flex;justify-content:space-between;align-items:flex-end;font-size:8.5pt;letter-spacing:.06em}
+  .cv-bottom .cb-date{font-family:var(--serif);font-size:12pt;color:#F4EFE3}
+  .cv-bottom .cb-sub{color:#CDBFA0;font-size:7.5pt;letter-spacing:.2em;text-transform:uppercase;margin-top:1.5mm}
+  .cv-emblem{font-size:18pt;letter-spacing:.1em}
 
-  /* ── 通用標題 ── */
-  .sec-eyebrow{font-size:8pt;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600}
-  .sec-h{font-family:var(--serif);font-size:21pt;font-weight:700;line-height:1.15;margin-top:3mm;color:var(--ink)}
-  .sec-h .en{display:block;font-style:italic;font-size:11pt;color:var(--ink-faint);font-weight:500;margin-top:2mm}
-  .sec-divider{height:1px;background:var(--line);margin:6mm 0}
+  /* ── 通用章節標題 ── */
+  .sec-eyebrow{font-size:7pt;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:2mm}
+  .sec-h{font-family:var(--serif);font-size:15.5pt;font-weight:700;line-height:1.15;margin-top:1.5mm;color:var(--ink)}
+  .sec-h .en{display:block;font-style:italic;font-size:9pt;color:var(--ink-faint);font-weight:500;margin-top:1mm}
+  .sec-divider{height:1px;background:var(--line);margin:3.5mm 0}
 
   /* ── 目錄 ── */
-  .toc-list{margin-top:4mm}
-  .toc-row{display:flex;align-items:baseline;padding:2.7mm 0;border-bottom:1px solid var(--line);font-size:10pt}
-  .toc-row .tn{font-family:var(--serif);color:var(--pine);font-weight:700;width:11mm;font-size:11pt}
-  .toc-row .tt{flex:1;font-weight:500}
-  .toc-row .tt small{color:var(--ink-faint);font-weight:400;margin-left:5px}
-  .toc-row .tp{font-family:var(--serif);color:var(--ink-faint);font-size:10pt}
-  .toc-note{margin-top:auto;background:var(--gold-bg);border-left:2.5px solid var(--gold);
-    padding:4mm 5mm;font-size:8.5pt;line-height:1.7;color:var(--ink-soft)}
+  .toc-list{margin-top:2.5mm}
+  .toc-row{display:flex;align-items:baseline;padding:1.8mm 0;border-bottom:1px solid var(--line);font-size:9.5pt}
+  .toc-row .tn{font-family:var(--serif);color:var(--pine);font-weight:700;width:10mm;font-size:10.5pt}
+  .toc-row .tt{flex:1;font-weight:500;font-size:9pt}
+  .toc-row .tt small{color:var(--ink-faint);font-weight:400;margin-left:4px;font-size:8pt}
+  .toc-row .tp{font-family:var(--serif);color:var(--ink-faint);font-size:9.5pt}
+  .toc-note{margin-top:auto;background:var(--gold-bg);border-left:3px solid var(--gold);
+    padding:3mm 4mm;font-size:7.8pt;line-height:1.65;color:var(--ink-soft)}
 
   /* ── 旅程速覽 ── */
-  .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm;margin:5mm 0}
-  .stat{background:var(--paper-2);border-radius:3mm;padding:5mm 2mm;text-align:center}
-  .stat .sv{font-family:var(--serif);font-size:20pt;font-weight:700;color:var(--pine);line-height:1}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2mm;margin:3mm 0}
+  .stat{background:#fff;border-radius:2mm;padding:3.5mm 2mm;text-align:center;
+    border-top:2.5px solid var(--pine);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .stat .sv{font-family:var(--serif);font-size:17pt;font-weight:700;color:var(--pine);line-height:1}
   .stat .sv.g{color:var(--gold)}
-  .stat .sl{font-size:7.5pt;color:var(--ink-soft);margin-top:2.5mm;line-height:1.5}
-  .tl-h{font-size:9pt;font-weight:700;letter-spacing:.08em;color:var(--ink-soft);margin:4mm 0 3mm}
+  .stat .sl{font-size:7pt;color:var(--ink-soft);margin-top:1.5mm;line-height:1.4}
+  .tl-h{font-size:8pt;font-weight:700;letter-spacing:.08em;color:var(--ink-soft);
+    margin:3mm 0 2mm;text-transform:uppercase;letter-spacing:.12em}
   .city-tl{display:flex;flex-direction:column;gap:0}
-  .ctl{display:flex;gap:4mm;position:relative;padding-bottom:3.5mm}
-  .ctl::before{content:'';position:absolute;left:2.2mm;top:5mm;bottom:-1mm;width:1px;background:var(--line)}
+  .ctl{display:flex;gap:3mm;position:relative;padding-bottom:2.8mm}
+  .ctl::before{content:'';position:absolute;left:1.9mm;top:4.5mm;bottom:-1mm;width:1px;background:var(--line)}
   .ctl:last-child::before{display:none}
-  .ctl-dot{width:5mm;height:5mm;border-radius:50%;background:var(--pine-bg);border:1.5px solid var(--pine);
-    flex-shrink:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:8pt;margin-top:.5mm}
-  .ctl-body{flex:1;padding-bottom:1mm}
-  .ctl-city{font-family:var(--serif);font-size:11pt;font-weight:700}
-  .ctl-city .nights{font-family:var(--body);font-size:7.5pt;color:#fff;background:var(--gold);
-    border-radius:100px;padding:1px 7px;margin-left:5px;vertical-align:middle;font-weight:600}
-  .ctl-meta{font-size:8pt;color:var(--ink-faint);margin-top:.8mm}
+  .ctl-dot{width:4mm;height:4mm;border-radius:50%;background:var(--pine-bg);border:1.5px solid var(--pine);
+    flex-shrink:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:7pt;margin-top:.4mm}
+  .ctl-body{flex:1}
+  .ctl-city{font-family:var(--serif);font-size:10.5pt;font-weight:700}
+  .ctl-city .nights{font-family:var(--body);font-size:6.8pt;color:#fff;background:var(--gold);
+    border-radius:100px;padding:1px 6px;margin-left:4px;vertical-align:middle;font-weight:600}
+  .ctl-meta{font-size:7.3pt;color:var(--ink-faint);margin-top:.4mm}
 
-  /* ── 通用資訊卡 ── */
-  .info-card{border:1px solid var(--line);border-radius:3mm;padding:5mm;margin-bottom:4mm;background:#fff}
-  .ic-title{font-family:var(--serif);font-size:12pt;font-weight:700;color:var(--pine-d);display:flex;
-    justify-content:space-between;align-items:baseline}
-  .ic-title .ic-tag{font-family:var(--body);font-size:7.5pt;font-weight:600;color:#fff;background:var(--pine);
-    padding:1.5px 7px;border-radius:100px;letter-spacing:.05em}
-  .ic-rows{margin-top:3mm;display:flex;flex-direction:column;gap:2mm}
-  .ic-row{display:flex;font-size:8.5pt;line-height:1.5}
-  .ic-row .k{width:22mm;color:var(--ink-faint);flex-shrink:0;font-weight:500}
+  /* ── 資訊卡 ── */
+  .info-card{
+    border:1px solid var(--line);border-radius:2mm;
+    padding:3mm 3.5mm;margin-bottom:2.5mm;
+    background:#fff;border-left:3px solid var(--pine);
+  }
+  .ic-title{font-family:var(--serif);font-size:10pt;font-weight:700;color:var(--pine-d);
+    display:flex;justify-content:space-between;align-items:baseline}
+  .ic-title .ic-tag{font-family:var(--body);font-size:6.8pt;font-weight:600;color:#fff;background:var(--pine);
+    padding:1px 6px;border-radius:100px;letter-spacing:.04em}
+  .ic-rows{margin-top:2mm;display:flex;flex-direction:column;gap:1.4mm}
+  .ic-row{display:flex;font-size:7.8pt;line-height:1.4}
+  .ic-row .k{width:19mm;color:var(--ink-faint);flex-shrink:0;font-weight:500}
   .ic-row .v{flex:1;font-weight:500;color:var(--ink)}
   .ic-row .v b{color:var(--pine-d)}
 
   /* ── 表格 ── */
-  .tbl{width:100%;border-collapse:collapse;font-size:7.6pt;margin-top:3mm}
-  .tbl th{background:var(--pine);color:#fff;font-weight:600;padding:2.2mm 2mm;text-align:left;
-    font-size:7.4pt;letter-spacing:.03em}
-  .tbl td{padding:2.2mm 2mm;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+  .tbl{width:100%;border-collapse:collapse;font-size:7.3pt;margin-top:2mm}
+  .tbl th{background:var(--pine-d);color:#fff;font-weight:600;padding:2mm;text-align:left;
+    font-size:6.8pt;letter-spacing:.04em}
+  .tbl td{padding:1.8mm 2mm;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4}
+  .tbl tr:last-child td{border-bottom:none}
   .tbl tr:nth-child(even) td{background:var(--paper-2)}
   .tbl .hi{color:var(--rose);font-weight:700}
   .tbl b{color:var(--pine-d)}
 
-  /* ── 逐日頁 ── */
-  .day-head{display:flex;align-items:flex-end;gap:5mm;border-bottom:2px solid var(--pine);padding-bottom:3mm}
-  .day-num{font-family:var(--serif);line-height:.82}
-  .day-num .dl{font-size:8pt;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;font-weight:600;display:block}
-  .day-num .dn{font-size:33pt;font-weight:700;color:var(--pine)}
-  .day-meta{padding-bottom:1.5mm;flex:1}
-  .day-date{font-family:var(--serif);font-size:13pt;font-weight:700}
-  .day-date .wd{color:var(--ink-faint);font-size:10pt;font-weight:500;margin-left:4px}
-  .day-city{font-size:8.5pt;color:var(--ink-soft);margin-top:1mm;letter-spacing:.04em}
-  .day-city .pin{color:var(--pine)}
-  .day-theme{font-family:var(--serif);font-style:italic;font-size:9.5pt;color:var(--gold);
-    text-align:right;padding-bottom:1.5mm;max-width:42mm}
+  /* ── 逐日頁頭（彩色條帶，同 running-head 概念）── */
+  .day-head{
+    background:var(--pine-d);color:#fff;
+    margin:0 -11mm 3.5mm;
+    padding:2.8mm 11mm;
+    display:flex;align-items:center;gap:3.5mm;
+    min-height:14mm;
+  }
+  .day-num{line-height:.85;flex-shrink:0;text-align:center;
+    background:rgba(255,255,255,.12);border-radius:1.5mm;
+    padding:2mm 3mm;min-width:14mm;}
+  .day-num .dl{font-size:6pt;letter-spacing:.28em;color:rgba(255,255,255,.65);text-transform:uppercase;font-weight:700;display:block}
+  .day-num .dn{font-size:22pt;font-weight:700;color:#fff;font-family:var(--serif);line-height:.95}
+  .day-meta{flex:1;padding-bottom:0}
+  .day-date{font-family:var(--serif);font-size:11.5pt;font-weight:700;color:#fff}
+  .day-date .wd{color:rgba(255,255,255,.65);font-size:9pt;font-weight:500;margin-left:3px}
+  .day-city{font-size:7.8pt;color:rgba(255,255,255,.78);margin-top:.7mm;letter-spacing:.02em}
+  .day-city .pin{color:rgba(255,255,255,.5)}
+  .day-theme{font-family:var(--serif);font-style:italic;font-size:8.5pt;color:#D4B06A;
+    text-align:right;max-width:38mm;line-height:1.3;align-self:flex-end}
 
-  .timeline{margin:4mm 0 0;flex:1}
-  .tle{display:flex;gap:3.5mm;padding-bottom:3mm;position:relative}
-  .tle::before{content:'';position:absolute;left:9.5mm;top:4mm;bottom:-1mm;width:1px;background:var(--line)}
+  .timeline{margin:0;flex:1}
+  .tle{display:flex;gap:2.8mm;padding-bottom:2.5mm;position:relative}
+  .tle::before{content:'';position:absolute;left:8.5mm;top:3.5mm;bottom:-1mm;width:1px;background:var(--line)}
   .tle:last-child::before{display:none}
-  .tle-time{width:9mm;font-family:var(--serif);font-size:8.5pt;font-weight:700;color:var(--pine-d);
-    flex-shrink:0;text-align:right;padding-top:.3mm;letter-spacing:-.02em}
-  .tle-dot{width:2.4mm;height:2.4mm;border-radius:50%;background:var(--pine);flex-shrink:0;margin-top:1.3mm;z-index:1}
+  .tle-time{width:8mm;font-family:var(--serif);font-size:7.2pt;font-weight:700;color:var(--pine-d);
+    flex-shrink:0;text-align:right;padding-top:.2mm;letter-spacing:-.02em}
+  .tle-dot{width:2mm;height:2mm;border-radius:50%;background:var(--pine);flex-shrink:0;margin-top:1.2mm;z-index:1}
   .tle-dot.gold{background:var(--gold)}
-  .tle-body{flex:1;padding-bottom:.5mm}
-  .tle-t{font-size:9pt;font-weight:600;line-height:1.4}
-  .tle-d{font-size:7.8pt;color:var(--ink-soft);line-height:1.5;margin-top:.5mm}
+  .tle-body{flex:1}
+  .tle-t{font-size:8.3pt;font-weight:600;line-height:1.33;color:var(--ink)}
+  .tle-d{font-size:7.3pt;color:var(--ink-soft);line-height:1.43;margin-top:.3mm}
 
-  .day-foot{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5mm;padding-top:3mm}
-  .df{background:var(--paper-2);border-radius:2.5mm;padding:3mm 3.5mm;font-size:7.6pt;line-height:1.5}
-  .df .dfl{font-size:6.8pt;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;
-    display:block;margin-bottom:1mm}
-  .df.wide{grid-column:1 / -1}
-  .df.warn{background:var(--rose-bg)}
+  .day-foot{
+    margin-top:auto;
+    display:grid;grid-template-columns:1fr 1fr;gap:1.8mm;
+    padding-top:2.5mm;border-top:1px solid var(--line);
+  }
+  .df{background:var(--paper-2);border-radius:1.8mm;padding:2.3mm 3mm;font-size:7.3pt;line-height:1.42;
+    border-left:2.5px solid var(--line)}
+  .df .dfl{font-size:6pt;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;
+    display:block;margin-bottom:.6mm}
+  .df.wide{grid-column:1/-1}
+  .df.warn{background:var(--rose-bg);border-left-color:var(--rose)}
   .df.warn .dfl{color:var(--rose)}
   .df b{color:var(--pine-d)}
 
-  /* ── 攝影/速查清單 ── */
-  .chk-list{display:flex;flex-direction:column;gap:0;margin-top:2mm}
-  .chk{display:flex;gap:3mm;padding:2.4mm 0;border-bottom:1px solid var(--line);font-size:8.6pt;line-height:1.5}
-  .chk .cbox{width:3.6mm;height:3.6mm;border:1.3px solid var(--pine);border-radius:1mm;flex-shrink:0;margin-top:.6mm}
+  /* ── 清單 ── */
+  .chk-list{display:flex;flex-direction:column;gap:0;margin-top:1.5mm}
+  .chk{display:flex;gap:2.5mm;padding:1.8mm 0;border-bottom:1px solid var(--line);font-size:8pt;line-height:1.42}
+  .chk .cbox{width:3.2mm;height:3.2mm;border:1.2px solid var(--pine);border-radius:.7mm;flex-shrink:0;margin-top:.5mm}
   .chk b{color:var(--pine-d)}
-  .two-col{column-count:2;column-gap:7mm}
+  .two-col{column-count:2;column-gap:6mm}
   .two-col .chk{break-inside:avoid}
 
-  .mini-h{font-family:var(--serif);font-size:11pt;font-weight:700;color:var(--pine-d);margin:4mm 0 1mm;
+  .mini-h{font-family:var(--serif);font-size:10pt;font-weight:700;color:var(--pine-d);margin:3mm 0 1mm;
     display:flex;align-items:center;gap:2mm}
   .mini-h::after{content:'';flex:1;height:1px;background:var(--line)}
 
   /* ── 緊急聯絡 ── */
-  .em-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm;margin-top:3mm}
-  .em{border:1px solid var(--line);border-radius:2.5mm;padding:3.5mm;text-align:center;background:#fff}
-  .em .en{font-family:var(--serif);font-size:18pt;font-weight:700;color:var(--rose)}
-  .em .el{font-size:7.8pt;color:var(--ink-soft);margin-top:1mm}
+  .em-grid{display:grid;grid-template-columns:1fr 1fr;gap:2mm;margin-top:2.5mm}
+  .em{border:1px solid var(--line);border-radius:2mm;padding:3mm;text-align:center;background:#fff}
+  .em .en{font-family:var(--serif);font-size:17pt;font-weight:700;color:var(--rose)}
+  .em .el{font-size:7.5pt;color:var(--ink-soft);margin-top:.7mm}
   .em.tw{grid-column:1/-1;text-align:left;background:var(--pine-bg);border-color:var(--pine)}
-  .em.tw .twh{font-family:var(--serif);font-weight:700;color:var(--pine-d);font-size:10pt;margin-bottom:2mm}
-  .em.tw .twr{font-size:8.2pt;line-height:1.6;color:var(--ink-soft)}
+  .em.tw .twh{font-family:var(--serif);font-weight:700;color:var(--pine-d);font-size:9.5pt;margin-bottom:1.5mm}
+  .em.tw .twr{font-size:7.8pt;line-height:1.55;color:var(--ink-soft)}
   .em.tw .twr b{color:var(--ink);font-family:var(--serif)}
 
   /* ── 常用語 ── */
-  .phr-h{font-size:8pt;font-weight:700;color:var(--gold);letter-spacing:.1em;margin:3mm 0 1.5mm}
-  .phr{display:flex;justify-content:space-between;align-items:baseline;font-size:8pt;
-    padding:1.6mm 0;border-bottom:1px dotted var(--line)}
+  .phr-h{font-size:7.5pt;font-weight:700;color:var(--gold);letter-spacing:.1em;margin:2.5mm 0 1mm;
+    text-transform:uppercase}
+  .phr{display:flex;justify-content:space-between;align-items:baseline;font-size:7.8pt;
+    padding:1.3mm 0;border-bottom:1px dotted var(--line)}
   .phr .pde{font-weight:600;color:var(--pine-d)}
-  .phr .pzh{color:var(--ink-soft);font-size:7.5pt;flex:1;padding:0 3mm}
-  .phr .ppr{color:var(--ink-faint);font-size:7pt;font-style:italic}
+  .phr .pzh{color:var(--ink-soft);font-size:7.2pt;flex:1;padding:0 2.5mm}
+  .phr .ppr{color:var(--ink-faint);font-size:6.8pt;font-style:italic}
 
   /* ── 封底 ── */
-  .back{background:linear-gradient(200deg,#26402F,#2F6B4F);color:#F4EFE3;display:flex;align-items:center;justify-content:center}
-  .back .bk{text-align:center;padding:18mm}
-  .back .bk-q{font-family:var(--serif);font-style:italic;font-size:15pt;line-height:1.6;color:#F4EFE3}
-  .back .bk-r{width:34px;height:2px;background:#C9A961;margin:9mm auto}
-  .back .bk-s{font-size:8.5pt;letter-spacing:.2em;color:#CDBFA0;line-height:2}
-  .back .bk-emblem{font-size:22pt;margin-bottom:8mm}
+  .back{background:linear-gradient(200deg,#172B1F,#2F6B4F);color:#F4EFE3;display:flex;align-items:center;justify-content:center}
+  .back .bk{text-align:center;padding:15mm}
+  .back .bk-q{font-family:var(--serif);font-style:italic;font-size:14pt;line-height:1.65;color:#F4EFE3}
+  .back .bk-r{width:32px;height:2px;background:#C9A961;margin:8mm auto}
+  .back .bk-s{font-size:8pt;letter-spacing:.22em;color:#CDBFA0;line-height:2}
+  .back .bk-emblem{font-size:20pt;margin-bottom:7mm}
 
   /* ── 列印 ── */
   @page{size:A5 portrait;margin:0}
@@ -193,6 +229,9 @@
     .page{box-shadow:none;page-break-after:always;break-after:page;width:148mm;height:210mm}
     .page:last-child{page-break-after:auto}
     .screen-only{display:none!important}
+    .running-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .day-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .tbl th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
   .screen-only{max-width:148mm;margin:0 auto 4px;color:#E7DDBE;font-size:12px;text-align:center;line-height:1.6}
   .screen-only b{color:#fff}
@@ -241,7 +280,8 @@
     <div class="toc-row"><span class="tn">07</span><span class="tt">搭車・纜車末班速查</span><span class="tp">24</span></div>
     <div class="toc-row"><span class="tn">08</span><span class="tt">常用語・高山健康</span><span class="tp">25</span></div>
     <div class="toc-row"><span class="tn">09</span><span class="tt">緊急聯絡</span><span class="tp">26</span></div>
-    <div class="toc-row"><span class="tn">10</span><span class="tt">行前待辦清單</span><span class="tp">27</span></div>
+    <div class="toc-row"><span class="tn">10</span><span class="tt">行前待辦清單</span><span class="tp">28</span></div>
+    <div class="toc-row"><span class="tn">11</span><span class="tt">旅遊保險速查 <small>富邦申根計畫・費率・投保步驟</small></span><span class="tp">27</span></div>
   </div>
   <div class="toc-note">
     🚂 全程持 <b>Swiss Travel Pass</b>（15 日二等艙，6/17 起用）— 火車、巴士、遊船多數免費。<br>
@@ -310,6 +350,10 @@
       <div class="ic-row"><span class="k">回程提醒</span><span class="v">7/1 退稅請 <b>18:30</b> 到櫃台先蓋 VAT 章再掛行李</span></div>
     </div>
   </div>
+  <div class="df warn" style="margin-top:4mm">
+    <span class="dfl">⚠ 杜拜轉機注意</span>
+    外交部目前發布阿聯酋<b>第三級橙色</b>旅遊警示（避免前往）。台北班次已縮為每日 1 班。戰爭直接造成之損失旅平險<b>不理賠</b>，如需確認免費改期，請聯繫 EK 台灣客服：<b>02-7745-0420</b>（平日 09:00–18:00）。
+  </div>
   <div class="folio"><span>航班資訊</span><span>04</span></div>
  </div>
 </section>
@@ -323,7 +367,7 @@
   <table class="tbl">
     <tr><th>城市・日期</th><th>住宿</th><th>離站</th><th>取消期限</th></tr>
     <tr><td>蘇黎世機場<br>6/16（1 晚）</td><td>Trip Inn Jet Hotel</td><td>機場接駁</td><td class="hi">6/14 23:59</td></tr>
-    <tr><td>Pontresina<br>6/17–21（4 晚）</td><td>Hotel Station Pontresina<br><b>含早餐 · Engadin 卡</b></td><td>步行 1 分</td><td class="hi">6/10 前</td></tr>
+    <tr><td>Pontresina<br>6/17–21（4 晚）</td><td>Sunstar Hotel Pontresina<br><b>含早餐 · Engadin 卡</b></td><td>步行 5–8 分平路<br>免費接站（須預約）</td><td>無法取消</td></tr>
     <tr><td>策馬特<br>6/21–24（3 晚）</td><td>Chalet Achat<br><b>✓ 已付清</b></td><td>步行 10 分</td><td>不可退</td></tr>
     <tr><td>伯恩<br>6/24–26（2 晚）</td><td>Swissôtel Kursaal Bern<br>早餐另計</td><td>電車 5 分</td><td class="hi">6/24 18:00</td></tr>
     <tr><td>楚格<br>6/26–29（3 晚）</td><td>Hotel Zugertor<br><b>含早餐</b></td><td>步行 7 分</td><td class="hi">6/20</td></tr>
@@ -374,7 +418,7 @@
     <div class="tle"><div class="tle-time">黃昏</div><div class="tle-dot gold"></div><div class="tle-body"><div class="tle-t">Muottas Muragl 2,454 m 夕陽</div><div class="tle-d">纜車上山，俯瞰上恩加丁三湖（St. Moritz/Silvaplana/Sils）金色日落，全程最美夕照之一。</div></div></div>
   </div>
   <div class="day-foot">
-    <div class="df"><span class="dfl">🏨 住宿</span>Hotel Station Pontresina<br><b>連住 4 晚 · 含早餐</b></div>
+    <div class="df"><span class="dfl">🏨 住宿</span>Sunstar Hotel Pontresina<br><b>連住 4 晚 · 含早餐</b></div>
     <div class="df"><span class="dfl">📸 攝影</span>三湖夕陽藍調，帶腳架；山上風大保暖。</div>
   </div>
   <div class="folio"><span>每日行程 · Day 2</span><span>07</span></div>
@@ -395,7 +439,7 @@
     <div class="tle"><div class="tle-time">黃昏</div><div class="tle-dot gold"></div><div class="tle-body"><div class="tle-t">村內 + Lej da Staz 小湖</div><div class="tle-d">松林環抱的祕境小湖，倒影婚紗最佳點。</div></div></div>
   </div>
   <div class="day-foot">
-    <div class="df"><span class="dfl">🏨 住宿</span>Hotel Station Pontresina</div>
+    <div class="df"><span class="dfl">🏨 住宿</span>Sunstar Hotel Pontresina</div>
     <div class="df warn"><span class="dfl">👟 注意</span>6 月 Diavolezza 可能殘雪，穿登山鞋。</div>
   </div>
   <div class="folio"><span>每日行程 · Day 3</span><span>08</span></div>
@@ -807,7 +851,54 @@
  </div>
 </section>
 
-<!-- ════════ P27 行前待辦 ════════ -->
+<!-- ════════ P27 保險速查 ════════ -->
+<section class="page">
+ <div class="page-inner">
+  <div class="running-head"><span class="rh-line"></span>Insurance</div>
+  <div class="sec-eyebrow">11 · 旅遊保險</div>
+  <div class="sec-h">申根旅平險速查<span class="en">Travel Insurance</span></div>
+  <div class="sec-divider"></div>
+  <div class="info-card" style="background:var(--pine-bg);border-color:var(--pine);margin-bottom:3mm">
+    <div class="ic-title" style="color:var(--pine)">推薦方案：富邦產險 計畫三（申根公約國）</div>
+    <div class="ic-rows">
+      <div class="ic-row"><span class="k">適用</span><span class="v">申根區含瑞士・義大利・德國</span></div>
+      <div class="ic-row"><span class="k">天數</span><span class="v">16 天（6/16–7/1）</span></div>
+      <div class="ic-row"><span class="k">年齡</span><span class="v">30 / 31 歲 → 15–79 歲費率適用</span></div>
+    </div>
+  </div>
+  <table class="tbl" style="font-size:8pt;margin-bottom:3mm">
+    <tr><th>保額</th><th>每人保費</th><th>兩人合計</th></tr>
+    <tr><td>800 萬</td><td>NT$2,178</td><td>NT$4,356</td></tr>
+    <tr><td style="color:var(--pine);font-weight:700">1,000 萬 ★推薦</td><td style="color:var(--pine);font-weight:700">NT$2,299</td><td style="color:var(--pine);font-weight:700">NT$4,598</td></tr>
+    <tr><td>1,500 萬</td><td>NT$2,672</td><td>NT$5,344</td></tr>
+  </table>
+  <div class="info-card" style="margin-bottom:3mm">
+    <div class="ic-title">計畫三已含保障</div>
+    <div class="ic-rows">
+      <div class="ic-row"><span class="k">意外醫療</span><span class="v">依保額・含高山症・纜車事故</span></div>
+      <div class="ic-row"><span class="k">突發疾病</span><span class="v">最高 <b>150 萬</b>（實支實付）</span></div>
+      <div class="ic-row"><span class="k">緊急救援</span><span class="v">最高 <b>200 萬</b>・含直升機運送</span></div>
+      <div class="ic-row"><span class="k">申根憑證</span><span class="v">附申根保險證明文件</span></div>
+    </div>
+  </div>
+  <div class="info-card" style="background:var(--gold-bg);border-color:var(--gold)">
+    <div class="ic-title" style="color:var(--gold)">另加旅遊不便險（建議）</div>
+    <div class="ic-rows">
+      <div class="ic-row"><span class="k">班機延誤 4h</span><span class="v">定額 NT$5,000–6,000</span></div>
+      <div class="ic-row"><span class="k">行李損失</span><span class="v">最高 NT$3 萬</span></div>
+      <div class="ic-row"><span class="k">旅程更改</span><span class="v">最高 NT$3 萬（⚠ 戰爭不賠）</span></div>
+      <div class="ic-row"><span class="k">不便險費用</span><span class="v">兩人約 NT$1,200</span></div>
+    </div>
+  </div>
+  <div class="df warn" style="margin-top:3mm;font-size:8pt">
+    <span class="dfl">投保時說明</span>
+    備注欄填：「行程含搭乘纜車至 3,883m 高海拔景點觀光，確認承保高山症及高海拔意外。」<br>客服：<b>0809-019-888</b>　官網：fubon.com → 旅平險線上投保
+  </div>
+  <div class="folio"><span>旅遊保險</span><span>27</span></div>
+ </div>
+</section>
+
+<!-- ════════ P28 行前待辦 ════════ -->
 <section class="page">
  <div class="page-inner">
   <div class="running-head"><span class="rh-line"></span>Checklist</div>
@@ -831,7 +922,7 @@
     <div class="chk"><span class="cbox"></span><div>線上 check-in（起飛前 48h）</div></div>
     <div class="chk"><span class="cbox"></span><div>緊急聯絡卡印出放錢包</div></div>
   </div>
-  <div class="folio"><span>行前待辦</span><span>27</span></div>
+  <div class="folio"><span>行前待辦</span><span>28</span></div>
  </div>
 </section>
 
