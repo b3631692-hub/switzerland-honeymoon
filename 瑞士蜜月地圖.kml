@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>🇨🇭 瑞士蜜月 2026/6/16–7/1</name>
+  <description>行程地點總覽：住宿、餐廳、車站、景點攝影點</description>
+
+  <!-- ===== 圖示樣式 ===== -->
+
+  <!-- 住宿：藍色旅館 -->
+  <Style id="hotel">
+    <IconStyle>
+      <color>ffDB6E2F</color>
+      <scale>1.1</scale>
+      <Icon><href>https://maps.google.com/mapfiles/kml/shapes/lodging.png</href></Icon>
+    </IconStyle>
+    <LabelStyle><color>ffDB6E2F</color><scale>0.9</scale></LabelStyle>
+  </Style>
+
+  <!-- 蜜月訂位餐廳：紅色 -->
+  <Style id="restaurant-fancy">
+    <IconStyle>
+      <color>ff2222CC</color>
+      <scale>1.0</scale>
+      <Icon><href>https://maps.google.com/mapfiles/kml/shapes/dining.png</href></Icon>
+    </IconStyle>
+    <LabelStyle><color>ff2222CC</color><scale>0.9</scale></LabelStyle>
+  </Style>
+
+  <!-- 平價餐廳：橘色 -->
+  <Style id="restaurant-casual">
+    <IconStyle>
+      <color>ff1478FF</color>
+      <scale>0.9</scale>
+      <Icon><href>https://maps.google.com/mapfiles/kml/shapes/dining.png</href></Icon>
+    </IconStyle>
+    <LabelStyle><color>ff1478FF</color><scale>0.85</scale></LabelStyle>
+  </Style>
+
+  <!-- 車站：紫色 -->
+  <Style id="station">
+    <IconStyle>
+      <color>ffAA3DC8</color>
+      <scale>1.1</scale>
+      <Icon><href>https://maps.google.com/mapfiles/kml/shapes/rail.png</href></Icon>
+    </IconStyle>
+    <LabelStyle><color>ffAA3DC8</color><scale>0.9</scale></LabelStyle>
+  </Style>
+
+  <!-- 景點/攝影點：綠色 -->
+  <Style id="photo">
+    <IconStyle>
+      <color>ff3DA858</color>
+      <scale>1.0</scale>
+      <Icon><href>https://maps.google.com/mapfiles/kml/shapes/camera.png</href></Icon>
+    </IconStyle>
+    <LabelStyle><color>ff3DA858</color><scale>0.85</scale></LabelStyle>
+  </Style>
+
+  <!-- 景點（特別重要）：深綠放大 -->
+  <Style id="photo-star">
+    <IconStyle>
+      <color>ff1A7A32</color>
+      <scale>1.3</scale>
+      <Icon><href>https://maps.google.com/mapfiles/kml/shapes/camera.png</href></Icon>
+    </IconStyle>
+    <LabelStyle><color>ff1A7A32</color><scale>0.95</scale></LabelStyle>
+  </Style>
+
+  <!-- ===== 圖層 1：住宿 ===== -->
+  <Folder>
+    <name>🏨 住宿（6間）</name>
+    <open>1</open>
+
+    <Placemark>
+      <name>Trip Inn Jet Hotel（ZRH機場）</name>
+      <description><![CDATA[<b>入住：6/16 · 退房：6/17</b><br>機場附近步行可達，免接駁巴士<br>抵達當晚快速入住]]></description>
+      <styleUrl>#hotel</styleUrl>
+      <Point><coordinates>8.5736,47.4506,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Sunstar Hotel Pontresina</name>
+      <description><![CDATA[<b>入住：6/17 · 退房：6/21（4晚）</b><br>含早餐 · Engadin Card · Via Maistra 57<br>無法取消（已付清）· 公車從車站可達]]></description>
+      <styleUrl>#hotel</styleUrl>
+      <Point><coordinates>9.8992,46.4998,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Chalet Achat Zermatt</name>
+      <description><![CDATA[<b>入住：6/21 · 退房：6/24（3晚）</b><br>含早餐 · Zermatt 市中心<br>冰河列車 PE907 20:07 抵達]]></description>
+      <styleUrl>#hotel</styleUrl>
+      <Point><coordinates>7.7491,46.0207,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Swissôtel Kursaal Bern</name>
+      <description><![CDATA[<b>入住：6/24 · 退房：6/27（3晚）</b><br>含早餐 · 伯恩市中心<br>⚠️ 取消期限 = 抵達當天，速洽飯店展延！]]></description>
+      <styleUrl>#hotel</styleUrl>
+      <Point><coordinates>7.4537,46.9526,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Hotel Zugertor（Zug）</name>
+      <description><![CDATA[<b>入住：6/27 · 退房：7/1（4晚）</b><br>含早餐 · 楚格舊城步行可達<br>Luzern 20分鐘、Zürich 30分鐘]]></description>
+      <styleUrl>#hotel</styleUrl>
+      <Point><coordinates>8.5167,47.1660,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>ibis Budget Zürich Airport</name>
+      <description><![CDATA[<b>7/1 出發日行李暫放</b><br>機場步行可達 · 末班 EK086 21:50 起飛<br>建議 19:00 前完成 check-in]]></description>
+      <styleUrl>#hotel</styleUrl>
+      <Point><coordinates>8.5603,47.4533,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 2：餐廳 ===== -->
+  <Folder>
+    <name>🍽 蜜月訂位餐廳（4間）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>⭐ Fex Valley 馬車晚餐 / Coretti</name>
+      <description><![CDATA[<b>6/20 蜜月晚餐（Sils-Maria）</b><br>⚠️ 馬車務必提前預約！<br>Fex Valley 終點 Coretti 餐廳用餐<br>馬車約 CHF 30/人]]></description>
+      <styleUrl>#restaurant-fancy</styleUrl>
+      <Point><coordinates>9.7608,46.4292,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>⭐ Restaurant Schäferstube（Zermatt）</name>
+      <description><![CDATA[<b>6/22 或 6/23 蜜月晚餐</b><br>傳統瑞士火鍋 / 起士鍋<br>建議提前訂位]]></description>
+      <styleUrl>#restaurant-fancy</styleUrl>
+      <Point><coordinates>7.7491,46.0207,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>⭐ Altes Tramdepot（Bern）</name>
+      <description><![CDATA[<b>6/25 或 6/26 蜜月晚餐</b><br>老電車廠改建精釀啤酒餐廳<br>Nydegg橋旁 · 週末建議訂位]]></description>
+      <styleUrl>#restaurant-fancy</styleUrl>
+      <Point><coordinates>7.4600,46.9479,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>⭐ Quai 61（Zürich）</name>
+      <description><![CDATA[<b>6/29 或 6/30 蜜月晚餐</b><br>蘇黎世湖畔景觀餐廳<br>強烈建議提前訂位]]></description>
+      <styleUrl>#restaurant-fancy</styleUrl>
+      <Point><coordinates>8.5468,47.3598,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <Folder>
+    <name>💰 平價免訂位餐廳（9間）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Restaurant Station（Pontresina）</name>
+      <description><![CDATA[<b>6/17–21 Pontresina</b><br>傳統瑞士菜 · ~CHF 25<br>免訂位]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>9.9020,46.4930,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Brown Cow Pub（Zermatt）</name>
+      <description><![CDATA[<b>6/21–24 Zermatt</b><br>英式酒吧 · 漢堡薯條 · ~CHF 22<br>免訂位 · 熱鬧親切]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>7.7493,46.0210,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Riffelberg Restaurant（Zermatt 山上）</name>
+      <description><![CDATA[<b>Gornergrat 途中午餐</b><br>自助餐 · 馬特洪峰景觀<br>搭 Gornergrat Bahn 至 Riffelberg 站]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>7.7514,46.0085,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Tramway（Bern）</name>
+      <description><![CDATA[<b>6/24–27 Bern</b><br>伯恩平價傳統料理 · ~CHF 20<br>免訂位]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>7.4550,46.9480,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Manora（Bern，Manor百貨）</name>
+      <description><![CDATA[<b>6/24–27 Bern</b><br>百貨自助餐 · ~CHF 18<br>伯恩市中心 · 輕鬆快速]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>7.4527,46.9476,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Pastarazzi（Luzern）</name>
+      <description><![CDATA[<b>6/26 Luzern 路過</b><br>義式麵食 · ~CHF 20<br>免訂位 · 輕鬆午餐]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>8.3093,47.0502,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Sternen Grill（Zürich）</name>
+      <description><![CDATA[<b>7/1 Zürich 出發前</b><br>蘇黎世名物香腸站食 · ~CHF 10<br>Bellevueplatz 廣場旁 · 快速美味]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>8.5382,47.3696,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Manora（Zürich）</name>
+      <description><![CDATA[<b>7/1 Zürich 日遊</b><br>Jelmoli 百貨旁 · 自助餐 · ~CHF 18<br>市中心 · 輕鬆快速]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>8.5401,47.3759,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Manora（Luzern）</name>
+      <description><![CDATA[<b>Luzern 日遊備用</b><br>自助餐 · ~CHF 18<br>琉森市中心]]></description>
+      <styleUrl>#restaurant-casual</styleUrl>
+      <Point><coordinates>8.3095,47.0508,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 3：車站 ===== -->
+  <Folder>
+    <name>🚉 車站／機場（8處）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>✈ 蘇黎世機場 ZRH</name>
+      <description><![CDATA[<b>6/16 抵達・7/1 出發</b><br>EK387 抵達（6/16）<br>EK086 21:50 起飛（7/1）<br>T3 出境、T1 入境]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>8.5492,47.4647,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhof Pontresina</name>
+      <description><![CDATA[<b>6/17 抵達・6/21 出發</b><br>STP 15日二等艙在此起用（6/17）<br>6/21 搭至 Chur 換冰河列車]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>9.9016,46.4913,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhof Chur</name>
+      <description><![CDATA[<b>6/21 冰河列車起站</b><br>PE907：14:32 Chur → 20:07 Zermatt<br>升等一等艙（需查 SBB 對號座）]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>9.5297,46.8515,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhof Zermatt</name>
+      <description><![CDATA[<b>6/21 抵達・6/24 出發</b><br>冰河列車終點站<br>Zermatt 無車，步行至飯店約 10–15 min]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>7.7484,46.0204,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhof Kandersteg</name>
+      <description><![CDATA[<b>6/24 中途下車</b><br>Oeschinensee 起點（纜車站在此）<br>Zermatt → Kandersteg → Spiez → Bern]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>7.6726,46.4969,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bern Hauptbahnhof（HB）</name>
+      <description><![CDATA[<b>6/24 抵達・6/27 出發</b><br>老城中心 · 各景點步行可達<br>6/26 大行李 SBB 快遞直送楚格]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>7.4393,46.9489,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhof Luzern</name>
+      <description><![CDATA[<b>6/26 中途・6/28–29 日遊起點</b><br>Kapellbrücke 徒步 3 分鐘<br>瑞吉山輪船從此出發]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>8.3097,47.0504,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhof Zug</name>
+      <description><![CDATA[<b>6/27–7/1 住宿基地</b><br>Luzern 20分鐘・Zürich 30分鐘<br>Hotel Zugertor 步行 10 分鐘]]></description>
+      <styleUrl>#station</styleUrl>
+      <Point><coordinates>8.5163,47.1659,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 4：景點 Pontresina ===== -->
+  <Folder>
+    <name>📸 景點：Pontresina 周邊（6/17–21）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Muottas Muragl 展望台</name>
+      <description><![CDATA[<b>建議 6/17 或 6/18</b><br>纜車上山 · 恩加丁谷地全景<br>日落黃金時段攝影絕佳]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>9.9285,46.5168,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Alp Languard</name>
+      <description><![CDATA[野花草原 · 鳥瞰 Pontresina<br>纜車或健行上山]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>9.9178,46.4890,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Diavolezza 冰川觀景台</name>
+      <description><![CDATA[纜車上山（海拔約 2,978m）<br>Piz Bernina 及 Morteratsch 冰川壯景<br>STP 免費搭乘纜車]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>9.9718,46.4102,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Lej da Staz（史塔茲湖）</name>
+      <description><![CDATA[Pontresina 步行可達（約 40 min）<br>森林中靜謐小湖 · 早晨倒影攝影佳]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>9.8418,46.5148,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 5：景點 伯尼納線 ===== -->
+  <Folder>
+    <name>📸 景點：伯尼納線（6/19 Tirano 日遊）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Ospizio Bernina（最高站 2253m）</name>
+      <description><![CDATA[伯尼納線最高點<br>世界遺產鐵道 · 雪地與冰川景觀<br>可下車拍照再搭下班車]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>10.0139,46.4123,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Alp Grüm</name>
+      <description><![CDATA[Poschiavo 谷地全景 · 露台餐廳<br>可在此午餐俯瞰峽谷<br>往 Tirano 方向必經]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>10.0462,46.3890,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Brusio 螺旋橋</name>
+      <description><![CDATA[世界遺產 · 火車繞圈螺旋降坡奇觀<br>座位坐右側拍攝最佳（往 Tirano 方向）<br>約 46°14'57"N 10°07'04"E]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>10.1178,46.2492,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Tirano（義大利終點站）</name>
+      <description><![CDATA[<b>6/19 終點</b><br>義式 Gelato · Santa Maria Basilica 大教堂<br>⚠️ 末班返回 Pontresina 約 16:41，勿錯過！]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>10.1711,46.2151,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 6：景點 St.Moritz / Sils-Maria ===== -->
+  <Folder>
+    <name>📸 景點：St.Moritz / Sils（6/20）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Corvatsch 展望台（3303m）</name>
+      <description><![CDATA[St. Moritz 最高纜車終點<br>Silsersee 俯瞰 · 360° 全景<br>STP 免費搭乘纜車]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>9.8218,46.4268,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Sils-Maria 小村</name>
+      <description><![CDATA[尼采《查拉圖斯特拉》創作地<br>安靜精緻小村 · Fex Valley 入口<br>從 St. Moritz 搭巴士可達]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>9.7644,46.4346,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Fex Valley（費克斯谷）</name>
+      <description><![CDATA[<b>6/20 馬車晚餐路線</b><br>⚠️ 馬車（Pferdekutsche）務必提前預約！<br>終點 Coretti 餐廳用晚餐]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>9.7681,46.3982,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Silsersee（席爾斯湖）</name>
+      <description><![CDATA[恩加丁最大湖 · 翡翠湖色<br>倒影攝影聖地 · Sils-Maria 旁<br>傍晚光線最美]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>9.7730,46.4203,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 7：景點 Zermatt ===== -->
+  <Folder>
+    <name>📸 景點：Zermatt 周邊（6/22–23）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Riffelsee（馬特洪峰倒影）</name>
+      <description><![CDATA[馬特洪峰倒影 No.1 攝影點<br>搭 Gornergrat Bahn 至 Riffelberg<br>再步行約 30 分鐘可達<br>早晨無風時水面最清澈]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.7481,46.0052,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Gornergrat 展望台（3089m）</name>
+      <description><![CDATA[齒輪火車上山（約 33 分鐘）<br>29 座 4000m 峰全景 · Monte Rosa<br>STP 免費乘車]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.7843,45.9834,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stellisee（史泰利湖）</name>
+      <description><![CDATA[馬特洪峰倒影 · 人比 Riffelsee 少<br>從 Sunnegga 站步行約 20 分鐘<br>攝影師私藏點]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.7598,46.0180,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Klein Matterhorn（3883m）</name>
+      <description><![CDATA[歐洲最高纜車終點<br>冰宮（Glacial Palace）· 義大利邊境<br>可眺望義大利 Cervinia]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.7328,45.9763,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Schwarzsee（黑湖）</name>
+      <description><![CDATA[距馬特洪峰最近的湖<br>Matterhorn Glacier Paradise 纜車途中<br>小教堂 Maria zum See]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>7.7025,46.0019,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 8：景點 Kandersteg / Bern ===== -->
+  <Folder>
+    <name>📸 景點：Kandersteg + Bern（6/24–26）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Oeschinensee（奧斯契能湖）</name>
+      <description><![CDATA[UNESCO 世界遺產<br>纜車上山後步行約 30 分鐘<br>翡翠色高山湖 · 三面峭壁環抱]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.6941,46.5083,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Spiez 城堡</name>
+      <description><![CDATA[<b>6/24 彈性加點</b><br>通道湖畔中世紀古堡<br>Kandersteg → Spiez 下車（約 30 min 遊覽）]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>7.6706,46.6869,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>伯恩老城 Altstadt（UNESCO）</name>
+      <description><![CDATA[UNESCO 世界遺產老城<br>拱廊長達 6km · 中世紀噴泉群<br>步行即可遊覽全程]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.4521,46.9479,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Zytglogge 鐘樓</name>
+      <description><![CDATA[整點前 4 分鐘機械人偶表演<br>伯恩最具代表性地標<br>老城中心]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>7.4479,46.9480,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Rosengarten 玫瑰園</name>
+      <description><![CDATA[俯瞰伯恩老城最佳角度<br>免費入場 · 傍晚夕照最美<br>從老城步行上坡約 15 分鐘]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.4599,46.9538,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Lauterbrunnen 瀑布谷</name>
+      <description><![CDATA[<b>6/26 Bern 日遊選項</b><br>72 條瀑布 · Staubbach 落差 297m<br>從 Bern 搭車約 50 分鐘]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>7.9081,46.5928,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+  <!-- ===== 圖層 9：景點 Luzern / Zug / Zürich ===== -->
+  <Folder>
+    <name>📸 景點：Luzern / Zug / Zürich（6/27–7/1）</name>
+    <open>0</open>
+
+    <Placemark>
+      <name>Kapellbrücke 教堂橋</name>
+      <description><![CDATA[歐洲最古老有頂木橋（1333年建）<br>琉森最具代表性地標<br>從 Bahnhof Luzern 步行 3 分鐘]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>8.3078,47.0516,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Mt. Rigi 瑞吉山（1798m）</name>
+      <description><![CDATA[<b>6/28 日遊</b><br>「山中皇后」· STP 免費搭乘<br>可從 Vitznau（輪船）或 Arth-Goldau 上山<br>日出攝影點（住山上需另訂房）]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>8.4839,47.0568,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Tierpark Goldau</name>
+      <description><![CDATA[野生動物園 · 大棕熊觀賞<br>瑞吉山 Arth-Goldau 站旁<br>可與瑞吉山合併為同一天行程]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>8.5549,47.0398,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Lindenhof 林登霍夫山丘（Zürich）</name>
+      <description><![CDATA[免費城市制高點 · 俯瞰小阿爾斯特河<br>步行可達 · 不需門票<br>7/1 出發前快速遊覽]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>8.5420,47.3725,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Bahnhofstrasse 班霍夫大街（Zürich）</name>
+      <description><![CDATA[蘇黎世精品購物大街<br>終點為蘇黎世湖畔 Bürkliplatz<br>Lindt 巧克力旗艦店在此]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>8.5396,47.3769,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>萊茵瀑布 Rheinfall（Schaffhausen）</name>
+      <description><![CDATA[<b>6/29–30 日遊選項</b><br>歐洲最大水量瀑布<br>可乘船近距離接觸瀑布<br>從 Zug 搭車約 70–80 分鐘]]></description>
+      <styleUrl>#photo-star</styleUrl>
+      <Point><coordinates>8.6159,47.6773,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stein am Rhein</name>
+      <description><![CDATA[<b>6/29–30 日遊選項</b><br>彩繪外牆中世紀古城<br>可與萊茵瀑布合併為一天行程<br>人比 Schaffhausen 少、更精緻]]></description>
+      <styleUrl>#photo</styleUrl>
+      <Point><coordinates>8.8611,47.6594,0</coordinates></Point>
+    </Placemark>
+
+  </Folder>
+
+</Document>
+</kml>
