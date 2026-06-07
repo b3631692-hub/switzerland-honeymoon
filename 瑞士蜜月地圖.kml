@@ -80,9 +80,9 @@
 
     <Placemark>
       <name>Sunstar Hotel Pontresina</name>
-      <description><![CDATA[<b>入住：6/17 · 退房：6/21（4晚）</b><br>含早餐 · Engadin Card · Via Maistra 57<br>無法取消（已付清）· 公車從車站可達]]></description>
+      <description><![CDATA[<b>入住：6/17 · 退房：6/21（4晚）</b><br>含早餐 · Engadin Card · Via Fulluns 6<br>無法取消（已付清）· 公車從車站可達]]></description>
       <styleUrl>#hotel</styleUrl>
-      <Point><coordinates>9.8992,46.4998,0</coordinates></Point>
+      <Point><coordinates>9.907490,46.488440,0</coordinates></Point>
     </Placemark>
 
     <Placemark>
