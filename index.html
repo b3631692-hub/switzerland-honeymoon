@@ -968,6 +968,27 @@
       .nav-icon    { transition: color 200ms ease !important; }
       .clock-colon { animation: none !important; opacity: 0.6 !important; }
     }
+
+    /* Hotel hero image */
+    .hotel-hero-img {
+      width: calc(100% + 32px);
+      margin: -16px -16px 14px;
+      height: 170px;
+      object-fit: cover;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: block;
+      background: var(--border);
+    }
+    /* Day itinerary hero image */
+    .day-hero-img {
+      width: calc(100% + 32px);
+      margin: -16px -16px 14px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: block;
+      background: var(--border);
+    }
   </style>
 </head>
 <body>
@@ -1302,6 +1323,7 @@
       <!-- 日程內容區塊（由 _build_b.html 繼續填入） -->
       <div id="days-content" class="days-content">
 <div id="day-0616" class="day-content active">
+<img src="https://images.unsplash.com/photo-1746181732543-e8daaf105e53?w=800&q=80&fit=crop&crop=center" alt="蘇黎世城市天際線" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/16（一）· 蘇黎世 ZRH 抵達</div>
   <div class="sec-sub">基地：Kloten（機場飯店）｜ STP 未啟用（明日啟用）</div>
 
@@ -1400,6 +1422,7 @@
 </div><!-- /day-0616 -->
 
 <div id="day-0617" class="day-content">
+<img src="https://images.unsplash.com/photo-1575837434092-8945ec75a5f9?w=800&q=80&fit=crop&crop=center" alt="恩加丁山谷 Pontresina" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/17（二）· 蘇黎世 → Pontresina 恩加丁</div>
   <div class="sec-sub">基地：Pontresina（海拔 1,805m）｜ STP Day 1</div>
 
@@ -1495,6 +1518,7 @@
 </div><!-- /day-0617 -->
 
 <div id="day-0618" class="day-content">
+<img src="https://images.unsplash.com/photo-1569239027784-04f4b33e4da2?w=800&q=80&fit=crop&crop=center" alt="Diavolezza 冰川全景" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/18（三）· Alp Languard + Diavolezza + 婚紗攝影</div>
   <div class="sec-sub">基地：Pontresina（海拔 1,805m）｜ STP Day 2</div>
 
@@ -1575,6 +1599,7 @@
 </div><!-- /day-0618 -->
 
 <div id="day-0619" class="day-content">
+<img src="https://images.unsplash.com/photo-1709060277855-7378d91d38be?w=800&q=80&fit=crop&crop=center" alt="伯尼納快車穿越阿爾卑斯山" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/19（四）· 伯尼納快車 + Tirano 義大利日遊</div>
   <div class="sec-sub">基地：Pontresina（海拔 1,805m）｜ STP Day 3</div>
 
@@ -1658,6 +1683,7 @@
 </div><!-- /day-0619 -->
 
 <div id="day-0620" class="day-content">
+<img src="https://images.unsplash.com/photo-1669188486124-b0e1b3371aea?w=800&q=80&fit=crop&crop=center" alt="Fex Valley 綠色山谷" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/20（五）· Corvatsch + Sils-Maria + Fex Valley 馬車晚餐</div>
   <div class="sec-sub">基地：Pontresina（海拔 1,805m）｜ STP Day 4</div>
 
@@ -1748,6 +1774,7 @@
 </div><!-- /day-0620 -->
 
 <div id="day-0621" class="day-content">
+<img src="https://images.unsplash.com/photo-1716118069021-2b21d392489b?w=800&q=80&fit=crop&crop=center" alt="冰河列車穿越瑞士阿爾卑斯山" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/21（六）· 冰河列車 Chur → Zermatt 入住策馬特</div>
   <div class="sec-sub">基地：Pontresina → Zermatt（海拔 1,608m）｜ STP Day 5</div>
 
@@ -1839,6 +1866,7 @@
 </div><!-- /day-0621 -->
 
 <div id="day-0622" class="day-content">
+<img src="https://images.unsplash.com/photo-1498662718466-6988d7f473cc?w=800&q=80&fit=crop&crop=center" alt="Riffelsee 馬特洪峰湖面倒影" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="sec-title">6/22（日）· Riffelsee 倒影 + Gornergrat 3,089m + Stellisee</div>
   <div class="sec-sub">基地：Zermatt（海拔 1,608m）｜ STP Day 6</div>
 
@@ -1935,6 +1963,7 @@
   </div>
 </div><!-- /day-0622 -->
 <div id="day-0623" class="day-content">
+<img src="https://images.unsplash.com/photo-1585951619576-6e961950cb60?w=800&q=80&fit=crop&crop=center" alt="馬特洪峰 Zermatt 晨光" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/23</span>
@@ -1988,6 +2017,7 @@
 </div><!-- /day-0623 -->
 
 <div id="day-0624" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1526925528837-813a7961f5c7?w=800&q=80&fit=crop&crop=center" alt="Oeschinensee 土耳其藍高山湖，雪山環繞" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Oeschinensee · UNESCO 高山湖</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/24</span>
@@ -2058,6 +2088,7 @@
 </div><!-- /day-0624 -->
 
 <div id="day-0625" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=800&q=80&fit=crop&crop=center" alt="伯恩 Zytglogge 天文鐘樓老城街道" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Bern · Zytglogge 天文鐘樓</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/25</span>
@@ -2121,6 +2152,7 @@
 </div><!-- /day-0625 -->
 
 <div id="day-0626" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1531761535209-180857e963b9?w=800&q=80&fit=crop&crop=center" alt="Lauterbrunnen 瀑布山谷 Staubbach 直落" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Lauterbrunnen · 72 道瀑布山谷</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/26</span>
@@ -2186,6 +2218,7 @@
 </div><!-- /day-0626 -->
 
 <div id="day-0627" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=800&q=80&fit=crop&crop=center" alt="琉森 Kapellbrücke 卡貝爾橋與水塔" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Lucerne · Kapellbrücke 卡貝爾橋</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/27</span>
@@ -2249,6 +2282,7 @@
 </div><!-- /day-0627 -->
 
 <div id="day-0628" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1590309284223-3946577eb10e?w=800&q=80&fit=crop&crop=center" alt="瑞吉山 Rigi Kulm 山頂 360° 四湖全景" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Rigi · 1797m 四湖全景</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/28</span>
@@ -2318,6 +2352,7 @@
 </div><!-- /day-0628 -->
 
 <div id="day-0629" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=800&q=80&fit=crop&crop=center" alt="蘇黎世老城 Limmat 河岸 Grossmünster 雙塔" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Zürich · 林登霍夫俯瞰老城</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/29</span>
@@ -2385,6 +2420,7 @@
 </div><!-- /day-0629 -->
 
 <div id="day-0630" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&q=80&fit=crop&crop=center" alt="萊茵瀑布 Rheinfall 歐洲最大流量瀑布" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Rheinfall · 歐洲最大流量瀑布</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/30</span>
@@ -2462,6 +2498,7 @@
 </div><!-- /day-0630 -->
 
 <div id="day-0701" class="day-content">
+  <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80&fit=crop&crop=center" alt="蘇黎世機場 Flughafen Zürich 出發大廳" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">ZRH · 蘇黎世機場 — 返台</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
       <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">7/1</span>
@@ -2553,6 +2590,7 @@
 
   <!-- 飯店 1 -->
   <div class="hotel-card reveal">
+    <img src="https://images.unsplash.com/photo-1540339832862-474599807836?w=600&q=80&fit=crop&crop=center" alt="Trip Inn Jet Hotel Kloten" class="hotel-hero-img" loading="lazy" onerror="this.style.display='none'">
     <div class="hotel-name">Trip Inn Jet Hotel Kloten</div>
     <div class="hotel-dates">6/16（日）入住 · 6/17（一）退房　1 晚</div>
     <div class="hotel-tags">
@@ -2567,6 +2605,7 @@
 
   <!-- 飯店 2 -->
   <div class="hotel-card reveal">
+    <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&q=80&fit=crop&crop=center" alt="Sunstar Hotel Pontresina" class="hotel-hero-img" loading="lazy" onerror="this.style.display='none'">
     <div class="hotel-name">Sunstar Hotel Pontresina</div>
     <div class="hotel-dates">6/17（一）入住 · 6/21（五）退房　4 晚</div>
     <div class="hotel-tags">
@@ -2584,6 +2623,7 @@
 
   <!-- 飯店 3 -->
   <div class="hotel-card reveal">
+    <img src="https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?w=600&q=80&fit=crop&crop=center" alt="Chalet Achat Zermatt" class="hotel-hero-img" loading="lazy" onerror="this.style.display='none'">
     <div class="hotel-name">Chalet Achat Zermatt</div>
     <div class="hotel-dates">6/21（五）入住 · 6/24（二）退房　3 晚</div>
     <div class="hotel-tags">
@@ -2598,6 +2638,7 @@
 
   <!-- 飯店 4 -->
   <div class="hotel-card reveal" style="border-left:3px solid var(--accent);">
+    <img src="https://images.unsplash.com/photo-1527668752968-14dc70a27c95?w=600&q=80&fit=crop&crop=center" alt="Swissôtel Kursaal Bern" class="hotel-hero-img" loading="lazy" onerror="this.style.display='none'">
     <div class="hotel-name">Swissôtel Kursaal Bern</div>
     <div class="hotel-dates">6/24（二）入住 · 6/26（四）退房　2 晚</div>
     <div class="hotel-tags">
@@ -2613,6 +2654,7 @@
 
   <!-- 飯店 5 -->
   <div class="hotel-card reveal">
+    <img src="https://images.unsplash.com/photo-1528493366314-e317cd98dd52?w=600&q=80&fit=crop&crop=center" alt="Hotel Zugertor, Zug" class="hotel-hero-img" loading="lazy" onerror="this.style.display='none'">
     <div class="hotel-name">Hotel Zugertor, Zug</div>
     <div class="hotel-dates">6/26（四）入住 · 6/29（日）退房　3 晚</div>
     <div class="hotel-tags">
@@ -2626,6 +2668,7 @@
 
   <!-- 飯店 6 -->
   <div class="hotel-card reveal">
+    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80&fit=crop&crop=center" alt="Ibis Budget Zürich Airport" class="hotel-hero-img" loading="lazy" onerror="this.style.display='none'">
     <div class="hotel-name">Ibis Budget Zürich Airport</div>
     <div class="hotel-dates">6/29（日）入住 · 7/1（二）出發　2 晚</div>
     <div class="hotel-tags">
