@@ -987,6 +987,31 @@
       display: block;
       background: var(--border);
     }
+    /* 飯店小地圖 */
+    .hotel-map-wrap {
+      margin-top: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 150px;
+      border: 1px solid var(--border);
+    }
+    .hotel-map-wrap iframe {
+      width: 100%;
+      height: 150px;
+      border: 0;
+      display: block;
+    }
+    /* 桌機版：限寬置中，讓網站在電腦上看起來像手機 App */
+    @media (min-width: 600px) {
+      html, body { background: #DDD8D0; }
+      #app {
+        max-width: 480px;
+        margin: 0 auto;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        box-shadow: 0 0 60px rgba(0,0,0,0.10);
+      }
+    }
   </style>
 </head>
 <body>
@@ -2599,6 +2624,9 @@
       <a href="https://maps.google.com/?q=Trip+Inn+Jet+Hotel+Kloten" target="_blank" class="hotel-nav-btn">📍 地圖導航</a>
       <a href="tel:+41449142929" class="hotel-nav-btn sec">📞 電話</a>
     </div>
+    <div class="hotel-map-wrap">
+      <iframe src="https://maps.google.com/maps?q=Trip+Inn+Jet+Hotel+Kloten&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </div>
 
   <!-- 飯店 2 -->
@@ -2617,6 +2645,9 @@
       <a href="https://maps.google.com/?q=Sunstar+Hotel+Pontresina,+Via+Fulluns+6,+Pontresina" target="_blank" class="hotel-nav-btn">📍 地圖導航</a>
       <a href="tel:+41818390000" class="hotel-nav-btn sec">📞 電話</a>
     </div>
+    <div class="hotel-map-wrap">
+      <iframe src="https://maps.google.com/maps?q=Sunstar+Hotel+Pontresina+Via+Fulluns+6&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </div>
 
   <!-- 飯店 3 -->
@@ -2631,6 +2662,9 @@
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <a href="https://maps.google.com/?q=Chalet+Achat+Zermatt" target="_blank" class="hotel-nav-btn">📍 地圖導航</a>
+    </div>
+    <div class="hotel-map-wrap">
+      <iframe src="https://maps.google.com/maps?q=Chalet+Achat+Zermatt+Switzerland&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 
@@ -2648,6 +2682,9 @@
       <a href="https://maps.google.com/?q=Swissôtel+Kursaal+Bern" target="_blank" class="hotel-nav-btn">📍 地圖導航</a>
       <a href="tel:+41313398585" class="hotel-nav-btn sec">📞 電話</a>
     </div>
+    <div class="hotel-map-wrap">
+      <iframe src="https://maps.google.com/maps?q=Swissôtel+Kursaal+Bern+Switzerland&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </div>
 
   <!-- 飯店 5 -->
@@ -2661,6 +2698,9 @@
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <a href="https://maps.google.com/?q=Hotel+Zugertor+Zug" target="_blank" class="hotel-nav-btn">📍 地圖導航</a>
+    </div>
+    <div class="hotel-map-wrap">
+      <iframe src="https://maps.google.com/maps?q=Hotel+Zugertor+Zug+Switzerland&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 
@@ -2676,6 +2716,9 @@
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <a href="https://maps.google.com/?q=Ibis+Budget+Zurich+Airport" target="_blank" class="hotel-nav-btn">📍 地圖導航</a>
+    </div>
+    <div class="hotel-map-wrap">
+      <iframe src="https://maps.google.com/maps?q=Ibis+Budget+Zurich+Airport&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 
@@ -5935,7 +5978,7 @@
     <div class="photo-grid" id="photo-grid" aria-label="瑞士景色相片牆">
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="Riffelsee — 馬特洪峰倒影" tabindex="0" role="button" aria-label="Riffelsee 馬特洪峰倒影，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1595923941716-39a9c58a9661?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1706953608349-4333b9707277?w=400&q=75&fit=crop"
              alt="Riffelsee 馬特洪峰倒影" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -5949,7 +5992,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="waterfall" data-caption="Lauterbrunnen — 瀑布峽谷" tabindex="0" role="button" aria-label="Lauterbrunnen 瀑布峽谷，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1630009574406-a9b21b77c015?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1544986588-da9de4fb3021?w=400&q=75&fit=crop"
              alt="Lauterbrunnen 瀑布峽谷" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -5963,7 +6006,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="train" data-caption="Brusio 螺旋橋 — 伯尼納快車" tabindex="0" role="button" aria-label="Brusio 螺旋橋，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1553670590-f58a6135f69e?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1514970746-d4a465d514d0?w=400&q=75&fit=crop"
              alt="Brusio 螺旋橋 伯尼納快車" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -5977,7 +6020,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="Stellisee — 馬特洪峰靜湖倒影" tabindex="0" role="button" aria-label="Stellisee 倒影，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1662553897502-e056c6fd2e51?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1674071433045-5bc9d67e7acd?w=400&q=75&fit=crop"
              alt="Stellisee 馬特洪峰靜湖倒影" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -5991,7 +6034,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="琉森 — 藍調時刻" tabindex="0" role="button" aria-label="琉森藍調時刻，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1745266550547-d3a6130ab32a?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1606245387731-f94ca65a7577?w=400&q=75&fit=crop"
              alt="琉森藍調時刻夜景" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6005,7 +6048,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="wedding" data-caption="Schwarzsee — 婚紗取景地" tabindex="0" role="button" aria-label="Schwarzsee 婚紗，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1658244909731-ec8479854111?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1592784912074-8e31f7076cf3?w=400&q=75&fit=crop"
              alt="Schwarzsee 婚紗攝影" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6019,7 +6062,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="Oeschinensee — 土耳其藍冰川湖" tabindex="0" role="button" aria-label="Oeschinensee 冰川湖，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1610652259354-447c4947fdd0?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1526925528837-813a7961f5c7?w=400&q=75&fit=crop"
              alt="Oeschinensee 土耳其藍冰川湖" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6033,7 +6076,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="train" data-caption="Ospizio Bernina — 伯尼納隘口鐵道" tabindex="0" role="button" aria-label="Ospizio Bernina 鐵道，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1513896188778-dad7fe44a483?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1578764442423-c21d36076af1?w=400&q=75&fit=crop"
              alt="Ospizio Bernina 伯尼納隘口鐵道" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6047,7 +6090,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="Pontresina — 恩加丁山谷" tabindex="0" role="button" aria-label="Pontresina 山谷，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1736443750417-4a91d3442c97?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1597256915387-05ce39ef9523?w=400&q=75&fit=crop"
              alt="Pontresina 恩加丁山谷景色" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6061,7 +6104,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="瑞士高山全景" tabindex="0" role="button" aria-label="瑞士高山全景，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1509738098174-4002778183da?w=400&q=75&fit=crop"
              alt="瑞士高山全景" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6075,7 +6118,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="阿爾卑斯雪山晨光" tabindex="0" role="button" aria-label="阿爾卑斯雪山，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1499107233766-802c13d18cf7?w=400&q=75&fit=crop"
              alt="阿爾卑斯雪山晨光" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
@@ -6089,7 +6132,7 @@
       </div>
 
       <div class="photo-item reveal" data-cat="landscape" data-caption="瑞士湖泊靜景" tabindex="0" role="button" aria-label="瑞士湖泊，點擊預覽">
-        <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&q=75&fit=crop"
+        <img src="https://images.unsplash.com/photo-1497248334324-7b83c4aacee8?w=400&q=75&fit=crop"
              alt="瑞士湖泊靜景" loading="lazy"
              onload="this.classList.add('loaded')"
              onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
