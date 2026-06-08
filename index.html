@@ -1337,7 +1337,7 @@ details.chk-section[open] > summary {
 }
 .bottom-nav-inner {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   height: var(--bot-nav-h);
 }
 .bnav-btn {
@@ -3519,6 +3519,155 @@ body.dark-mode .rbook-urgency.ru-hot  { background: #3B1515; color: #FCA5A5; }
 body.dark-mode .rbook-urgency.ru-warn { background: #331B05; color: #FCD34D; }
 body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
 
+/* ═══════════════════════════════════════
+   地圖速查 Tab
+═══════════════════════════════════════ */
+#tab-mapquery {
+  padding: 0;
+  --pine:       #2F6B4F;
+  --pine-light: #3D8A64;
+  --pine-dark:  #1E4A35;
+  --gold:       #B8841F;
+  --gold-light: #D4A040;
+  --paper:      #FBF8F2;
+  --paper-dark: #F0EBE1;
+  --ink:        #1C1A16;
+  --ink-mid:    #3D3A34;
+  --ink-soft:   #6B6660;
+  --border:     #D9D2C5;
+}
+body.dark-mode #tab-mapquery {
+  --pine:       #4CAF7A;
+  --pine-dark:  #2A6B4E;
+  --paper:      #1C1A16;
+  --paper-dark: #252320;
+  --ink:        #EAE7E2;
+  --ink-mid:    #A8A4A0;
+  --ink-soft:   #706E6A;
+  --border:     #3A3830;
+}
+#tab-mapquery .mq-tabs {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  padding: 12px 16px 10px;
+  background: var(--pine-dark);
+  margin: -16px -16px 0;
+}
+#tab-mapquery .mq-tab-btn {
+  padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: transparent; color: rgba(255,255,255,0.8);
+  font-size: 0.78rem; font-weight: 500; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; gap: 5px;
+}
+#tab-mapquery .mq-tab-btn:hover { background: rgba(255,255,255,0.1); }
+#tab-mapquery .mq-tab-btn.active { background: #fff; color: var(--pine-dark); border-color: #fff; font-weight: 600; }
+#tab-mapquery .mq-tab-dot { width: 8px; height: 8px; border-radius: 50%; }
+#tab-mapquery .mq-content { padding: 20px 0 48px; }
+#tab-mapquery .mq-quick-links {
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 20px;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+}
+#tab-mapquery .mq-quick-links-label {
+  font-size: 0.75rem; font-weight: 600; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: 0.08em; width: 100%; margin-bottom: 2px;
+}
+#tab-mapquery .mq-city-chip {
+  padding: 4px 12px; border-radius: 20px;
+  background: var(--paper-dark); border: 1px solid var(--border);
+  font-size: 0.78rem; font-weight: 500; cursor: pointer;
+  text-decoration: none; color: var(--ink-mid); transition: all 0.15s;
+}
+#tab-mapquery .mq-city-chip:hover { background: var(--pine); color: #fff; border-color: var(--pine); }
+#tab-mapquery .mq-sec { margin-bottom: 28px; display: none; }
+#tab-mapquery .mq-sec-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  padding-bottom: 8px; border-bottom: 2px solid var(--border);
+}
+#tab-mapquery .mq-sec-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+}
+#tab-mapquery .mq-sec-title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--ink); }
+#tab-mapquery .mq-sec-count {
+  margin-left: auto; font-size: 0.75rem; color: var(--ink-soft);
+  background: var(--paper-dark); padding: 2px 10px; border-radius: 12px;
+}
+#tab-mapquery .mq-city-group { margin-bottom: 20px; }
+#tab-mapquery .mq-city-label {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 8px; padding-left: 4px;
+}
+#tab-mapquery .mq-city-label span { background: var(--paper-dark); padding: 2px 10px; border-radius: 4px; }
+#tab-mapquery .mq-places-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px;
+}
+#tab-mapquery .mq-place-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 13px 14px; display: flex; flex-direction: column; gap: 6px;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+#tab-mapquery .mq-place-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+#tab-mapquery .mq-place-top { display: flex; align-items: flex-start; gap: 8px; }
+#tab-mapquery .mq-type-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+#tab-mapquery .mq-name-zh { font-weight: 600; font-size: 0.9rem; color: var(--ink); line-height: 1.3; }
+#tab-mapquery .mq-name-en { font-size: 0.75rem; color: var(--ink-soft); margin-top: 1px; }
+#tab-mapquery .mq-meta { display: flex; flex-wrap: wrap; gap: 4px; padding-left: 18px; }
+#tab-mapquery .mq-tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+#tab-mapquery .mq-tag-date { background: #EFF6FF; color: #1D4ED8; }
+#tab-mapquery .mq-tag-note { background: #FEF3C7; color: #92400E; }
+#tab-mapquery .mq-tag-caution { background: #FEE2E2; color: #991B1B; }
+#tab-mapquery .mq-tag-book { background: #F0FDF4; color: #166534; }
+body.dark-mode #tab-mapquery .mq-place-card  { background: #252320; border-color: #3A3830; }
+body.dark-mode #tab-mapquery .mq-tag-date    { background: #0C1A35; color: #93C5FD; }
+body.dark-mode #tab-mapquery .mq-tag-note    { background: #201C14; color: #FCD34D; }
+body.dark-mode #tab-mapquery .mq-tag-caution { background: #261E1E; color: #FCA5A5; }
+body.dark-mode #tab-mapquery .mq-tag-book    { background: #052E16; color: #6EE7B7; }
+#tab-mapquery .mq-actions { display: flex; gap: 6px; padding-left: 18px; margin-top: 2px; flex-wrap: wrap; }
+#tab-mapquery .mq-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 11px; border-radius: 8px; font-size: 0.75rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; border: none; transition: all 0.15s;
+}
+#tab-mapquery .mq-btn-primary { background: var(--pine); color: #fff; }
+#tab-mapquery .mq-btn-primary:hover { background: var(--pine-light); }
+#tab-mapquery .mq-btn-secondary { background: var(--paper-dark); color: var(--ink-mid); border: 1px solid var(--border); }
+#tab-mapquery .mq-btn-secondary:hover { background: var(--border); }
+body.dark-mode #tab-mapquery .mq-btn-secondary { background: #1C1A16; }
+#tab-mapquery .mq-banner {
+  background: linear-gradient(135deg, var(--pine-dark) 0%, #1a5c3f 100%);
+  border-radius: 16px; padding: 20px 22px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+#tab-mapquery .mq-banner-icon { font-size: 2rem; flex-shrink: 0; }
+#tab-mapquery .mq-banner-text h2 { font-family: var(--font-serif); color: #fff; font-size: 1.1rem; margin-bottom: 4px; }
+#tab-mapquery .mq-banner-text p { color: rgba(255,255,255,0.75); font-size: 0.82rem; line-height: 1.5; }
+#tab-mapquery .mq-banner-btns { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+#tab-mapquery .mq-banner-btn {
+  padding: 9px 18px; border-radius: 10px; font-size: 0.82rem; font-weight: 600;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+  cursor: pointer; border: none; transition: all 0.15s; white-space: nowrap;
+}
+#tab-mapquery .mq-banner-btn-white { background: #fff; color: var(--pine-dark); }
+#tab-mapquery .mq-banner-btn-white:hover { background: #f0f0f0; }
+#tab-mapquery .mq-banner-btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+#tab-mapquery .mq-banner-btn-outline:hover { background: rgba(255,255,255,0.1); }
+#tab-mapquery .mq-legend {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
+  padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+}
+body.dark-mode #tab-mapquery .mq-legend { background: #252320; }
+#tab-mapquery .mq-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--ink-mid); }
+#tab-mapquery .mq-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+#tab-mapquery .mq-footer-note {
+  margin-top: 32px; padding: 16px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; font-size: 0.78rem; color: var(--ink-soft); line-height: 1.7;
+}
+@media (max-width: 600px) {
+  #tab-mapquery .mq-places-grid { grid-template-columns: 1fr; }
+  #tab-mapquery .mq-banner-btns { margin-left: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -3608,6 +3757,7 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     <button class="tnav-btn"        onclick="showTab('budget',this)">💰 費用預算</button>
     <button class="tnav-btn"        onclick="showTab('photo',this)">📸 攝影指南</button>
     <button class="tnav-btn"        onclick="showTab('reminders',this)">💌 重要提醒</button>
+    <button class="tnav-btn"        onclick="showTab('mapquery',this)">📍 地圖速查</button>
   </div>
 </nav>
 
@@ -7273,6 +7423,758 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     </div>
   </div>
 
+  <!-- 地圖速查 -->
+  <div id="tab-mapquery" class="section">
+    <div class="sec-title">地圖速查</div>
+
+    <!-- 分類篩選 -->
+    <div class="mq-tabs">
+      <button class="mq-tab-btn active" onclick="mqShowSection('all')" id="mq-tab-all">
+        <span class="mq-tab-dot" style="background:#fff"></span>全部
+      </button>
+      <button class="mq-tab-btn" onclick="mqShowSection('hotel')" id="mq-tab-hotel">
+        <span class="mq-tab-dot" style="background:#60A5FA"></span>🏨 住宿（6）
+      </button>
+      <button class="mq-tab-btn" onclick="mqShowSection('restaurant')" id="mq-tab-restaurant">
+        <span class="mq-tab-dot" style="background:#F87171"></span>🍽 餐廳（13）
+      </button>
+      <button class="mq-tab-btn" onclick="mqShowSection('station')" id="mq-tab-station">
+        <span class="mq-tab-dot" style="background:#A78BFA"></span>🚉 車站（8）
+      </button>
+      <button class="mq-tab-btn" onclick="mqShowSection('photo')" id="mq-tab-photo">
+        <span class="mq-tab-dot" style="background:#34D399"></span>📸 景點（22）
+      </button>
+    </div>
+
+    <div class="mq-content">
+
+      <!-- Google Maps 城市快捷 -->
+      <div class="mq-banner">
+        <div class="mq-banner-icon">🌍</div>
+        <div class="mq-banner-text">
+          <h2>在 Google 地圖上查看所有地點</h2>
+          <p>點下方按鈕開城市地圖，或點各地點卡片的「📍 開地圖」確認位置。</p>
+        </div>
+        <div class="mq-banner-btns">
+          <a class="mq-banner-btn mq-banner-btn-white" href="https://www.google.com/maps/search/Pontresina+Switzerland" target="_blank">📍 Pontresina</a>
+          <a class="mq-banner-btn mq-banner-btn-white" href="https://www.google.com/maps/search/Zermatt+Switzerland" target="_blank">📍 Zermatt</a>
+          <a class="mq-banner-btn mq-banner-btn-outline" href="https://www.google.com/maps/search/Bern+Switzerland" target="_blank">📍 Bern</a>
+          <a class="mq-banner-btn mq-banner-btn-outline" href="https://www.google.com/maps/search/Luzern+Switzerland" target="_blank">📍 Luzern</a>
+          <a class="mq-banner-btn mq-banner-btn-outline" href="https://www.google.com/maps/search/Zug+Switzerland" target="_blank">📍 Zug</a>
+        </div>
+      </div>
+
+      <!-- 圖例 -->
+      <div class="mq-legend">
+        <div class="mq-legend-item"><div class="mq-legend-dot" style="background:#2563EB"></div>住宿</div>
+        <div class="mq-legend-item"><div class="mq-legend-dot" style="background:#DC2626"></div>餐廳（需訂位）</div>
+        <div class="mq-legend-item"><div class="mq-legend-dot" style="background:#F97316"></div>餐廳（免訂位）</div>
+        <div class="mq-legend-item"><div class="mq-legend-dot" style="background:#7C3AED"></div>車站</div>
+        <div class="mq-legend-item"><div class="mq-legend-dot" style="background:#059669"></div>景點／攝影點</div>
+        <div style="flex:1"></div>
+        <div style="font-size:0.72rem;color:#888">⚠️ 位置請在 Maps 確認後再導航</div>
+      </div>
+
+      <!-- 城市快捷跳轉 -->
+      <div class="mq-quick-links">
+        <div class="mq-quick-links-label">跳至城市</div>
+        <a class="mq-city-chip" href="#mq-pontresina">Pontresina（6/17–21）</a>
+        <a class="mq-city-chip" href="#mq-zermatt">Zermatt（6/21–24）</a>
+        <a class="mq-city-chip" href="#mq-kandersteg">Kandersteg（6/24）</a>
+        <a class="mq-city-chip" href="#mq-bern">Bern（6/24–27）</a>
+        <a class="mq-city-chip" href="#mq-luzern-zug">Luzern / Zug（6/27–7/1）</a>
+        <a class="mq-city-chip" href="#mq-zurich">Zürich（7/1 飛）</a>
+      </div>
+
+      <!-- ══ 住宿 ══ -->
+      <div class="mq-sec" id="mq-sec-hotel" style="display:block">
+        <div class="mq-sec-header">
+          <div class="mq-sec-icon" style="background:#DBEAFE">🏨</div>
+          <div class="mq-sec-title">住宿</div>
+          <div class="mq-sec-count">6 間</div>
+        </div>
+
+        <div class="mq-city-group" id="mq-pontresina">
+          <div class="mq-city-label"><span>Pontresina ✦ 6/17–21（4晚）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#2563EB"></div>
+                <div><div class="mq-name-zh">Sunstar Hotel Pontresina</div><div class="mq-name-en">Via Fulluns 6, 7504 Pontresina</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">6/17 入住 · 6/21 退房</span>
+                <span class="mq-tag mq-tag-note">含早餐 · Engadin Card</span>
+                <span class="mq-tag mq-tag-caution">無法取消・已付清</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Sunstar+Hotel+Pontresina" target="_blank">📍 開地圖</a>
+                <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Sunstar+Hotel+Pontresina+Via+Fulluns+6+Pontresina" target="_blank">🧭 導航</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group" id="mq-pontresina-arrival">
+          <div class="mq-city-label"><span>Zürich Airport ✦ 6/16 抵台後當晚</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#2563EB"></div>
+                <div><div class="mq-name-zh">Trip Inn Jet Hotel（Kloten）</div><div class="mq-name-en">Trip Inn Jet Hotel Kloten</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">6/16 入住 · 6/17 退房</span>
+                <span class="mq-tag mq-tag-note">機場附近 · 免接駁</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Trip+Inn+Jet+Hotel+Kloten+Zurich" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group" id="mq-zermatt">
+          <div class="mq-city-label"><span>Zermatt ✦ 6/21–24（3晚）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#2563EB"></div>
+                <div><div class="mq-name-zh">Chalet Achat Zermatt</div><div class="mq-name-en">Chalet Achat Zermatt</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">6/21 入住 · 6/24 退房</span>
+                <span class="mq-tag mq-tag-note">含早餐 · 策馬特市中心</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Chalet+Achat+Zermatt" target="_blank">📍 開地圖</a>
+                <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Chalet+Achat+Zermatt" target="_blank">🧭 導航</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group" id="mq-bern">
+          <div class="mq-city-label"><span>Bern ✦ 6/24–27（3晚）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#2563EB"></div>
+                <div><div class="mq-name-zh">Swissôtel Kursaal Bern</div><div class="mq-name-en">Swissôtel Kursaal Bern</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">6/24 入住 · 6/27 退房</span>
+                <span class="mq-tag mq-tag-note">含早餐 · 市中心</span>
+                <span class="mq-tag mq-tag-caution">⚠️ 取消期限=抵達當天，速確認展延</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Swissôtel+Kursaal+Bern" target="_blank">📍 開地圖</a>
+                <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Swissôtel+Kursaal+Bern" target="_blank">🧭 導航</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group" id="mq-luzern-zug">
+          <div class="mq-city-label"><span>Zug ✦ 6/27–7/1（4晚）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#2563EB"></div>
+                <div><div class="mq-name-zh">Hotel Zugertor</div><div class="mq-name-en">Hotel Zugertor Zug</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">6/27 入住 · 7/1 退房</span>
+                <span class="mq-tag mq-tag-note">含早餐 · 楚格舊城</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Hotel+Zugertor+Zug+Switzerland" target="_blank">📍 開地圖</a>
+                <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Hotel+Zugertor+Zug" target="_blank">🧭 導航</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group" id="mq-zurich">
+          <div class="mq-city-label"><span>Zürich Airport ✦ 7/1 出發前</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#2563EB"></div>
+                <div><div class="mq-name-zh">ibis Budget Zürich Airport</div><div class="mq-name-en">ibis Budget Zürich Airport</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">7/1 行李寄放用</span>
+                <span class="mq-tag mq-tag-note">機場步行可達</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=ibis+Budget+Zurich+Airport" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /mq-sec-hotel -->
+
+      <!-- ══ 餐廳 ══ -->
+      <div class="mq-sec" id="mq-sec-restaurant" style="display:block">
+        <div class="mq-sec-header">
+          <div class="mq-sec-icon" style="background:#FEE2E2">🍽</div>
+          <div class="mq-sec-title">餐廳</div>
+          <div class="mq-sec-count">蜜月訂位 4 ✦ 平價免訂 9</div>
+        </div>
+
+        <div class="mq-city-label" style="margin-bottom:10px"><span>⭐ 蜜月特餐（建議提前訂位）</span></div>
+        <div class="mq-places-grid" style="margin-bottom:20px">
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#DC2626"></div>
+              <div><div class="mq-name-zh">Fex Valley 馬車晚餐 / Coretti</div><div class="mq-name-en">Fex Valley Carriage Ride · Restaurant Coretti</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/20（Pontresina）</span>
+              <span class="mq-tag mq-tag-caution">務必預約馬車！</span>
+              <span class="mq-tag mq-tag-book">蜜月必體驗</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Fex+Valley+Sils-Maria+Switzerland" target="_blank">📍 Fex Valley</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Coretti+Sils-Maria" target="_blank">📍 Coretti</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#DC2626"></div>
+              <div><div class="mq-name-zh">Restaurant Schäferstube</div><div class="mq-name-en">Restaurant Schäferstube Zermatt</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/22–23（Zermatt）</span>
+              <span class="mq-tag mq-tag-note">傳統瑞士料理 · 火鍋/起士鍋</span>
+              <span class="mq-tag mq-tag-book">建議訂位</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Schäferstube+Zermatt" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Restaurant+Schäferstube+Zermatt" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#DC2626"></div>
+              <div><div class="mq-name-zh">Altes Tramdepot</div><div class="mq-name-en">Altes Tramdepot Bern</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/25–26（Bern）</span>
+              <span class="mq-tag mq-tag-note">老電車廠改建精釀啤酒餐廳</span>
+              <span class="mq-tag mq-tag-book">建議訂位（尤其週末）</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Altes+Tramdepot+Bern" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Altes+Tramdepot+Bern" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#DC2626"></div>
+              <div><div class="mq-name-zh">Quai 61</div><div class="mq-name-en">Quai 61 Zürich</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/29–30（Zug/Zürich）</span>
+              <span class="mq-tag mq-tag-note">蘇黎世湖畔 · 蜜月晚餐</span>
+              <span class="mq-tag mq-tag-book">強烈建議提前訂位</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Quai+61+Zürich" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Quai+61+Zürich" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mq-city-label" style="margin-bottom:10px"><span>💰 平價免訂位推薦</span></div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Pontresina（6/17–21）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Restaurant Station</div><div class="mq-name-en">Restaurant Station Pontresina</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">站旁 · 傳統瑞士菜 · ~CHF 25</span>
+                <span class="mq-tag mq-tag-book">免訂位</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Station+Pontresina" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Zermatt（6/21–24）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Brown Cow Pub</div><div class="mq-name-en">Brown Cow Pub Zermatt</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">英式酒吧 · 漢堡薯條 · ~CHF 22</span>
+                <span class="mq-tag mq-tag-book">免訂位</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Brown+Cow+Pub+Zermatt" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Riffelberg Restaurant</div><div class="mq-name-en">Riffelberg Restaurant（山上自助）</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-date">Gornergrat 途中</span>
+                <span class="mq-tag mq-tag-note">自助午餐 · 馬特洪峰景觀</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Riffelberg+Restaurant+Zermatt" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Bern（6/24–27）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Tramway</div><div class="mq-name-en">Restaurant Tramway Bern</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">伯恩學生常去 · ~CHF 20</span>
+                <span class="mq-tag mq-tag-book">免訂位</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Tramway+Bern" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Manora Bern（Manor 百貨頂樓）</div><div class="mq-name-en">Manora Self-Service Restaurant Bern</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">自助餐 · ~CHF 18 · 伯恩市中心</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Manora+Restaurant+Bern+Manor" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Luzern（6/26 過路）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Pastarazzi</div><div class="mq-name-en">Pastarazzi Luzern</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">義式麵食 · ~CHF 20</span>
+                <span class="mq-tag mq-tag-book">免訂位</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Pastarazzi+Luzern" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Zürich（7/1 出發前）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Sternen Grill</div><div class="mq-name-en">Sternen Grill Zürich</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">蘇黎世名物香腸攤 · ~CHF 10</span>
+                <span class="mq-tag mq-tag-book">站食免訂</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Sternen+Grill+Zürich" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top">
+                <div class="mq-type-dot" style="background:#F97316"></div>
+                <div><div class="mq-name-zh">Manora Zürich</div><div class="mq-name-en">Manora Self-Service Restaurant Zürich</div></div>
+              </div>
+              <div class="mq-meta">
+                <span class="mq-tag mq-tag-note">Jelmoli 百貨旁 · 自助餐 · ~CHF 18</span>
+              </div>
+              <div class="mq-actions">
+                <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Manora+Restaurant+Zürich" target="_blank">📍 開地圖</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /mq-sec-restaurant -->
+
+      <!-- ══ 車站 ══ -->
+      <div class="mq-sec" id="mq-sec-station" style="display:block">
+        <div class="mq-sec-header">
+          <div class="mq-sec-icon" style="background:#EDE9FE">🚉</div>
+          <div class="mq-sec-title">車站／機場</div>
+          <div class="mq-sec-count">8 處</div>
+        </div>
+        <div class="mq-places-grid">
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">蘇黎世機場 ZRH</div><div class="mq-name-en">Zürich Airport (ZRH)</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/16 抵達 · 7/1 出發</span>
+              <span class="mq-tag mq-tag-note">EK087→ZRH · EK086←ZRH</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Zürich+Airport+ZRH" target="_blank">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">Pontresina 火車站</div><div class="mq-name-en">Bahnhof Pontresina</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/17 抵達 · 6/21 出發（冰河列車）</span>
+              <span class="mq-tag mq-tag-note">STP 在此起用（6/17）</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Pontresina" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Bahnhof+Pontresina" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">Chur 火車站</div><div class="mq-name-en">Bahnhof Chur</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/21 冰河列車 PE907 起站</span>
+              <span class="mq-tag mq-tag-note">14:32 Chur → 20:07 Zermatt</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Chur+Switzerland" target="_blank">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">Zermatt 火車站</div><div class="mq-name-en">Bahnhof Zermatt</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/21 抵達 · 6/24 出發</span>
+              <span class="mq-tag mq-tag-note">Matterhorn Gotthard Bahn 終點</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Zermatt" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Bahnhof+Zermatt" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card" id="mq-kandersteg">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">Kandersteg 火車站</div><div class="mq-name-en">Bahnhof Kandersteg</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/24 Oeschinensee 出發點</span>
+              <span class="mq-tag mq-tag-note">Zermatt → Kandersteg → Bern</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Kandersteg+Switzerland" target="_blank">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">伯恩中央車站</div><div class="mq-name-en">Bern Hauptbahnhof (HB)</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/24 抵達 · 6/27 出發</span>
+              <span class="mq-tag mq-tag-note">老城中心 · 步行可達各景點</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bern+Hauptbahnhof" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Bern+Hauptbahnhof" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">Luzern 火車站</div><div class="mq-name-en">Bahnhof Luzern</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/26 中途點、6/28–29 日遊起點</span>
+              <span class="mq-tag mq-tag-note">Kapellbrücke 徒步 3 分鐘</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Luzern" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Bahnhof+Luzern" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+          <div class="mq-place-card">
+            <div class="mq-place-top">
+              <div class="mq-type-dot" style="background:#7C3AED"></div>
+              <div><div class="mq-name-zh">Zug 火車站</div><div class="mq-name-en">Bahnhof Zug</div></div>
+            </div>
+            <div class="mq-meta">
+              <span class="mq-tag mq-tag-date">6/27–7/1 住宿基地</span>
+              <span class="mq-tag mq-tag-note">Luzern/Zürich 20–30 分鐘</span>
+            </div>
+            <div class="mq-actions">
+              <a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Zug+Switzerland" target="_blank">📍 開地圖</a>
+              <a class="mq-btn mq-btn-secondary" href="https://www.google.com/maps/dir/?api=1&destination=Bahnhof+Zug+Switzerland" target="_blank">🧭 導航</a>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /mq-sec-station -->
+
+      <!-- ══ 景點 ══ -->
+      <div class="mq-sec" id="mq-sec-photo" style="display:block">
+        <div class="mq-sec-header">
+          <div class="mq-sec-icon" style="background:#D1FAE5">📸</div>
+          <div class="mq-sec-title">景點／攝影點</div>
+          <div class="mq-sec-count">22 處</div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Pontresina 周邊（6/17–21）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Muottas Muragl 展望台</div><div class="mq-name-en">Muottas Muragl Viewpoint</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">建議 6/17–18</span><span class="mq-tag mq-tag-note">纜車上山 · 恩加丁全景 · 日落黃金時段</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Muottas+Muragl+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Alp Languard</div><div class="mq-name-en">Alp Languard Pontresina</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">野花草原 · 鳥瞰 Pontresina</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Alp+Languard+Pontresina" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Diavolezza 冰川觀景台</div><div class="mq-name-en">Diavolezza Glacier Viewpoint</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">纜車上山 · Piz Bernina 壯景</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Diavolezza+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Lej da Staz（史塔茲湖）</div><div class="mq-name-en">Lej da Staz Lake</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">Pontresina 步行可達 · 倒影攝影</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Lej+da+Staz+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>伯尼納線沿途（6/19 Tirano 日遊）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Ospizio Bernina</div><div class="mq-name-en">Ospizio Bernina（2253m 最高站）</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">伯尼納線最高點 · 雪地景觀</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Ospizio+Bernina+station+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Alp Grüm</div><div class="mq-name-en">Alp Grüm Station</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">Poschiavo 谷地全景 · 餐廳有露台</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Alp+Grüm+station+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Brusio 螺旋橋</div><div class="mq-name-en">Brusio Spiral Viaduct</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">世界遺產 · 火車繞圈降坡奇觀</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Brusio+Circular+Viaduct+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Tirano（義大利）</div><div class="mq-name-en">Tirano, Italy</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/19 終點站</span><span class="mq-tag mq-tag-note">義式 Gelato · Basilica 教堂</span><span class="mq-tag mq-tag-caution">⚠️末班 16:41→返回</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Tirano+Italy" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>St. Moritz / Sils-Maria 周邊（6/20 日遊）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Corvatsch（科瓦其）3303m</div><div class="mq-name-en">Corvatsch Viewpoint</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">St. Moritz 最高纜車 · Silsersee 俯瞰</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Corvatsch+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Sils-Maria（席爾斯小村）</div><div class="mq-name-en">Sils-Maria Village</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">尼采故居 · 安靜小村 · Fex Valley 入口</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Sils-Maria+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Fex Valley（費克斯谷）</div><div class="mq-name-en">Fex Valley Engadin</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/20 馬車晚餐</span><span class="mq-tag mq-tag-caution">⚠️ 馬車務必提前預約</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Fex+Valley+Sils+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Silsersee（席爾斯湖）</div><div class="mq-name-en">Lake Sils / Silsersee</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">恩加丁最大湖 · 倒影攝影聖地</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Lake+Sils+Silsersee+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Zermatt 周邊（6/22–23）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Riffelsee（里費爾湖）</div><div class="mq-name-en">Riffelsee Lake</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">馬特洪峰倒影 · 攝影聖地 No.1</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Riffelsee+Zermatt" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Gornergrat 展望台（3089m）</div><div class="mq-name-en">Gornergrat Observatory</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">齒輪火車上山 · 29座4000m峰全景</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Gornergrat+Zermatt" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Stellisee（史泰利湖）</div><div class="mq-name-en">Stellisee Lake Zermatt</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">馬特洪峰倒影 · 比 Riffelsee 人少</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Stellisee+Zermatt+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Klein Matterhorn（3883m）</div><div class="mq-name-en">Klein Matterhorn / Matterhorn Glacier Paradise</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">歐洲最高纜車終點 · 冰宮 · 義大利邊境</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Klein+Matterhorn+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Schwarzsee（黑湖）</div><div class="mq-name-en">Schwarzsee Lake Zermatt</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">馬特洪峰最近距離 · 小教堂</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Schwarzsee+Zermatt" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Kandersteg（6/24 中途）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Oeschinensee（奧斯契能湖）</div><div class="mq-name-en">Oeschinensee UNESCO Lake</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">世界遺產 · 纜車上山 · 翡翠湖色</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Oeschinensee+Kandersteg+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Spiez 城堡</div><div class="mq-name-en">Schloss Spiez</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/24 彈性加點</span><span class="mq-tag mq-tag-note">通道湖畔中世紀古堡</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Schloss+Spiez+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Bern 老城（6/25–26）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">伯恩老城 Altstadt（世界遺產）</div><div class="mq-name-en">Bern Altstadt UNESCO Old Town</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">拱廊全長 6km · 中世紀噴泉</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bern+Altstadt+Old+Town" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Zytglogge 鐘樓</div><div class="mq-name-en">Zytglogge Clock Tower Bern</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">整點機械人偶表演 · 伯恩象徵</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Zytglogge+Bern" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">玫瑰園 Rosengarten</div><div class="mq-name-en">Rosengarten Bern</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">老城全景俯瞰 · 攝影點 · 免費入場</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Rosengarten+Bern" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Lauterbrunnen 瀑布谷</div><div class="mq-name-en">Lauterbrunnen Valley</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/26 日遊選項</span><span class="mq-tag mq-tag-note">72條瀑布 · Staubbach 瀑布</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Lauterbrunnen+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Luzern / Zug 周邊（6/27–7/1）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Kapellbrücke 教堂橋</div><div class="mq-name-en">Kapellbrücke Chapel Bridge Luzern</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">歐洲最古老木橋 · 琉森必拍</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Kapellbrücke+Luzern" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">瑞吉山 Mt. Rigi（1798m）</div><div class="mq-name-en">Rigi Kulm Viewpoint</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/28 日遊</span><span class="mq-tag mq-tag-note">「山中皇后」· STP 免費 · 日出攝影點</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Rigi+Kulm+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Tierpark Goldau</div><div class="mq-name-en">Tierpark Goldau Wildlife Park</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">野生動物園 · 瑞吉山途中 · 大棕熊</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Tierpark+Goldau+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mq-city-group">
+          <div class="mq-city-label"><span>Zürich（7/1 出發日）</span></div>
+          <div class="mq-places-grid">
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">林登霍夫山丘 Lindenhof</div><div class="mq-name-en">Lindenhof Zürich</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">免費城市制高點 · 小阿爾斯特河景</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Lindenhof+Zürich" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">班霍夫大街 Bahnhofstrasse</div><div class="mq-name-en">Bahnhofstrasse Zürich</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-note">精品購物街 · 蘇黎世湖尾端廣場</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Bahnhofstrasse+Zürich" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">萊茵瀑布 Rheinfall</div><div class="mq-name-en">Rheinfall Schaffhausen</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/29–30 日遊選項</span><span class="mq-tag mq-tag-note">歐洲最大水量瀑布 · 乘船近距離</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Rheinfall+Schaffhausen+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+            <div class="mq-place-card">
+              <div class="mq-place-top"><div class="mq-type-dot" style="background:#059669"></div><div><div class="mq-name-zh">Stein am Rhein</div><div class="mq-name-en">Stein am Rhein</div></div></div>
+              <div class="mq-meta"><span class="mq-tag mq-tag-date">6/29–30 日遊選項</span><span class="mq-tag mq-tag-note">彩繪外牆建築 · 中世紀古城</span></div>
+              <div class="mq-actions"><a class="mq-btn mq-btn-primary" href="https://www.google.com/maps/search/?api=1&query=Stein+am+Rhein+Switzerland" target="_blank">📍 開地圖</a></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /mq-sec-photo -->
+
+      <!-- 使用說明 -->
+      <div class="mq-footer-note">
+        <strong style="color:var(--ink)">使用說明</strong><br>
+        • 點「📍 開地圖」→ Google Maps 搜尋確認位置正確後，可加入「想去的地方」或開始導航<br>
+        • 山區景點（Diavolezza、Corvatsch 等）以景點名稱搜尋即可，Maps 會顯示正確位置<br>
+        • 車站請以「Bahnhof ＋城市名」搜尋最準確<br>
+        • ⚠️ 標記位置僅供確認用，實際導航前請在 Maps 中確認標記正確
+      </div>
+
+    </div><!-- /mq-content -->
+  </div><!-- /tab-mapquery -->
+
 </main>
 
 <!-- ══ DARK MODE TOGGLE ══ -->
@@ -7336,6 +8238,9 @@ body.dark-mode .rbook-urgency.ru-ok   { background: #052E16; color: #6EE7B7; }
     <button class="bnav-btn" onclick="showTab('reminders',this)">
       <span class="bn-icon">💌</span><span>提醒</span>
       <span class="bnav-badge" id="predepBadge" style="display:none"></span>
+    </button>
+    <button class="bnav-btn" onclick="showTab('mapquery',this)">
+      <span class="bn-icon">📍</span><span>地圖</span>
     </button>
   </div>
 </nav>
@@ -12385,6 +13290,24 @@ window.togglePhotoLayer = (function() {
   update();
   setInterval(update, 60000);
 })();
+
+/* ── 地圖速查 分類篩選 ── */
+function mqShowSection(type) {
+  document.querySelectorAll('#tab-mapquery .mq-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.getElementById('mq-tab-' + type);
+  if (btn) btn.classList.add('active');
+  var secMap = { hotel:'mq-sec-hotel', restaurant:'mq-sec-restaurant', station:'mq-sec-station', photo:'mq-sec-photo' };
+  var all = Object.values(secMap);
+  if (type === 'all') {
+    all.forEach(function(id){ var el=document.getElementById(id); if(el) el.style.display='block'; });
+  } else {
+    all.forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = (id === secMap[type]) ? 'block' : 'none';
+    });
+  }
+}
 </script>
 
 </body>
