@@ -322,38 +322,85 @@
     .tl-body p { margin: 2px 0; }
 
     /* =============================================
-       倒數計時
+       倒數計時 / 旅程進度（MUJI 極簡風）
        ============================================= */
-    .cd-wrap {
+    .cd-muji-inner {
       display: flex;
-      gap: 8px;
+      align-items: flex-end;
       justify-content: center;
-      margin: 16px 0;
+      padding: 14px 0 18px;
     }
-    .cd-cell {
+    .cd-muji-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 60px;
-      padding: 12px 8px 10px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      min-width: 54px;
     }
-    .cd-num {
+    .cd-muji-num {
       font-family: 'Noto Serif JP', serif;
-      font-size: 32px;
-      font-weight: 400;
+      font-size: 42px;
+      font-weight: 300;
       font-variant-numeric: tabular-nums;
-      color: var(--accent);
+      color: var(--text);
       line-height: 1;
+      letter-spacing: -0.01em;
     }
-    .cd-lbl {
-      font-size: 9px;
+    .cd-muji-unit {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--text3);
+      margin-top: 7px;
+      text-transform: uppercase;
+    }
+    .cd-muji-dot {
+      font-size: 26px;
+      font-weight: 200;
+      color: var(--border);
+      padding: 0 3px;
+      margin-bottom: 19px;
+      line-height: 1;
+      user-select: none;
+    }
+    /* 旅程格子進度條 */
+    .trip-progress-inner { padding: 12px 0 10px; }
+    .trip-day-label {
+      font-size: 10px;
       letter-spacing: 0.2em;
       color: var(--text3);
-      margin-top: 5px;
       text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .trip-day-label strong {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: none;
+    }
+    .trip-day-grid {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .trip-dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 2px;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.4s ease;
+    }
+    .trip-dot.done  { background: var(--tea); opacity: 0.55; }
+    .trip-dot.today { background: var(--accent); opacity: 1; }
+    .trip-done-label {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text2);
+      letter-spacing: 0.1em;
+      padding: 16px 0 10px;
     }
 
     /* =============================================
@@ -766,32 +813,91 @@
       margin-bottom: 8px;
       text-transform: uppercase;
     }
-    .dual-clock {
+    /* 雙時鐘（極簡 1px 邊框卡片） */
+    @keyframes colon-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.15; }
+    }
+    .dual-clock-v2 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
       gap: 8px;
       margin-bottom: 12px;
     }
-    .clock-cell {
-      background: var(--card2);
-      border-radius: var(--radius-sm);
-      padding: 14px 12px;
+    .clock-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 10px 14px;
       text-align: center;
+      background: var(--card);
     }
-    .clock-flag { font-size: 18px; margin-bottom: 4px; }
-    .clock-time {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 24px;
-      font-weight: 400;
-      font-variant-numeric: tabular-nums;
-      color: var(--text);
-      line-height: 1.2;
+    .clock-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 10px;
     }
-    .clock-zone {
-      font-size: 10px;
-      letter-spacing: 0.12em;
+    .clock-flag-v2 { font-size: 15px; }
+    .clock-city {
+      font-size: 9px;
+      letter-spacing: 0.22em;
       color: var(--text3);
-      margin-top: 4px;
+      text-transform: uppercase;
+    }
+    .clock-time-wrap {
+      font-family: 'Noto Serif JP', serif;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+    }
+    .clock-hm-part {
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1;
+    }
+    .clock-colon {
+      font-size: 24px;
+      font-weight: 200;
+      color: var(--text2);
+      line-height: 1;
+      animation: colon-pulse 1s ease-in-out infinite;
+      margin: 0 1px;
+    }
+    .clock-ss-row {
+      font-family: 'Noto Serif JP', serif;
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text3);
+      margin-top: 3px;
+      letter-spacing: 0.05em;
+    }
+    .clock-date-line {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      margin-top: 8px;
+    }
+    .clock-tz {
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      color: var(--text3);
+      margin-top: 3px;
+      opacity: 0.6;
+      text-transform: uppercase;
+    }
+    .clock-diff-badge {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 10px;
+      color: var(--text3);
+      text-align: center;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      line-height: 1.4;
     }
     .route-divider {
       display: flex;
@@ -853,43 +959,78 @@
         <div class="overview-subtitle">2026 年 6 月 16 日 — 7 月 2 日 ✦ 16 天</div>
       </div>
 
-      <!-- 倒數計時 widget -->
-      <div class="card reveal" style="text-align:center;padding:20px 16px 16px">
-        <div class="cd-section-label">距離出發</div>
-        <div class="cd-wrap">
-          <div class="cd-cell">
-            <div class="cd-num" id="cd-days">--</div>
-            <div class="cd-lbl">DAYS</div>
+      <!-- 倒數計時 / 旅程進度 widget -->
+      <div class="card reveal" id="time-widget" style="text-align:center;padding:14px 16px 12px">
+        <div class="cd-section-label" id="cd-widget-label">距離出發</div>
+
+        <!-- 出發前：MUJI 倒數 -->
+        <div id="cd-countdown">
+          <div class="cd-muji-inner">
+            <div class="cd-muji-block">
+              <div class="cd-muji-num" id="cd-days">--</div>
+              <div class="cd-muji-unit">DAYS</div>
+            </div>
+            <div class="cd-muji-dot">·</div>
+            <div class="cd-muji-block">
+              <div class="cd-muji-num" id="cd-hours">--</div>
+              <div class="cd-muji-unit">HRS</div>
+            </div>
+            <div class="cd-muji-dot">·</div>
+            <div class="cd-muji-block">
+              <div class="cd-muji-num" id="cd-mins">--</div>
+              <div class="cd-muji-unit">MINS</div>
+            </div>
+            <div class="cd-muji-dot">·</div>
+            <div class="cd-muji-block">
+              <div class="cd-muji-num" id="cd-secs">--</div>
+              <div class="cd-muji-unit">SECS</div>
+            </div>
           </div>
-          <div class="cd-cell">
-            <div class="cd-num" id="cd-hours">--</div>
-            <div class="cd-lbl">HOURS</div>
-          </div>
-          <div class="cd-cell">
-            <div class="cd-num" id="cd-mins">--</div>
-            <div class="cd-lbl">MINS</div>
-          </div>
-          <div class="cd-cell">
-            <div class="cd-num" id="cd-secs">--</div>
-            <div class="cd-lbl">SECS</div>
-          </div>
+          <div style="font-size:10px;color:var(--text3);letter-spacing:0.12em;padding-bottom:4px">EK086 &nbsp;·&nbsp; TPE → DXB → ZRH &nbsp;·&nbsp; 2026.06.16</div>
         </div>
-        <div style="font-size:11px;color:var(--text3);letter-spacing:0.1em">EK086 TPE → DXB → ZRH ✦ 2026.06.16 00:30 出發</div>
+
+        <!-- 旅程中：日系格子進度條 -->
+        <div id="cd-progress" style="display:none" class="trip-progress-inner">
+          <div class="trip-day-label">旅程進行中 &nbsp;·&nbsp; <strong id="trip-day-text">Day 1 / 16</strong></div>
+          <div class="trip-day-grid" id="trip-day-grid"></div>
+          <div style="font-size:10px;color:var(--text3);letter-spacing:0.1em;margin-top:10px">ZRH &nbsp;✦&nbsp; 2026.06.16 — 07.01</div>
+        </div>
+
+        <!-- 旅程後 -->
+        <div id="cd-done" style="display:none">
+          <div class="trip-done-label">🎊 美好回憶永遠保存中</div>
+          <div style="font-size:10px;color:var(--text3);letter-spacing:0.1em;padding-bottom:4px">ZRH &nbsp;✦&nbsp; 2026.06.16 — 07.01</div>
+        </div>
       </div>
 
       <!-- 雙時鐘 -->
       <div class="sec-title reveal">現在時刻</div>
-      <div class="sec-sub reveal">台灣 / 瑞士即時時間</div>
-      <div class="dual-clock reveal">
-        <div class="clock-cell">
-          <div class="clock-flag">🇹🇼</div>
-          <div class="clock-time" id="clock-tw">--:--:--</div>
-          <div class="clock-zone">TAIWAN · UTC+8</div>
+      <div class="sec-sub reveal">台灣 ／ 瑞士即時時間</div>
+      <div class="dual-clock-v2 reveal">
+        <div class="clock-card">
+          <div class="clock-header">
+            <span class="clock-flag-v2">🇹🇼</span>
+            <span class="clock-city">Taipei</span>
+          </div>
+          <div class="clock-time-wrap">
+            <span class="clock-hm-part" id="tw-h">--</span><span class="clock-colon">:</span><span class="clock-hm-part" id="tw-m">--</span>
+          </div>
+          <div class="clock-ss-row" id="tw-ss">--</div>
+          <div class="clock-date-line" id="tw-date">-- / --</div>
+          <div class="clock-tz">UTC+8</div>
         </div>
-        <div class="clock-cell">
-          <div class="clock-flag">🇨🇭</div>
-          <div class="clock-time" id="clock-ch">--:--:--</div>
-          <div class="clock-zone">SWITZERLAND · UTC+2</div>
+        <div class="clock-diff-badge" id="clock-diff">−6h</div>
+        <div class="clock-card">
+          <div class="clock-header">
+            <span class="clock-flag-v2">🇨🇭</span>
+            <span class="clock-city">Zürich</span>
+          </div>
+          <div class="clock-time-wrap">
+            <span class="clock-hm-part" id="ch-h">--</span><span class="clock-colon">:</span><span class="clock-hm-part" id="ch-m">--</span>
+          </div>
+          <div class="clock-ss-row" id="ch-ss">--</div>
+          <div class="clock-date-line" id="ch-date">-- / --</div>
+          <div class="clock-tz">UTC+2</div>
         </div>
       </div>
 
@@ -3766,103 +3907,138 @@ function showDay(d) {
 }
 
 /* ═══════════════════════════════════════
-   倒數計時（目標：2026-06-15T16:30:00Z = 台灣 6/16 00:30）
+   倒數計時（三態：出發前 / 旅程中 / 旅程後）
 ═══════════════════════════════════════ */
 function updateCountdown() {
-  var target = new Date('2026-06-15T16:30:00Z');
-  var now = new Date();
-  var diff = target - now;
+  var depart  = new Date('2026-06-15T16:30:00Z'); // 台灣 6/16 00:30
+  var tripEnd = new Date('2026-07-01T14:00:00Z');  // 台灣 7/2 22:00
+  var now     = new Date();
+  var diff    = depart - now;
 
-  var daysEl  = document.getElementById('cd-days');
-  var hoursEl = document.getElementById('cd-hours');
-  var minsEl  = document.getElementById('cd-mins');
-  var secsEl  = document.getElementById('cd-secs');
-  var statusEl = document.getElementById('cd-status');
+  var countdownEl = document.getElementById('cd-countdown');
+  var progressEl  = document.getElementById('cd-progress');
+  var doneEl      = document.getElementById('cd-done');
+  var labelEl     = document.getElementById('cd-widget-label');
 
-  if (diff <= 0) {
-    // 已出發
-    if (daysEl)  daysEl.textContent  = '0';
-    if (hoursEl) hoursEl.textContent = '0';
-    if (minsEl)  minsEl.textContent  = '0';
-    if (secsEl)  secsEl.textContent  = '0';
+  if (diff > 0) {
+    // ── 出發前：MUJI 倒數 ──
+    if (countdownEl) countdownEl.style.display = '';
+    if (progressEl)  progressEl.style.display  = 'none';
+    if (doneEl)      doneEl.style.display       = 'none';
+    if (labelEl)     labelEl.textContent        = '距離出發';
 
-    var tripEnd = new Date('2026-07-01T14:00:00Z');
-    if (statusEl) {
-      if (now < tripEnd) {
-        statusEl.textContent = '✈️ 旅程進行中！';
-      } else {
-        statusEl.textContent = '🎊 美好回憶永遠保存中';
+    var days  = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins  = Math.floor((diff % 3600000) / 60000);
+    var secs  = Math.floor((diff % 60000) / 1000);
+
+    var dEl = document.getElementById('cd-days');
+    var hEl = document.getElementById('cd-hours');
+    var mEl = document.getElementById('cd-mins');
+    var sEl = document.getElementById('cd-secs');
+    if (dEl) dEl.textContent = days;
+    if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+    if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+    if (sEl) sEl.textContent = String(secs).padStart(2, '0');
+
+  } else if (now <= tripEnd) {
+    // ── 旅程中：格子進度條 ──
+    if (countdownEl) countdownEl.style.display = 'none';
+    if (progressEl)  progressEl.style.display  = '';
+    if (doneEl)      doneEl.style.display       = 'none';
+    if (labelEl)     labelEl.textContent        = '旅程進行中';
+
+    var tripStart = new Date('2026-06-15T16:00:00Z'); // 台灣 6/16 00:00
+    var dayIndex  = Math.min(Math.floor((now - tripStart) / 86400000), 15); // 0-based, 0~15
+    var dayNum    = dayIndex + 1;
+
+    var dayTextEl = document.getElementById('trip-day-text');
+    if (dayTextEl) dayTextEl.textContent = 'Day ' + dayNum + ' / 16';
+
+    var grid = document.getElementById('trip-day-grid');
+    if (grid && !grid.dataset.built) {
+      // 初次建格子
+      grid.innerHTML = '';
+      for (var i = 0; i < 16; i++) {
+        var dot = document.createElement('div');
+        dot.className = 'trip-dot';
+        dot.id = 'trip-dot-' + i;
+        grid.appendChild(dot);
       }
+      grid.dataset.built = '1';
     }
-    return;
-  }
+    // 每秒更新顏色（避免重建 DOM）
+    for (var j = 0; j < 16; j++) {
+      var d = document.getElementById('trip-dot-' + j);
+      if (!d) continue;
+      d.className = 'trip-dot' + (j < dayIndex ? ' done' : (j === dayIndex ? ' today' : ''));
+    }
 
-  var days  = Math.floor(diff / 86400000);
-  var hours = Math.floor((diff % 86400000) / 3600000);
-  var mins  = Math.floor((diff % 3600000) / 60000);
-  var secs  = Math.floor((diff % 60000) / 1000);
-
-  if (daysEl)  daysEl.textContent  = days;
-  if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-  if (minsEl)  minsEl.textContent  = String(mins).padStart(2, '0');
-  if (secsEl)  secsEl.textContent  = String(secs).padStart(2, '0');
-
-  if (statusEl) {
-    statusEl.textContent = '距出發還有 ' + days + ' 天';
+  } else {
+    // ── 旅程後 ──
+    if (countdownEl) countdownEl.style.display = 'none';
+    if (progressEl)  progressEl.style.display  = 'none';
+    if (doneEl)      doneEl.style.display       = '';
+    if (labelEl)     labelEl.textContent        = '瑞士蜜月';
   }
 }
 
 /* ═══════════════════════════════════════
-   雙時鐘（每 30 秒更新）
+   雙時鐘（每秒更新，分離 H / M / S）
 ═══════════════════════════════════════ */
 function updateTimes() {
   var now = new Date();
 
-  // 台灣時間
-  var twFormatter = new Intl.DateTimeFormat('zh-TW', {
-    timeZone: 'Asia/Taipei',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
-  var twDateFormatter = new Intl.DateTimeFormat('zh-TW', {
-    timeZone: 'Asia/Taipei',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short'
-  });
+  function getParts(tz) {
+    return new Intl.DateTimeFormat('en', {
+      timeZone: tz,
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    }).formatToParts(now).reduce(function(a, p) { a[p.type] = p.value; return a; }, {});
+  }
+  function getDate(tz) {
+    return new Intl.DateTimeFormat('zh-TW', {
+      timeZone: tz,
+      month: '2-digit', day: '2-digit', weekday: 'short'
+    }).format(now);
+  }
 
-  // 瑞士時間
-  var chFormatter = new Intl.DateTimeFormat('zh-TW', {
-    timeZone: 'Europe/Zurich',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
-  var chDateFormatter = new Intl.DateTimeFormat('zh-TW', {
-    timeZone: 'Europe/Zurich',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short'
-  });
+  var tw = getParts('Asia/Taipei');
+  var ch = getParts('Europe/Zurich');
+  var twH = tw.hour === '24' ? '00' : tw.hour;
+  var chH = ch.hour === '24' ? '00' : ch.hour;
 
-  var twTimeEl = document.getElementById('clock-tw');
-  var chTimeEl = document.getElementById('clock-ch');
-  var twDateEl = document.getElementById('tw-date');
-  var chDateEl = document.getElementById('ch-date');
+  var set = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+  set('tw-h',   twH);
+  set('tw-m',   tw.minute);
+  set('tw-ss',  tw.second);
+  set('tw-date', getDate('Asia/Taipei'));
+  set('ch-h',   chH);
+  set('ch-m',   ch.minute);
+  set('ch-ss',  ch.second);
+  set('ch-date', getDate('Europe/Zurich'));
 
-  if (twTimeEl) twTimeEl.textContent = twFormatter.format(now);
-  if (chTimeEl) chTimeEl.textContent = chFormatter.format(now);
-  if (twDateEl) twDateEl.textContent = twDateFormatter.format(now);
-  if (chDateEl) chDateEl.textContent = chDateFormatter.format(now);
+  // 時差 badge（動態計算，夏令 −6h、冬令 −7h）
+  var diffEl = document.getElementById('clock-diff');
+  if (diffEl) {
+    var h1 = parseInt(twH, 10), h2 = parseInt(chH, 10);
+    var d = h2 - h1;
+    if (d > 12) d -= 24;
+    if (d < -12) d += 24;
+    diffEl.textContent = (d <= 0 ? '−' : '+') + Math.abs(d) + 'h';
+  }
 
-  // 同時更新 topbar 顯示的 tw-time / ch-time（若有）
-  var twTopEl = document.getElementById('tw-time');
-  var chTopEl = document.getElementById('ch-time');
-  if (twTopEl) twTopEl.textContent = twFormatter.format(now);
-  if (chTopEl) chTopEl.textContent = chFormatter.format(now);
+  // topbar 時間（若有）
+  var twFull = new Intl.DateTimeFormat('zh-TW', {
+    timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+  }).format(now);
+  var chFull = new Intl.DateTimeFormat('zh-TW', {
+    timeZone: 'Europe/Zurich', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+  }).format(now);
+  var twTop = document.getElementById('tw-time');
+  var chTop = document.getElementById('ch-time');
+  if (twTop) twTop.textContent = twFull;
+  if (chTop) chTop.textContent = chFull;
 }
 
 /* ═══════════════════════════════════════
