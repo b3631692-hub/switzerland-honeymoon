@@ -32,7 +32,7 @@
       --text: #2C2925;
       --text2: #6B6258;
       --text3: #9B8F82;
-      --shadow: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow: 0 4px 12px rgba(127,35,36,0.02), 0 1px 3px rgba(0,0,0,0.03);
       --radius: 12px;
       --radius-sm: 8px;
     }
@@ -191,9 +191,21 @@
       box-shadow: var(--shadow);
       padding: 16px;
       margin-bottom: 12px;
+      /* spring 回彈：cubic-bezier 超射 1.0 讓放開後有輕微彈跳感 */
+      transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 200ms ease-out;
+      will-change: transform;
     }
     .card:active {
-      transform: scale(0.985);
+      transform: scale(0.98);
+      box-shadow: 0 2px 6px rgba(127,35,36,0.02);
+    }
+    /* 桌面 hover 輕浮起 */
+    @media (hover: hover) {
+      .card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(127,35,36,0.04), 0 2px 4px rgba(0,0,0,0.04);
+      }
     }
 
     /* Section 標題 */
@@ -382,15 +394,27 @@
     /* =============================================
        Checklist
        ============================================= */
+    /* ── Checklist：打卡動畫升級 ── */
     .check-item {
       display: flex;
       gap: 12px;
-      padding: 12px 0;
+      padding: 12px 10px;
+      margin: 0 -10px;                              /* 背景色延伸至邊緣 */
       border-bottom: 1px solid var(--border);
+      border-radius: 8px;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       align-items: flex-start;
+      /* 卡片背景淡入淡出 0.4s ease-in-out */
+      transition: background-color 0.4s ease-in-out,
+                  border-bottom-color 0.4s ease-in-out;
     }
+    /* 打卡後：背景淡變溫暖淺茶綠 */
+    .check-item.checked {
+      background-color: #F4F6F0;
+      border-bottom-color: transparent;
+    }
+
     .check-box {
       flex-shrink: 0;
       width: 18px;
@@ -400,7 +424,10 @@
       background: transparent;
       position: relative;
       margin-top: 2px;
-      transition: background 150ms, border-color 150ms;
+      /* 勾選框過渡：顏色 + 光暈 */
+      transition: background 0.2s ease-out,
+                  border-color 0.2s ease-out,
+                  box-shadow 0.3s ease-out;
     }
     .check-box::after {
       content: '';
@@ -413,22 +440,28 @@
       border-bottom: 1.5px solid white;
       transform: rotate(-45deg) scaleX(0);
       transform-origin: left;
-      transition: transform 150ms ease-out 50ms;
+      transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms;
     }
     .check-item.checked .check-box {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--tea);
+      border-color: var(--tea);
+      /* 淡綠光暈，像蓋印章的感覺 */
+      box-shadow: 0 0 0 4px rgba(94,122,80,0.10);
     }
     .check-item.checked .check-box::after {
       transform: rotate(-45deg) scaleX(1);
     }
+
     .check-label {
+      flex: 1;
       position: relative;
       font-size: 14px;
       color: var(--text);
       line-height: 1.5;
-      transition: color 300ms, opacity 300ms;
+      /* 0.4s ease-in-out，與背景同步 */
+      transition: color 0.4s ease-in-out, opacity 0.4s ease-in-out;
     }
+    /* 刪除線：偽元素從左側滑入 */
     .check-label::after {
       content: '';
       position: absolute;
@@ -436,10 +469,14 @@
       top: 50%;
       width: 0;
       height: 1px;
-      background: var(--text3);
-      transition: width 300ms cubic-bezier(0.4,0,0.2,1);
+      background: var(--tea);                       /* 茶綠刪除線 */
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .check-item.checked .check-label { color: var(--text3); opacity: 0.6; }
+    /* 打卡後文字：淡出至茶綠色，opacity 70% 留存手帳記錄感 */
+    .check-item.checked .check-label {
+      color: var(--tea);
+      opacity: 0.7;
+    }
     .check-item.checked .check-label::after { width: 100%; }
     .check-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
 
