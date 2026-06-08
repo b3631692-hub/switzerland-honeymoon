@@ -61,6 +61,8 @@
       overflow: hidden;
       margin: 0;
       padding: 0;
+      /* 鎖死外層橡皮筋，讓 #main 的 overscroll-behavior 獨立控制 */
+      overscroll-behavior: none;
     }
 
     body {
@@ -105,22 +107,38 @@
       z-index: 100;
     }
 
-    /* 主內容捲動區 */
+    /* 主內容捲動區 — 只有這層可滾動 */
     #main {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
+      /* 容器內到頂/底繼續拉不回彈到外層 */
       overscroll-behavior-y: contain;
+      position: relative;   /* 給 tab-panel absolute 定位提供上下文 */
     }
 
-    /* Tab 面板 */
+    /* ── Tab 面板進入動畫 ── */
+    @keyframes tab-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .tab-panel {
       display: none;
       padding: 0 16px 80px;
       min-height: 100%;
     }
+    /* 顯示時觸發 Fade in + Slide up，0.28s cubic-bezier(0.25,1,0.5,1) */
     .tab-panel.active {
       display: block;
+      animation: tab-in 0.28s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
 
     /* 底部導航 */
@@ -151,6 +169,7 @@
       padding: 6px 0 4px;
       touch-action: manipulation;
     }
+    /* 頂部指示線 */
     .nav-item::before {
       content: '';
       position: absolute;
@@ -160,24 +179,33 @@
       height: 2px;
       background: var(--accent);
       transform: translateX(-50%);
-      transition: width 250ms ease;
+      transition: width 280ms cubic-bezier(0.25, 1, 0.5, 1);
     }
     .nav-item.active::before {
       width: 24px;
     }
+
+    /* Nav 圖標：預設暖灰，active 夕陽紅 + spring 跳 2px */
     .nav-icon {
       font-size: 20px;
-      color: var(--text3);
-      transition: color 200ms;
+      color: #A8A29E;   /* 暖灰 */
       line-height: 1;
+      display: block;
+      /* spring bezier 讓圖標向上彈跳帶過射感 */
+      transition: color 250ms ease,
+                  transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .nav-label {
       font-size: 10px;
       letter-spacing: 0.12em;
-      color: var(--text3);
-      transition: color 200ms;
+      color: #A8A29E;   /* 暖灰 */
+      transition: color 250ms ease;
     }
-    .nav-item.active .nav-icon,
+    /* Active 狀態：夕陽紅 + 上移 2px */
+    .nav-item.active .nav-icon {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
     .nav-item.active .nav-label {
       color: var(--accent);
     }
@@ -3677,28 +3705,38 @@
    Tab 切換
 ═══════════════════════════════════════ */
 function switchTab(id, btn) {
-  // 隱藏所有 tab-panel
+  // 若已是當前 tab 則不重複觸發
+  var current = document.querySelector('.tab-panel.active');
+  if (current && current.id === 'tab-' + id) return;
+
+  // 隱藏所有 tab-panel（移除 active 才能讓下次 add 重新觸發 animation）
   document.querySelectorAll('.tab-panel').forEach(function(panel) {
     panel.classList.remove('active');
   });
+
   // 移除底部導航所有 active
   document.querySelectorAll('#bottom-nav .nav-item').forEach(function(item) {
     item.classList.remove('active');
   });
-  // 顯示目標 panel
-  var target = document.getElementById('tab-' + id);
-  if (target) target.classList.add('active');
-  // 將 btn 加上 active
-  if (btn) btn.classList.add('active');
+
+  // 顯示目標 panel — 用 requestAnimationFrame 確保 remove 先 flush 再 add，
+  // 讓 CSS animation 每次都從頭播放（即使切回同一個 tab）
+  requestAnimationFrame(function() {
+    var target = document.getElementById('tab-' + id);
+    if (target) {
+      target.classList.add('active');
+      // 捲回頂部，避免帶著舊滾動位置進入新 tab
+      var main = document.getElementById('main');
+      if (main) main.scrollTop = 0;
+    }
+    if (btn) btn.classList.add('active');
+  });
+
   // 存到 localStorage
   localStorage.setItem('last-tab', id);
-  // 切到行程 tab 時，確保 day strip 可見
-  if (id === 'itinerary') {
-    var strip = document.getElementById('day-strip-wrap');
-    if (strip) strip.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-  // 切換後重新初始化 reveal 動畫（讓新頁面元素也觸發）
-  setupReveal();
+
+  // 切換後重新初始化 reveal 動畫
+  setTimeout(setupReveal, 50);
 }
 
 /* ═══════════════════════════════════════
