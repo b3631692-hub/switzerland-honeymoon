@@ -12,9 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="蜜月手帳">
   <link rel="manifest" href="/switzerland-honeymoon/manifest.json">
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- 使用裝置系統字體（iOS: SF Pro + PingFang TC，Android: Roboto + Noto Sans TC） -->
   <style>
     /* =============================================
        CSS 自訂變數 — 色彩系統（MUJI 日系極簡）
@@ -66,7 +64,7 @@
     }
 
     body {
-      font-family: 'Noto Sans JP', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-weight: 300;
       line-height: 1.75;
       background: var(--bg);
@@ -239,7 +237,7 @@
 
     /* Section 標題 */
     .sec-title {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 17px;
       font-weight: 500;
       letter-spacing: 0.12em;
@@ -338,7 +336,7 @@
       min-width: 54px;
     }
     .cd-muji-num {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 42px;
       font-weight: 300;
       font-variant-numeric: tabular-nums;
@@ -372,7 +370,7 @@
       margin-bottom: 12px;
     }
     .trip-day-label strong {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 14px;
       font-weight: 400;
       color: var(--accent);
@@ -396,7 +394,7 @@
     .trip-dot.done  { background: var(--tea); opacity: 0.55; }
     .trip-dot.today { background: var(--accent); opacity: 1; }
     .trip-done-label {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 15px;
       font-weight: 300;
       color: var(--text2);
@@ -463,7 +461,7 @@
     .day-btn:not(.active) .ds-city  { color: var(--text3); }
 
     /* 日程內容容器 */
-    .days-content { padding: 16px 16px 80px; }
+    .days-content { padding: 16px 16px 0; }
     .day-content { display: none; }
     .day-content.active { display: block; }
 
@@ -590,7 +588,7 @@
     .info-val {
       font-size: 22px;
       font-weight: 500;
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       color: var(--text);
     }
     .info-lbl {
@@ -754,7 +752,7 @@
     .mq-btn-sec { background: transparent; border: 1px solid var(--border); color: var(--text2); }
 
     .mq-city-label {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 12px;
       letter-spacing: 0.1em;
       color: var(--text3);
@@ -797,7 +795,7 @@
       padding: 28px 0 8px;
     }
     .overview-title {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 13px;
       letter-spacing: 0.25em;
       color: var(--text3);
@@ -852,7 +850,7 @@
       text-transform: uppercase;
     }
     .clock-time-wrap {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-variant-numeric: tabular-nums;
       display: flex;
       align-items: baseline;
@@ -873,7 +871,7 @@
       margin: 0 1px;
     }
     .clock-ss-row {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-variant-numeric: tabular-nums;
       font-size: 12px;
       font-weight: 300;
@@ -896,7 +894,7 @@
       text-transform: uppercase;
     }
     .clock-diff-badge {
-      font-family: 'Noto Serif JP', serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
       font-size: 10px;
       color: var(--text3);
       text-align: center;
@@ -997,7 +995,7 @@
   <!-- 頂欄 -->
   <header id="topbar">
     <div style="display:flex;align-items:center;gap:8px">
-      <span style="font-family:'Noto Serif JP',serif;font-size:15px;letter-spacing:0.12em;color:var(--text)">瑞士蜜月 2026</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:15px;letter-spacing:0.12em;color:var(--text)">瑞士蜜月 2026</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <span id="weather-info" class="weather-row" style="padding:4px 10px;font-size:12px">載入中⋯</span>
@@ -1098,7 +1096,7 @@
       <div class="rate-row reveal" style="margin-bottom:12px">
         <span style="font-size:16px">💱</span>
         <span style="font-size:13px;color:var(--text2)">即時匯率</span>
-        <span id="rate-display" style="font-family:'Noto Serif JP',serif;font-size:15px;font-weight:500;color:var(--text);margin-left:auto">1 CHF ≈ -- TWD</span>
+        <span id="rate-display" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:15px;font-weight:500;color:var(--text);margin-left:auto">1 CHF ≈ -- TWD</span>
       </div>
 
       <!-- 天氣 -->
@@ -1966,7 +1964,7 @@
 <img src="https://images.unsplash.com/photo-1585951619576-6e961950cb60?w=800&q=80&fit=crop&crop=center" alt="馬特洪峰 Zermatt 晨光" class="day-hero-img" loading="lazy" onerror="this.style.display='none'">
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/23</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/23</span>
       <span style="font-size:13px;color:var(--text3);">一 · Zermatt</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2020,7 +2018,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1526925528837-813a7961f5c7?w=800&q=80&fit=crop&crop=center" alt="Oeschinensee 土耳其藍高山湖，雪山環繞" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Oeschinensee · UNESCO 高山湖</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/24</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/24</span>
       <span style="font-size:13px;color:var(--text3);">二 · Kandersteg → Spiez → 伯恩</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2091,7 +2089,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=800&q=80&fit=crop&crop=center" alt="伯恩 Zytglogge 天文鐘樓老城街道" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Bern · Zytglogge 天文鐘樓</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/25</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/25</span>
       <span style="font-size:13px;color:var(--text3);">三 · Bern 老城深度遊</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2155,7 +2153,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1531761535209-180857e963b9?w=800&q=80&fit=crop&crop=center" alt="Lauterbrunnen 瀑布山谷 Staubbach 直落" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Lauterbrunnen · 72 道瀑布山谷</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/26</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/26</span>
       <span style="font-size:13px;color:var(--text3);">四 · Lauterbrunnen 婚紗 → 楚格</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2221,7 +2219,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=800&q=80&fit=crop&crop=center" alt="琉森 Kapellbrücke 卡貝爾橋與水塔" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Lucerne · Kapellbrücke 卡貝爾橋</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/27</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/27</span>
       <span style="font-size:13px;color:var(--text3);">五 · 琉森 + 藍調時刻</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2285,7 +2283,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1590309284223-3946577eb10e?w=800&q=80&fit=crop&crop=center" alt="瑞吉山 Rigi Kulm 山頂 360° 四湖全景" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Rigi · 1797m 四湖全景</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/28</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/28</span>
       <span style="font-size:13px;color:var(--text3);">六 · 瑞吉山（輪船上山）+ Tierpark</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2355,7 +2353,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=800&q=80&fit=crop&crop=center" alt="蘇黎世老城 Limmat 河岸 Grossmünster 雙塔" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Zürich · 林登霍夫俯瞰老城</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/29</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/29</span>
       <span style="font-size:13px;color:var(--text3);">日 · 楚格 → 蘇黎世</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2423,7 +2421,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&q=80&fit=crop&crop=center" alt="萊茵瀑布 Rheinfall 歐洲最大流量瀑布" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">Rheinfall · 歐洲最大流量瀑布</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">6/30</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">6/30</span>
       <span style="font-size:13px;color:var(--text3);">一 · 萊茵瀑布 + Stein am Rhein</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -2501,7 +2499,7 @@
   <figure class="day-cover-img" style="margin:0 0 14px 0;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/7;"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80&fit=crop&crop=center" alt="蘇黎世機場 Flughafen Zürich 出發大廳" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><figcaption style="position:absolute;bottom:0;left:0;right:0;padding:6px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;letter-spacing:.4px;">ZRH · 蘇黎世機場 — 返台</figcaption></figure>
   <div class="card reveal">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:500;color:var(--accent);">7/1</span>
+      <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:18px;font-weight:500;color:var(--accent);">7/1</span>
       <span style="font-size:13px;color:var(--text3);">二 · 最後一天 + 22:00 EK086 返台</span>
     </div>
     <div style="margin-bottom:10px;">
@@ -3129,32 +3127,32 @@
           <div style="font-size:13px;font-weight:500;color:var(--text);">歐洲統一緊急</div>
           <div style="font-size:11px;color:var(--text3);">火警 / 警察 / 急救</div>
         </div>
-        <a href="tel:112" style="font-size:22px;font-weight:500;color:var(--accent);font-family:'Noto Serif JP',serif;text-decoration:none;">112</a>
+        <a href="tel:112" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">112</a>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
         <div>
           <div style="font-size:13px;font-weight:500;color:var(--text);">瑞士救護車</div>
         </div>
-        <a href="tel:144" style="font-size:22px;font-weight:500;color:var(--accent);font-family:'Noto Serif JP',serif;text-decoration:none;">144</a>
+        <a href="tel:144" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">144</a>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
         <div>
           <div style="font-size:13px;font-weight:500;color:var(--text);">瑞士警察</div>
         </div>
-        <a href="tel:117" style="font-size:22px;font-weight:500;color:var(--accent);font-family:'Noto Serif JP',serif;text-decoration:none;">117</a>
+        <a href="tel:117" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">117</a>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
         <div>
           <div style="font-size:13px;font-weight:500;color:var(--text);">瑞士消防</div>
         </div>
-        <a href="tel:118" style="font-size:22px;font-weight:500;color:var(--accent);font-family:'Noto Serif JP',serif;text-decoration:none;">118</a>
+        <a href="tel:118" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">118</a>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--accent-lt);border-radius:var(--radius-sm);">
         <div>
           <div style="font-size:13px;font-weight:500;color:var(--text);">REGA 山難救援</div>
           <div style="font-size:11px;color:var(--text3);">直升機緊急救援</div>
         </div>
-        <a href="tel:1414" style="font-size:22px;font-weight:500;color:var(--accent);font-family:'Noto Serif JP',serif;text-decoration:none;">1414</a>
+        <a href="tel:1414" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">1414</a>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
         <div>
@@ -3901,7 +3899,7 @@
 /* ===== Budget Tab Scoped Styles ===== */
 #tab-budget {
   padding: 0 0 3rem 0;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   color: #2C2925;
 }
 
@@ -3919,11 +3917,11 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #7A6E64;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   margin-bottom: 0.5rem;
 }
 #tab-budget .bgt-hero-total {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(2.2rem, 6vw, 3.2rem);
   font-weight: 700;
   color: #2C2925;
@@ -3949,7 +3947,7 @@
   color: #6B6258;
 }
 #tab-budget .bgt-hero-per strong {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   color: #2C2925;
   font-size: 1rem;
@@ -4028,7 +4026,7 @@
 }
 #tab-budget .bgt-pie-label strong {
   display: block;
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.92rem;
   font-variant-numeric: tabular-nums;
   color: #2C2925;
@@ -4062,7 +4060,7 @@
   text-align: right;
 }
 #tab-budget .bgt-legend-amt {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   font-size: 0.85rem;
   min-width: 5.5rem;
@@ -4071,7 +4069,7 @@
 
 /* Details / Accordion */
 #tab-budget .bgt-section-title {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1.05rem;
   font-weight: 600;
   color: #2C2925;
@@ -4103,7 +4101,7 @@
   line-height: 1;
 }
 #tab-budget .bgt-sum-name {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   flex: 1;
@@ -4115,7 +4113,7 @@
   margin-right: 0.5rem;
 }
 #tab-budget .bgt-sum-total {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   font-size: 0.95rem;
   font-weight: 700;
@@ -4183,14 +4181,14 @@
   min-width: 8rem;
 }
 #tab-budget table.bgt-table .bgt-td-amt {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   font-size: 0.88rem;
   font-weight: 600;
 }
 #tab-budget table.bgt-table .bgt-td-amt-zero {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   font-size: 0.88rem;
@@ -4202,7 +4200,7 @@
 }
 #tab-budget .bgt-subtotal-row td {
   font-weight: 700;
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   color: #2C2925;
   padding-top: 0.7rem !important;
@@ -4272,7 +4270,7 @@
   margin-top: 1.5rem;
 }
 #tab-budget .bgt-savings-title {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   color: #2C2925;
@@ -4306,7 +4304,7 @@
   line-height: 1.35;
 }
 #tab-budget .bgt-savings-item-amt {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   font-size: 1.2rem;
   font-weight: 700;
@@ -4334,7 +4332,7 @@
   font-weight: 600;
 }
 #tab-budget .bgt-savings-total-amt {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
   font-size: 1.35rem;
   font-weight: 700;
@@ -4450,7 +4448,7 @@
             <td><span class="tag-confirmed">已確認</span></td>
           </tr>
           <tr class="bgt-subtotal-row">
-            <td colspan="2" style="font-family:'Noto Sans JP',sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">機票小計</td>
+            <td colspan="2" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial,sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">機票小計</td>
             <td class="bgt-td-amt">61,388</td>
             <td></td>
           </tr>
@@ -4518,7 +4516,7 @@
             <td><span class="tag-confirmed">已確認</span></td>
           </tr>
           <tr class="bgt-subtotal-row">
-            <td colspan="2" style="font-family:'Noto Sans JP',sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">住宿小計<span style="font-size:0.7rem;color:#A09488;margin-left:0.4em;">（含匯率四捨五入差異）</span></td>
+            <td colspan="2" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial,sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">住宿小計<span style="font-size:0.7rem;color:#A09488;margin-left:0.4em;">（含匯率四捨五入差異）</span></td>
             <td class="bgt-td-amt">120,233</td>
             <td></td>
           </tr>
@@ -4586,7 +4584,7 @@
             <td><span class="tag-free">STP 全免</span></td>
           </tr>
           <tr class="bgt-subtotal-row">
-            <td colspan="2" style="font-family:'Noto Sans JP',sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">交通小計<span style="font-size:0.7rem;color:#A09488;margin-left:0.4em;">（含匯率四捨五入差異）</span></td>
+            <td colspan="2" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial,sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">交通小計<span style="font-size:0.7rem;color:#A09488;margin-left:0.4em;">（含匯率四捨五入差異）</span></td>
             <td class="bgt-td-amt">42,062</td>
             <td></td>
           </tr>
@@ -4690,7 +4688,7 @@
             <td><span class="tag-est">估算</span></td>
           </tr>
           <tr class="bgt-subtotal-row">
-            <td colspan="2" style="font-family:'Noto Sans JP',sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">景點小計</td>
+            <td colspan="2" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial,sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">景點小計</td>
             <td class="bgt-td-amt">15,350</td>
             <td></td>
           </tr>
@@ -4728,7 +4726,7 @@
             <td><span class="tag-confirmed">確認預算</span></td>
           </tr>
           <tr class="bgt-subtotal-row">
-            <td colspan="2" style="font-family:'Noto Sans JP',sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">餐飲小計</td>
+            <td colspan="2" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial,sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">餐飲小計</td>
             <td class="bgt-td-amt">50,000</td>
             <td></td>
           </tr>
@@ -4784,7 +4782,7 @@
             <td><span class="tag-est">估算</span></td>
           </tr>
           <tr class="bgt-subtotal-row">
-            <td colspan="2" style="font-family:'Noto Sans JP',sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">購物小計</td>
+            <td colspan="2" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial,sans-serif;font-size:0.78rem;color:#7A6E64;font-weight:400;">購物小計</td>
             <td class="bgt-td-amt">17,580</td>
             <td></td>
           </tr>
@@ -4894,7 +4892,7 @@
 }
 
 .today-card-label {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4924,11 +4922,11 @@
   font-size: 0.72rem;
   color: var(--text3);
   letter-spacing: 0.05em;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .today-card-item-value {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: var(--text);
@@ -4949,7 +4947,7 @@
 }
 
 .golden-bar-title {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text2);
@@ -4962,7 +4960,7 @@
 .golden-bar-subtitle {
   font-size: 0.72rem;
   color: var(--text3);
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   margin-left: auto;
 }
 
@@ -5020,7 +5018,7 @@
 }
 
 .timeline-tick-label {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.62rem;
   color: var(--text3);
   white-space: nowrap;
@@ -5050,7 +5048,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.72rem;
   color: var(--text2);
 }
@@ -5074,7 +5072,7 @@
   border: 1px solid #F0C47B;
   border-radius: 8px;
   padding: 0.75rem 1rem;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.8rem;
   color: #7a4f0a;
   display: flex;
@@ -5136,7 +5134,7 @@
 }
 
 .location-name {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.92rem;
   font-weight: 700;
   color: var(--text);
@@ -5147,13 +5145,13 @@
   font-size: 0.68rem;
   color: var(--text3);
   margin-top: 0.15rem;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .location-badge {
   flex-shrink: 0;
   font-size: 0.62rem;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   background: var(--tea-lt);
   color: var(--tea);
   border: 1px solid #c8dfc2;
@@ -5186,7 +5184,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: flex-start;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.76rem;
   line-height: 1.4;
 }
@@ -5223,7 +5221,7 @@
 }
 
 .wedding-special-title {
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--accent);
@@ -5246,7 +5244,7 @@
   border-radius: 20px;
   padding: 3px 10px;
   font-size: 0.74rem;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-weight: 600;
 }
 
@@ -5259,7 +5257,7 @@
 }
 
 .photo-filter-btn {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 500;
   padding: 5px 14px;
@@ -5343,7 +5341,7 @@
   justify-content: center;
   color: var(--text3);
   font-size: 0.7rem;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   text-align: center;
   padding: 0.5rem;
   flex-direction: column;
@@ -5371,7 +5369,7 @@
 }
 
 .photo-caption-text {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.65rem;
   color: rgba(255,255,255,0.92);
   line-height: 1.3;
@@ -5425,7 +5423,7 @@
 
 #lb-caption {
   margin-top: 0.8rem;
-  font-family: 'Noto Serif JP', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.88rem;
   color: rgba(255,255,255,0.85);
   text-align: center;
@@ -6309,6 +6307,9 @@ function switchTab(id, btn) {
    行程：選擇日期
 ═══════════════════════════════════════ */
 function showDay(d) {
+  // 切換日程後捲回頂部
+  var main = document.getElementById('main');
+  if (main) main.scrollTop = 0;
   // 隱藏所有 day-content
   document.querySelectorAll('.day-content').forEach(function(el) {
     el.classList.remove('active');
