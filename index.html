@@ -45,6 +45,8 @@
       --text: #EDE8E0;
       --text2: #8C8278;
       --text3: #9B8F82;  /* dark mode: lighten for contrast on dark bg */
+      --accent-lt: rgba(127,35,36,0.20);
+      --tea-lt: rgba(94,122,80,0.18);
     }
 
     /* =============================================
@@ -242,13 +244,42 @@
       font-weight: 500;
       letter-spacing: 0.12em;
       color: var(--text);
-      padding: 20px 0 4px;
+      padding: 20px 0 10px;
+      position: relative;
+    }
+    .sec-title::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      width: 20px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
     }
     .sec-sub {
       font-size: 11px;
       letter-spacing: 0.08em;
       color: var(--text3);
       margin-bottom: 12px;
+    }
+    /* 卡片內小標籤（知識卡區塊 header） */
+    .card-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text3);
+      font-weight: 500;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
     /* =============================================
@@ -304,7 +335,14 @@
       border-radius: 50%;
       background: var(--bg);
     }
-    .tl-item.star .tl-dot { border-color: var(--accent); background: var(--accent); }
+    .tl-item.star .tl-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+      width: 12px;
+      height: 12px;
+      left: -35px;
+      box-shadow: 0 0 0 3px var(--accent-lt);
+    }
     .tl-item.warn .tl-dot { border-color: #C9821F; background: #C9821F; }
     .tl-head {
       font-size: 14px;
@@ -625,6 +663,7 @@
       box-shadow: var(--shadow);
       padding: 14px 16px;
       margin-bottom: 10px;
+      border-top: 2px solid var(--accent);
     }
     .hotel-name {
       font-weight: 500;
@@ -693,16 +732,18 @@
        Alert／警告區塊
        ============================================= */
     .alert {
+      border: 1px solid rgba(127,35,36,0.12);
       border-left: 3px solid var(--accent);
       background: var(--accent-lt);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
       margin-bottom: 10px;
       font-size: 13px;
       color: var(--text);
     }
     .alert.green {
-      border-color: var(--tea);
+      border: 1px solid rgba(94,122,80,0.15);
+      border-left: 3px solid var(--tea);
       background: var(--tea-lt);
     }
 
@@ -810,19 +851,31 @@
        ============================================= */
     .overview-hero {
       text-align: center;
-      padding: 28px 0 8px;
+      padding: 32px 0 14px;
     }
     .overview-title {
       font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.25em;
+      font-size: 11px;
+      letter-spacing: 0.32em;
       color: var(--text3);
-      margin-bottom: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .overview-title::before,
+    .overview-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 44px;
     }
     .overview-subtitle {
       font-size: 11px;
-      letter-spacing: 0.12em;
-      color: var(--text3);
+      letter-spacing: 0.14em;
+      color: var(--text2);
     }
     .cd-section-label {
       text-align: center;
@@ -946,9 +999,12 @@
     }
     .three-info .info-cell {
       text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
     }
     .three-info .info-val {
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 400;
     }
 
     /* =============================================
@@ -1240,7 +1296,7 @@
       <div class="sec-sub reveal">飛機上複習，落地即用</div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">🗣 瑞士德語常用短句</div>
+        <div class="card-label">🗣 瑞士德語常用短句</div>
         <div style="display:grid;gap:7px">
           <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
             <span style="font-size:14px;font-weight:500;color:var(--accent)">Grüezi</span>
@@ -1281,7 +1337,7 @@
       </div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">🚨 緊急電話</div>
+        <div class="card-label">🚨 緊急電話</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div style="background:var(--card2);border-radius:8px;padding:10px 12px">
             <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">117</div>
@@ -1307,7 +1363,7 @@
       </div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">🎩 瑞士禮儀 · 生活須知</div>
+        <div class="card-label">🎩 瑞士禮儀 · 生活須知</div>
         <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
           <div style="display:flex;gap:10px">
             <span style="font-size:16px;flex-shrink:0">💴</span>
@@ -1341,7 +1397,7 @@
       </div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">🍽 各地必嚐美食</div>
+        <div class="card-label">🍽 各地必嚐美食</div>
         <div style="display:grid;gap:14px;font-size:13px">
 
           <div>
@@ -1402,7 +1458,7 @@
       <div class="sec-sub reveal">出發前必設定，落地即可用</div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">📱 上網方案比較（瑞士非 EU，請確認方案含瑞士）</div>
+        <div class="card-label">📱 上網方案比較（瑞士非 EU，請確認方案含瑞士）</div>
         <div style="display:grid;gap:10px">
 
           <div style="background:var(--tea-lt);border-radius:8px;padding:12px 14px;border:1px solid var(--tea)">
@@ -1435,7 +1491,7 @@
         </div>
 
         <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
-          <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:8px">📲 出發前必裝 App（建議台灣就裝好）</div>
+          <div class="card-label">📲 出發前必裝 App（建議台灣就裝好）</div>
           <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
             <div style="display:flex;gap:10px;align-items:flex-start">
               <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">SBB 瑞士鐵道</span>
@@ -1473,7 +1529,7 @@
       <div class="sec-sub reveal">STP — 整趟旅程最重要的一張票</div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">✅ STP 完全免費項目</div>
+        <div class="card-label">✅ STP 完全免費項目</div>
         <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
           <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>全瑞士 SBB 普通火車、InterCity、IC、EC 所有班次（含 IC35 Zürich→Bern 等快車）</span></div>
           <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>全國 PostBus（黃色郵政巴士），含往 Fex Valley、Sigriswil 等偏遠路線</span></div>
@@ -1485,7 +1541,7 @@
           <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>蘇黎世國家博物館（Landesmuseum）</span></div>
         </div>
         <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
-          <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:8px">🏷 STP 五折優惠（重要景點）</div>
+          <div class="card-label">🏷 STP 五折優惠（重要景點）</div>
           <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
             <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Gornergrat 登山鐵路（原價 CHF 92/2人 → STP CHF 46）</span></div>
             <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Klein Matterhorn（Matterhorn Glacier Paradise）纜車</span></div>
@@ -1510,7 +1566,7 @@
       <div class="sec-sub reveal">瑞士鐵路初體驗，上車前先看這裡</div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px">🚉 最重要的觀念：瑞士火車站沒有閘門</div>
+        <div class="card-label">🚉 最重要的觀念：瑞士火車站沒有閘門</div>
         <div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:14px">
           瑞士鐵路採<strong>榮譽制（Honor System）</strong>——月台完全開放，任何人都能直接走上去。票券由<strong>列車長（Zugbegleiter）</strong>在車廂內查票。只要持 STP 正本 + 護照，坐下等查票即可。<br>
           ⚠️ 沒票被查到的罰款 <strong>CHF 100 起</strong>，外加補票。STP 隨身攜帶，不要放在旅館。
@@ -1848,7 +1904,7 @@
       <div class="sec-sub reveal">瑞士很貴，但處處都有省錢空間</div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px">🍽 飲食篇（差距最大，最值得省）</div>
+        <div class="card-label">🍽 飲食篇（差距最大，最值得省）</div>
         <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
 
           <div style="display:flex;gap:10px;align-items:flex-start">
@@ -1895,7 +1951,7 @@
       </div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px">💳 金錢 & 換匯篇</div>
+        <div class="card-label">💳 金錢 & 換匯篇</div>
         <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
 
           <div style="display:flex;gap:10px;align-items:flex-start">
@@ -1927,7 +1983,7 @@
       </div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px">🏔 景點 & 活動篇</div>
+        <div class="card-label">🏔 景點 & 活動篇</div>
         <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
 
           <div style="display:flex;gap:10px;align-items:flex-start">
@@ -1970,7 +2026,7 @@
       </div>
 
       <div class="card reveal" style="padding:16px">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px">🛍 購物 & 紀念品省錢</div>
+        <div class="card-label">🛍 購物 & 紀念品省錢</div>
         <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
 
           <div style="display:flex;gap:10px;align-items:flex-start">
@@ -1997,7 +2053,7 @@
       </div>
 
       <div class="card reveal" style="padding:14px 16px;background:var(--card2)">
-        <div style="font-size:12px;letter-spacing:0.1em;color:var(--text3);margin-bottom:10px">💡 最容易被忽略的隱形支出</div>
+        <div class="card-label">💡 最容易被忽略的隱形支出</div>
         <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
           <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚽</span><span>部分車站公廁收費 CHF 1–2，隨身備銅板</span></div>
           <div style="display:flex;gap:10px"><span style="flex-shrink:0">🛍</span><span>超市袋子收費 CHF 0.05–0.50，帶摺疊環保袋</span></div>
