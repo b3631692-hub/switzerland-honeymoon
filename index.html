@@ -344,6 +344,19 @@
       box-shadow: 0 0 0 3px var(--accent-lt);
     }
     .tl-item.warn .tl-dot { border-color: #C9821F; background: #C9821F; }
+    /* 旅程路線：依日期填滿圓圈（done＝已走過、now＝進行中） */
+    .tl-item.done .tl-dot {
+      border-color: var(--tea);
+      background: var(--tea);
+    }
+    .tl-item.now .tl-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+      width: 12px;
+      height: 12px;
+      left: -35px;
+      box-shadow: 0 0 0 3px var(--accent-lt);
+    }
     .tl-head {
       font-size: 14px;
       font-weight: 500;
@@ -1078,7 +1091,7 @@
       <span style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:15px;letter-spacing:0.12em;color:var(--text)">瑞士蜜月 2026</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
-      <span id="weather-info" class="weather-row" style="padding:4px 10px;font-size:12px">載入中⋯</span>
+      <button id="weather-info" class="weather-row" onclick="cycleWeatherCity()" title="點擊切換基地城市" style="padding:4px 10px;font-size:12px;border:none;cursor:pointer;color:var(--text);-webkit-tap-highlight-color:transparent;touch-action:manipulation">載入中⋯</button>
       <button onclick="toggleDark()" style="background:none;border:none;cursor:pointer;font-size:18px;padding:4px;color:var(--text3)">◑</button>
     </div>
   </header>
@@ -1179,10 +1192,11 @@
         <span id="rate-display" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;font-size:15px;font-weight:500;color:var(--text);margin-left:auto">1 CHF ≈ -- TWD</span>
       </div>
 
-      <!-- 天氣 -->
-      <div class="weather-row reveal" style="margin-bottom:12px">
+      <!-- 天氣（點擊切換基地城市） -->
+      <div class="weather-row reveal" onclick="cycleWeatherCity()" title="點擊切換基地城市" style="margin-bottom:12px;cursor:pointer;-webkit-tap-highlight-color:transparent">
         <span style="font-size:16px">🏔</span>
-        <span style="font-size:13px;color:var(--text2)">Pontresina 今日</span>
+        <span id="weather-city-label" style="font-size:13px;color:var(--text2)">Pontresina 今日</span>
+        <span style="font-size:10px;color:var(--text3);letter-spacing:0.05em">⇄</span>
         <span id="weather-detail" style="font-size:13px;color:var(--text);margin-left:auto">載入中⋯</span>
       </div>
 
@@ -1198,7 +1212,7 @@
           <div class="info-lbl">STP 景點</div>
         </div>
         <div class="info-cell">
-          <div class="info-val" style="font-size:14px">306,613</div>
+          <div class="info-val">30.7萬</div>
           <div class="info-lbl">預算 TWD</div>
         </div>
       </div>
@@ -1228,43 +1242,43 @@
       <div class="sec-sub reveal">16 天縱覽瑞士</div>
 
       <div class="card reveal" style="padding:16px 16px 8px">
-        <div class="tl-wrap">
-          <div class="tl-item star">
+        <div class="tl-wrap" id="route-tl">
+          <div class="tl-item" data-from="2026-06-16" data-to="2026-06-16">
             <div class="tl-dot"></div>
             <div class="tl-head">蘇黎世機場 ZRH 抵達</div>
             <div class="tl-body"><p>6/16（二）✦ EK087 抵達後直驅恩加丁</p></div>
           </div>
-          <div class="tl-item">
+          <div class="tl-item" data-from="2026-06-17" data-to="2026-06-20">
             <div class="tl-dot"></div>
             <div class="tl-head">恩加丁 Engadin</div>
             <div class="tl-body"><p>6/17–6/20 ✦ Pontresina 為基地</p><p>Diavolezza、Fex Valley、Bernina Express</p></div>
           </div>
-          <div class="tl-item star">
+          <div class="tl-item" data-from="2026-06-21" data-to="2026-06-21">
             <div class="tl-dot"></div>
             <div class="tl-head">冰河快車 Glacier Express</div>
             <div class="tl-body"><p>6/21（日）✦ St. Moritz → Zermatt</p></div>
           </div>
-          <div class="tl-item">
+          <div class="tl-item" data-from="2026-06-22" data-to="2026-06-24">
             <div class="tl-dot"></div>
             <div class="tl-head">策馬特 Zermatt</div>
             <div class="tl-body"><p>6/22–6/24 ✦ Klein Matterhorn、Oeschinensee</p></div>
           </div>
-          <div class="tl-item">
+          <div class="tl-item" data-from="2026-06-25" data-to="2026-06-26">
             <div class="tl-dot"></div>
             <div class="tl-head">伯恩 Bern</div>
             <div class="tl-body"><p>6/25–6/26 ✦ 老城區、Lauterbrunnen</p></div>
           </div>
-          <div class="tl-item">
+          <div class="tl-item" data-from="2026-06-27" data-to="2026-06-28">
             <div class="tl-dot"></div>
             <div class="tl-head">琉森 Lucerne</div>
             <div class="tl-body"><p>6/27–6/28 ✦ 瑞吉山 Rigi</p></div>
           </div>
-          <div class="tl-item">
+          <div class="tl-item" data-from="2026-06-29" data-to="2026-06-30">
             <div class="tl-dot"></div>
             <div class="tl-head">蘇黎世 Zürich</div>
             <div class="tl-body"><p>6/29–6/30 ✦ 萊茵瀑布 Rheinfall</p></div>
           </div>
-          <div class="tl-item star">
+          <div class="tl-item" data-from="2026-07-01" data-to="2026-07-02">
             <div class="tl-dot"></div>
             <div class="tl-head">返台</div>
             <div class="tl-body"><p>7/1（三）✦ ZRH 出發，7/2 返抵台北</p></div>
@@ -6842,11 +6856,65 @@ function updateTimes() {
 }
 
 /* ═══════════════════════════════════════
-   天氣 API（open-meteo，Pontresina）
+   天氣 API（open-meteo）— 點擊循環基地城市
+   旅程中預設顯示當日基地城市
 ═══════════════════════════════════════ */
+var WX_CITIES = [
+  { name: 'Zürich',     lat: 47.3769, lon: 8.5417 },
+  { name: 'Pontresina', lat: 46.4877, lon: 9.9019 },
+  { name: 'Zermatt',    lat: 46.0207, lon: 7.7491 },
+  { name: 'Bern',       lat: 46.9480, lon: 7.4474 },
+  { name: 'Zug',        lat: 47.1662, lon: 8.5155 }
+];
+// 旅程每日基地城市（值 = WX_CITIES index）
+var WX_DAY_CITY = {
+  '2026-06-16': 0,
+  '2026-06-17': 1, '2026-06-18': 1, '2026-06-19': 1, '2026-06-20': 1,
+  '2026-06-21': 2, '2026-06-22': 2, '2026-06-23': 2, '2026-06-24': 2,
+  '2026-06-25': 3, '2026-06-26': 3,
+  '2026-06-27': 4, '2026-06-28': 4,
+  '2026-06-29': 0, '2026-06-30': 0, '2026-07-01': 0
+};
+var wxIdx = (function() {
+  var d = new Date();
+  var key = d.getFullYear() + '-' +
+            String(d.getMonth() + 1).padStart(2, '0') + '-' +
+            String(d.getDate()).padStart(2, '0');
+  return (key in WX_DAY_CITY) ? WX_DAY_CITY[key] : 1;  // 出發前後預設 Pontresina
+})();
+
+function cycleWeatherCity() {
+  wxIdx = (wxIdx + 1) % WX_CITIES.length;
+  var wInfo = document.getElementById('weather-info');
+  if (wInfo) wInfo.textContent = '⋯ ' + WX_CITIES[wxIdx].name;
+  fetchWeather();
+}
+
+// ── 旅程路線：依今天日期填滿圓圈（已走過＝綠、進行中＝紅、未來＝空心） ──
+function paintRoute() {
+  var wrap = document.getElementById('route-tl');
+  if (!wrap) return;
+  var d = new Date();
+  var today = d.getFullYear() + '-' +
+              String(d.getMonth() + 1).padStart(2, '0') + '-' +
+              String(d.getDate()).padStart(2, '0');
+  wrap.querySelectorAll('.tl-item').forEach(function(item) {
+    var from = item.getAttribute('data-from');
+    var to = item.getAttribute('data-to');
+    if (!from || !to) return;
+    item.classList.remove('done', 'now');
+    if (today > to) {
+      item.classList.add('done');       // 已走過
+    } else if (today >= from) {
+      item.classList.add('now');        // 進行中
+    }                                    // 未來＝維持空心
+  });
+}
+
 async function fetchWeather() {
   try {
-    var url = 'https://api.open-meteo.com/v1/forecast?latitude=46.4877&longitude=9.9019&current_weather=true&temperature_unit=celsius';
+    var c = WX_CITIES[wxIdx];
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + c.lat + '&longitude=' + c.lon + '&current_weather=true&temperature_unit=celsius';
     var res = await fetch(url);
     if (!res.ok) return;
     var data = await res.json();
@@ -6872,26 +6940,28 @@ async function fetchWeather() {
     else if (code >= 85 && code <= 86) icon = '🌨';
     else if (code >= 95 && code <= 99) icon = '⛈';
 
-    var text = icon + ' ' + temp + '°C · Pontresina';
+    var text = icon + ' ' + temp + '°C · ' + c.name;
 
     // 填入 weather-info（topbar）
     var wInfo = document.getElementById('weather-info');
     if (wInfo) wInfo.textContent = text;
 
-    // 填入 weather-detail（總覽頁）
+    // 填入 weather-detail（總覽頁）＋城市標籤
     var wDetail = document.getElementById('weather-detail');
-    if (wDetail) wDetail.textContent = text;
+    if (wDetail) wDetail.textContent = icon + ' ' + temp + '°C';
+    var wCity = document.getElementById('weather-city-label');
+    if (wCity) wCity.textContent = c.name + ' 今日';
   } catch (e) {
     // 靜默忽略
   }
 }
 
 /* ═══════════════════════════════════════
-   匯率 API（frankfurter.app）
+   匯率 API（open.er-api.com — frankfurter 不支援 TWD）
 ═══════════════════════════════════════ */
 async function fetchRate() {
   try {
-    var url = 'https://api.frankfurter.app/latest?from=CHF&to=TWD';
+    var url = 'https://open.er-api.com/v6/latest/CHF';
     var res = await fetch(url);
     if (!res.ok) return;
     var data = await res.json();
@@ -7081,6 +7151,9 @@ window.addEventListener('DOMContentLoaded', function() {
   // 每 10 分鐘重新抓取
   setInterval(fetchWeather, 600000);
   setInterval(fetchRate, 600000);
+
+  // ── 旅程路線圓圈依日期上色 ──
+  paintRoute();
 
   // ── 還原清單勾選狀態 ──
   restoreChecks();
