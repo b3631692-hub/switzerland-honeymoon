@@ -461,9 +461,27 @@
     .day-btn:not(.active) .ds-city  { color: var(--text3); }
 
     /* 日程內容容器 */
-    .days-content { padding: 16px 16px 0; }
+    .days-content { padding: 16px 16px 0; position: relative; overflow: hidden; }
     .day-content { display: none; }
     .day-content.active { display: block; }
+
+    /* ── 左右滑動換日動畫 ── */
+    @keyframes _slideInR  { from { transform: translateX(105%); } to { transform: translateX(0); } }
+    @keyframes _slideInL  { from { transform: translateX(-105%); } to { transform: translateX(0); } }
+    @keyframes _slideOutL { from { transform: translateX(0); } to { transform: translateX(-105%); } }
+    @keyframes _slideOutR { from { transform: translateX(0); } to { transform: translateX(105%); } }
+    .day-anim-in-r  { animation: _slideInR  .32s cubic-bezier(.4,0,.2,1) both; }
+    .day-anim-in-l  { animation: _slideInL  .32s cubic-bezier(.4,0,.2,1) both; }
+    .day-anim-out-l {
+      animation: _slideOutL .32s cubic-bezier(.4,0,.2,1) both;
+      position: absolute !important; top: 0; left: 0; right: 0; z-index: 5;
+      pointer-events: none;
+    }
+    .day-anim-out-r {
+      animation: _slideOutR .32s cubic-bezier(.4,0,.2,1) both;
+      position: absolute !important; top: 0; left: 0; right: 0; z-index: 5;
+      pointer-events: none;
+    }
 
     /* =============================================
        Checklist
@@ -6412,31 +6430,83 @@ function switchTab(id, btn) {
 /* ═══════════════════════════════════════
    行程：選擇日期
 ═══════════════════════════════════════ */
+var DAY_ORDER = ['0616','0617','0618','0619','0620','0621','0622','0623','0624','0625','0626','0627','0628','0629','0630','0701'];
+var _dayBusy = false;
+
+function getCurrentDayId() {
+  var b = document.querySelector('.day-btn.active');
+  return b ? b.id.replace('dsel-', '') : DAY_ORDER[0];
+}
+
 function showDay(d) {
-  // 切換日程後捲回頂部
-  var main = document.getElementById('main');
-  if (main) main.scrollTop = 0;
-  // 隱藏所有 day-content
-  document.querySelectorAll('.day-content').forEach(function(el) {
-    el.classList.remove('active');
-  });
-  // 移除所有 day-btn active
-  document.querySelectorAll('.day-btn').forEach(function(el) {
-    el.classList.remove('active');
-  });
-  // 顯示目標日程
+  if (_dayBusy) return;
+  var main   = document.getElementById('main');
   var target = document.getElementById('day-' + d);
-  if (target) target.classList.add('active');
-  // 加 active 到對應按鈕
-  var btn = document.getElementById('dsel-' + d);
+  var btn    = document.getElementById('dsel-' + d);
+  if (!target) return;
+
+  var curId  = getCurrentDayId();
+  var curIdx = DAY_ORDER.indexOf(curId);
+  var newIdx = DAY_ORDER.indexOf(d);
+  var dir    = newIdx > curIdx ? 1 : (newIdx < curIdx ? -1 : 0);
+  var prev   = document.querySelector('.day-content.active');
+
+  document.querySelectorAll('.day-btn').forEach(function(el) { el.classList.remove('active'); });
   if (btn) {
     btn.classList.add('active');
-    // 捲入視野
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
-  // 重新觸發 reveal 動畫
-  setupReveal();
+
+  if (!prev || !dir || prev === target) {
+    document.querySelectorAll('.day-content').forEach(function(el) { el.classList.remove('active'); });
+    target.classList.add('active');
+    if (main) main.scrollTop = 0;
+    setupReveal();
+    return;
+  }
+
+  _dayBusy = true;
+  if (main) main.scrollTop = 0;
+
+  var inCls  = dir > 0 ? 'day-anim-in-r'  : 'day-anim-in-l';
+  var outCls = dir > 0 ? 'day-anim-out-l' : 'day-anim-out-r';
+
+  prev.classList.add(outCls);
+  target.classList.add('active', inCls);
+
+  setTimeout(function() {
+    prev.classList.remove('active', outCls);
+    target.classList.remove(inCls);
+    _dayBusy = false;
+    setupReveal();
+  }, 340);
 }
+
+function _swipeNav(delta) {
+  var idx = DAY_ORDER.indexOf(getCurrentDayId()) + delta;
+  if (idx >= 0 && idx < DAY_ORDER.length) showDay(DAY_ORDER[idx]);
+}
+
+(function() {
+  var el = document.getElementById('days-content');
+  if (!el) return;
+  var sx, sy, st;
+  el.addEventListener('touchstart', function(e) {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    st = Date.now();
+  }, { passive: true });
+  el.addEventListener('touchend', function(e) {
+    if (sx == null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    var dy = e.changedTouches[0].clientY - sy;
+    var dt = Date.now() - st;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 500) {
+      _swipeNav(dx < 0 ? 1 : -1);
+    }
+    sx = null;
+  }, { passive: true });
+})();
 
 /* ═══════════════════════════════════════
    倒數計時（三態：出發前 / 旅程中 / 旅程後）
