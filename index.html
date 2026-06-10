@@ -152,7 +152,7 @@
       -webkit-backdrop-filter: blur(12px);
       border-top: 1px solid var(--border);
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
 
     /* 底部導航項目 */
@@ -770,66 +770,47 @@
     }
 
     /* =============================================
-       Map styles（mq- prefix，地圖 tab 用）
+       錦囊 tab — 快速跳轉 chips
        ============================================= */
-    .mq-tab-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-    .mq-tab-btn {
+    .kn-chips {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 0 8px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .kn-chips::-webkit-scrollbar { display: none; }
+    .kn-chip {
+      flex-shrink: 0;
       padding: 6px 14px;
       border-radius: 16px;
       border: 1px solid var(--border);
-      background: transparent;
+      background: var(--card);
       font-size: 12px;
+      color: var(--text2);
       cursor: pointer;
       touch-action: manipulation;
-      color: var(--text2);
-      transition: background 150ms;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 150ms, border-color 150ms;
     }
-    .mq-tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .kn-chip:active { background: var(--accent-lt); border-color: var(--accent); }
 
-    .mq-place-card {
-      background: var(--card);
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow);
-      padding: 12px;
-      margin-bottom: 8px;
-    }
-    .mq-name  { font-weight: 500; font-size: 14px; color: var(--text); margin-bottom: 2px; }
-    .mq-addr  { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
-    .mq-tags  { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
-    .mq-btns  { display: flex; gap: 6px; flex-wrap: wrap; }
-    .mq-btn {
+    /* 行程日卡 — 景點地圖連結 */
+    .tl-map-link {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 5px 10px;
-      border-radius: 14px;
-      font-size: 12px;
+      gap: 3px;
+      margin-top: 2px;
+      padding: 3px 12px;
+      border: 1px solid rgba(127,35,36,0.25);
+      border-radius: 12px;
+      font-size: 11px;
+      color: var(--accent);
       text-decoration: none;
       touch-action: manipulation;
     }
-    .mq-btn-pri { background: var(--accent); color: white; }
-    .mq-btn-sec { background: transparent; border: 1px solid var(--border); color: var(--text2); }
-
-    .mq-city-label {
-      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      color: var(--text3);
-      padding: 12px 0 6px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-    .mq-sec { /* JS 控制顯示隱藏 */ }
-    .mq-sec-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .mq-sec-title  { font-size: 15px; font-weight: 500; color: var(--text); }
-    .mq-sec-count  { font-size: 11px; color: var(--text3); margin-left: auto; }
+    body.dark-mode .tl-map-link { border-color: rgba(237,232,224,0.25); }
 
     /* =============================================
        深色模式補強
@@ -1291,779 +1272,6 @@
         </div>
       </div>
 
-      <!-- ── 旅行錦囊：實用德語 ── -->
-      <div class="sec-title reveal">旅行錦囊</div>
-      <div class="sec-sub reveal">飛機上複習，落地即用</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🗣 瑞士德語常用短句</div>
-        <div style="display:grid;gap:7px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Grüezi</span>
-            <span style="font-size:12px;color:var(--text2)">你好（格呂齊，德語區標準問候）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Merci viumau</span>
-            <span style="font-size:12px;color:var(--text2)">非常謝謝（瑞士德語，當地人最愛聽）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Entschuldigung</span>
-            <span style="font-size:12px;color:var(--text2)">不好意思 / 借過（恩舒爾迪根）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Einmal / Zweimal bitte</span>
-            <span style="font-size:12px;color:var(--text2)">一份 / 兩份，謝謝（購票、點餐必用）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Wie viel kostet das?</span>
-            <span style="font-size:12px;color:var(--text2)">這個多少錢？（威菲爾科斯特達斯）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Wo ist der Bahnhof?</span>
-            <span style="font-size:12px;color:var(--text2)">車站在哪裡？（沃伊斯特德爾班霍夫）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Prost! / Guten Appetit!</span>
-            <span style="font-size:12px;color:var(--text2)">乾杯！/ 好好享用！（餐桌必備）</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <span style="font-size:14px;font-weight:500;color:var(--accent)">Das ist wunderbar!</span>
-            <span style="font-size:12px;color:var(--text2)">太棒了！（達斯伊斯特翁德巴）</span>
-          </div>
-        </div>
-        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;color:var(--text3)">
-          💡 Tirano 義大利段：Grazie（謝謝）、Buongiorno（你好）、Per favore（請）
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🚨 緊急電話</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="background:var(--card2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">117</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px">警察 Police</div>
-          </div>
-          <div style="background:var(--card2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">144</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px">救護車 Ambulance</div>
-          </div>
-          <div style="background:var(--card2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">1414</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px">REGA 山岳救援直升機</div>
-          </div>
-          <div style="background:var(--card2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">112</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px">歐盟通用緊急號碼</div>
-          </div>
-        </div>
-        <div style="margin-top:10px;font-size:12px;color:var(--text2)">
-          🇹🇼 台灣外交部急難救助：<strong>+886-800-085-095</strong>（免付費）<br>
-          🇹🇼 駐瑞士代表處：<strong>+41 31 382 27 68</strong>（伯恩）
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🎩 瑞士禮儀 · 生活須知</div>
-        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">💴</span>
-            <div><strong style="color:var(--text)">小費：</strong>非強制。餐廳通常四捨五入到整數；高級餐廳可給 5–10%；計程車也是 round up 即可。</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">🌙</span>
-            <div><strong style="color:var(--text)">安靜時間：</strong>晚上 22:00 後嚴禁噪音，週日全天。飯店走廊輕聲，馬桶衝水聲也要注意。</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">🚆</span>
-            <div><strong style="color:var(--text)">守時文化：</strong>火車、預約都精確到分鐘。SBB 火車誤點率不到 5%，提前到月台是基本禮貌。</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">🙂</span>
-            <div><strong style="color:var(--text)">打招呼：</strong>進電梯、走山道遇到陌生人，點頭微笑說一聲「Grüezi」是標準禮節。</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">🛒</span>
-            <div><strong style="color:var(--text)">週日公休：</strong>Migros、Coop 一般門市週日不營業。車站內的 Coop Pronto / avec 每天開。</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">💧</span>
-            <div><strong style="color:var(--text)">自來水可飲：</strong>瑞士水龍頭水質世界一流，帶水壺補充，不必買礦泉水。路邊 Brunnen（噴泉）通常也可飲用。</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <span style="font-size:16px;flex-shrink:0">💳</span>
-            <div><strong style="color:var(--text)">現金備用：</strong>瑞士信用卡普及，但纜車售票、小鎮小店、市集攤位仍以現金為主。隨身備 CHF 100–200。</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🍽 各地必嚐美食</div>
-        <div style="display:grid;gap:14px;font-size:13px">
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏔 恩加丁 Graubünden</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px">
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Bündnerfleisch 空氣風乾生牛肉</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Capuns 菾菜葉菜餃</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Maluns 炒土豆粒</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Engadiner Nusstorte 核桃塔</span>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏔 策馬特 Valais</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px">
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Raclette 烤起士刮盤</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Fondue 起士火鍋</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Valais 黑麥麵包</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Valais Blanc 白葡萄酒</span>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏛 伯恩 Bern</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px">
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Rösti 伯恩薯餅（最正宗）</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Alplermagronen 阿爾卑斯焗通心粉</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Gruyères AOP 起士</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Meringue mit Rahm 蛋白霜奶油</span>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🌉 琉森 Lucerne</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px">
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Luzerner Chügelipastete 酥皮肉派</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Leberknödel 肝丸濃湯</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Willisauer Ringli 硬環餅乾</span>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏙 蘇黎世 Zürich</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px">
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Zürichgeschnetzeltes 嫩牛條佐薯餅</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Tirggel 薑味薄餅乾</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Lindt / Sprüngli 巧克力（本店）</span>
-              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Rivella 奶清碳酸飲料</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ── STP 完整攻略 ── -->
-      <!-- ── 手機與網路 ── -->
-      <div class="sec-title reveal">手機 & 網路</div>
-      <div class="sec-sub reveal">出發前必設定，落地即可用</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">📱 上網方案比較（瑞士非 EU，請確認方案含瑞士）</div>
-        <div style="display:grid;gap:10px">
-
-          <div style="background:var(--tea-lt);border-radius:8px;padding:12px 14px;border:1px solid var(--tea)">
-            <div style="font-size:13px;font-weight:500;color:var(--tea);margin-bottom:4px">✅ 推薦：eSIM（出發前購買）</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.7">
-              手機同時保留台灣 SIM（接 LINE）+ eSIM（瑞士數據），不換卡最方便。<br>
-              <strong>Airalo</strong>「Switzerland」方案：10GB／30 天，約 USD 16（TWD 515）<br>
-              <strong>Holafly</strong>「Europe」無限量：15 天約 USD 29（TWD 930）<br>
-              ⚠️ 購買前確認方案頁面有「Switzerland 🇨🇭」標示；部分「Europe」方案排除瑞士或額外計費
-            </div>
-            <div style="font-size:11px;color:var(--text3);margin-top:6px">設定步驟：App 購買 → 手機「設定 → 行動服務 → 加入 eSIM」→ 掃描 QR code → 出發當天切換至 eSIM 數據</div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">台灣電信商國際漫遊包</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.7">
-              中華電信／台哥大／遠傳均有「日租型」或「月租型」漫遊包，官網或 App 啟用。<br>
-              日租約 TWD 299–399，方便但費用偏高（16 天約 TWD 5,000–6,000）。<br>
-              優點：不用額外設定，SIM 不動，一鍵開通。
-            </div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">ZRH 機場買瑞士 SIM</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.7">
-              Sunrise 或 Salt 在入境大廳有門市，約 CHF 20–30（TWD 800–1,200）含 10–15GB。<br>
-              缺點：抵達後 19 小時長途飛行、時差狀態下還要操作設定，容易出錯。
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
-          <div class="card-label">📲 出發前必裝 App（建議台灣就裝好）</div>
-          <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">SBB 瑞士鐵道</span>
-              <span>查時刻、買票、儲存車票（離線可用）— 全程最重要的 App</span>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">Google Maps</span>
-              <span>出發前下載「瑞士」離線地圖（設定 → 離線地圖 → 自訂地區）。山區收訊差，離線地圖救命</span>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">Google 翻譯</span>
-              <span>下載德語、義大利語語音包（可離線翻譯菜單、路標）</span>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">Emirates App</span>
-              <span>查航班動態、辦 check-in、看行李秤重限制</span>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">XE Currency</span>
-              <span>離線可查匯率換算，不用每次 Google</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px;padding:10px 12px;background:var(--accent-lt);border-radius:8px;font-size:12px;color:var(--text2)">
-          <strong style="color:var(--accent)">⚠️ 三個重要設定，出發前在台灣就做</strong><br>
-          1. 手機「數據漫遊」務必開啟（設定 → 行動服務 → 數據漫遊 ✓）<br>
-          2. 關閉各 App 的「背景自動更新」，避免偷流量（設定 → 一般 → 背景 App 重新整理 → 使用 Wi-Fi）<br>
-          3. 下載 Google Maps 離線地圖——瑞士山區收訊不穩，離線地圖是最後防線
-        </div>
-      </div>
-
-      <!-- ── STP 攻略 ── -->
-      <div class="sec-title reveal">Swiss Travel Pass 攻略</div>
-      <div class="sec-sub reveal">STP — 整趟旅程最重要的一張票</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">✅ STP 完全免費項目</div>
-        <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>全瑞士 SBB 普通火車、InterCity、IC、EC 所有班次（含 IC35 Zürich→Bern 等快車）</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>全國 PostBus（黃色郵政巴士），含往 Fex Valley、Sigriswil 等偏遠路線</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>蘇黎世、伯恩、琉森、楚格市區電車 / 公車（ZVV / Bernmobil / 等城市系統）</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>琉森湖輪船（SGV）、楚格湖輪船 — 含 Vitznau 渡湖接瑞吉山那段</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>瑞吉山 Vitznau–Rigi Kulm 齒輪鐵路 + Rigi–Arth-Goldau 段</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>冰河列車 Glacier Express 車資（⚠️ 仍需另付 CHF 13/人 訂位費）</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>伯尼納快車 Bernina Express Regio 版（無需訂位費）</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>蘇黎世國家博物館（Landesmuseum）</span></div>
-        </div>
-        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
-          <div class="card-label">🏷 STP 五折優惠（重要景點）</div>
-          <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Gornergrat 登山鐵路（原價 CHF 92/2人 → STP CHF 46）</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Klein Matterhorn（Matterhorn Glacier Paradise）纜車</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Sunnegga Express + Rothorn 登山纜車（五湖健行入口）</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Oeschinensee 纜車（Kandersteg）</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">25%</span><span>Stoos 世界最陡纜車 Peak Experience 套票</span></div>
-          </div>
-        </div>
-        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);background:var(--accent-lt);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text2)">
-          <strong style="color:var(--accent)">⚠️ 使用注意事項</strong><br>
-          · STP 啟用日起連續計算，<strong>6/17 為 Day 1</strong>，最末一日為 7/1（Day 15）<br>
-          · 隨身攜帶 STP 正本（非截圖），查票員不接受手機截圖<br>
-          · 遺失無法補辦，建議拍照備存序號<br>
-          · STP 不含：纜車訂位費、特快列車（ICE）德國段附加費、Engadin Card（飯店提供）<br>
-          · ZRH 機場 → 市區 ZVV 段：STP 啟用前需另購票（約 CHF 7）
-        </div>
-      </div>
-
-      <!-- ── 氣候與穿著 ── -->
-      <!-- ── 搭車實戰指南 ── -->
-      <div class="sec-title reveal">搭車實戰指南</div>
-      <div class="sec-sub reveal">瑞士鐵路初體驗，上車前先看這裡</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🚉 最重要的觀念：瑞士火車站沒有閘門</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:14px">
-          瑞士鐵路採<strong>榮譽制（Honor System）</strong>——月台完全開放，任何人都能直接走上去。票券由<strong>列車長（Zugbegleiter）</strong>在車廂內查票。只要持 STP 正本 + 護照，坐下等查票即可。<br>
-          ⚠️ 沒票被查到的罰款 <strong>CHF 100 起</strong>，外加補票。STP 隨身攜帶，不要放在旅館。
-        </div>
-
-        <div style="display:grid;gap:14px">
-
-          <div style="border-left:3px solid var(--tea);padding-left:12px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">📋 上車五步驟</div>
-            <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
-              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">①</span><span>查 SBB App 或黃色出發看板（<strong>Abfahrt</strong>），確認班次、月台（<strong>Gleis</strong>）、終點站</span></div>
-              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">②</span><span>提前 <strong>5 分鐘</strong>到月台——瑞士火車準時到秒，不等人。看月台上的車廂排列圖（<strong>Wagenstandanzeiger</strong>），對應你的車廂號碼站在正確位置</span></div>
-              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">③</span><span>上車找座位。車廂外側有大數字「<strong>1</strong>」或「<strong>2</strong>」標示等級——STP 為<strong>二等（2）</strong>，誤坐一等廂補票差價</span></div>
-              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">④</span><span>冰河列車有劃位（你們的 PE907），對應車廂號 + 座位號坐下</span></div>
-              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">⑤</span><span>列車長來查票，出示 <strong>STP 正本 + 護照</strong>（偶爾會查證件確認是本人）</span></div>
-            </div>
-          </div>
-
-          <div style="border-left:3px solid var(--tea);padding-left:12px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🔁 轉車的藝術</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.75">
-              SBB 官方標準：<strong>轉車時間 3–5 分鐘就算「可接駁」</strong>，瑞士準點率超過 92%，這通常真的夠。但初次到訪不熟站體，建議查詢時選 <strong>8 分鐘以上轉乘</strong>的班次更安心。<br><br>
-              <strong>萬一真的誤班</strong>：直接搭同方向下一班，無需重買票。若因班次誤點造成誤班，車廂內或 SBB App 的「Connection Missed」功能可自動安排替代路線，向列車長說「I missed my connection」也可請他協助。
-            </div>
-          </div>
-
-          <div style="border-left:3px solid var(--tea);padding-left:12px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🎫 哪些車需要「另付訂位費」</div>
-            <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span>Glacier Express 冰河列車 <span style="font-size:11px;color:var(--text3)">（你們已確認 PE907）</span></span>
-                <span style="color:var(--accent);font-weight:500">CHF 13 / 人 ✓需訂</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span>Bernina Express 全景版 <span style="font-size:11px;color:var(--text3)">（你們搭 Regio 版）</span></span>
-                <span style="color:var(--accent);font-weight:500">CHF 16 / 人（你們不需）</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span>一般 IC / IR / RE / S-Bahn</span>
-                <span style="color:var(--tea);font-weight:500">不需訂位，直接上車</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span>RhB（雷蒂亞鐵路，恩加丁段）</span>
-                <span style="color:var(--tea);font-weight:500">STP 有效，不需訂位</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="border-left:3px solid var(--tea);padding-left:12px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🗝 SBB App 必學四功能</div>
-            <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🔍</span><span><strong>Journey planner（連線查詢）</strong>：輸入出發站 + 目的站 + 時間，即時查詢最佳路線、月台、轉車資訊</span></div>
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">📍</span><span><strong>Stationboard（即時到離站）</strong>：輸入車站名，查看下 30 分鐘的所有班次與即時狀態，比黃色看板更詳細</span></div>
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚂</span><span><strong>Train composition（列車組成圖）</strong>：在班次詳情頁可看列車各車廂排列、哪節是安靜車廂、哪節有腳踏車位，對應月台等候</span></div>
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">💾</span><span><strong>Offline mode</strong>：查詢結果可儲存，收訊差時仍可查看。重要班次截圖或加入「我的行程」備用</span></div>
-            </div>
-          </div>
-
-          <div style="border-left:3px solid var(--tea);padding-left:12px">
-            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🧳 行李與置物</div>
-            <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">📦</span><span><strong>SBB 行李快遞（Reisegepäck）</strong>：大行李箱前一天在車站辦理，隔日送達目的地飯店，CHF 12–15 / 件。適合從 ZRH → Pontresina、Pontresina → Zermatt、Zermatt → Bern 的重行李</span></div>
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🔒</span><span><strong>行李寄存（Gepäckaufbewahrung）</strong>：大站均有，CHF 5–9 / 件 / 天，或投幣儲物格 CHF 5–10（大小格不同）。Zermatt、Pontresina 這類小站可能只有投幣格</span></div>
-              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚂</span><span>火車上行李放車廂末端的大行李架或座位上方，不要占用座位。SBB 無行李重量限制（與機場不同），但自己搬得動為原則</span></div>
-            </div>
-          </div>
-
-          <div style="background:var(--accent-lt);border-radius:8px;padding:12px 14px">
-            <div style="font-size:12px;font-weight:500;color:var(--accent);margin-bottom:8px">⚠️ 新手常踩的 5 個地雷</div>
-            <div style="display:grid;gap:6px;font-size:12px;color:var(--text2)">
-              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">①</span><span>STP 忘在旅館——查票被抓一樣罰款，每天出門先摸一下口袋確認有帶</span></div>
-              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">②</span><span>坐進一等車廂——車廂外牆有大「1」字，STP 無效，補票差價約 CHF 40+</span></div>
-              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">③</span><span>同月台兩班車同時停靠，上錯方向的——上車前先看車廂側面的目的站標示</span></div>
-              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">④</span><span>ZRH 機場到市區（6/16 還沒啟用 STP）要另外買票，約 CHF 7，忘了買會被罰</span></div>
-              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">⑤</span><span>PostBus 部分班次需事先在 SBB App 預訂座位（免費），上車前看看 App 有沒有提示</span></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ── 氣候 ── -->
-      <div class="sec-title reveal">氣候 & 穿著指南</div>
-      <div class="sec-sub reveal">六月底瑞士各地區天氣預測</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div style="display:grid;gap:12px;font-size:13px">
-
-          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏔 恩加丁 Engadin（6/17–6/20）海拔 1,800m</div>
-            <div style="color:var(--text2);line-height:1.7">
-              白天 14–20°C，早晚 5–10°C（山頂 0–5°C）。6 月午後常有雷陣雨，通常 14:00–16:00 爆發，早上天氣最穩定。<br>
-              <span style="font-size:12px;color:var(--text3)">穿著：防水登山鞋、排汗內衣、羊毛中層、防風雨外套（每日必帶）</span>
-            </div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏔 策馬特 Zermatt（6/21–6/24）海拔 1,608m</div>
-            <div style="color:var(--text2);line-height:1.7">
-              市區白天 18–23°C，但 Klein Matterhorn（3,883m）常年接近 0°C，風強刺骨。<br>
-              <span style="font-size:12px;color:var(--text3)">穿著：Klein Matterhorn 當天須著冬季保暖層（羽絨衣必備）；市區可穿輕薄長褲</span>
-            </div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏛 伯恩 + 琉森（6/24–6/28）平地城市</div>
-            <div style="color:var(--text2);line-height:1.7">
-              白天 22–27°C，是整趟旅程最溫暖的區段。Lauterbrunnen 谷地因山壁遮蔽較涼（18°C）。<br>
-              <span style="font-size:12px;color:var(--text3)">穿著：短袖可，備一件薄外套應對山谷涼意，Stoos 纜車上山後仍需帶外套</span>
-            </div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏙 蘇黎世（6/29–7/1）</div>
-            <div style="color:var(--text2);line-height:1.7">
-              白天 22–26°C，舒適宜人。萊茵瀑布水霧大，備換洗短袖。<br>
-              <span style="font-size:12px;color:var(--text3)">穿著：夏季輕裝，萊茵瀑布小船記得收好相機或備防水袋</span>
-            </div>
-          </div>
-
-          <div style="font-size:12px;color:var(--text3);padding:8px 0;border-top:1px solid var(--border)">
-            ☀️ 高山紫外線比平地強 3–4 倍，防曬 SPF50+ 每 2 小時補塗，含嘴唇護唇膏。<br>
-            ⛈ 雷雨季（6–8月）：若聽見遠雷或天空轉黑，立刻下山，勿在稜線或纜車頂等候。
-          </div>
-        </div>
-      </div>
-
-      <!-- ── 打包清單 ── -->
-      <div class="sec-title reveal">打包清單</div>
-      <div class="sec-sub reveal">山地蜜月出發前必備確認</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13px">
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">👟 鞋 & 衣物</div>
-            <div style="display:grid;gap:5px;color:var(--text2)">
-              <div>☐ 防水登山鞋（腳踝支撐）</div>
-              <div>☐ 舒適走路平底鞋（城市用）</div>
-              <div>☐ 羽絨外套（Klein Matterhorn）</div>
-              <div>☐ 防水防風外套（每日必帶）</div>
-              <div>☐ 快乾排汗長袖（2件）</div>
-              <div>☐ 羊毛或刷毛中層</div>
-              <div>☐ 薄手套 + 毛帽（山頂）</div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">📷 攝影</div>
-            <div style="display:grid;gap:5px;color:var(--text2)">
-              <div>☐ 相機本體 + 充電線</div>
-              <div>☐ 廣角鏡頭（倒影/全景）</div>
-              <div>☐ 三腳架（夜拍/藍調）</div>
-              <div>☐ 偏光鏡 CPL（湖面減反射）</div>
-              <div>☐ ND10 濾鏡（瀑布絲絨感）</div>
-              <div>☐ 備用電池 × 2</div>
-              <div>☐ 備用記憶卡 × 2</div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">⚡ 電器 & 文件</div>
-            <div style="display:grid;gap:5px;color:var(--text2)">
-              <div>☐ 瑞士插頭 Type J（三圓孔，<span style="color:var(--accent)">非歐規 Type C！</span>）</div>
-              <div>☐ 萬用轉接頭（備用）</div>
-              <div>☐ 行動電源 20,000 mAh</div>
-              <div>☐ 護照（含備份掃描檔）</div>
-              <div>☐ STP 正本</div>
-              <div>☐ 信用卡 × 2（不同銀行）</div>
-              <div>☐ CHF 現金 200–300</div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">💊 健康 & 其他</div>
-            <div style="display:grid;gap:5px;color:var(--text2)">
-              <div>☐ 高山反應備藥 Ibuprofen</div>
-              <div>☐ 防曬 SPF50+（足量）</div>
-              <div>☐ 護唇膏 SPF</div>
-              <div>☐ 防蚊液（野餐/湖畔）</div>
-              <div>☐ 個人常備藥</div>
-              <div>☐ 旅遊保險證明文件</div>
-              <div>☐ 摺疊傘 / 輕便雨衣</div>
-            </div>
-          </div>
-
-        </div>
-        <div style="margin-top:12px;font-size:12px;color:var(--accent);padding:8px 10px;background:var(--accent-lt);border-radius:6px">
-          ⚠️ 瑞士插頭是 <strong>Type J（三個圓柱孔，中間一孔偏左）</strong>，與歐洲 Type C/F 不同，買轉接頭時需特別確認「Switzerland Type J」。
-        </div>
-      </div>
-
-      <!-- ── 高山反應指南 ── -->
-      <div class="sec-title reveal">高山反應指南</div>
-      <div class="sec-sub reveal">預防 > 治療，知道徵兆才安心</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div style="display:grid;gap:14px;font-size:13px;color:var(--text2)">
-
-          <div>
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏔 本次行程高風險點</div>
-            <div style="display:grid;gap:6px">
-              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
-                <span>Diavolezza 纜車（6/18）</span><span style="color:var(--accent);font-weight:500">2,978m ⚠️</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
-                <span>Corvatsch 纜車（6/20）</span><span style="color:var(--accent);font-weight:500">3,303m ⚠️</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
-                <span>Gornergrat（6/22）</span><span style="color:var(--accent);font-weight:500">3,089m ⚠️</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
-                <span>Klein Matterhorn（6/23）</span><span style="color:#c62828;font-weight:600">3,883m 🔴 最高</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🩺 症狀辨識（AMS 急性高山症）</div>
-            <div style="display:grid;gap:5px;color:var(--text2)">
-              <div style="display:flex;gap:8px"><span style="color:#f57c00">輕度</span><span>頭痛、輕微頭暈、疲倦、食慾不振 — 多喝水、慢走、休息</span></div>
-              <div style="display:flex;gap:8px"><span style="color:#e53935">中度</span><span>持續頭痛（Ibuprofen 難緩解）、噁心嘔吐、步態不穩 — 立即下山</span></div>
-              <div style="display:flex;gap:8px"><span style="color:#b71c1c">重度</span><span>意識混亂、咳嗽帶泡沫痰、無法行走 — 緊急下山，撥 1414（REGA）</span></div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-weight:500;color:var(--text);margin-bottom:6px">💡 預防與應對</div>
-            <div style="display:grid;gap:6px;color:var(--text2);line-height:1.7">
-              <div>・上山後前 30 分鐘靜坐休息，讓身體慢慢適應，不要立刻跑跳</div>
-              <div>・每小時補水 500ml，高海拔排水快，容易脫水加重症狀</div>
-              <div>・抵達當晚避免飲酒（酒精加劇缺氧反應）</div>
-              <div>・頭痛時用 <strong>Ibuprofen（布洛芬）400mg</strong>，比 Paracetamol 效果更好</div>
-              <div>・若有嚴重症狀，不要強撐，立即搭纜車或鐵路下降 500m 以上即可改善</div>
-              <div>・Klein Matterhorn 從市區直上 2,275m，是本次落差最大的一跳，若有疑慮可在 Schwarzsee（2,583m）停留 30 分鐘先適應</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── 婚紗攝影三大地點 ── -->
-      <div class="sec-title reveal">婚紗攝影完整攻略</div>
-      <div class="sec-sub reveal">三個地點 · 三種光線 · 三種故事</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div style="display:grid;gap:18px">
-
-          <div style="border-left:3px solid var(--accent);padding-left:14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:4px">📍 Lej da Staz（6/18）恩加丁</div>
-            <div style="font-size:12px;color:var(--tea);margin-bottom:6px">最隱秘的高山野花湖泊 · 步行 20 分鐘</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.75">
-              從 Pontresina 步行 20 分鐘可達，不需纜車。<strong>最佳時段 09:00–10:30</strong>，晨光從東側山坡灑入，湖水如鏡，雪山倒影清晰。6 月湖岸龍膽草（Gentian 深藍）和粉色阿爾卑斯薔薇盛開，是其他任何地點都找不到的前景。<br>
-              構圖建議：廣角 24mm 帶入湖面全幅倒影，前景置入花叢，人物站在湖邊石頭；或以 85mm 壓縮山脈背景，人物對焦。水面最靜在晨間，午後常有微風起漣漪。
-            </div>
-          </div>
-
-          <div style="border-left:3px solid var(--accent);padding-left:14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:4px">📍 Lauterbrunnen（6/26）伯恩高地</div>
-            <div style="font-size:12px;color:var(--tea);margin-bottom:6px">全瑞士婚紗師首推 · 72 道瀑布山谷</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.75">
-              <strong>Staubbachfall（300m 直落）</strong>是瑞士最高自由落體瀑布，石灰岩白壁 + 野花 + 瀑布水霧構成最戲劇性的婚紗背景。<strong>最佳時段 09:30–11:00</strong>，此時光線從山谷東邊射入，Staubbachfall 打光完美，遊客尚未大量湧入。<br>
-              ⚠️ 水霧非常大：鏡頭備乾布隨時擦拭，精密相機建議備防水袋。禮服下擺建議帶備用衣物。若天氣不穩可改在谷底平台取景（背後仍有瀑布）。
-            </div>
-          </div>
-
-          <div style="border-left:3px solid var(--accent);padding-left:14px">
-            <div style="font-weight:500;color:var(--text);margin-bottom:4px">📍 Schwarzsee（6/23）策馬特</div>
-            <div style="font-size:12px;color:var(--tea);margin-bottom:6px">馬特洪峰完整倒影湖 · 下午光線最佳</div>
-            <div style="font-size:13px;color:var(--text2);line-height:1.75">
-              由 Klein Matterhorn 纜車下至 Schwarzsee 站（STP 折扣），湖面面向西方，<strong>最佳時段 13:00–16:00</strong>，馬特洪峰在下午光線下呈現暖橙色，與湖面形成冷暖對比。6 月無積雪，視野最開闊，可清楚看見馬特洪峰東北壁的完整輪廓。<br>
-              湖岸有木板棧道，可繞湖一圈（約 30 分鐘），找到最佳角度再換禮服。若前一晚有下雨，隔天早上湖面特別平靜，也是絕佳補拍機會。
-            </div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2)">
-            <strong style="color:var(--text)">📷 三地共通攝影裝備建議</strong><br>
-            廣角 16–24mm（全景倒影）、標準 50mm（人像）、中望遠 85–135mm（壓縮背景）。CPL 偏光鏡在湖面攝影必備（減少水面反光，讓顏色更飽和）。三腳架在藍調時刻使用。
-          </div>
-        </div>
-      </div>
-
-      <!-- ── 購物伴手禮 ── -->
-      <div class="sec-title reveal">購物 & 伴手禮指南</div>
-      <div class="sec-sub reveal">買什麼 · 在哪買 · 帶多少</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div style="display:grid;gap:14px;font-size:13px">
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">🍫 巧克力（必買）</div>
-            <div style="display:grid;gap:6px;color:var(--text2)">
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span><strong>Lindt</strong> 旗艦店（蘇黎世班霍夫大街）</span><span style="font-size:11px;color:var(--text3)">限定口味 / 大包裝</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span><strong>Läderach</strong>（全瑞士均有）</span><span style="font-size:11px;color:var(--text3)">現做新鮮巧克力板</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
-                <span><strong>Confiserie Sprüngli</strong>（蘇黎世本店）</span><span style="font-size:11px;color:var(--text3)">Luxemburgerli 馬卡龍，需冷藏</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">🔪 瑞士刀 Swiss Army Knife</div>
-            <div style="color:var(--text2);line-height:1.7">
-              <strong>Victorinox</strong> 官方門市在策馬特（Bahnhofstrasse）和蘇黎世均有，價格比台灣便宜約 20–30%。⚠️ 飛機只能放<strong>行李箱</strong>，不能帶上機。建議在蘇黎世最後一天購買，直接放托運行李。
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">🧀 起士 & 食品</div>
-            <div style="color:var(--text2);line-height:1.7">
-              Gruyères 原廠起士（格律耶爾，6/25 當地購）、Emmental 起士（孔洞大、味溫和）、Engadiner Nusstorte 核桃塔（Pontresina 或超市）、Ricola 草本喉糖。⚠️ 起士帶回台灣需密封包裝，入境申報即可。
-            </div>
-          </div>
-
-          <div>
-            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">💊 瑞士藥妝（值得帶）</div>
-            <div style="color:var(--text2);line-height:1.7">
-              <strong>Weleda 護膚</strong>（本部在瑞士，比台灣便宜 30–40%）、<strong>Ricola 草本</strong>（正宗，包裝精美）、藥妝店 <strong>Coop Vitality</strong> 或 <strong>Reformhaus</strong> 有機品牌。各城市超市/藥局均有。
-            </div>
-          </div>
-
-          <div style="background:var(--card2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2)">
-            <strong style="color:var(--text)">🎒 行李重量提醒</strong><br>
-            阿聯酋經濟艙托運行李 30kg × 2 件（人均），手提 7kg × 2 件。蜜月買多是正常的，但最後一天蘇黎世購物前先秤一次行李，避免超重罰款（每公斤約 TWD 1,200）。
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ── 省錢妙招 ── -->
-      <div class="sec-title reveal">省錢妙招</div>
-      <div class="sec-sub reveal">瑞士很貴，但處處都有省錢空間</div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🍽 飲食篇（差距最大，最值得省）</div>
-        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🥗</span>
-            <div><strong style="color:var(--text)">午餐點「Tagesmenü」日套餐：</strong>幾乎每間瑞士餐廳 11:30–14:00 都有今日套餐（湯 + 主菜 + 飲料），約 CHF 18–22，比單點省 30–40%。晚餐才單點，省下來的差很多。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🛒</span>
-            <div><strong style="color:var(--text)">超市三強比價（便宜度排序）：</strong><br>
-              <span style="display:inline-block;background:var(--card2);border-radius:5px;padding:2px 8px;margin:3px 3px 3px 0;font-size:12px">Denner / Aldi / Lidl 最便宜</span>
-              <span style="display:inline-block;background:var(--card2);border-radius:5px;padding:2px 8px;margin:3px 3px 3px 0;font-size:12px">Migros 次之</span>
-              <span style="display:inline-block;background:var(--card2);border-radius:5px;padding:2px 8px;margin:3px 3px 3px 0;font-size:12px">Coop 略貴</span>
-              <br><span style="font-size:12px;color:var(--text3)">超市自備食材野餐一餐 = 約 CHF 10（TWD 400）；同等食物在山頂餐廳要 CHF 35（TWD 1,400）</span>
-            </div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🧀</span>
-            <div><strong style="color:var(--text)">山頂自備野餐包：</strong>前一天在超市買好麵包、起士片、火腿、水果，裝進背包，到山頂景觀台野餐。比山頂餐廳節省 CHF 20–40 / 人，景色完全一樣。特別推薦 Rigi 山頂野餐（6/28 已安排）。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">💧</span>
-            <div><strong style="color:var(--text)">不要買礦泉水：</strong>瑞士水龍頭水質世界排名前三，路邊 Brunnen 噴泉幾乎全部可飲用（有「Trinkwasser」標示確認）。帶一個 750ml 保溫瓶，每天省 CHF 3–5。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🍺</span>
-            <div><strong style="color:var(--text)">叫「Leitungswasser」要白開水：</strong>餐廳點水時說「Leitungswasser bitte」（萊通斯瓦瑟，請給自來水），大部分餐廳免費提供。反之自動送礦泉水要收 CHF 4–6。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🇮🇹</span>
-            <div><strong style="color:var(--text)">義大利 Tirano 大採購（6/19）：</strong>同樣的起士、火腿、義大利麵、葡萄酒，在 Tirano 只需瑞士的 40–60%。義式 Gelato 冰淇淋約 €2（約 TWD 70），瑞士要 CHF 5（TWD 200）。當天帶夠現金大採購。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">⏰</span>
-            <div><strong style="color:var(--text)">超市閉店前折扣：</strong>Coop / Migros 每天 17:00–19:00 前，生鮮麵包、熟食、三明治會出現黃色特價標籤，折扣 30–50%。靠近飯店時間允許可去掃一輪。</div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">💳 金錢 & 換匯篇</div>
-        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">💳</span>
-            <div><strong style="color:var(--text)">最划算：用 Wise 卡或 Revolut 刷卡：</strong>這兩張數位金融卡以銀行間匯率換匯（比任何換匯站都好），沒有隱藏手續費。出發前申請，載入 TWD，到瑞士直接刷，系統自動以最優匯率換 CHF。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🏧</span>
-            <div><strong style="color:var(--text)">需要提現金：找 PostFinance ATM：</strong>瑞士 PostFinance（郵政儲蓄）ATM 對外國卡手續費最低。避開機場和觀光區 ATM（手續費貴）。每次提領金額大一點（CHF 200+），減少手續費次數。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🚫</span>
-            <div><strong style="color:var(--text)">絕對不要做：機場換匯：</strong>ZRH 機場的換匯攤匯率約比市場差 5–8%（對 16 天行程約多花 TWD 3,000–5,000）。若需現金，到市區 ATM 提款。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">📌</span>
-            <div><strong style="color:var(--text)">刷卡選「當地貨幣」CHF：</strong>刷卡時機器問「以 CHF 還是 TWD 結帳」，<strong>一律選 CHF</strong>。選 TWD 是讓商家幫你換匯（DCC，匯率更差），選 CHF 讓你的銀行換匯（匯率較好）。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🪙</span>
-            <div><strong style="color:var(--text)">隨身備 CHF 20 零錢：</strong>置物櫃、部分公廁（CHF 1–2）、纜車小費、市集攤販、Sigriswil 吊橋現金收費，這些場合不收卡。零錢不用多，夠用就好。</div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🏔 景點 & 活動篇</div>
-        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🚶</span>
-            <div><strong style="color:var(--text)">徒步取代纜車（有時景色更好）：</strong>Zermatt 五湖健行（6/22）從 Sunnegga 上行但下坡段可步行回市區——腳力好省一段纜車票。Oeschinensee 也有步行上山路線（3 小時），但體力決定。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🆓</span>
-            <div><strong style="color:var(--text)">本次行程中完全免費的景點：</strong>
-              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px">
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">琉森卡貝爾橋散步</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">獅子紀念碑</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">伯恩熊公園</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">伯恩玫瑰園</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">蘇黎世林登霍夫</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Lauterbrunnen 谷底步道</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Staubbachfall 觀景點</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">策馬特老街漫步</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Spiez 城堡外觀</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">沙夫豪森 Munot 要塞</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Stein am Rhein 老城</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Spreuerbrücke 死亡橋</span>
-                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">楚格湖畔 Zytturm 夕陽</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🏊</span>
-            <div><strong style="color:var(--text)">瑞士湖邊游泳免費：</strong>6 月底氣溫夠暖，Zug 湖濱、Zürichsee 湖濱均有免費 Badi（戶外游泳區），人多熱鬧，當地人最愛的夏日活動。不一定在行程內，但路過可以跳下去。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🎫</span>
-            <div><strong style="color:var(--text)">善用 STP 折扣館：</strong>瑞士國家博物館（ZRH，STP 全免）、冰川公園琉森（約 TWD 980，無 STP 折扣但值得）、愛因斯坦故居（CHF 6 / 人，不貴）——這些花少少錢就有豐富內容。</div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:16px">
-        <div class="card-label">🛍 購物 & 紀念品省錢</div>
-        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🍫</span>
-            <div><strong style="color:var(--text)">巧克力別在景點攤位買：</strong>Zermatt 主街、纜車站旁的紀念品店包裝漂亮但貴 2–3 倍。同款 Lindt 在 Migros / Coop 超市買，100g 約 CHF 2–3；景點小店要 CHF 6–8。大量採購在超市，最後一天 Lindt 旗艦店買限定款就好。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🔪</span>
-            <div><strong style="color:var(--text)">Victorinox 等回蘇黎世買：</strong>策馬特紀念品店賣的 Swiss Army Knife 比蘇黎世官方門市貴 10–20%。最後一天班霍夫大街有 Victorinox 門市，價格最正，選擇最多。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🏷</span>
-            <div><strong style="color:var(--text)">Migros M-Budget 自有品牌：</strong>包裝簡單但品質同等，起士、牛奶、餅乾、義大利麵約是品牌商品的 50–60% 價格。自用或不在乎包裝的伴手禮很適合。</div>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <span style="font-size:16px;flex-shrink:0">🧳</span>
-            <div><strong style="color:var(--text)">台灣入境免稅額：</strong>每人 TWD 20,000（約 CHF 630）以內不需申報課稅。兩人合計 TWD 40,000 可帶。超過需填海關申報單，但通常不課稅只是登記。特別管制項目：肉類製品（Bündnerfleisch 風乾牛肉）原則上不得攜入台灣，起士可以。</div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card reveal" style="padding:14px 16px;background:var(--card2)">
-        <div class="card-label">💡 最容易被忽略的隱形支出</div>
-        <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
-          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚽</span><span>部分車站公廁收費 CHF 1–2，隨身備銅板</span></div>
-          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🛍</span><span>超市袋子收費 CHF 0.05–0.50，帶摺疊環保袋</span></div>
-          <div style="display:flex;gap:10px"><span style="flex-shrink:0">☕</span><span>外帶咖啡（To-go）比坐下喝便宜約 CHF 1–2</span></div>
-          <div style="display:flex;gap:10px"><span style="flex-shrink:0">📶</span><span>飯店 Wi-Fi 通常免費，多利用 Wi-Fi 省 eSIM 流量，回 LINE / 上傳照片都在 Wi-Fi 下進行</span></div>
-          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🍦</span><span>冰淇淋在義大利 Tirano（6/19）買——CHF 5 vs €2，同樣品質，省 3 倍</span></div>
-          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🏨</span><span>飯店早餐包含在費用裡（5 間都含），吃飽一點再出門，中午可以撐到更晚才吃</span></div>
-        </div>
-      </div>
-
     </div><!-- /#tab-overview -->
 
     <!-- =============================================
@@ -2413,6 +1621,7 @@
         <p>恩加丁著名的「五湖全景」制高點，可同時俯瞰 <strong>Lej da Champfèr、Lej da Silvaplana、Silsersee</strong> 等多座湖泊。</p>
         <p>📷 攝影提示：廣角鏡頭拍攝全景，下午 2–4 時光線漸暖，呈現金黃色澤。</p>
         <p>日落時分（約 20:30 前後）光線最為壯觀，可考慮傍晚留守等待。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Muottas+Muragl+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2489,6 +1698,7 @@
         <p>6 月正值野花盛開季節，山坡遍布各色高山花卉，包括龍膽草（Gentian）、阿爾卑斯薔薇等。</p>
         <p>俯瞰 Pontresina 小鎮全景，Bernina 山群在背景清晰可見。</p>
         <p>📷 攝影提示：草地花卉微距拍攝，或廣角帶進整個 Pontresina 山谷構圖。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Alp+Languard+Pontresina" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item star">
@@ -2500,6 +1710,7 @@
         <p>Pers Glacier 冰川全景，藍白相間的冰河地形，晴天可見冰裂縫清晰。</p>
         <p>Diavolezza 山頂餐廳可喝熱可可暖身（山頂氣溫約 5–10°C，帶外套）。</p>
         <p>💡 搭車前往：從 Pontresina 搭 Bus 621 至 Bernina Diavolezza 站，STP 免費。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Diavolezza+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item star">
@@ -2516,6 +1727,7 @@
           <li>光線方向：下午西側較順光，拍攝山脈背景時需注意逆光補光</li>
         </ul>
         <p>💡 可先探路確認光線角度，再換婚紗禮服拍攝。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Lej+da+Staz+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2570,6 +1782,7 @@
         <p><strong>Ospizio Bernina（2,253m）</strong>——伯尼納線的最高站，下車拍攝白雪景觀與湖面。</p>
         <p>Lago Bianco（白湖）就在車站旁，湖面視天候呈現翠綠或鐵藍色，是路線上最具代表性的地標。</p>
         <p>📷 攝影提示：火車站月台即為最佳前景，山脈 + 湖面同框構圖。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Ospizio+Bernina+station+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item star">
@@ -2579,6 +1792,7 @@
         <p><strong>Alp Grüm（2,091m）</strong> 是路線上另一處必停站，可在此下車等待下一班（約 1 小時一班）。</p>
         <p>站台露台直接俯瞰 <strong>Poschiavo 谷地</strong>，視角壯觀——從高山急轉入義式山谷的戲劇性落差，讓人印象深刻。</p>
         <p>站內有小型咖啡廳，喝一杯義式咖啡（Ticino 接近義大利風格），享受山間寧靜。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Alp+Gr%C3%BCm+station+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2597,6 +1811,7 @@
         <p>在橋旁步行小徑可居高臨下拍攝，等待下一班火車駛過螺旋橋的精彩畫面。</p>
         <p>📷 攝影提示：用望遠鏡頭壓縮距離，或廣角帶進橋梁完整螺旋形狀，等待火車正在橋上時按快門。</p>
         <p>💡 班次間隔約 1 小時，可查詢 SBB App 確認下一班時刻，提前卡位。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Brusio+Circular+Viaduct+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2608,6 +1823,7 @@
         <p>🍦 <strong>義式 Gelato</strong>：Tirano 市區有多家正宗義大利冰淇淋店，必吃開心果（Pistacchio）口味。</p>
         <p>午餐：當地義大利小館，Pizza 或 Pasta，價格比瑞士便宜約一半。</p>
         <p>💡 記得換一點歐元，部分小店不收信用卡。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Tirano+Italy" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item warn">
@@ -2672,6 +1888,7 @@
         <p>在此可同時看見 Piz Bernina、Piz Roseg 等超過 4,000m 的山峰群，晴天視線甚至可達義大利。</p>
         <p>📷 攝影提示：超廣角拍攝整個高原全景，或以湖泊為主體帶入山群背景。</p>
         <p>💡 搭車路線：從 Pontresina 搭 STP 免費巴士至 Silvaplana，再轉乘至 Corvatsch 纜車站。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Corvatsch+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2682,6 +1899,7 @@
         <p>哲學家 <strong>尼采（Nietzsche）故居</strong>（Nietzsche-Haus）位於此處，他在此寫下《查拉圖斯特拉如是說》，開放參觀（小額門票）。</p>
         <p><strong>Silsersee 湖畔散步</strong>：沿湖岸健行，湖面平靜碧藍，午後光線溫和，適合靜思與拍照。</p>
         <p>午餐：湖畔咖啡廳享用輕食，或 Sils 小村內的傳統餐廳。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Sils-Maria+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item warn">
@@ -2701,6 +1919,7 @@
         <p>馬車緩緩穿越古老農莊、草地牧場，兩側是茂密松林與雪山背景，彷彿進入 19 世紀瑞士明信片。</p>
         <p>💍 蜜月氛圍：馬蹄聲、清晨薄霧（若傍晚才下）、鈴聲悠揚，是整趟蜜月旅程最浪漫的片段。</p>
         <p>📷 攝影提示：馬車行進中拍攝農莊與草地，或回頭拍攝馬車與谷地的寬景。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Fex+Valley+Sils+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2710,6 +1929,7 @@
         <p><strong>Restaurant Coretti</strong> 位於 Fex Valley 谷地深處，是少數在谷內運營的餐廳，蜜月氛圍絕佳。</p>
         <p>建議提前訂位（可請飯店代訂），享用傳統 Graubünden 地方料理：Bündnerfleisch（風乾牛肉）、Capuns（菜餃）等。</p>
         <p>餐後確認末班 PostAuto 或馬車送回至 Sils-Maria，再搭 STP 巴士返回 Pontresina。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Fex+Valley+Sils-Maria+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item warn">
@@ -2869,6 +2089,7 @@
           <li>倒影湖水面最為平靜，無風時期倒影完整清晰</li>
         </ul>
         <p>💡 購票於 Zermatt 車站，出示 STP 享折扣。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Gornergrat+Zermatt" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item star">
@@ -2886,6 +2107,7 @@
           <li>婚紗補拍機會：若天氣允許，此處也是絕佳婚紗補拍地點</li>
         </ul>
         <p>搭下一班 GGB 繼續上行至 Gornergrat 山頂。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Riffelsee+Zermatt+Switzerland" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item star">
@@ -2897,6 +2119,7 @@
         <p><strong>Gorner 冰河（Gornergletscher）</strong> 直接鋪展在眼前，是阿爾卑斯第二大冰河。</p>
         <p>☕ <strong>Kulmhotel Gornergrat</strong> 露台咖啡廳：海拔 3,089m 喝一杯熱咖啡，俯瞰冰河全景，難忘體驗。</p>
         <p>💡 帶厚外套：山頂氣溫約 2–8°C，風力強，需要保暖。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Gornergrat+Zermatt" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2907,6 +2130,7 @@
         <p>五湖之一的 <strong>Stellisee</strong> 提供另一個角度的馬特洪峰倒影，顏色更為翠綠，氣氛截然不同。</p>
         <p>健行路線平緩（約 1.5–2 小時可完成主要部分），沿途每個湖泊都有馬特洪峰不同姿態。</p>
         <p>💡 建議路線：Sunnegga → Leisee → Grindjisee → Grünsee，視體力決定是否走完全部五湖。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Stellisee+Zermatt" target="_blank" rel="noopener">📍 地圖</a></p>
       </div>
     </div>
     <div class="tl-item">
@@ -2970,6 +2194,7 @@
           <p>STP 50% 折扣（TWD 4,000 / 2人），3,883m 歐洲最高纜車站</p>
           <p>馬特洪峰近距離壯觀全景</p>
           <p>⚠️ 高山反應：慢走、多喝水，備 Ibuprofen</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Klein+Matterhorn+Zermatt" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item star">
@@ -2987,6 +2212,7 @@
           <p>纜車下至 Schwarzsee（STP 折扣），馬特洪峰最完整倒影湖</p>
           <p>⚠️ 下午光線最佳；廣角 + 長焦組合</p>
           <p>6 月湖岸無冰雪，視野最開闊</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Schwarzsee+Zermatt" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item">
@@ -3048,12 +2274,13 @@
         <div class="tl-body">
           <p>STP 50% 折扣（TWD 1,400），土耳其藍 UNESCO 高山湖</p>
           <p>雪山環繞絕景，3 月羱羊最活躍，帶長焦</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Oeschinensee+Kandersteg" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head">13:00　午餐 Oeschinensee 山上餐廳</div>
-        <div class="tl-body"><p>俯瞰高山湖用餐</p></div>
+        <div class="tl-body"><p>俯瞰高山湖用餐</p><p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Oeschinensee+Kandersteg" target="_blank" rel="noopener">📍 地圖</a></p></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
@@ -3171,6 +2398,7 @@
         <div class="tl-body">
           <p>Rosengarten，老城全景 + 阿爾卑斯 + 夕陽三元素（6 月日落約 21:30，時間充裕）</p>
           <p>⚠️ 人多，提早 10 分佔最高平台</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Rosengarten+Bern" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
     </div>
@@ -3293,6 +2521,7 @@
         <div class="tl-body">
           <p><strong>Kapellbrücke</strong>，1333 年歐洲最古老有頂木橋，廣角含水塔構圖。</p>
           <p>趁上午遊客少，三腳架多拍幾張白天版本做對比。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Kapellbr%C3%BCcke+Luzern" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item">
@@ -3306,7 +2535,7 @@
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head">13:00　午餐 Wirtshaus Galliker</div>
-        <div class="tl-body"><p>傳統琉森料理，創業 1856 年老店</p></div>
+        <div class="tl-body"><p>傳統琉森料理，創業 1856 年老店</p><p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Wirtshaus+Galliker+Luzern" target="_blank" rel="noopener">📍 地圖</a></p></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
@@ -3331,6 +2560,7 @@
         <div class="tl-body">
           <p>三腳架 15–30s，ISO 400，橋燈映水面</p>
           <p>⚠️ 週六遊客多，提早佔位</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Kapellbr%C3%BCcke+Luzern" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item">
@@ -3488,6 +2718,7 @@
         <div class="tl-body">
           <p>湖畔高級餐廳，⚠️ 強烈建議提前訂位</p>
           <p>⚠️ <strong>6/29 為週一</strong>，網路上營業資訊不一——務必先電話確認＋訂位：<strong>+41 44 405 61 61</strong>。若週一公休，備案：Fischstube 或 Razzia（同為蘇黎世湖畔／高級餐廳）。</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Quai+61+Z%C3%BCrich" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
     </div>
@@ -3538,6 +2769,7 @@
         <div class="tl-head">07:30　出發 S24 直達萊茵瀑布</div>
         <div class="tl-body">
           <p>約 45 分，STP 免費，早班人少</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Rhine+Falls+Schaffhausen" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item">
@@ -3546,6 +2778,7 @@
         <div class="tl-body">
           <p>免費觀景台，廣角 + ND10 絲絨感</p>
           <p>⚠️ 6 月豐水期，帶備用毛巾</p>
+        <p><a class="tl-map-link" href="https://www.google.com/maps/search/?api=1&query=Rhine+Falls+Schaffhausen" target="_blank" rel="noopener">📍 地圖</a></p>
         </div>
       </div>
       <div class="tl-item star">
@@ -3974,1067 +3207,6 @@
 <!-- ============================================= -->
 <!-- Tab 4：清單檢核                                 -->
 <!-- ============================================= -->
-<div id="tab-checklist" class="tab-panel">
-
-  <!-- 整體進度條 -->
-  <div class="card reveal" style="margin-top:16px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-      <div style="font-size:14px;font-weight:500;color:var(--text);">整體完成度</div>
-      <div id="progress-pct" style="font-size:13px;color:var(--accent);font-weight:500;">0 / 12</div>
-    </div>
-    <div class="progress-wrap">
-      <div id="progress-fill" class="progress-fill" style="width:0%"></div>
-    </div>
-    <div style="font-size:11px;color:var(--text3);margin-top:4px;">蜜月必做 12 件事</div>
-  </div>
-
-  <!-- 蜜月 12 件必做 -->
-  <div class="sec-title reveal">蜜月 12 件必做</div>
-  <div class="sec-sub reveal">每完成一件打勾</div>
-
-  <div class="card reveal" id="must-list">
-
-    <div class="check-item" data-id="must-1" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Fex Valley 馬車晚餐預約</div>
-        <div class="check-sub">+41 81 826 56 73</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-2" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">婚紗攝影 Lej da Staz</div>
-        <div class="check-sub">6/18（四）</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-3" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">婚紗攝影 Schwarzsee</div>
-        <div class="check-sub">6/23（二）</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-4" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">婚紗攝影 Lauterbrunnen</div>
-        <div class="check-sub">6/26（五）全瑞士 No.1 婚紗地</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-5" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">冰河列車乘坐</div>
-        <div class="check-sub">6/21 PE907 Chur 14:32 → Zermatt 20:05</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-6" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Riffelsee 馬特洪峰倒影</div>
-        <div class="check-sub">6/22（一）早晨，Gornergrat 線途中</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-7" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Corvatsch 3,303m 制高點</div>
-        <div class="check-sub">6/20（六）Engadin Card 免費</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-8" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Klein Matterhorn 3,883m</div>
-        <div class="check-sub">6/23（二）歐洲最高纜車站</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-9" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Quai 61 蜜月晚餐訂位</div>
-        <div class="check-sub">6/29（一）湖畔高級餐廳，強烈建議提前訂</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-10" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Altes Tramdepot 餐廳訂位</div>
-        <div class="check-sub">6/25（四）伯恩，需預約</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-11" data-group="must" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">Engadin Card 領取</div>
-        <div class="check-sub">6/17 Sunstar Hotel check-in 時索取</div>
-      </div>
-    </div>
-
-    <div class="check-item" data-id="must-12" data-group="must" onclick="toggleCheck(this)" style="border-bottom:none;">
-      <div class="check-box"></div>
-      <div>
-        <div class="check-label">玫瑰園黃金時刻</div>
-        <div class="check-sub">6/25（四）20:30，Rosengarten</div>
-      </div>
-    </div>
-
-  </div><!-- /must-list -->
-
-  <!-- 打包清單 -->
-  <div class="sec-title reveal">打包清單</div>
-  <div class="sec-sub reveal">出發前逐一確認</div>
-
-  <!-- 攝影器材 -->
-  <div class="card reveal">
-    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">📷 攝影器材</div>
-    <div class="check-item" data-id="pack-cam-1" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">Sony A7R5 機身</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-2" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">24–70mm f/2.8 鏡頭</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-3" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">200–600mm 長焦鏡頭</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-4" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">三腳架雲台</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-5" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">ND10 濾鏡</div><div class="check-sub">萊茵瀑布絲絨感必備</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-6" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">備用電池 × 4</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-7" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">儲存卡 × 4</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-8" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">清潔組</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cam-9" onclick="toggleCheck(this)" style="border-bottom:none;">
-      <div class="check-box"></div>
-      <div><div class="check-label">乾布多條</div><div class="check-sub">Schwarzsee / Lauterbrunnen 水霧防護</div></div>
-    </div>
-  </div>
-
-  <!-- 衣物 -->
-  <div class="card reveal">
-    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">👕 衣物</div>
-    <div class="check-item" data-id="pack-cloth-1" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">防水外套 × 2</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-2" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">羽絨背心 × 2</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-3" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">長褲 × 3</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-4" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">短褲 × 2</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-5" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">內衣褲 × 7</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-6" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">毛帽 + 手套</div><div class="check-sub">Klein Matterhorn -5°C 必備</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-7" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">登山鞋</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-8" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">運動鞋</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-9" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">防曬衣</div></div>
-    </div>
-    <div class="check-item" data-id="pack-cloth-10" onclick="toggleCheck(this)" style="border-bottom:none;">
-      <div class="check-box"></div>
-      <div><div class="check-label">婚紗</div><div class="check-sub">婚紗師另行安排</div></div>
-    </div>
-  </div>
-
-  <!-- 藥品 -->
-  <div class="card reveal">
-    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">💊 藥品</div>
-    <div class="check-item" data-id="pack-med-1" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">高山症藥 Diamox</div><div class="check-sub">出發前諮詢醫師處方</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-2" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">暈車藥</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-3" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">腸胃藥</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-4" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">感冒藥</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-5" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">痠痛藥膏</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-6" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">OK 繃</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-7" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">防蚊液</div><div class="check-sub">Lauerzersee 野餐必備</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-8" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">防曬 SPF50+</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-9" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">眼藥水</div></div>
-    </div>
-    <div class="check-item" data-id="pack-med-10" onclick="toggleCheck(this)" style="border-bottom:none;">
-      <div class="check-box"></div>
-      <div><div class="check-label">保濕乳液</div><div class="check-sub">高山乾燥氣候</div></div>
-    </div>
-  </div>
-
-  <!-- 重要文件 -->
-  <div class="card reveal">
-    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">📄 重要文件</div>
-    <div class="check-item" data-id="pack-doc-1" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">護照 × 2</div></div>
-    </div>
-    <div class="check-item" data-id="pack-doc-2" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">機票確認信</div></div>
-    </div>
-    <div class="check-item" data-id="pack-doc-3" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">飯店確認信（全部印出）</div><div class="check-sub">共 6 間</div></div>
-    </div>
-    <div class="check-item" data-id="pack-doc-4" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">Swiss Travel Pass 票券</div></div>
-    </div>
-    <div class="check-item" data-id="pack-doc-5" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">旅遊保險單</div></div>
-    </div>
-    <div class="check-item" data-id="pack-doc-6" onclick="toggleCheck(this)">
-      <div class="check-box"></div>
-      <div><div class="check-label">信用卡 × 2（Visa + Master）</div></div>
-    </div>
-    <div class="check-item" data-id="pack-doc-7" onclick="toggleCheck(this)" style="border-bottom:none;">
-      <div class="check-box"></div>
-      <div><div class="check-label">現金 CHF 300</div><div class="check-sub">備用現金，小費及緊急用途</div></div>
-    </div>
-  </div>
-
-  <!-- 緊急聯絡速查 -->
-  <div class="sec-title reveal">緊急聯絡速查</div>
-  <div class="card reveal">
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--text);">歐洲統一緊急</div>
-          <div style="font-size:11px;color:var(--text3);">火警 / 警察 / 急救</div>
-        </div>
-        <a href="tel:112" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">112</a>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--text);">瑞士救護車</div>
-        </div>
-        <a href="tel:144" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">144</a>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--text);">瑞士警察</div>
-        </div>
-        <a href="tel:117" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">117</a>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--text);">瑞士消防</div>
-        </div>
-        <a href="tel:118" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">118</a>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--accent-lt);border-radius:var(--radius-sm);">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--text);">REGA 山難救援</div>
-          <div style="font-size:11px;color:var(--text3);">直升機緊急救援</div>
-        </div>
-        <a href="tel:1414" style="font-size:22px;font-weight:500;color:var(--accent);font-family:-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;text-decoration:none;">1414</a>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--text);">台灣駐瑞士代表處</div>
-          <div style="font-size:11px;color:var(--text3);">24 小時緊急專線</div>
-        </div>
-        <a href="tel:+41786313210" style="font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;">+41 78 631 32 10</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 城市穿衣建議 -->
-  <div class="sec-title reveal">城市穿衣建議</div>
-  <div class="card reveal">
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <div style="padding:10px 12px;background:var(--card2);border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
-        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">恩加丁 1,800m</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">
-          日夜溫差大，白天 15–20°C，早晚 5–10°C<br>
-          洋蔥穿法，防水外套必備
-        </div>
-      </div>
-      <div style="padding:10px 12px;background:var(--card2);border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
-        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">策馬特 + 高山（3,883m）</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">
-          山上 -5°C 常見，冬季裝備必要<br>
-          保暖手套 + 毛帽 + 厚羽絨不可少
-        </div>
-      </div>
-      <div style="padding:10px 12px;background:var(--card2);border-radius:var(--radius-sm);border-left:3px solid var(--tea);">
-        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">伯恩 / 楚格 / 蘇黎世</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">
-          夏季 20–25°C，輕薄衣物為主<br>
-          備防雨夾克，日夜溫差約 8–10°C
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 進度更新腳本（嵌入於 tab-checklist 底部）-->
-</div><!-- /tab-checklist -->
-<div id="tab-map" class="tab-panel">
-  <div class="sec-title">地圖速查</div>
-  <div class="sec-sub">49 個地點 · 點卡片開 Google Maps</div>
-
-  <!-- 分類篩選 tabs -->
-  <div class="mq-tab-btns">
-    <button class="mq-tab-btn active" id="mq-tab-all" onclick="mqShowSection('all')">全部</button>
-    <button class="mq-tab-btn" id="mq-tab-hotel" onclick="mqShowSection('hotel')">🏨 住宿 6</button>
-    <button class="mq-tab-btn" id="mq-tab-restaurant" onclick="mqShowSection('restaurant')">🍽 餐廳 13</button>
-    <button class="mq-tab-btn" id="mq-tab-station" onclick="mqShowSection('station')">🚉 車站 8</button>
-    <button class="mq-tab-btn" id="mq-tab-photo" onclick="mqShowSection('photo')">📸 景點 22</button>
-  </div>
-
-  <!-- ── 住宿區塊 ── -->
-  <div class="mq-sec" id="mq-sec-hotel">
-    <div class="mq-sec-header">
-      <span class="mq-sec-title">🏨 住宿</span>
-      <span class="mq-sec-count">6 間</span>
-    </div>
-
-    <!-- 1 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Sunstar Hotel Pontresina</div>
-      <div class="mq-addr">Via Fulluns 6, Pontresina</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/17–21</span>
-        <span class="tag tag-free">含 Engadin Card</span>
-        <span class="tag tag-paid">已付清</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Sunstar+Hotel+Pontresina" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- 2 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Trip Inn Jet Hotel Kloten</div>
-      <div class="mq-addr">Kloten（蘇黎世機場附近）</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/16</span>
-        <span class="tag tag-paid">機場飯店</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Trip+Inn+Jet+Hotel+Kloten+Zurich" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Chalet Achat Zermatt</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/21–24</span>
-        <span class="tag tag-paid">已付清</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Chalet+Achat+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- 4 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Swissôtel Kursaal Bern</div>
-      <div class="mq-addr">Bern</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/24–26</span>
-        <span class="tag tag-warn">⚠️ 取消期限＝抵達當天</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Swiss%C3%B4tel+Kursaal+Bern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- 5 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Hotel Zugertor, Zug</div>
-      <div class="mq-addr">Zug, Switzerland</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/26–29</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Hotel+Zugertor+Zug+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- 6 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">ibis Budget Zürich Airport</div>
-      <div class="mq-addr">Zürich Airport 附近</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/29–7/1</span>
-        <span class="tag tag-paid">返程前夕</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=ibis+Budget+Zurich+Airport" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-  </div><!-- /mq-sec-hotel -->
-
-  <!-- ── 餐廳區塊 ── -->
-  <div class="mq-sec" id="mq-sec-restaurant">
-    <div class="mq-sec-header">
-      <span class="mq-sec-title">🍽 餐廳</span>
-      <span class="mq-sec-count">13 間</span>
-    </div>
-
-    <div class="mq-city-label">⭐ 蜜月必訂位（4 間）</div>
-
-    <!-- R1 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Fex Valley 馬車晚餐 · Restaurant Coretti</div>
-      <div class="mq-addr">Sils-Maria，Engadin</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">🎊 6/20</span>
-        <span class="tag tag-warn">⚠️ 務必預約馬車</span>
-        <span class="tag tag-star">+41 81 826 56 73</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Fex+Valley+Sils-Maria+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-        <a class="mq-btn mq-btn-sec" href="tel:+41818265673">📞 立即致電</a>
-      </div>
-    </div>
-
-    <!-- R2 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Restaurant Schäferstube</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">6/22–23</span>
-        <span class="tag tag-paid">傳統瑞士料理</span>
-        <span class="tag tag-warn">⚠️ 建議預約</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Sch%C3%A4ferstube+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R3 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Altes Tramdepot</div>
-      <div class="mq-addr">Bern</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">6/25</span>
-        <span class="tag tag-warn">⚠️ 需預約</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Altes+Tramdepot+Bern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R4 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Quai 61</div>
-      <div class="mq-addr">Zürich</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">6/29 蜜月晚餐</span>
-        <span class="tag tag-warn">⚠️ 建議預約</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Quai+61+Z%C3%BCrich" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <div class="mq-city-label">免訂位（9 間）</div>
-
-    <!-- R5 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Restaurant Station Pontresina</div>
-      <div class="mq-addr">Pontresina</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">傳統瑞士菜 ~CHF 25</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Station+Pontresina" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R6 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Brown Cow Pub</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">英式漢堡 ~CHF 22</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Brown+Cow+Pub+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R7 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Riffelberg Restaurant</div>
-      <div class="mq-addr">Zermatt 山上</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">山上自助</span>
-        <span class="tag tag-star">馬特洪峰景觀</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Riffelberg+Restaurant+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R8 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Restaurant Tramway</div>
-      <div class="mq-addr">Bern</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">~CHF 20</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Tramway+Bern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R9 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Manora Bern</div>
-      <div class="mq-addr">Bern · Manor 百貨</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">百貨自助 ~CHF 18</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Manora+Restaurant+Bern+Manor" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R10 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Wirtshaus Galliker</div>
-      <div class="mq-addr">Luzern</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">傳統料理</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Wirtshaus+Galliker+Luzern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R11 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Pastarazzi</div>
-      <div class="mq-addr">Luzern</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">義式 ~CHF 20</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Pastarazzi+Luzern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R12 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Sternen Grill</div>
-      <div class="mq-addr">Zürich</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">香腸站食 ~CHF 10</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Sternen+Grill+Z%C3%BCrich" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- R13 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Manora Zürich</div>
-      <div class="mq-addr">Zürich · Jelmoli 旁</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免訂位</span>
-        <span class="tag tag-paid">百貨自助 ~CHF 18</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Manora+Restaurant+Z%C3%BCrich" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-  </div><!-- /mq-sec-restaurant -->
-
-  <!-- ── 車站區塊 ── -->
-  <div class="mq-sec" id="mq-sec-station">
-    <div class="mq-sec-header">
-      <span class="mq-sec-title">🚉 車站</span>
-      <span class="mq-sec-count">8 處</span>
-    </div>
-
-    <!-- S1 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">蘇黎世機場 ZRH</div>
-      <div class="mq-addr">Zürich Airport</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/16 抵達</span>
-        <span class="tag tag-warn">7/1 出發</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Z%C3%BCrich+Airport+ZRH" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S2 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Pontresina 火車站</div>
-      <div class="mq-addr">Bahnhof Pontresina</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/17 抵達</span>
-        <span class="tag tag-stp">STP 起用</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Pontresina" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S3 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Chur 火車站</div>
-      <div class="mq-addr">Bahnhof Chur, Switzerland</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">冰河列車起站</span>
-        <span class="tag tag-paid">PE907 · 14:32 發</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Chur+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S4 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Zermatt 火車站</div>
-      <div class="mq-addr">Bahnhof Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/21 抵達</span>
-        <span class="tag tag-free">無車城市</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S5 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Kandersteg 火車站</div>
-      <div class="mq-addr">Bahnhof Kandersteg, Switzerland</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/24</span>
-        <span class="tag tag-paid">Oeschinensee 出發基地</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Kandersteg+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S6 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">伯恩中央車站 HB</div>
-      <div class="mq-addr">Bern Hauptbahnhof</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/24 抵達</span>
-        <span class="tag tag-paid">6/25–26 基地</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bern+Hauptbahnhof" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S7 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Luzern 火車站</div>
-      <div class="mq-addr">Bahnhof Luzern</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">日遊基地</span>
-        <span class="tag tag-free">Kapellbrücke 步行 3 分</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Luzern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- S8 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Zug 火車站</div>
-      <div class="mq-addr">Bahnhof Zug, Switzerland</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">6/26–7/1 住宿基地</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Bahnhof+Zug+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-  </div><!-- /mq-sec-station -->
-
-  <!-- ── 景點區塊 ── -->
-  <div class="mq-sec" id="mq-sec-photo">
-    <div class="mq-sec-header">
-      <span class="mq-sec-title">📸 景點</span>
-      <span class="mq-sec-count">22 處</span>
-    </div>
-
-    <div class="mq-city-label">Pontresina 周邊（6/17–21）</div>
-
-    <!-- P1 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Muottas Muragl 展望台</div>
-      <div class="mq-addr">Engadin，2,454 m</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">Engadin Card 免費</span>
-        <span class="tag tag-star">日落黃金時刻</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Muottas+Muragl+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P2 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Alp Languard</div>
-      <div class="mq-addr">Pontresina 上方</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">Engadin Card 免費</span>
-        <span class="tag tag-paid">野花草原</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Alp+Languard+Pontresina" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P3 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Diavolezza 冰川觀景台</div>
-      <div class="mq-addr">Engadin，2,978 m</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">Engadin Card 免費</span>
-        <span class="tag tag-star">冰川全景</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Diavolezza+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P4 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Lej da Staz 史塔茲湖</div>
-      <div class="mq-addr">St. Moritz 附近</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">婚紗攝影</span>
-        <span class="tag tag-free">倒影湖</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Lej+da+Staz+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <div class="mq-city-label">伯尼納線沿途（6/19）</div>
-
-    <!-- P5 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Ospizio Bernina</div>
-      <div class="mq-addr">2,253 m · 最高站</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">雪地景觀</span>
-        <span class="tag tag-stp">伯尼納快車</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Ospizio+Bernina+station+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P6 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Alp Grüm 站</div>
-      <div class="mq-addr">Poschiavo 谷地俯瞰</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">全景展望</span>
-        <span class="tag tag-stp">伯尼納快車</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Alp+Gr%C3%BCm+station+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P7 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Brusio 螺旋橋</div>
-      <div class="mq-addr">Brusio, Switzerland</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">UNESCO 世界遺產</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Brusio+Circular+Viaduct+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P8 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Tirano 義大利終點站</div>
-      <div class="mq-addr">Tirano, Italy</div>
-      <div class="mq-tags">
-        <span class="tag tag-paid">Gelato + 教堂</span>
-        <span class="tag tag-star">跨國終點</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Tirano+Italy" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <div class="mq-city-label">St. Moritz / Sils-Maria（6/20）</div>
-
-    <!-- P9 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Corvatsch 3,303 m</div>
-      <div class="mq-addr">St. Moritz 附近</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">Engadin Card 免費</span>
-        <span class="tag tag-star">最高纜車</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Corvatsch+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P10 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Sils-Maria</div>
-      <div class="mq-addr">Engadin，尼采故居</div>
-      <div class="mq-tags">
-        <span class="tag tag-paid">尼采故居</span>
-        <span class="tag tag-star">Fex Valley 入口</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Sils-Maria+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P11 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Fex Valley</div>
-      <div class="mq-addr">Sils 附近，無車谷地</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">馬車晚餐 6/20</span>
-        <span class="tag tag-star">🌿 秘境山谷</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Fex+Valley+Sils+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P12 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Silsersee 席爾斯湖</div>
-      <div class="mq-addr">Engadin</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">恩加丁最大湖</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Lake+Sils+Silsersee+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <div class="mq-city-label">Zermatt（6/22–23）</div>
-
-    <!-- P13 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Riffelsee 里費爾湖</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">馬特洪峰倒影</span>
-        <span class="tag tag-warn">07:00 首班</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Riffelsee+Zermatt+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P14 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Gornergrat 3,089 m</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-stp">STP 5 折</span>
-        <span class="tag tag-star">馬特洪峰全景</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Gornergrat+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P15 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Stellisee</div>
-      <div class="mq-addr">Zermatt · Sunnegga 纜車</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">五湖健行</span>
-        <span class="tag tag-star">倒影湖</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Stellisee+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P16 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Klein Matterhorn 3,883 m</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">歐洲最高纜車</span>
-        <span class="tag tag-paid">夏日冰川</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Klein+Matterhorn+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P17 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Schwarzsee</div>
-      <div class="mq-addr">Zermatt</div>
-      <div class="mq-tags">
-        <span class="tag tag-honey">婚紗攝影</span>
-        <span class="tag tag-free">倒影湖</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Schwarzsee+Zermatt" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <div class="mq-city-label">Bern / 楚格地區</div>
-
-    <!-- P18 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Oeschinensee</div>
-      <div class="mq-addr">Kandersteg</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">UNESCO 世界遺產</span>
-        <span class="tag tag-stp">STP 5 折</span>
-        <span class="tag tag-free">土耳其藍湖</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Oeschinensee+Kandersteg" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P19 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">伯恩玫瑰園 Rosengarten</div>
-      <div class="mq-addr">Bern</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免費入場</span>
-        <span class="tag tag-star">黃金時刻 19:30</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Rosengarten+Bern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P20 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">Kapellbrücke 卡貝爾橋</div>
-      <div class="mq-addr">Luzern · 1333 年</div>
-      <div class="mq-tags">
-        <span class="tag tag-free">免費參觀</span>
-        <span class="tag tag-star">木造廊橋</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Kapellbr%C3%BCcke+Luzern" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P21 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">瑞吉山頂 Rigi Kulm 1,797 m</div>
-      <div class="mq-addr">Rigi, Switzerland</div>
-      <div class="mq-tags">
-        <span class="tag tag-stp">STP 全程免費</span>
-        <span class="tag tag-star">歐洲女王山</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Rigi+Kulm+Switzerland" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-    <!-- P22 -->
-    <div class="mq-place-card reveal">
-      <div class="mq-name">萊茵瀑布 Rheinfall</div>
-      <div class="mq-addr">Schaffhausen</div>
-      <div class="mq-tags">
-        <span class="tag tag-star">歐洲最大流量瀑布</span>
-      </div>
-      <div class="mq-btns">
-        <a class="mq-btn mq-btn-pri" href="https://www.google.com/maps/search/?api=1&query=Rhine+Falls+Schaffhausen" target="_blank" rel="noopener">📍 地圖導航</a>
-      </div>
-    </div>
-
-  </div><!-- /mq-sec-photo -->
-
-</div><!-- /tab-map -->
 
 
 <style>
@@ -6611,6 +4783,1024 @@
      ═══════════════════════════════════════════════════════ -->
 <div id="tab-photo" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-photo">
 
+  <!-- ═══ 錦囊 · 快速跳轉 ═══ -->
+  <div class="sec-title" style="padding-top:24px">旅行錦囊</div>
+  <div class="sec-sub">清單 · 知識 · 攝影，旅途隨身百寶袋</div>
+  <div class="kn-chips">
+    <button class="kn-chip" onclick="knJump('kn-checklist')">✅ 清單</button>
+    <button class="kn-chip" onclick="knJump('kn-tips')">🗣 在地須知</button>
+    <button class="kn-chip" onclick="knJump('kn-train')">🚆 交通</button>
+    <button class="kn-chip" onclick="knJump('kn-clothes')">🧥 穿著</button>
+    <button class="kn-chip" onclick="knJump('kn-save')">🛍 購物省錢</button>
+    <button class="kn-chip" onclick="knJump('kn-photo')">📸 攝影</button>
+  </div>
+
+  <!-- ═══ 出發前清單（原清單分頁） ═══ -->
+  <div id="kn-checklist">
+
+  <!-- 整體進度條 -->
+  <div class="card reveal" style="margin-top:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <div style="font-size:14px;font-weight:500;color:var(--text);">整體完成度</div>
+      <div id="progress-pct" style="font-size:13px;color:var(--accent);font-weight:500;">0 / 12</div>
+    </div>
+    <div class="progress-wrap">
+      <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:4px;">蜜月必做 12 件事</div>
+  </div>
+
+  <!-- 蜜月 12 件必做 -->
+  <div class="sec-title reveal">蜜月 12 件必做</div>
+  <div class="sec-sub reveal">每完成一件打勾</div>
+
+  <div class="card reveal" id="must-list">
+
+    <div class="check-item" data-id="must-1" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Fex Valley 馬車晚餐預約</div>
+        <div class="check-sub">+41 81 826 56 73</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-2" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">婚紗攝影 Lej da Staz</div>
+        <div class="check-sub">6/18（四）</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-3" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">婚紗攝影 Schwarzsee</div>
+        <div class="check-sub">6/23（二）</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-4" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">婚紗攝影 Lauterbrunnen</div>
+        <div class="check-sub">6/26（五）全瑞士 No.1 婚紗地</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-5" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">冰河列車乘坐</div>
+        <div class="check-sub">6/21 PE907 Chur 14:32 → Zermatt 20:05</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-6" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Riffelsee 馬特洪峰倒影</div>
+        <div class="check-sub">6/22（一）早晨，Gornergrat 線途中</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-7" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Corvatsch 3,303m 制高點</div>
+        <div class="check-sub">6/20（六）Engadin Card 免費</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-8" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Klein Matterhorn 3,883m</div>
+        <div class="check-sub">6/23（二）歐洲最高纜車站</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-9" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Quai 61 蜜月晚餐訂位</div>
+        <div class="check-sub">6/29（一）湖畔高級餐廳，強烈建議提前訂</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-10" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Altes Tramdepot 餐廳訂位</div>
+        <div class="check-sub">6/25（四）伯恩，需預約</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-11" data-group="must" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">Engadin Card 領取</div>
+        <div class="check-sub">6/17 Sunstar Hotel check-in 時索取</div>
+      </div>
+    </div>
+
+    <div class="check-item" data-id="must-12" data-group="must" onclick="toggleCheck(this)" style="border-bottom:none;">
+      <div class="check-box"></div>
+      <div>
+        <div class="check-label">玫瑰園黃金時刻</div>
+        <div class="check-sub">6/25（四）20:30，Rosengarten</div>
+      </div>
+    </div>
+
+  </div><!-- /must-list -->
+
+  <!-- 打包清單 -->
+  <div class="sec-title reveal">打包清單</div>
+  <div class="sec-sub reveal">出發前逐一確認</div>
+
+  <!-- 攝影器材 -->
+  <div class="card reveal">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">📷 攝影器材</div>
+    <div class="check-item" data-id="pack-cam-1" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">Sony A7R5 機身</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-2" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">24–70mm f/2.8 鏡頭</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-3" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">200–600mm 長焦鏡頭</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-4" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">三腳架雲台</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-5" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">ND10 濾鏡</div><div class="check-sub">萊茵瀑布絲絨感必備</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-6" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">備用電池 × 4</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-7" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">儲存卡 × 4</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-8" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">清潔組</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cam-9" onclick="toggleCheck(this)" style="border-bottom:none;">
+      <div class="check-box"></div>
+      <div><div class="check-label">乾布多條</div><div class="check-sub">Schwarzsee / Lauterbrunnen 水霧防護</div></div>
+    </div>
+  </div>
+
+  <!-- 衣物 -->
+  <div class="card reveal">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">👕 衣物</div>
+    <div class="check-item" data-id="pack-cloth-1" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">防水外套 × 2</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-2" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">羽絨背心 × 2</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-3" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">長褲 × 3</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-4" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">短褲 × 2</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-5" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">內衣褲 × 7</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-6" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">毛帽 + 手套</div><div class="check-sub">Klein Matterhorn -5°C 必備</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-7" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">登山鞋</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-8" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">運動鞋</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-9" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">防曬衣</div></div>
+    </div>
+    <div class="check-item" data-id="pack-cloth-10" onclick="toggleCheck(this)" style="border-bottom:none;">
+      <div class="check-box"></div>
+      <div><div class="check-label">婚紗</div><div class="check-sub">婚紗師另行安排</div></div>
+    </div>
+  </div>
+
+  <!-- 藥品 -->
+  <div class="card reveal">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">💊 藥品</div>
+    <div class="check-item" data-id="pack-med-1" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">高山症藥 Diamox</div><div class="check-sub">出發前諮詢醫師處方</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-2" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">暈車藥</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-3" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">腸胃藥</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-4" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">感冒藥</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-5" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">痠痛藥膏</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-6" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">OK 繃</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-7" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">防蚊液</div><div class="check-sub">Lauerzersee 野餐必備</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-8" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">防曬 SPF50+</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-9" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">眼藥水</div></div>
+    </div>
+    <div class="check-item" data-id="pack-med-10" onclick="toggleCheck(this)" style="border-bottom:none;">
+      <div class="check-box"></div>
+      <div><div class="check-label">保濕乳液</div><div class="check-sub">高山乾燥氣候</div></div>
+    </div>
+  </div>
+
+  <!-- 重要文件 -->
+  <div class="card reveal">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">📄 重要文件</div>
+    <div class="check-item" data-id="pack-doc-1" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">護照 × 2</div></div>
+    </div>
+    <div class="check-item" data-id="pack-doc-2" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">機票確認信</div></div>
+    </div>
+    <div class="check-item" data-id="pack-doc-3" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">飯店確認信（全部印出）</div><div class="check-sub">共 6 間</div></div>
+    </div>
+    <div class="check-item" data-id="pack-doc-4" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">Swiss Travel Pass 票券</div></div>
+    </div>
+    <div class="check-item" data-id="pack-doc-5" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">旅遊保險單</div></div>
+    </div>
+    <div class="check-item" data-id="pack-doc-6" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div><div class="check-label">信用卡 × 2（Visa + Master）</div></div>
+    </div>
+    <div class="check-item" data-id="pack-doc-7" onclick="toggleCheck(this)" style="border-bottom:none;">
+      <div class="check-box"></div>
+      <div><div class="check-label">現金 CHF 300</div><div class="check-sub">備用現金，小費及緊急用途</div></div>
+    </div>
+  </div>
+
+  <div class="alert reveal">
+    ⚠️ 瑞士插頭是 <strong>Type J（三圓柱孔）</strong>，與歐洲 Type C/F 不同——轉接頭要買「Switzerland Type J」。行動電源、偏光鏡 CPL、護唇膏 SPF、摺疊傘也記得帶。
+  </div>
+  </div><!-- /kn-checklist -->
+
+  <!-- ═══ 旅行知識（原總覽） ═══ -->
+      <!-- ── 旅行錦囊：實用德語 ── -->
+      <div class="sec-title reveal" id="kn-tips">語言 & 在地須知</div>
+      <div class="sec-sub reveal">飛機上複習，落地即用</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🗣 瑞士德語常用短句</div>
+        <div style="display:grid;gap:7px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Grüezi</span>
+            <span style="font-size:12px;color:var(--text2)">你好（格呂齊，德語區標準問候）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Merci viumau</span>
+            <span style="font-size:12px;color:var(--text2)">非常謝謝（瑞士德語，當地人最愛聽）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Entschuldigung</span>
+            <span style="font-size:12px;color:var(--text2)">不好意思 / 借過（恩舒爾迪根）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Einmal / Zweimal bitte</span>
+            <span style="font-size:12px;color:var(--text2)">一份 / 兩份，謝謝（購票、點餐必用）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Wie viel kostet das?</span>
+            <span style="font-size:12px;color:var(--text2)">這個多少錢？（威菲爾科斯特達斯）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Wo ist der Bahnhof?</span>
+            <span style="font-size:12px;color:var(--text2)">車站在哪裡？（沃伊斯特德爾班霍夫）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:6px">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Prost! / Guten Appetit!</span>
+            <span style="font-size:12px;color:var(--text2)">乾杯！/ 好好享用！（餐桌必備）</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:14px;font-weight:500;color:var(--accent)">Das ist wunderbar!</span>
+            <span style="font-size:12px;color:var(--text2)">太棒了！（達斯伊斯特翁德巴）</span>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;color:var(--text3)">
+          💡 Tirano 義大利段：Grazie（謝謝）、Buongiorno（你好）、Per favore（請）
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🚨 緊急電話（點擊直接撥號）</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <a href="tel:117" style="background:var(--card2);border-radius:8px;padding:10px 12px;text-decoration:none;display:block">
+            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">117</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">警察 Police</div>
+          </a>
+          <a href="tel:144" style="background:var(--card2);border-radius:8px;padding:10px 12px;text-decoration:none;display:block">
+            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">144</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">救護車 Ambulance</div>
+          </a>
+          <a href="tel:118" style="background:var(--card2);border-radius:8px;padding:10px 12px;text-decoration:none;display:block">
+            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">118</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">火警 Fire</div>
+          </a>
+          <a href="tel:1414" style="background:var(--accent-lt);border-radius:8px;padding:10px 12px;text-decoration:none;display:block">
+            <div style="font-size:20px;font-weight:600;color:var(--accent);letter-spacing:0.05em">1414</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">REGA 山岳救援直升機</div>
+          </a>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--text2)">
+          📞 歐盟通用緊急號碼：<a href="tel:112" style="color:var(--accent);font-weight:600;text-decoration:none">112</a><br>
+          🇹🇼 台灣外交部急難救助：<a href="tel:+886800085095" style="color:var(--accent);font-weight:600;text-decoration:none">+886-800-085-095</a>（免付費）<br>
+          🇹🇼 駐瑞士代表處（伯恩）：<a href="tel:+41313822768" style="color:var(--accent);font-weight:600;text-decoration:none">+41 31 382 27 68</a>
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🎩 瑞士禮儀 · 生活須知</div>
+        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">💴</span>
+            <div><strong style="color:var(--text)">小費：</strong>非強制。餐廳通常四捨五入到整數；高級餐廳可給 5–10%；計程車也是 round up 即可。</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">🌙</span>
+            <div><strong style="color:var(--text)">安靜時間：</strong>晚上 22:00 後嚴禁噪音，週日全天。飯店走廊輕聲，馬桶衝水聲也要注意。</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">🚆</span>
+            <div><strong style="color:var(--text)">守時文化：</strong>火車、預約都精確到分鐘。SBB 火車誤點率不到 5%，提前到月台是基本禮貌。</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">🙂</span>
+            <div><strong style="color:var(--text)">打招呼：</strong>進電梯、走山道遇到陌生人，點頭微笑說一聲「Grüezi」是標準禮節。</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">🛒</span>
+            <div><strong style="color:var(--text)">週日公休：</strong>Migros、Coop 一般門市週日不營業。車站內的 Coop Pronto / avec 每天開。</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">💧</span>
+            <div><strong style="color:var(--text)">自來水可飲：</strong>瑞士水龍頭水質世界一流，帶水壺補充，不必買礦泉水。路邊 Brunnen（噴泉）通常也可飲用。</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span style="font-size:16px;flex-shrink:0">💳</span>
+            <div><strong style="color:var(--text)">現金備用：</strong>瑞士信用卡普及，但纜車售票、小鎮小店、市集攤位仍以現金為主。隨身備 CHF 100–200。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🍽 各地必嚐美食</div>
+        <div style="display:grid;gap:14px;font-size:13px">
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏔 恩加丁 Graubünden</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Bündnerfleisch 空氣風乾生牛肉</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Capuns 菾菜葉菜餃</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Maluns 炒土豆粒</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Engadiner Nusstorte 核桃塔</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏔 策馬特 Valais</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Raclette 烤起士刮盤</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Fondue 起士火鍋</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Valais 黑麥麵包</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Valais Blanc 白葡萄酒</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏛 伯恩 Bern</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Rösti 伯恩薯餅（最正宗）</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Alplermagronen 阿爾卑斯焗通心粉</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Gruyères AOP 起士</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Meringue mit Rahm 蛋白霜奶油</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🌉 琉森 Lucerne</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Luzerner Chügelipastete 酥皮肉派</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Leberknödel 肝丸濃湯</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Willisauer Ringli 硬環餅乾</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:6px">🏙 蘇黎世 Zürich</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Zürichgeschnetzeltes 嫩牛條佐薯餅</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Tirggel 薑味薄餅乾</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Lindt / Sprüngli 巧克力（本店）</span>
+              <span style="background:var(--card2);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--text2)">Rivella 奶清碳酸飲料</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── STP 完整攻略 ── -->
+      <!-- ── 手機與網路 ── -->
+      <div class="sec-title reveal">手機 & 網路</div>
+      <div class="sec-sub reveal">出發前必設定，落地即可用</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">📱 上網方案比較（瑞士非 EU，請確認方案含瑞士）</div>
+        <div style="display:grid;gap:10px">
+
+          <div style="background:var(--tea-lt);border-radius:8px;padding:12px 14px;border:1px solid var(--tea)">
+            <div style="font-size:13px;font-weight:500;color:var(--tea);margin-bottom:4px">✅ 推薦：eSIM（出發前購買）</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.7">
+              手機同時保留台灣 SIM（接 LINE）+ eSIM（瑞士數據），不換卡最方便。<br>
+              <strong>Airalo</strong>「Switzerland」方案：10GB／30 天，約 USD 16（TWD 515）<br>
+              <strong>Holafly</strong>「Europe」無限量：15 天約 USD 29（TWD 930）<br>
+              ⚠️ 購買前確認方案頁面有「Switzerland 🇨🇭」標示；部分「Europe」方案排除瑞士或額外計費
+            </div>
+            <div style="font-size:11px;color:var(--text3);margin-top:6px">設定步驟：App 購買 → 手機「設定 → 行動服務 → 加入 eSIM」→ 掃描 QR code → 出發當天切換至 eSIM 數據</div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">台灣電信商國際漫遊包</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.7">
+              中華電信／台哥大／遠傳均有「日租型」或「月租型」漫遊包，官網或 App 啟用。<br>
+              日租約 TWD 299–399，方便但費用偏高（16 天約 TWD 5,000–6,000）。<br>
+              優點：不用額外設定，SIM 不動，一鍵開通。
+            </div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">ZRH 機場買瑞士 SIM</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.7">
+              Sunrise 或 Salt 在入境大廳有門市，約 CHF 20–30（TWD 800–1,200）含 10–15GB。<br>
+              缺點：抵達後 19 小時長途飛行、時差狀態下還要操作設定，容易出錯。
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+          <div class="card-label">📲 出發前必裝 App（建議台灣就裝好）</div>
+          <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">SBB 瑞士鐵道</span>
+              <span>查時刻、買票、儲存車票（離線可用）— 全程最重要的 App</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">Google Maps</span>
+              <span>出發前下載「瑞士」離線地圖（設定 → 離線地圖 → 自訂地區）。山區收訊差，離線地圖救命</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">Google 翻譯</span>
+              <span>下載德語、義大利語語音包（可離線翻譯菜單、路標）</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">Emirates App</span>
+              <span>查航班動態、辦 check-in、看行李秤重限制</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-weight:600;color:var(--text);flex-shrink:0;width:80px">XE Currency</span>
+              <span>離線可查匯率換算，不用每次 Google</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;padding:10px 12px;background:var(--accent-lt);border-radius:8px;font-size:12px;color:var(--text2)">
+          <strong style="color:var(--accent)">⚠️ 三個重要設定，出發前在台灣就做</strong><br>
+          1. 手機「數據漫遊」務必開啟（設定 → 行動服務 → 數據漫遊 ✓）<br>
+          2. 關閉各 App 的「背景自動更新」，避免偷流量（設定 → 一般 → 背景 App 重新整理 → 使用 Wi-Fi）<br>
+          3. 下載 Google Maps 離線地圖——瑞士山區收訊不穩，離線地圖是最後防線
+        </div>
+      </div>
+
+      <!-- ── STP 攻略 ── -->
+      <div class="sec-title reveal" id="kn-train">Swiss Travel Pass 攻略</div>
+      <div class="sec-sub reveal">STP — 整趟旅程最重要的一張票</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">✅ STP 完全免費項目</div>
+        <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>全瑞士 SBB 普通火車、InterCity、IC、EC 所有班次（含 IC35 Zürich→Bern 等快車）</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>全國 PostBus（黃色郵政巴士），含往 Fex Valley、Sigriswil 等偏遠路線</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>蘇黎世、伯恩、琉森、楚格市區電車 / 公車（ZVV / Bernmobil / 等城市系統）</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>琉森湖輪船（SGV）、楚格湖輪船 — 含 Vitznau 渡湖接瑞吉山那段</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>瑞吉山 Vitznau–Rigi Kulm 齒輪鐵路 + Rigi–Arth-Goldau 段</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>冰河列車 Glacier Express 車資（⚠️ 仍需另付 CHF 13/人 訂位費）</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>伯尼納快車 Bernina Express Regio 版（無需訂位費）</span></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tea);font-weight:600;flex-shrink:0">免費</span><span>蘇黎世國家博物館（Landesmuseum）</span></div>
+        </div>
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+          <div class="card-label">🏷 STP 五折優惠（重要景點）</div>
+          <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Gornergrat 登山鐵路（原價 CHF 92/2人 → STP CHF 46）</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Klein Matterhorn（Matterhorn Glacier Paradise）纜車</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Sunnegga Express + Rothorn 登山纜車（五湖健行入口）</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">50%</span><span>Oeschinensee 纜車（Kandersteg）</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent);font-weight:600;flex-shrink:0">25%</span><span>Stoos 世界最陡纜車 Peak Experience 套票</span></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);background:var(--accent-lt);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text2)">
+          <strong style="color:var(--accent)">⚠️ 使用注意事項</strong><br>
+          · STP 啟用日起連續計算，<strong>6/17 為 Day 1</strong>，最末一日為 7/1（Day 15）<br>
+          · 隨身攜帶 STP 正本（非截圖），查票員不接受手機截圖<br>
+          · 遺失無法補辦，建議拍照備存序號<br>
+          · STP 不含：纜車訂位費、特快列車（ICE）德國段附加費、Engadin Card（飯店提供）<br>
+          · ZRH 機場 → 市區 ZVV 段：STP 啟用前需另購票（約 CHF 7）
+        </div>
+      </div>
+
+      <!-- ── 氣候與穿著 ── -->
+      <!-- ── 搭車實戰指南 ── -->
+      <div class="sec-title reveal">搭車實戰指南</div>
+      <div class="sec-sub reveal">瑞士鐵路初體驗，上車前先看這裡</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🚉 最重要的觀念：瑞士火車站沒有閘門</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:14px">
+          瑞士鐵路採<strong>榮譽制（Honor System）</strong>——月台完全開放，任何人都能直接走上去。票券由<strong>列車長（Zugbegleiter）</strong>在車廂內查票。只要持 STP 正本 + 護照，坐下等查票即可。<br>
+          ⚠️ 沒票被查到的罰款 <strong>CHF 100 起</strong>，外加補票。STP 隨身攜帶，不要放在旅館。
+        </div>
+
+        <div style="display:grid;gap:14px">
+
+          <div style="border-left:3px solid var(--tea);padding-left:12px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">📋 上車五步驟</div>
+            <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
+              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">①</span><span>查 SBB App 或黃色出發看板（<strong>Abfahrt</strong>），確認班次、月台（<strong>Gleis</strong>）、終點站</span></div>
+              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">②</span><span>提前 <strong>5 分鐘</strong>到月台——瑞士火車準時到秒，不等人。看月台上的車廂排列圖（<strong>Wagenstandanzeiger</strong>），對應你的車廂號碼站在正確位置</span></div>
+              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">③</span><span>上車找座位。車廂外側有大數字「<strong>1</strong>」或「<strong>2</strong>」標示等級——STP 為<strong>二等（2）</strong>，誤坐一等廂補票差價</span></div>
+              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">④</span><span>冰河列車有劃位（你們的 PE907），對應車廂號 + 座位號坐下</span></div>
+              <div style="display:flex;gap:10px"><span style="color:var(--tea);font-weight:600;flex-shrink:0">⑤</span><span>列車長來查票，出示 <strong>STP 正本 + 護照</strong>（偶爾會查證件確認是本人）</span></div>
+            </div>
+          </div>
+
+          <div style="border-left:3px solid var(--tea);padding-left:12px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🔁 轉車的藝術</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.75">
+              SBB 官方標準：<strong>轉車時間 3–5 分鐘就算「可接駁」</strong>，瑞士準點率超過 92%，這通常真的夠。但初次到訪不熟站體，建議查詢時選 <strong>8 分鐘以上轉乘</strong>的班次更安心。<br><br>
+              <strong>萬一真的誤班</strong>：直接搭同方向下一班，無需重買票。若因班次誤點造成誤班，車廂內或 SBB App 的「Connection Missed」功能可自動安排替代路線，向列車長說「I missed my connection」也可請他協助。
+            </div>
+          </div>
+
+          <div style="border-left:3px solid var(--tea);padding-left:12px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🎫 哪些車需要「另付訂位費」</div>
+            <div style="display:grid;gap:6px;font-size:13px;color:var(--text2)">
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span>Glacier Express 冰河列車 <span style="font-size:11px;color:var(--text3)">（你們已確認 PE907）</span></span>
+                <span style="color:var(--accent);font-weight:500">CHF 13 / 人 ✓需訂</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span>Bernina Express 全景版 <span style="font-size:11px;color:var(--text3)">（你們搭 Regio 版）</span></span>
+                <span style="color:var(--accent);font-weight:500">CHF 16 / 人（你們不需）</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span>一般 IC / IR / RE / S-Bahn</span>
+                <span style="color:var(--tea);font-weight:500">不需訂位，直接上車</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span>RhB（雷蒂亞鐵路，恩加丁段）</span>
+                <span style="color:var(--tea);font-weight:500">STP 有效，不需訂位</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-left:3px solid var(--tea);padding-left:12px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🗝 SBB App 必學四功能</div>
+            <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🔍</span><span><strong>Journey planner（連線查詢）</strong>：輸入出發站 + 目的站 + 時間，即時查詢最佳路線、月台、轉車資訊</span></div>
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">📍</span><span><strong>Stationboard（即時到離站）</strong>：輸入車站名，查看下 30 分鐘的所有班次與即時狀態，比黃色看板更詳細</span></div>
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚂</span><span><strong>Train composition（列車組成圖）</strong>：在班次詳情頁可看列車各車廂排列、哪節是安靜車廂、哪節有腳踏車位，對應月台等候</span></div>
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">💾</span><span><strong>Offline mode</strong>：查詢結果可儲存，收訊差時仍可查看。重要班次截圖或加入「我的行程」備用</span></div>
+            </div>
+          </div>
+
+          <div style="border-left:3px solid var(--tea);padding-left:12px">
+            <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">🧳 行李與置物</div>
+            <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">📦</span><span><strong>SBB 行李快遞（Reisegepäck）</strong>：大行李箱前一天在車站辦理，隔日送達目的地飯店，CHF 12–15 / 件。適合從 ZRH → Pontresina、Pontresina → Zermatt、Zermatt → Bern 的重行李</span></div>
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🔒</span><span><strong>行李寄存（Gepäckaufbewahrung）</strong>：大站均有，CHF 5–9 / 件 / 天，或投幣儲物格 CHF 5–10（大小格不同）。Zermatt、Pontresina 這類小站可能只有投幣格</span></div>
+              <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚂</span><span>火車上行李放車廂末端的大行李架或座位上方，不要占用座位。SBB 無行李重量限制（與機場不同），但自己搬得動為原則</span></div>
+            </div>
+          </div>
+
+          <div style="background:var(--accent-lt);border-radius:8px;padding:12px 14px">
+            <div style="font-size:12px;font-weight:500;color:var(--accent);margin-bottom:8px">⚠️ 新手常踩的 5 個地雷</div>
+            <div style="display:grid;gap:6px;font-size:12px;color:var(--text2)">
+              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">①</span><span>STP 忘在旅館——查票被抓一樣罰款，每天出門先摸一下口袋確認有帶</span></div>
+              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">②</span><span>坐進一等車廂——車廂外牆有大「1」字，STP 無效，補票差價約 CHF 40+</span></div>
+              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">③</span><span>同月台兩班車同時停靠，上錯方向的——上車前先看車廂側面的目的站標示</span></div>
+              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">④</span><span>ZRH 機場到市區（6/16 還沒啟用 STP）要另外買票，約 CHF 7，忘了買會被罰</span></div>
+              <div style="display:flex;gap:8px"><span style="color:var(--accent);flex-shrink:0">⑤</span><span>PostBus 部分班次需事先在 SBB App 預訂座位（免費），上車前看看 App 有沒有提示</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── 氣候 ── -->
+      <div class="sec-title reveal" id="kn-clothes">氣候 & 穿著指南</div>
+      <div class="sec-sub reveal">六月底瑞士各地區天氣預測</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div style="display:grid;gap:12px;font-size:13px">
+
+          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏔 恩加丁 Engadin（6/17–6/20）海拔 1,800m</div>
+            <div style="color:var(--text2);line-height:1.7">
+              白天 14–20°C，早晚 5–10°C（山頂 0–5°C）。6 月午後常有雷陣雨，通常 14:00–16:00 爆發，早上天氣最穩定。<br>
+              <span style="font-size:12px;color:var(--text3)">穿著：防水登山鞋、排汗內衣、羊毛中層、防風雨外套（每日必帶）</span>
+            </div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏔 策馬特 Zermatt（6/21–6/24）海拔 1,608m</div>
+            <div style="color:var(--text2);line-height:1.7">
+              市區白天 18–23°C，但 Klein Matterhorn（3,883m）常年接近 0°C，風強刺骨。<br>
+              <span style="font-size:12px;color:var(--text3)">穿著：Klein Matterhorn 當天須著冬季保暖層（羽絨衣必備）；市區可穿輕薄長褲</span>
+            </div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏛 伯恩 + 琉森（6/24–6/28）平地城市</div>
+            <div style="color:var(--text2);line-height:1.7">
+              白天 22–27°C，是整趟旅程最溫暖的區段。Lauterbrunnen 谷地因山壁遮蔽較涼（18°C）。<br>
+              <span style="font-size:12px;color:var(--text3)">穿著：短袖可，備一件薄外套應對山谷涼意，Stoos 纜車上山後仍需帶外套</span>
+            </div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:12px 14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏙 蘇黎世（6/29–7/1）</div>
+            <div style="color:var(--text2);line-height:1.7">
+              白天 22–26°C，舒適宜人。萊茵瀑布水霧大，備換洗短袖。<br>
+              <span style="font-size:12px;color:var(--text3)">穿著：夏季輕裝，萊茵瀑布小船記得收好相機或備防水袋</span>
+            </div>
+          </div>
+
+          <div style="font-size:12px;color:var(--text3);padding:8px 0;border-top:1px solid var(--border)">
+            ☀️ 高山紫外線比平地強 3–4 倍，防曬 SPF50+ 每 2 小時補塗，含嘴唇護唇膏。<br>
+            ⛈ 雷雨季（6–8月）：若聽見遠雷或天空轉黑，立刻下山，勿在稜線或纜車頂等候。
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 高山反應指南 ── -->
+      <div class="sec-title reveal">高山反應指南</div>
+      <div class="sec-sub reveal">預防 > 治療，知道徵兆才安心</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div style="display:grid;gap:14px;font-size:13px;color:var(--text2)">
+
+          <div>
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🏔 本次行程高風險點</div>
+            <div style="display:grid;gap:6px">
+              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
+                <span>Diavolezza 纜車（6/18）</span><span style="color:var(--accent);font-weight:500">2,978m ⚠️</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
+                <span>Corvatsch 纜車（6/20）</span><span style="color:var(--accent);font-weight:500">3,303m ⚠️</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
+                <span>Gornergrat（6/22）</span><span style="color:var(--accent);font-weight:500">3,089m ⚠️</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;background:var(--card2);border-radius:6px;padding:8px 12px">
+                <span>Klein Matterhorn（6/23）</span><span style="color:#c62828;font-weight:600">3,883m 🔴 最高</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">🩺 症狀辨識（AMS 急性高山症）</div>
+            <div style="display:grid;gap:5px;color:var(--text2)">
+              <div style="display:flex;gap:8px"><span style="color:#f57c00">輕度</span><span>頭痛、輕微頭暈、疲倦、食慾不振 — 多喝水、慢走、休息</span></div>
+              <div style="display:flex;gap:8px"><span style="color:#e53935">中度</span><span>持續頭痛（Ibuprofen 難緩解）、噁心嘔吐、步態不穩 — 立即下山</span></div>
+              <div style="display:flex;gap:8px"><span style="color:#b71c1c">重度</span><span>意識混亂、咳嗽帶泡沫痰、無法行走 — 緊急下山，撥 1414（REGA）</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:500;color:var(--text);margin-bottom:6px">💡 預防與應對</div>
+            <div style="display:grid;gap:6px;color:var(--text2);line-height:1.7">
+              <div>・上山後前 30 分鐘靜坐休息，讓身體慢慢適應，不要立刻跑跳</div>
+              <div>・每小時補水 500ml，高海拔排水快，容易脫水加重症狀</div>
+              <div>・抵達當晚避免飲酒（酒精加劇缺氧反應）</div>
+              <div>・頭痛時用 <strong>Ibuprofen（布洛芬）400mg</strong>，比 Paracetamol 效果更好</div>
+              <div>・若有嚴重症狀，不要強撐，立即搭纜車或鐵路下降 500m 以上即可改善</div>
+              <div>・Klein Matterhorn 從市區直上 2,275m，是本次落差最大的一跳，若有疑慮可在 Schwarzsee（2,583m）停留 30 分鐘先適應</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 購物伴手禮 ── -->
+      <div class="sec-title reveal" id="kn-save">購物 & 伴手禮指南</div>
+      <div class="sec-sub reveal">買什麼 · 在哪買 · 帶多少</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div style="display:grid;gap:14px;font-size:13px">
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">🍫 巧克力（必買）</div>
+            <div style="display:grid;gap:6px;color:var(--text2)">
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span><strong>Lindt</strong> 旗艦店（蘇黎世班霍夫大街）</span><span style="font-size:11px;color:var(--text3)">限定口味 / 大包裝</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span><strong>Läderach</strong>（全瑞士均有）</span><span style="font-size:11px;color:var(--text3)">現做新鮮巧克力板</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:6px;padding:7px 12px">
+                <span><strong>Confiserie Sprüngli</strong>（蘇黎世本店）</span><span style="font-size:11px;color:var(--text3)">Luxemburgerli 馬卡龍，需冷藏</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">🔪 瑞士刀 Swiss Army Knife</div>
+            <div style="color:var(--text2);line-height:1.7">
+              <strong>Victorinox</strong> 官方門市在策馬特（Bahnhofstrasse）和蘇黎世均有，價格比台灣便宜約 20–30%。⚠️ 飛機只能放<strong>行李箱</strong>，不能帶上機。建議在蘇黎世最後一天購買，直接放托運行李。
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">🧀 起士 & 食品</div>
+            <div style="color:var(--text2);line-height:1.7">
+              Gruyères 原廠起士（格律耶爾，6/25 當地購）、Emmental 起士（孔洞大、味溫和）、Engadiner Nusstorte 核桃塔（Pontresina 或超市）、Ricola 草本喉糖。⚠️ 起士帶回台灣需密封包裝，入境申報即可。
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px;font-weight:500;letter-spacing:0.05em;color:var(--text);margin-bottom:8px">💊 瑞士藥妝（值得帶）</div>
+            <div style="color:var(--text2);line-height:1.7">
+              <strong>Weleda 護膚</strong>（本部在瑞士，比台灣便宜 30–40%）、<strong>Ricola 草本</strong>（正宗，包裝精美）、藥妝店 <strong>Coop Vitality</strong> 或 <strong>Reformhaus</strong> 有機品牌。各城市超市/藥局均有。
+            </div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2)">
+            <strong style="color:var(--text)">🎒 行李重量提醒</strong><br>
+            阿聯酋經濟艙托運行李 30kg × 2 件（人均），手提 7kg × 2 件。蜜月買多是正常的，但最後一天蘇黎世購物前先秤一次行李，避免超重罰款（每公斤約 TWD 1,200）。
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── 省錢妙招 ── -->
+      <div class="sec-title reveal">省錢妙招</div>
+      <div class="sec-sub reveal">瑞士很貴，但處處都有省錢空間</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🍽 飲食篇（差距最大，最值得省）</div>
+        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🥗</span>
+            <div><strong style="color:var(--text)">午餐點「Tagesmenü」日套餐：</strong>幾乎每間瑞士餐廳 11:30–14:00 都有今日套餐（湯 + 主菜 + 飲料），約 CHF 18–22，比單點省 30–40%。晚餐才單點，省下來的差很多。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🛒</span>
+            <div><strong style="color:var(--text)">超市三強比價（便宜度排序）：</strong><br>
+              <span style="display:inline-block;background:var(--card2);border-radius:5px;padding:2px 8px;margin:3px 3px 3px 0;font-size:12px">Denner / Aldi / Lidl 最便宜</span>
+              <span style="display:inline-block;background:var(--card2);border-radius:5px;padding:2px 8px;margin:3px 3px 3px 0;font-size:12px">Migros 次之</span>
+              <span style="display:inline-block;background:var(--card2);border-radius:5px;padding:2px 8px;margin:3px 3px 3px 0;font-size:12px">Coop 略貴</span>
+              <br><span style="font-size:12px;color:var(--text3)">超市自備食材野餐一餐 = 約 CHF 10（TWD 400）；同等食物在山頂餐廳要 CHF 35（TWD 1,400）</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🧀</span>
+            <div><strong style="color:var(--text)">山頂自備野餐包：</strong>前一天在超市買好麵包、起士片、火腿、水果，裝進背包，到山頂景觀台野餐。比山頂餐廳節省 CHF 20–40 / 人，景色完全一樣。特別推薦 Rigi 山頂野餐（6/28 已安排）。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">💧</span>
+            <div><strong style="color:var(--text)">不要買礦泉水：</strong>瑞士水龍頭水質世界排名前三，路邊 Brunnen 噴泉幾乎全部可飲用（有「Trinkwasser」標示確認）。帶一個 750ml 保溫瓶，每天省 CHF 3–5。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🍺</span>
+            <div><strong style="color:var(--text)">叫「Leitungswasser」要白開水：</strong>餐廳點水時說「Leitungswasser bitte」（萊通斯瓦瑟，請給自來水），大部分餐廳免費提供。反之自動送礦泉水要收 CHF 4–6。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🇮🇹</span>
+            <div><strong style="color:var(--text)">義大利 Tirano 大採購（6/19）：</strong>同樣的起士、火腿、義大利麵、葡萄酒，在 Tirano 只需瑞士的 40–60%。義式 Gelato 冰淇淋約 €2（約 TWD 70），瑞士要 CHF 5（TWD 200）。當天帶夠現金大採購。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">⏰</span>
+            <div><strong style="color:var(--text)">超市閉店前折扣：</strong>Coop / Migros 每天 17:00–19:00 前，生鮮麵包、熟食、三明治會出現黃色特價標籤，折扣 30–50%。靠近飯店時間允許可去掃一輪。</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">💳 金錢 & 換匯篇</div>
+        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">💳</span>
+            <div><strong style="color:var(--text)">最划算：用 Wise 卡或 Revolut 刷卡：</strong>這兩張數位金融卡以銀行間匯率換匯（比任何換匯站都好），沒有隱藏手續費。出發前申請，載入 TWD，到瑞士直接刷，系統自動以最優匯率換 CHF。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🏧</span>
+            <div><strong style="color:var(--text)">需要提現金：找 PostFinance ATM：</strong>瑞士 PostFinance（郵政儲蓄）ATM 對外國卡手續費最低。避開機場和觀光區 ATM（手續費貴）。每次提領金額大一點（CHF 200+），減少手續費次數。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🚫</span>
+            <div><strong style="color:var(--text)">絕對不要做：機場換匯：</strong>ZRH 機場的換匯攤匯率約比市場差 5–8%（對 16 天行程約多花 TWD 3,000–5,000）。若需現金，到市區 ATM 提款。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">📌</span>
+            <div><strong style="color:var(--text)">刷卡選「當地貨幣」CHF：</strong>刷卡時機器問「以 CHF 還是 TWD 結帳」，<strong>一律選 CHF</strong>。選 TWD 是讓商家幫你換匯（DCC，匯率更差），選 CHF 讓你的銀行換匯（匯率較好）。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🪙</span>
+            <div><strong style="color:var(--text)">隨身備 CHF 20 零錢：</strong>置物櫃、部分公廁（CHF 1–2）、纜車小費、市集攤販、Sigriswil 吊橋現金收費，這些場合不收卡。零錢不用多，夠用就好。</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🏔 景點 & 活動篇</div>
+        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🚶</span>
+            <div><strong style="color:var(--text)">徒步取代纜車（有時景色更好）：</strong>Zermatt 五湖健行（6/22）從 Sunnegga 上行但下坡段可步行回市區——腳力好省一段纜車票。Oeschinensee 也有步行上山路線（3 小時），但體力決定。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🆓</span>
+            <div><strong style="color:var(--text)">本次行程中完全免費的景點：</strong>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px">
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">琉森卡貝爾橋散步</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">獅子紀念碑</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">伯恩熊公園</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">伯恩玫瑰園</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">蘇黎世林登霍夫</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Lauterbrunnen 谷底步道</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Staubbachfall 觀景點</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">策馬特老街漫步</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Spiez 城堡外觀</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">沙夫豪森 Munot 要塞</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Stein am Rhein 老城</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">Spreuerbrücke 死亡橋</span>
+                <span style="background:var(--tea-lt);border-radius:5px;padding:2px 8px;font-size:11px">楚格湖畔 Zytturm 夕陽</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🏊</span>
+            <div><strong style="color:var(--text)">瑞士湖邊游泳免費：</strong>6 月底氣溫夠暖，Zug 湖濱、Zürichsee 湖濱均有免費 Badi（戶外游泳區），人多熱鬧，當地人最愛的夏日活動。不一定在行程內，但路過可以跳下去。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🎫</span>
+            <div><strong style="color:var(--text)">善用 STP 折扣館：</strong>瑞士國家博物館（ZRH，STP 全免）、冰川公園琉森（約 TWD 980，無 STP 折扣但值得）、愛因斯坦故居（CHF 6 / 人，不貴）——這些花少少錢就有豐富內容。</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:16px">
+        <div class="card-label">🛍 購物 & 紀念品省錢</div>
+        <div style="display:grid;gap:10px;font-size:13px;color:var(--text2)">
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🍫</span>
+            <div><strong style="color:var(--text)">巧克力別在景點攤位買：</strong>Zermatt 主街、纜車站旁的紀念品店包裝漂亮但貴 2–3 倍。同款 Lindt 在 Migros / Coop 超市買，100g 約 CHF 2–3；景點小店要 CHF 6–8。大量採購在超市，最後一天 Lindt 旗艦店買限定款就好。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🔪</span>
+            <div><strong style="color:var(--text)">Victorinox 等回蘇黎世買：</strong>策馬特紀念品店賣的 Swiss Army Knife 比蘇黎世官方門市貴 10–20%。最後一天班霍夫大街有 Victorinox 門市，價格最正，選擇最多。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🏷</span>
+            <div><strong style="color:var(--text)">Migros M-Budget 自有品牌：</strong>包裝簡單但品質同等，起士、牛奶、餅乾、義大利麵約是品牌商品的 50–60% 價格。自用或不在乎包裝的伴手禮很適合。</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="font-size:16px;flex-shrink:0">🧳</span>
+            <div><strong style="color:var(--text)">台灣入境免稅額：</strong>每人 TWD 20,000（約 CHF 630）以內不需申報課稅。兩人合計 TWD 40,000 可帶。超過需填海關申報單，但通常不課稅只是登記。特別管制項目：肉類製品（Bündnerfleisch 風乾牛肉）原則上不得攜入台灣，起士可以。</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card reveal" style="padding:14px 16px;background:var(--card2)">
+        <div class="card-label">💡 最容易被忽略的隱形支出</div>
+        <div style="display:grid;gap:7px;font-size:13px;color:var(--text2)">
+          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🚽</span><span>部分車站公廁收費 CHF 1–2，隨身備銅板</span></div>
+          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🛍</span><span>超市袋子收費 CHF 0.05–0.50，帶摺疊環保袋</span></div>
+          <div style="display:flex;gap:10px"><span style="flex-shrink:0">☕</span><span>外帶咖啡（To-go）比坐下喝便宜約 CHF 1–2</span></div>
+          <div style="display:flex;gap:10px"><span style="flex-shrink:0">📶</span><span>飯店 Wi-Fi 通常免費，多利用 Wi-Fi 省 eSIM 流量，回 LINE / 上傳照片都在 Wi-Fi 下進行</span></div>
+          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🍦</span><span>冰淇淋在義大利 Tirano（6/19）買——CHF 5 vs €2，同樣品質，省 3 倍</span></div>
+          <div style="display:flex;gap:10px"><span style="flex-shrink:0">🏨</span><span>飯店早餐包含在費用裡（5 間都含），吃飽一點再出門，中午可以撐到更晚才吃</span></div>
+        </div>
+      </div>
+
+
+      <!-- ── 婚紗攝影三大地點 ── -->
+      <div class="sec-title reveal" id="kn-photo">婚紗攝影完整攻略</div>
+      <div class="sec-sub reveal">三個地點 · 三種光線 · 三種故事</div>
+
+      <div class="card reveal" style="padding:16px">
+        <div style="display:grid;gap:18px">
+
+          <div style="border-left:3px solid var(--accent);padding-left:14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:4px">📍 Lej da Staz（6/18）恩加丁</div>
+            <div style="font-size:12px;color:var(--tea);margin-bottom:6px">最隱秘的高山野花湖泊 · 步行 20 分鐘</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.75">
+              從 Pontresina 步行 20 分鐘可達，不需纜車。<strong>最佳時段 09:00–10:30</strong>，晨光從東側山坡灑入，湖水如鏡，雪山倒影清晰。6 月湖岸龍膽草（Gentian 深藍）和粉色阿爾卑斯薔薇盛開，是其他任何地點都找不到的前景。<br>
+              構圖建議：廣角 24mm 帶入湖面全幅倒影，前景置入花叢，人物站在湖邊石頭；或以 85mm 壓縮山脈背景，人物對焦。水面最靜在晨間，午後常有微風起漣漪。
+            </div>
+          </div>
+
+          <div style="border-left:3px solid var(--accent);padding-left:14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:4px">📍 Lauterbrunnen（6/26）伯恩高地</div>
+            <div style="font-size:12px;color:var(--tea);margin-bottom:6px">全瑞士婚紗師首推 · 72 道瀑布山谷</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.75">
+              <strong>Staubbachfall（300m 直落）</strong>是瑞士最高自由落體瀑布，石灰岩白壁 + 野花 + 瀑布水霧構成最戲劇性的婚紗背景。<strong>最佳時段 09:30–11:00</strong>，此時光線從山谷東邊射入，Staubbachfall 打光完美，遊客尚未大量湧入。<br>
+              ⚠️ 水霧非常大：鏡頭備乾布隨時擦拭，精密相機建議備防水袋。禮服下擺建議帶備用衣物。若天氣不穩可改在谷底平台取景（背後仍有瀑布）。
+            </div>
+          </div>
+
+          <div style="border-left:3px solid var(--accent);padding-left:14px">
+            <div style="font-weight:500;color:var(--text);margin-bottom:4px">📍 Schwarzsee（6/23）策馬特</div>
+            <div style="font-size:12px;color:var(--tea);margin-bottom:6px">馬特洪峰完整倒影湖 · 下午光線最佳</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.75">
+              由 Klein Matterhorn 纜車下至 Schwarzsee 站（STP 折扣），湖面面向西方，<strong>最佳時段 13:00–16:00</strong>，馬特洪峰在下午光線下呈現暖橙色，與湖面形成冷暖對比。6 月無積雪，視野最開闊，可清楚看見馬特洪峰東北壁的完整輪廓。<br>
+              湖岸有木板棧道，可繞湖一圈（約 30 分鐘），找到最佳角度再換禮服。若前一晚有下雨，隔天早上湖面特別平靜，也是絕佳補拍機會。
+            </div>
+          </div>
+
+          <div style="background:var(--card2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2)">
+            <strong style="color:var(--text)">📷 三地共通攝影裝備建議</strong><br>
+            廣角 16–24mm（全景倒影）、標準 50mm（人像）、中望遠 85–135mm（壓縮背景）。CPL 偏光鏡在湖面攝影必備（減少水面反光，讓顏色更飽和）。三腳架在藍調時刻使用。
+          </div>
+        </div>
+      </div>
+
+
+  <!-- ═══ 攝影專區（原攝影分頁內容） ═══ -->
+
   <!-- ①  今日攝影條件 -->
   <div class="photo-section">
     <div class="photo-sec-head">
@@ -7387,21 +6577,13 @@
       <span class="nav-icon">🏨</span>
       <span class="nav-label">住宿</span>
     </button>
-    <button class="nav-item" data-tab="checklist" onclick="switchTab('checklist',this)">
-      <span class="nav-icon">✅</span>
-      <span class="nav-label">清單</span>
-    </button>
     <button class="nav-item" data-tab="budget" onclick="switchTab('budget',this)">
       <span class="nav-icon">💰</span>
       <span class="nav-label">預算</span>
     </button>
     <button class="nav-item" data-tab="photo" onclick="switchTab('photo',this)">
-      <span class="nav-icon">📸</span>
-      <span class="nav-label">攝影</span>
-    </button>
-    <button class="nav-item" data-tab="map" onclick="switchTab('map',this)">
-      <span class="nav-icon">📍</span>
-      <span class="nav-label">地圖</span>
+      <span class="nav-icon">🧭</span>
+      <span class="nav-label">錦囊</span>
     </button>
   </nav>
 </div><!-- /#app -->
@@ -7783,41 +6965,17 @@ function updateProgress() {
   var pct = mustAll ? Math.round(mustDone / mustAll * 100) : 0;
 
   var fill = document.getElementById('progress-fill');
-  var text = document.getElementById('progress-text');
+  var text = document.getElementById('progress-pct');
   if (fill) fill.style.width = pct + '%';
-  if (text) text.textContent = mustDone + ' / ' + mustAll + ' 完成（' + pct + '%）';
+  if (text) text.textContent = mustDone + ' / ' + mustAll;
 }
 
 /* ═══════════════════════════════════════
-   地圖篩選
+   錦囊 — 快速跳轉
 ═══════════════════════════════════════ */
-function mqShowSection(type) {
-  document.querySelectorAll('.mq-tab-btn').forEach(function(b) {
-    b.classList.remove('active');
-  });
-  var btn = document.getElementById('mq-tab-' + type);
-  if (btn) btn.classList.add('active');
-
-  var sections = ['mq-sec-hotel', 'mq-sec-restaurant', 'mq-sec-station', 'mq-sec-photo'];
-  var map = {
-    hotel:      'mq-sec-hotel',
-    restaurant: 'mq-sec-restaurant',
-    station:    'mq-sec-station',
-    photo:      'mq-sec-photo'
-  };
-
-  if (type === 'all') {
-    sections.forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.style.display = 'block';
-    });
-  } else {
-    sections.forEach(function(id) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.style.display = (id === map[type]) ? 'block' : 'none';
-    });
-  }
+function knJump(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /* ═══════════════════════════════════════
@@ -7862,6 +7020,10 @@ window.addEventListener('DOMContentLoaded', function() {
   // ── 還原上次 tab ──
   var lastTab = localStorage.getItem('last-tab') || 'overview';
   var lastNavBtn = document.querySelector('#bottom-nav .nav-item[data-tab="' + lastTab + '"]');
+  if (!lastNavBtn) {   // 舊版分頁（清單/地圖）已移除 → 回總覽
+    lastTab = 'overview';
+    lastNavBtn = document.querySelector('#bottom-nav .nav-item[data-tab="overview"]');
+  }
   switchTab(lastTab, lastNavBtn);
 
   // ── 根據今日日期自動跳到對應天卡（旅途期間） ──
