@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>信瑋 & 映儒 · 瑞士蜜月實記</title>
+  <style>
+    :root {
+      --bg: #FBF9F6;
+      --card: #FFFFFF;
+      --card2: #F5F2EE;
+      --accent: #7F2324;
+      --tea: #5E7A50;
+      --gold: #9B7A30;
+      --text: #2A2520;
+      --text2: #5A5248;
+      --text3: #9A9088;
+      --border: #E8E2DC;
+      --border2: #D8D0C8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 16px 72px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      text-align: center;
+      padding: 40px 0 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+    .site-eyebrow {
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .site-title {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      color: var(--text);
+    }
+    .site-title strong {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .site-sub {
+      font-size: 12px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      margin-top: 10px;
+    }
+
+    /* ── Section label ── */
+    .sec-label {
+      font-size: 10.5px;
+      letter-spacing: 0.2em;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin: 40px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sec-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Day card ── */
+    .day-card {
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .day-head {
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .day-num {
+      font-size: 36px;
+      font-weight: 200;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .day-meta {
+      flex: 1;
+    }
+    .day-date-line {
+      font-size: 12px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+    }
+    .day-title-line {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .day-body { padding: 20px 22px; }
+
+    /* ── Moment row ── */
+    .moment {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+    .moment:last-child { margin-bottom: 0; }
+    .m-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      width: 28px;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .m-body {}
+    .m-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .m-text {
+      font-size: 13.5px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* ── Fun / memorable highlight ── */
+    .fun-box {
+      background: #FFFBF0;
+      border: 1px solid #E0C878;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 10px 0 4px;
+      font-size: 13px;
+      color: #6A5010;
+      line-height: 1.7;
+    }
+    .fun-box::before { content: '✦ '; font-size: 11px; }
+
+    /* ── Warning ── */
+    .warn-box {
+      background: #FFF4F0;
+      border: 1px solid #E0A898;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 10px 0 4px;
+      font-size: 13px;
+      color: #7A3020;
+      line-height: 1.7;
+    }
+    .warn-box strong { color: #5A1A10; }
+
+    /* ── Tags ── */
+    .tag-row { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      font-size: 11px;
+      border-radius: 4px;
+      padding: 2px 8px;
+      letter-spacing: 0.02em;
+    }
+    .tag-done { background: #E8F0E4; color: #3A6030; }
+    .tag-note { background: #EEE8FF; color: #503888; }
+    .tag-warm { background: #FFF0DC; color: #7A4810; }
+    .tag-alert { background: #FFE8E4; color: #7A2818; }
+
+    /* ── Altitude warning block ── */
+    .altitude-block {
+      background: #FFF6F0;
+      border: 2px solid #D48050;
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 28px 0;
+    }
+    .altitude-block-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #7A3A10;
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+    .alt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #EED8C8;
+      font-size: 13px;
+    }
+    .alt-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .alt-name { color: var(--text2); }
+    .alt-m { font-weight: 600; color: var(--text); }
+    .alt-status {
+      font-size: 11.5px;
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+    .st-past { background: #E8E0F8; color: #483878; }
+    .st-caution { background: #FFE8C0; color: #784008; }
+    .st-danger { background: #FFE0DC; color: #6A1808; }
+    .st-ok { background: #E4F0E0; color: #284A20; }
+
+    /* ── Recommendation cards ── */
+    .rec-section { margin-top: 8px; }
+    .rec-card {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .rec-head {
+      background: var(--card2);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .rec-day-badge {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .rec-day-title {
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .rec-body {
+      background: var(--card);
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: var(--text2);
+      line-height: 1.75;
+    }
+    .rec-body strong { color: var(--text); }
+    .rec-body .tip {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+    .rec-body .tip-icon { flex-shrink: 0; }
+
+    /* ── Tips pills ── */
+    .tips-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .tip-pill {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+    .tip-pill .ico { flex-shrink: 0; font-size: 15px; width: 20px; }
+
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ Header ════ -->
+<header class="site-header">
+  <div class="site-eyebrow">Switzerland Honeymoon 2026</div>
+  <div class="site-title">信瑋 &amp; 映儒 · <strong>蜜月實記</strong></div>
+  <div class="site-sub">6月16日 — 7月2日 &nbsp;｜&nbsp; 16 天瑞士</div>
+</header>
+
+<!-- ════ 已完成行程 ════ -->
+<div class="sec-label">旅程紀錄</div>
+
+<!-- Day 1 -->
+<div class="day-card">
+  <div class="day-head">
+    <div class="day-num">01</div>
+    <div class="day-meta">
+      <div class="day-date-line">6 月 16 日（二）· 蘇黎世</div>
+      <div class="day-title-line">抵達、Jet Hotel、雞腿大冒險</div>
+    </div>
+  </div>
+  <div class="day-body">
+    <div class="moment">
+      <div class="m-icon">✈️</div>
+      <div class="m-body">
+        <div class="m-title">EK087 落地蘇黎世</div>
+        <div class="m-text">長途飛行結束，終於踏上瑞士的土地。買了單程票，搭公車前往 Jet Hotel，正式展開 16 天蜜月旅程。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🏨</div>
+      <div class="m-body">
+        <div class="m-title">Jet Hotel — 意外驚喜：簡易廚房</div>
+        <div class="m-text">入住後發現房間備有簡易廚房設備，立刻決定發揮廚藝，去超市採購食材，自己下廚。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🍗</div>
+      <div class="m-body">
+        <div class="m-title">煎雞腿事件</div>
+        <div class="m-text">食材買回來，開火下鍋。雞腿煎得香，但抽油煙機似乎功能不太正常——</div>
+        <div class="fun-box">整間房間瀰漫雞腿香氣，蜜月第一晚的氣味印記就這樣刻入回憶了。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🛬</div>
+      <div class="m-body">
+        <div class="m-title">看飛機起降</div>
+        <div class="m-text">飯後去機場附近看飛機起降，感覺新鮮，但時差的疲勞悄悄上身，看了一陣便回房休息。</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-done">✔ 完成</span>
+      <span class="tag tag-warm">自炊第一彈</span>
+      <span class="tag tag-note">時差警戒</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 2 -->
+<div class="day-card">
+  <div class="day-head">
+    <div class="day-num">02</div>
+    <div class="day-meta">
+      <div class="day-date-line">6 月 17 日（三）· 蘇黎世 → Pontresina</div>
+      <div class="day-title-line">自炊早餐、移動、Muottas Muragl 初戀</div>
+    </div>
+  </div>
+  <div class="day-body">
+    <div class="moment">
+      <div class="m-icon">🥚</div>
+      <div class="m-body">
+        <div class="m-title">早餐沒包含在住宿內</div>
+        <div class="m-text">早起才發現 Jet Hotel 沒有附早餐。沒關係，二度前往超市採購，再次啟動廚藝模式，在房內料理早餐，豐盛出發。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🚆</div>
+      <div class="m-body">
+        <div class="m-title">移動：蘇黎世 → Pontresina</div>
+        <div class="m-text">STP 搭車前往恩加丁，換乘抵達 Pontresina 第二個住宿地點，簡單安頓行李、稍作休息。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🏔</div>
+      <div class="m-body">
+        <div class="m-title">Muottas Muragl — 真的很漂亮</div>
+        <div class="m-text">下午搭纜車上 Muottas Muragl，恩加丁五湖就在腳下，Bernina 山群環繞，黃昏光線柔美。果然名不虛傳——第一眼就喜歡上這裡的景色。</div>
+        <div class="fun-box">這是整趟旅行的第一個「哇！」時刻。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🛌</div>
+      <div class="m-body">
+        <div class="m-title">早回飯店休息</div>
+        <div class="m-text">體力還在適應長途飛行的時差，看完夕陽便返回飯店，養足精神備戰後續高山行程。</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-done">✔ 完成</span>
+      <span class="tag tag-warm">Muottas Muragl 推薦！</span>
+      <span class="tag tag-note">自炊第二彈</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 3 -->
+<div class="day-card">
+  <div class="day-head">
+    <div class="day-num">03</div>
+    <div class="day-meta">
+      <div class="day-date-line">6 月 18 日（四）· Pontresina</div>
+      <div class="day-title-line">行程對調、高山反應、Alp Languard</div>
+    </div>
+  </div>
+  <div class="day-body">
+    <div class="moment">
+      <div class="m-icon">🌅</div>
+      <div class="m-body">
+        <div class="m-title">晚起、吃完早餐時間有點晚</div>
+        <div class="m-text">早餐吃得比較悠閒，出門時間延後，加上天氣狀況評估，決定把義大利行程換到明天，今天先去 Diavolezza 和 Alp Languard。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🧊</div>
+      <div class="m-body">
+        <div class="m-title">Diavolezza 2,978m — 老婆高山反應</div>
+        <div class="m-text">纜車上到 Diavolezza，冰川壯觀，但老婆在高海拔開始感覺不舒服。為了安全起見，沒有久留，先搭纜車下山回飯店休息。</div>
+        <div class="warn-box"><strong>高山反應（AMS）初次出現於約 2,978m。</strong>症狀需要在低海拔充分休息後才能緩解，不可勉強。</div>
+      </div>
+    </div>
+    <div class="moment">
+      <div class="m-icon">🌿</div>
+      <div class="m-body">
+        <div class="m-title">下午：Alp Languard（約 2,330m）</div>
+        <div class="m-text">休息後體力回復，下午改去較低海拔的 Alp Languard，野花草原俯瞰 Pontresina 全景，輕鬆美好，沒有不適。</div>
+      </div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-done">✔ 完成</span>
+      <span class="tag tag-alert">⚠️ 高山反應 2,978m</span>
+      <span class="tag tag-note">行程彈性對調</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════ 高山海拔對照 ════ -->
+<div class="altitude-block">
+  <div class="altitude-block-title">⛰ 高山反應 · 海拔對照表</div>
+  <div class="alt-row">
+    <span class="alt-name">Muottas Muragl（6/17）</span>
+    <span class="alt-m">2,456m</span>
+    <span class="alt-status st-past">無感</span>
+  </div>
+  <div class="alt-row">
+    <span class="alt-name">Alp Languard（6/18）</span>
+    <span class="alt-m">2,330m</span>
+    <span class="alt-status st-past">無感</span>
+  </div>
+  <div class="alt-row">
+    <span class="alt-name">Diavolezza（6/18）</span>
+    <span class="alt-m">2,978m</span>
+    <span class="alt-status st-alert" style="background:#FFE0DC;color:#6A1808;">⚠️ 出現反應</span>
+  </div>
+  <div class="alt-row">
+    <span class="alt-name">Corvatsch（6/20 預定）</span>
+    <span class="alt-m">3,303m</span>
+    <span class="alt-status st-danger">比 Diavolezza 更高</span>
+  </div>
+  <div class="alt-row">
+    <span class="alt-name">Gornergrat（6/22 預定）</span>
+    <span class="alt-m">3,089m</span>
+    <span class="alt-status st-caution">類似 Diavolezza</span>
+  </div>
+  <div class="alt-row">
+    <span class="alt-name">Schwarzsee 婚紗（6/23）</span>
+    <span class="alt-m">2,583m</span>
+    <span class="alt-status st-ok">較低，應無大礙</span>
+  </div>
+  <div class="alt-row">
+    <span class="alt-name">Klein Matterhorn（備案）</span>
+    <span class="alt-m">3,883m</span>
+    <span class="alt-status st-danger">⛔ 強烈建議跳過</span>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:#7A3A10;line-height:1.7;">
+    💊 建議：下次上山前 1–2 小時服用 Ibuprofen 400mg 預防頭痛；上山後先靜坐 15 分鐘、大量喝水。若有頭痛噁心立即下山，不要硬撐。
+  </div>
+</div>
+
+<!-- ════ 後續建議 ════ -->
+<div class="sec-label">後續行程建議</div>
+<div class="rec-section">
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/19（五）</div>
+      <div class="rec-day-title">伯尼納快車 + Tirano + St. Moritz 晚餐</div>
+    </div>
+    <div class="rec-body">
+      <strong>對高山反應最友善的一天。</strong>整段行程都在火車車廂內或 Tirano（429m）低地，是絕佳的高山恢復日。即使今天下雨或有雲霧，車窗景觀仍值得一看。
+      <div class="tips-grid" style="margin-top:10px;">
+        <div class="tip-pill"><span class="ico">✅</span><span>不需爬高，老婆可以完全放鬆</span></div>
+        <div class="tip-pill"><span class="ico">🍕</span><span>Tirano 義大利小館 Pizza / Pasta，消費比瑞士便宜一半</span></div>
+        <div class="tip-pill"><span class="ico">🚂</span><span>15:41 從 Tirano 出發 → St. Moritz 下車，Veltlinerkeller 晚餐（記得訂位）</span></div>
+        <div class="tip-pill"><span class="ico">⚠️</span><span>Ospizio Bernina（2,253m）如果只在車上不下車，完全沒有高山問題</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/20（六）</div>
+      <div class="rec-day-title">Corvatsch 3,303m — 謹慎評估</div>
+    </div>
+    <div class="rec-body">
+      <strong style="color:#7A3010;">⚠️ Corvatsch 比出現高山反應的 Diavolezza 還高 325m，需要認真評估。</strong>
+      <div class="tips-grid" style="margin-top:10px;">
+        <div class="tip-pill"><span class="ico">🌡</span><span>出發前先問老婆今天整體狀態。若仍有任何不適，直接改備案。</span></div>
+        <div class="tip-pill"><span class="ico">💊</span><span>若決定去，上車前 1.5 小時先服 Ibuprofen 400mg，上山後靜坐等 20 分鐘再移動</span></div>
+        <div class="tip-pill"><span class="ico">🔄</span><span><strong>備案：</strong>Fex Valley 馬車（+41 81 826 56 73 預約，海拔約 1,800m），風景絕美但完全無高山問題；或直接在 Pontresina 老城散步備戰明日冰河快車</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/21（日）</div>
+      <div class="rec-day-title">冰河快車 St. Moritz → Zermatt</div>
+    </div>
+    <div class="rec-body">
+      火車全程，坐著欣賞景色即可，高山問題不大（路線沿途最高點約 2,033m Oberalppass，但在車廂內感覺不到）。<strong>記得一等艙升艙，視野大不同。</strong> 抵達 Zermatt 約傍晚，check-in Chalet Achat，整理大行李。
+    </div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/22（一）</div>
+      <div class="rec-day-title">Riffelsee + Gornergrat 3,089m</div>
+    </div>
+    <div class="rec-body">
+      Gornergrat（3,089m）與 Diavolezza 相近，需要注意。<strong>建議策略：</strong>
+      <div class="tips-grid" style="margin-top:10px;">
+        <div class="tip-pill"><span class="ico">📸</span><span><strong>Riffelsee（2,815m）</strong>是重中之重——09:00 前水最靜、倒影最完整。Rotenboden 站下車步行 5 分鐘，不用去到頂。</span></div>
+        <div class="tip-pill"><span class="ico">🔼</span><span>若在 Rotenboden 感覺良好，再搭下一班到 Gornergrat 頂（3,089m）</span></div>
+        <div class="tip-pill"><span class="ico">💊</span><span>出發前 Ibuprofen 先備著，首班約 07:00 出發前服用</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/23（二）</div>
+      <div class="rec-day-title">慢活日 + Schwarzsee 婚紗（2,583m）</div>
+    </div>
+    <div class="rec-body">
+      <strong>這天海拔最友善。</strong> Schwarzsee（2,583m）比 Diavolezza 低近 400m，問題較小。上午睡飽、整理婚紗禮服；下午 15:00 才出發，下午光線更好拍攝。
+      <div class="tips-grid" style="margin-top:10px;">
+        <div class="tip-pill"><span class="ico">💍</span><span>Maria zum Schnee 湖畔小教堂 + 馬特洪峰近距離，是策馬特婚紗最強場景</span></div>
+        <div class="tip-pill"><span class="ico">⛔</span><span><strong>Klein Matterhorn（3,883m）備案：強烈建議跳過。</strong> 以老婆的高山敏感度，3,883m 風險過高，犯不著。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/24–6/26</div>
+      <div class="rec-day-title">因特拉肯地區（低海拔，輕鬆段）</div>
+    </div>
+    <div class="rec-body">
+      Oeschinensee（1,578m）、Lauterbrunnen（796m）、Gimmelwald 婚紗（1,367m）全部在低海拔，老婆可以完全放鬆享受。<strong>這段是整趟旅程體能壓力最低的連續三天。</strong> Gimmelwald 婚紗視角是全瑞士三連峰最完整的，好好期待。
+    </div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-head">
+      <div class="rec-day-badge">6/27–7/1</div>
+      <div class="rec-day-title">楚格 → 琉森 → 蘇黎世（平地收尾段）</div>
+    </div>
+    <div class="rec-body">
+      全部在低海拔城市（楚格 428m，琉森 436m，蘇黎世 408m），不再有高山問題。
+      <div class="tips-grid" style="margin-top:10px;">
+        <div class="tip-pill"><span class="ico">🌉</span><span>6/27 卡貝爾橋藍調拍攝：三腳架 15–30 秒長曝，是旅途最後的攝影壓軸</span></div>
+        <div class="tip-pill"><span class="ico">⛰</span><span>6/28 瑞吉山（1,798m）Tierpark — 低海拔無問題</span></div>
+        <div class="tip-pill"><span class="ico">🚢</span><span>7/1 Uetliberg 山頂（873m）+ 蘇黎世湖遊船，輕鬆畫下句點</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ 旅途小提醒 ════ -->
+<div class="sec-label">旅途小提醒</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;">
+  <div class="tips-grid">
+    <div class="tip-pill">
+      <span class="ico">💊</span>
+      <span><strong>高山藥物：</strong>Ibuprofen 400mg（布洛芬）頭痛時服用，或上山前預防性服用。若症狀明顯建議找藥局問 Acetazolamide。</span>
+    </div>
+    <div class="tip-pill">
+      <span class="ico">💧</span>
+      <span><strong>補水：</strong>高海拔每小時至少 500ml，少喝酒精飲料（加重缺氧）。</span>
+    </div>
+    <div class="tip-pill">
+      <span class="ico">🧘</span>
+      <span><strong>上山後靜坐 15 分鐘：</strong>讓身體適應後再走動，比急著去拍照重要。</span>
+    </div>
+    <div class="tip-pill">
+      <span class="ico">📱</span>
+      <span><strong>下山就好：</strong>所有高山症狀下山後幾乎立刻緩解，不要硬撐。景色沒了還有，身體出了問題才麻煩。</span>
+    </div>
+    <div class="tip-pill">
+      <span class="ico">🛒</span>
+      <span><strong>超市美食：</strong>Migros / Coop 熱食區早餐、簡餐都不錯，比餐廳便宜，自炊傳統延續。</span>
+    </div>
+    <div class="tip-pill">
+      <span class="ico">📸</span>
+      <span><strong>婚紗剩餘場次：</strong>Lej da Staz（Pontresina）、Schwarzsee（Zermatt）、Gimmelwald（因特拉肯），三個地點各有特色，期待！</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  信瑋 &amp; 映儒 · 瑞士蜜月 2026 &nbsp;|&nbsp; 實記版
+</footer>
+
+</body>
+</html>
