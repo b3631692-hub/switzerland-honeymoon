@@ -1,0 +1,973 @@
+/* Public product-image references. No image copies are hosted here. */
+window.SHOPPING_IMAGES = {
+  "shupatto_m": {
+    "url": "https://marna.jp/img/goods/L/S467KK.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gS467KK/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna Shupatto 秒收購物袋 M",
+    "match": "representative",
+    "matchNote": "S467 M 同系列 KOKAGE 花色；清單未指定花色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "muji_spoon": {
+    "url": "https://www.muji.com/public/media/img/item/4550584376412_org.jpg?im=Resize%2Ctype%3Ddownsize%2Cwidth%3D3840",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550584376412",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 無印良品 矽膠料理匙 26cm",
+    "match": "exact",
+    "matchNote": "官方頁商品號84376412及26cm一致；官方提醒包裝可能不同。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "greenbell_clipper": {
+    "url": "",
+    "sourceUrl": "https://greenbell.ne.jp/products/g-1305/",
+    "sourceLabel": "Green Bell 官方商品頁",
+    "alt": "Green Bell 匠之技指甲剪 G-1305",
+    "match": "unverified",
+    "matchNote": "已找到G-1305官方商品照，但網站條款限制未經許可在其他網站轉載，暫不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "https://greenbell.ne.jp/site-policy/ 第1條要求先取得許可才能在其他網站轉載內容；第4條禁止損害網站明確性的frame link。保留官方來源連結，不外嵌照片。"
+  },
+  "md_a5": {
+    "url": "https://md-product.com/cdn/shop/files/md-notebook-a5_grid.jpg?v=1773637327&width=416",
+    "sourceUrl": "https://md-product.com/products/md-notebook-a5",
+    "sourceLabel": "MD PRODUCT（原 MIDORI MD 系列） 官方商品頁",
+    "alt": "MD PRODUCT A5 方眼筆記本",
+    "match": "exact",
+    "matchNote": "官方頁圖片alt為MD Notebook A5 Grid，方眼品番15386006。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "one_p": {
+    "url": "",
+    "sourceUrl": "https://digitalpr.jp/r/68362",
+    "sourceLabel": "三菱鉛筆 uni 官方商品頁",
+    "alt": "uni-ball one P 短胖中性筆 0.38mm",
+    "match": "unverified",
+    "matchNote": "現有官方發布圖含0.38與0.5系列，尚未找到可分辨0.38款的單品照。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "orbis-hair-milk": {
+    "url": "https://www.orbis.co.jp/cms/small/1452050/images/1452050_800_42.jpg",
+    "sourceUrl": "https://www.orbis.co.jp/small/1452050/",
+    "sourceLabel": "ORBIS 官方商品頁",
+    "alt": "ORBIS 精華護髮乳（無香料一般版）",
+    "match": "exact",
+    "matchNote": "官方140g一般無香料頁照片，已目視確認普通粉紅瓶，非香味或聯名包裝。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "oshima-tsubaki-oil": {
+    "url": "https://www.oshimatsubaki.co.jp/tsubaki_cms/wp-content/uploads/2025/11/oshimatsubaki-60.jpg",
+    "sourceUrl": "https://www.oshimatsubaki.co.jp/product/10976/",
+    "sourceLabel": "大島椿 官方商品頁",
+    "alt": "大島椿 100% 椿油",
+    "match": "exact",
+    "matchNote": "官方頁60mL對應圖片，與40mL、120mL分列。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "softymo-speedy": {
+    "url": "",
+    "sourceUrl": "https://www.kose-softymo.com/cleansingoil/",
+    "sourceLabel": "KOSE 官方商品頁",
+    "alt": "KOSE Softymo Speedy 快速卸妝油（粉瓶）",
+    "match": "unverified",
+    "matchNote": "已取得官方Speedy系列圖，但未目視核實240mL包裝；瀏覽器安全檢查無法完成，暫不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "kinto_travel_350": {
+    "url": "",
+    "sourceUrl": "https://kinto.co.jp/collections/travel-tumbler/products/20931",
+    "sourceLabel": "KINTO 官方商品頁",
+    "alt": "KINTO TRAVEL TUMBLER 350ml 保溫隨行杯",
+    "match": "unverified",
+    "matchNote": "現有官方HTML主圖為20932顏色，尚未核實20931不鏽鋼色單品圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "montbell_travel50": {
+    "url": "https://webshop.montbell.jp/common/images/product/prod_c/c_1128694_wt.jpg",
+    "sourceUrl": "https://webshop.montbell.jp/goods/disp.php?product_id=1128694",
+    "sourceLabel": "mont-bell 官方商品頁",
+    "alt": "mont-bell Travel Umbrella 50 超輕折傘",
+    "match": "representative",
+    "matchNote": "官方1128694 Travel Umbrella 50白色；清單未指定顏色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "muji_travel_bottle50": {
+    "url": "https://www.muji.com/public/media/img/item/4548718994182_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4548718994182",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 50ml 軟式分裝瓶（掀蓋）",
+    "match": "exact",
+    "matchNote": "官方商品頁同JAN主圖；款式、規格與商品頁一致。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "muji_double_cube_s": {
+    "url": "https://www.muji.com/public/media/img/item/4550344457856_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344457856",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 雙層可折收行李整理袋 S",
+    "match": "exact",
+    "matchNote": "官方商品頁同JAN主圖；款式、規格與商品頁一致。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "hario_v60": {
+    "url": "",
+    "sourceUrl": "https://shop.hariocorp.co.jp/products/vd-01t",
+    "sourceLabel": "HARIO 官方商品頁",
+    "alt": "HARIO V60 01 透明樹脂咖啡濾杯",
+    "match": "unverified",
+    "matchNote": "官方圖檔為VD-01T，現行品番為VDR-01-T；缺明確同品更新證據，暫不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "muji_sacoche": {
+    "url": "https://www.muji.com/public/media/img/item/4548076172536_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4548076172536",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 撥水扁平斜背小包",
+    "match": "exact",
+    "matchNote": "官方商品頁同JAN主圖；款式、規格與商品頁一致。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "fino-hair-mask": {
+    "url": "https://brand.finetoday.com/jp/fino/assets/img/mask/prod3.png",
+    "sourceUrl": "https://brand.finetoday.com/jp/fino/mask/",
+    "sourceLabel": "fino／FineToday（ファイントゥデイ） 官方商品頁",
+    "alt": "fino Premium Touch 濃厚美容液髮膜",
+    "match": "exact",
+    "matchNote": "官方230g本體圖，已目視確認銀罐紅蓋Hair Mask，非補充包。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "heroine-speedy-remover": {
+    "url": "https://www.isehan.co.jp/heroine/wp-content/uploads/2025/02/remover_slide_01_01-1.png",
+    "sourceUrl": "https://www.isehan.co.jp/heroine/product/care_remover/speedymascararemover/",
+    "sourceLabel": "Heroine Make／伊勢半 ISEHAN 官方商品頁",
+    "alt": "Heroine Make 快速睫毛膏卸除液",
+    "match": "exact",
+    "matchNote": "官方一般版藍瓶展示圖，與粉色限量款分列。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "canmake-cream-cheek": {
+    "url": "https://www.canmake.com/wp-content/uploads/2025/10/B00_69_col16_img_00.jpg",
+    "sourceUrl": "https://www.canmake.com/item/detail/cream-cheek/",
+    "sourceLabel": "CANMAKE／井田ラボラトリーズ 官方商品頁",
+    "alt": "CANMAKE Cream Cheek 腮紅膏",
+    "match": "exact",
+    "matchNote": "官方頁實際點選16アーモンドテラコッタ後，主圖DOM顯示此URL；與指定色一致。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "canmake-marshmallow-powder": {
+    "url": "https://www.canmake.com/wp-content/uploads/2025/08/A03_62_colML_img_01.jpg",
+    "sourceUrl": "https://www.canmake.com/item/detail/marshmallow-finish-powder/",
+    "sourceLabel": "CANMAKE／井田ラボラトリーズ 官方商品頁",
+    "alt": "CANMAKE Marshmallow Finish Powder 棉花糖蜜粉餅",
+    "match": "exact",
+    "matchNote": "官方頁實際點選MLマットライトオークル，主圖DOM顯示此URL；10g一般款。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "canmake-creamy-touch-liner": {
+    "url": "https://www.canmake.com/wp-content/uploads/2025/08/C05_36_col02_img_00.jpg",
+    "sourceUrl": "https://www.canmake.com/item/detail/creamy-touch-liner/",
+    "sourceLabel": "CANMAKE／井田ラボラトリーズ 官方商品頁",
+    "alt": "CANMAKE Creamy Touch Liner 眼線膠筆（有條件候選）",
+    "match": "exact",
+    "matchNote": "官方頁實際點選02ミディアムブラウン，主圖DOM顯示此URL；頁面1.5mm系列一致。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "marna_rice_freezer": {
+    "url": "https://marna.jp/img/goods/L/K748W.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gK748W/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 極冷凍飯保鮮盒 180g 兩入",
+    "match": "exact",
+    "matchNote": "官方圖alt為極冷凍ごはん容器白色2個入り，K748W吻合。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "marna_premium_paddle": {
+    "url": "https://marna.jp/img/goods/L/K674CL.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gK674CL/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 極 Premium 不沾飯匙",
+    "match": "exact",
+    "matchNote": "官方圖alt為極しゃもじプレミアム透明normal，K674CL吻合。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "aux_fingertip_tong": {
+    "url": "https://www.aux-ltd.co.jp/products/item_img/yubisakitong-thumb.jpg",
+    "sourceUrl": "https://www.aux-ltd.co.jp/products/tongs/yubisakitong.html",
+    "sourceLabel": "AUX 官方商品頁",
+    "alt": "AUX leye 指尖料理夾",
+    "match": "exact",
+    "matchNote": "官方LS1505ゆびさきトング商品主圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "aux_miso_muddler": {
+    "url": "https://www.aux-ltd.co.jp/products/item_img/misomuddler-thumb.jpg",
+    "sourceUrl": "https://www.aux-ltd.co.jp/products/kitchen-tools/misomuddler.html",
+    "sourceLabel": "AUX 官方商品頁",
+    "alt": "AUX leye 味噌計量攪拌匙",
+    "match": "exact",
+    "matchNote": "官方LS1500計量みそマドラー商品主圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "akebono_clear_teapot": {
+    "url": "",
+    "sourceUrl": "https://www.akebono-sa.co.jp/html/template/akebono/img/catalog/catalog4.pdf",
+    "sourceLabel": "曙產業 官方商品頁",
+    "alt": "曙產業 透明輕量茶壺 L",
+    "match": "unverified",
+    "matchNote": "現有來源為官方PDF型錄，未找到可核實的獨立商品圖網址。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "marna_bread_freezer_bag": {
+    "url": "https://marna.jp/img/goods/L/K766BE.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gK766BE/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 吐司冷凍保存袋 半條兩入",
+    "match": "exact",
+    "matchNote": "官方K766BE圖alt明示半斤、兩枚入、米色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "takeya_freshlok_300": {
+    "url": "",
+    "sourceUrl": "https://takeyajp.com/products/freshlok-s300-3p",
+    "sourceLabel": "TAKEYA 官方商品頁",
+    "alt": "TAKEYA Freshlok 300ml 方形乾貨罐",
+    "match": "unverified",
+    "matchNote": "現有官方頁為3個組，清單指定單罐；未拿組合照冒充單罐。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "richell_colander_m": {
+    "url": "",
+    "sourceUrl": "https://www.richell.co.jp/lifeplus/special/colander/",
+    "sourceLabel": "Richell 官方商品頁",
+    "alt": "Richell 方形瀝水籃與備料盒 M",
+    "match": "unverified",
+    "matchNote": "官方頁為多尺寸系列，尚未核對M象牙白單品照。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "hario_filter_bottle": {
+    "url": "https://shop.hariocorp.co.jp/cdn/shop/products/FIB-75-W_1024x1024.jpg?v=1641879542",
+    "sourceUrl": "https://shop.hariocorp.co.jp/products/fib-75-w",
+    "sourceLabel": "HARIO 官方商品頁",
+    "alt": "HARIO 750ml 冷泡茶濾網瓶",
+    "match": "representative",
+    "matchNote": "官方FIB-75-W 750mL白色款；清單未指定顏色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "marna_seasoning_pot": {
+    "url": "",
+    "sourceUrl": "https://item.rakuten.co.jp/shopmarna/k736/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 單手開蓋調味罐 370ml",
+    "match": "unverified",
+    "matchNote": "官方樂天頁主圖可能含多色，尚未核對K736W白色單品。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "marna_cooking_chopsticks": {
+    "url": "https://marna.jp/img/goods/L/K801GY.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gK801GY/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 防滑料理長筷 31cm",
+    "match": "representative",
+    "matchNote": "官方K801GY圖alt明示31cm灰色，同清單K801系列。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "hario_measure_cup_250": {
+    "url": "",
+    "sourceUrl": "https://item.rakuten.co.jp/hario-onlinestore/v_31679532925006/",
+    "sourceLabel": "HARIO 官方商品頁",
+    "alt": "HARIO 耐熱玻璃量杯 250ml",
+    "match": "unverified",
+    "matchNote": "官方樂天頁包含250與500mL，尚未確定單圖對應MJP-250-GR。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "tower_trivet": {
+    "url": "",
+    "sourceUrl": "https://www.yamajitsu.co.jp/products/240899",
+    "sourceLabel": "山崎実業 官方商品頁",
+    "alt": "山崎實業 tower 鋼製鍋墊",
+    "match": "unverified",
+    "matchNote": "官方頁初始圖為2250白色，指定2251黑色尚未核對。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "iwatani_iwrap": {
+    "url": "https://www.iwatani-i-collect.com/img/goods/kitchen/2000004119_m.jpg",
+    "sourceUrl": "https://www.iwatani-i-collect.com/shop/g/g2000004119/",
+    "sourceLabel": "岩谷マテリアル 官方商品頁",
+    "alt": "岩谷 I-WRAP 食品保存調理袋 60入",
+    "match": "exact",
+    "matchNote": "Iwatani官方商品圖alt明示家庭用60枚入り。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "ziploc_freezer_m": {
+    "url": "",
+    "sourceUrl": "https://www.asahi-kasei.co.jp/saran/products/ziploc/freezer.html",
+    "sourceLabel": "旭化成ホームプロダクツ 官方商品頁",
+    "alt": "Ziploc 日本版冷凍夾鏈袋 M 45入",
+    "match": "unverified",
+    "matchNote": "官方現行頁圖alt為M16枚，清單指定M45枚，包裝不一致不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "公開網址不代表商用授權；未取得重製或商用許可。"
+  },
+  "kureha_krewrap": {
+    "url": "",
+    "sourceUrl": "https://kurelife.jp/products/newkrewrap/",
+    "sourceLabel": "クレハ 官方商品頁",
+    "alt": "KUREHA NEW Krewrap 保鮮膜 30cm×50m商品照",
+    "match": "unverified",
+    "matchNote": "頁面列有30cm×50m，但未取得獨立可核對商品圖，且使用條款有限制。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方使用條款禁止銷售、改竄、複製、展示、分發及其他商業使用；不使用此圖。https://kurelife.jp/information/terms/"
+  },
+  "kai_slim_whisk": {
+    "url": "https://www.kai-group.com/contents_file/products/brand/select100/images/products/dh3144_01.jpg",
+    "sourceUrl": "https://www.kai-group.com/products/brand/select100/products/dh3144.html",
+    "sourceLabel": "貝印 官方商品頁",
+    "alt": "貝印 SELECT100 細身打蛋器商品照",
+    "match": "exact",
+    "matchNote": "官方 DH3144 商品頁主圖；品番與 JAN 均吻合。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "akebono_butter_case": {
+    "url": "https://www.akebono-sa.co.jp/html/upload/save_image/ST-3005_1.jpg",
+    "sourceUrl": "https://www.akebono-sa.co.jp/products/detail/111",
+    "sourceLabel": "曙產業 官方商品頁",
+    "alt": "曙產業 奶油切分保存盒商品照",
+    "match": "exact",
+    "matchNote": "曙產業一般款商品頁圖，165×95×68mm，非附刀 Premium 版。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "cookper_frying_foil": {
+    "url": "",
+    "sourceUrl": "https://www.asahi-kasei.co.jp/saran/products/cookper/fryingpan.html",
+    "sourceLabel": "旭化成ホームプロダクツ 官方商品頁",
+    "alt": "旭化成 Cookper 不沾煎鍋鋁箔 25cm×20m商品照",
+    "match": "unverified",
+    "matchNote": "官方商品頁僅核對到25cm×3m圖，不符合此清單25cm×20m；不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-travel-lint": {
+    "url": "https://www.muji.com/public/media/img/item/4550344832059_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344832059",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 攜帶式黏毛滾輪商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-travel-shook": {
+    "url": "https://www.muji.com/public/media/img/item/4550002547431_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550002547431",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 旅行折疊 S 型掛鉤商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-pocket-shoehorn": {
+    "url": "https://www.muji.com/public/media/img/item/4550344510292_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344510292",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 攜帶式鞋拔商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-shoe-wipes": {
+    "url": "https://www.muji.com/public/media/img/item/4550344171691_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344171691",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 攜帶式擦鞋濕巾商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-water-clean-sheet": {
+    "url": "https://www.muji.com/public/media/img/item/4550584880605_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550584880605",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 水垢清潔片 30張商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-reusable-dehumidifier": {
+    "url": "https://www.muji.com/public/media/img/item/4550584851841_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550584851841",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 可重複使用除濕片 10入商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-beech-clothes-brush": {
+    "url": "https://www.muji.com/public/media/img/item/4549738395904_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4549738395904",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 櫸木豬毛衣物刷商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-wire-clip": {
+    "url": "https://www.muji.com/public/media/img/item/4549738755586_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4549738755586",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 不鏽鋼掛式線夾 4入商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-gap-brush": {
+    "url": "https://www.muji.com/public/media/img/item/4550344831861_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344831861",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 隙縫清潔刷商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "marna-glass-cloth": {
+    "url": "",
+    "sourceUrl": "https://item.rakuten.co.jp/shopmarna/w640/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 玻璃鏡面清潔布 2入商品照",
+    "match": "unverified",
+    "matchNote": "原官方商店頁目前主圖是WEB限定黃/藍色並混合1入與2入選項，不能當作指定W640GY灰色2入商品圖，故不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-reversible-laundry-net": {
+    "url": "https://www.muji.com/public/media/img/item/4550583932381_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550583932381",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 雙面可用洗衣網 平型大商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-silicone-rinse-cup": {
+    "url": "https://www.muji.com/public/media/img/item/4550182925999_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550182925999",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 薄型攜帶矽膠漱口杯商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-cable-binding-tape": {
+    "url": "https://www.muji.com/public/media/img/item/4550344596647_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344596647",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 手撕式束線魔鬼氈商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-table-broom": {
+    "url": "https://www.muji.com/public/media/img/item/4550344831779_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344831779",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 迷你掃把畚箕組商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-bamboo-pocket-napkin": {
+    "url": "https://www.muji.com/public/media/img/item/4550512104315_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550512104315",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 竹纖維攜帶紙巾 6包商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-washable-travel-slippers": {
+    "url": "https://www.muji.com/public/media/img/item/4550344427545_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344427545",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 可洗折疊旅行拖鞋商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-travel-bag-hanger": {
+    "url": "https://www.muji.com/public/media/img/item/4550344594438_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344594438",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 桌邊旅行掛包鉤商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji-flexible-washboard": {
+    "url": "https://www.muji.com/public/media/img/item/4548076037217_org.jpg",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4548076037217",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 柔軟迷你洗衣板商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "marna-mini-bath-brush": {
+    "url": "https://marna.jp/img/goods/L/W672W.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gW672W/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 浴室細縫清潔刷商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "marna-bath-squeegee": {
+    "url": "https://marna.jp/img/goods/L/W677GY.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gW677GY/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 小巧雙面浴室刮水器商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "kurutoga_metal": {
+    "url": "https://prcdn.freetls.fastly.net/release_image/28890/249/28890-249-55128d825a2a0c39b99a12d256181fed-945x662.jpg?format=jpeg&auto=webp&fit=bounds&width=2400&height=1260",
+    "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000249.000028890.html",
+    "sourceLabel": "三菱鉛筆官方新聞稿（PR TIMES）",
+    "alt": "uni KURUTOGA Metal 金屬自動鉛筆 0.5mm商品照",
+    "match": "representative",
+    "matchNote": "三菱鉛筆官方新聞稿：KURUTOGA Metal 0.5mm M5-KH 1P 三種一般軸色合照；不是三支組售價。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "ukanmuri_clip": {
+    "url": "https://www.sun-star-st.jp/_GgN4t0LN/wp-content/uploads/2023/04/main.png",
+    "sourceUrl": "https://www.sun-star-st.jp/items/230403061529/",
+    "sourceLabel": "Sun-Star 官方商品頁",
+    "alt": "Sun-Star 宀字型書頁固定夾商品照",
+    "match": "representative",
+    "matchNote": "官方標準款120×76×40mm多色商品實照介紹圖，已視覺核對；非網頁截圖，不代表多個夾的套裝。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "hancoco_slide": {
+    "url": "https://img07.shop-pro.jp/PA01453/123/product/187798394.jpg?cmsp_timestamp=20250731100348",
+    "sourceUrl": "https://www.kutsuwa.co.jp/products/product-187798394/",
+    "sourceLabel": "Kutsuwa 官方商品頁",
+    "alt": "Kutsuwa Hancoco Slide 雙色滑動印章商品照",
+    "match": "representative",
+    "matchNote": "官方 DE018 一般系列五種圖案包裝實照，已視覺核對；不是五入套裝，清單未指定花色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "kokuyo_soft_ring": {
+    "url": "https://www.kokuyo.com/sites/default/files/assets/images/stationery/category/product/SHS47944_1.jpg",
+    "sourceUrl": "https://www.kokuyo.com/stationery/category/notebook-paper/ring-notebook/2858/",
+    "sourceLabel": "KOKUYO 官方商品頁",
+    "alt": "KOKUYO Soft Ring 軟環筆記本 A5商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "kokuyo_dotliner": {
+    "url": "https://www.kokuyo.com/system/files/SET44180.jpg",
+    "sourceUrl": "https://www.kokuyo.com/stationery/category/paste-tape/tapeglue/17649/",
+    "sourceLabel": "KOKUYO 官方商品頁",
+    "alt": "KOKUYO Dotliner 可替換膠帶膠商品照",
+    "match": "exact",
+    "matchNote": "官方商品頁標題與指定品號吻合；圖片URL直接讀取官方頁 og:image，非推測URL。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "pilot_kirena": {
+    "url": "https://webcatalog.pilot.co.jp/products/fileDownload?fileID=t010000009793&type=prev&volumeName=00004",
+    "sourceUrl": "https://webcatalog.pilot.co.jp/products/DispDetail.do?itemID=t000100004113&volumeName=00004",
+    "sourceLabel": "PILOT 官方商品頁",
+    "alt": "PILOT KIRE-NA 導引式螢光筆商品照",
+    "match": "representative",
+    "matchNote": "官方 SKIW-1-Y 黃色單支商品照，已視覺核對；清單未指定顏色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "mildliner_brush": {
+    "url": "https://www.zebra.co.jp/pro/images/WFT8-MBL.jpg",
+    "sourceUrl": "https://www.zebra.co.jp/pro/detail/mildliner_brush/",
+    "sourceLabel": "ZEBRA 官方商品頁",
+    "alt": "ZEBRA Mildliner Brush 淡色雙頭毛筆商品照",
+    "match": "representative",
+    "matchNote": "官方 WFT8 系列單支淡藍色示例；未指定顏色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "sakura_arch": {
+    "url": "https://www.craypas.co.jp/assets/product/259293.jpg?2108161824",
+    "sourceUrl": "https://www.craypas.co.jp/products/eraser/034/0113/259293.html",
+    "sourceLabel": "SAKURA 官方商品頁",
+    "alt": "SAKURA Arch 拱形護套橡皮擦商品照",
+    "match": "exact",
+    "matchNote": "官方 RFA-M／JAN4901881259296 商品頁本體主圖，URL直接讀取圖片標籤。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "frixion_eraser": {
+    "url": "https://webcatalog.pilot.co.jp/products/fileDownload?fileID=t010000016314&type=prev&volumeName=00004",
+    "sourceUrl": "https://webcatalog.pilot.co.jp/products/DispDetail.do?itemID=t000100005774&volumeName=00004",
+    "sourceLabel": "PILOT 官方商品頁",
+    "alt": "PILOT FriXion 擦擦筆專用橡皮商品照",
+    "match": "representative",
+    "matchNote": "官方 ELF02-10-B 黑色本體商品照，已視覺核對；清單未指定顏色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。"
+  },
+  "muji_mesh_penstand": {
+    "url": "https://www.muji.com/public/media/img/item/4550583767242_01_org.jpg?im=Resize%2Ctype%3Ddownsize%2Cwidth%3D3840",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550583767242",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 尼龍網布直橫兩用筆袋 商品圖",
+    "match": "exact",
+    "matchNote": "官方貨號83767242、灰色；圖片URL由官方圖片連結取得，web圖片快取未成功，需瀏覽器載入驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "travelers_regular": {
+    "url": "https://www.travelers-company.com/wp-content/uploads/2015/01/sk_r_blue.jpg",
+    "sourceUrl": "https://www.travelers-company.com/products/trnote/starter-kit-regular/blue",
+    "sourceLabel": "TRAVELER’S COMPANY 官方商品頁",
+    "alt": "TRAVELER’S notebook 標準皮革旅行手帳 商品圖",
+    "match": "exact",
+    "matchNote": "官方15239006，Regular藍色，同款封面。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "kokuyo_harinacs_press": {
+    "url": "https://www.kokuyo.com/system/files/SET43031.jpg",
+    "sourceUrl": "https://www.kokuyo.com/stationery/category/stapler-punch/stapler/13310/",
+    "sourceLabel": "KOKUYO 官方商品頁",
+    "alt": "KOKUYO Harinacs Press 無針壓訂器 商品圖",
+    "match": "exact",
+    "matchNote": "官方頁圖片alt為SLN-MPH105GB，藍綠色約5張款。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "tombow_mono_air": {
+    "url": "https://www.tombow.com/files/2019/02/mono_air_item_2_2.jpg",
+    "sourceUrl": "https://www.tombow.com/products/mono_air/",
+    "sourceLabel": "Tombow 官方商品頁",
+    "alt": "Tombow MONO AIR 輕引修正帶 5mm 商品圖",
+    "match": "exact",
+    "matchNote": "官方CT-CA5圖，5mm×10m使いきり標準色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "pilot_juice_up": {
+    "url": "https://webcatalog.pilot.co.jp/products/fileDownload?fileID=t010000009595&type=prev&volumeName=00004",
+    "sourceUrl": "https://webcatalog.pilot.co.jp/products/DispDetail.do?itemID=t000100000932&volumeName=00004",
+    "sourceLabel": "PILOT 官方商品頁",
+    "alt": "PILOT Juice Up 0.3 極細中性筆 商品圖",
+    "match": "exact",
+    "matchNote": "官方LJP-20S3-B，0.3mm黑色。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "kanmido_cocofusen": {
+    "url": null,
+    "sourceUrl": "https://www.kanmido.co.jp/products/cocofusen/",
+    "sourceLabel": "Kanmido 官方商品頁",
+    "alt": "Kanmido Cocofusen 迷你隨貼標籤 商品圖",
+    "match": "unverified",
+    "matchNote": "同型CF-8006商品圖找到，但頁尾明示禁止未授權轉載文字與圖片，故不展示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方頁尾明示「当ウェブサイト内の文章・画像などの著作物の無断転載を禁止します。」不使用其圖片。"
+  },
+  "cezanne_cheek_brush": {
+    "url": "https://www.cezanne.co.jp/uploads/lineup/4939553042877/img1_01.png",
+    "sourceUrl": "https://www.cezanne.co.jp/lineup/4939553042877/",
+    "sourceLabel": "セザンヌ化粧品 官方商品頁",
+    "alt": "CEZANNE 自然血色腮紅 商品圖",
+    "match": "exact",
+    "matchNote": "官方圖片alt確認チークブラッシュ01フォギーローズ，一般版。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "cezanne_face_glow": {
+    "url": "https://www.cezanne.co.jp/uploads/lineup/4939553042457/img1_01.png",
+    "sourceUrl": "https://www.cezanne.co.jp/lineup/4939553042457/",
+    "sourceLabel": "セザンヌ化粧品 官方商品頁",
+    "alt": "CEZANNE 雙色光澤頰彩 商品圖",
+    "match": "exact",
+    "matchNote": "官方圖片alt確認フェイスグロウカラー01アプリコットグロウ。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "cezanne_eyezone": {
+    "url": "https://www.cezanne.co.jp/uploads/lineup/4939553042891/img1_01.png",
+    "sourceUrl": "https://www.cezanne.co.jp/lineup/4939553042891/",
+    "sourceLabel": "セザンヌ化粧品 官方商品頁",
+    "alt": "CEZANNE 眼周提亮遮瑕筆 商品圖",
+    "match": "representative",
+    "matchNote": "官方描くアイゾーンコンシーラー產品主圖，同型一般版；圖中具體色標未獨立視覺驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "canmake_plump_scrub": {
+    "url": "https://www.canmake.com/wp-content/uploads/2025/08/D03_118_common_img_01-1.jpg",
+    "sourceUrl": "https://www.canmake.com/item/detail/plump-lip-care-scrub/",
+    "sourceLabel": "CANMAKE／井田ラボラトリーズ 官方商品頁",
+    "alt": "CANMAKE 唇部磨砂膏 商品圖",
+    "match": "representative",
+    "matchNote": "官方プランプリップケアスクラブ主圖；同型01/02系列，圖片色款未獨立驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "canmake_muchipuru": {
+    "url": "https://www.canmake.com/wp-content/uploads/2025/08/D02_167_col02_img_00.jpg",
+    "sourceUrl": "https://www.canmake.com/item/detail/muchi-puru-tint/",
+    "sourceLabel": "CANMAKE／井田ラボラトリーズ 官方商品頁",
+    "alt": "CANMAKE 水潤染唇膏 商品圖",
+    "match": "exact",
+    "matchNote": "官方むちぷるティント02モモ當前商品圖；非シアーバーム。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "heroine_rich_liner": {
+    "url": "https://www.isehan.co.jp/heroine/wp-content/uploads/2025/02/plerk_slide_01_02_N.png",
+    "sourceUrl": "https://www.isehan.co.jp/heroine/product/eyeliner/primeliquideyelinerrichkeep/",
+    "sourceLabel": "Heroine Make／伊勢半 官方商品頁",
+    "alt": "Heroine Make Rich Keep 液態眼線筆 商品圖",
+    "match": "representative",
+    "matchNote": "官方リッチキープ0.4mL第2色產品圖；包裝已改版，容器配方未變，實際店頭包裝可能不同。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "dejavu_fine_liner": {
+    "url": "https://www.dejavu-net.jp/items/eyeliner/gcp/img/cvdb.webp",
+    "sourceUrl": "https://www.dejavu-net.jp/items/eyeliner/gcp/",
+    "sourceLabel": "dejavu／イミュ 官方商品頁",
+    "alt": "dejavu 極細柔滑眼線筆 商品圖",
+    "match": "exact",
+    "matchNote": "官方ラスティンファイン極細クリームペンシル、ダークブラウン色區對应商品圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "dejavu_brow_film": {
+    "url": "https://www.dejavu-net.jp/items/eyebrow/ebc/img/cvNb.webp?v=3",
+    "sourceUrl": "https://www.dejavu-net.jp/items/eyebrow/ebc/",
+    "sourceLabel": "dejavu／イミュ 官方商品頁",
+    "alt": "dejavu 薄膜染眉膏 商品圖",
+    "match": "exact",
+    "matchNote": "官方フィルム眉カラー、ナチュラルブラウン色區對應商品圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "andbe_black_sponge": {
+    "url": "https://d2w53g1q050m78.cloudfront.net/andbeofficialcom/ec_assets/1026ef146599ea4285e3056df30e3dfaec5ee602-original.jpg?1781079612=",
+    "sourceUrl": "https://andbe-official.com/shop/products/AB004BSPG-",
+    "sourceLabel": "&be／Clue 官方商品頁",
+    "alt": "&be 黑色美妝海綿 商品圖",
+    "match": "representative",
+    "matchNote": "官方現行黑色海綿主圖；同系列，包裝是否與2024年11月版本完全相同未核，展示時標註代表圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "kate_popping_shadow": {
+    "url": "https://kao-h.assetsadobe3.com/is/image/content/dam/sites/kao/www-kao-kirei-com/jp/ja/item/kbb/kate/25444002/IY01.jpg",
+    "sourceUrl": "https://www.kao-kirei.com/ja/item/kbb/kate/4973167526255/",
+    "sourceLabel": "KATE／カネボウ化粧品 官方商品頁",
+    "alt": "KATE Popping Silhouette 四色眼影 商品圖",
+    "match": "exact",
+    "matchNote": "官方JAN4973167526255，BR-1商品主圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "lunasol_mono_eye": {
+    "url": "https://www.lunasol-official.com/medias/ls-collection-2408-pickup-color-mono-eye-coloration-03.png?context=bWFzdGVyfGltYWdlc3wxMzk1M3xpbWFnZS9wbmd8YURZeUwyaGhaUzg1TnpZeU5qQXlOekV6TVRFNEwyeHpMV052Ykd4bFkzUnBiMjR0TWpRd09DMXdhV05yZFhBdFkyOXNiM0l0Ylc5dWJ5MWxlV1V0WTI5c2IzSmhkR2x2Ymkwd015NXdibWN8MDY2MDExOWNjYTFhZDRlMGRjN2JlOTU4YzkwZDViYzU2MjcwNWU1ZWRiZDdkYzYyZGNiODdmMmViZjQ1OTA3ZQ",
+    "sourceUrl": "https://www.lunasol-official.com/categories/pointmake/eye-shadow/p/4973167081402",
+    "sourceLabel": "LUNASOL／カネボウ化粧品 官方商品頁",
+    "alt": "LUNASOL Mono Eye Coloration 單色眼影 商品圖",
+    "match": "exact",
+    "matchNote": "官方Mono Eye Coloration 03 Mirror Ash色區圖片。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "rmk_dewy_melt": {
+    "url": "https://www.rmkrmk.com/medias/BAlogo-Dewy-Melt-Lip-Color-03.jpg?context=bWFzdGVyfGltYWdlc3wyOTE2MjV8aW1hZ2UvanBlZ3xhREk1TDJnMk1TOHhNREkyTXpBNU56VTNNelF3Tmk5Q1FXeHZaMjlmUkdWM2VWOU5aV3gwWDB4cGNGOURiMnh2Y2w4d015NXFjR2N8NWE2OWJlMjI1Zjk5ZjE4ZGZiNzg3MTUxOTcwZjZkMTUzMDM5YjE5N2Y0ZjU5NDg2NzYxZDk1NWY4NTVjMDE5Yw",
+    "sourceUrl": "https://www.rmkrmk.com/ja/categories/colormakeup/lipcolor/p/4973167520550",
+    "sourceLabel": "RMK／エキップ 官方商品頁",
+    "alt": "RMK Dewy Melt 水潤唇膏 商品圖",
+    "match": "representative",
+    "matchNote": "官方03 Shy Heart主圖；官方明示圖片是装入另售外殼後狀態，卡片價格只含蕊芯，需保留提示。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "chifure_lip_cheek": {
+    "url": "https://www.chifure.co.jp/wp/wp-content/uploads/2025/01/PK40.jpg",
+    "sourceUrl": "https://www.chifure.co.jp/products/lip/8046",
+    "sourceLabel": "ちふれ／ちふれ化粧品 官方商品頁",
+    "alt": "CHIFURE 唇頰兩用膏 商品圖",
+    "match": "exact",
+    "matchNote": "官方リップ＆チークバームPK40色區圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "the_answer_shampoo": {
+    "url": "https://www.theanswer-official.com/assets/img/common/card_product_shampoo.png",
+    "sourceUrl": "https://www.theanswer-official.com/superlamellarshampoo/",
+    "sourceLabel": "THE ANSWER／花王 官方商品頁",
+    "alt": "THE ANSWER Super Lamellar 洗髮精 商品圖",
+    "match": "exact",
+    "matchNote": "官方明標スーパーラメラシャンプー400mlポンプ產品圖。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "refa_milk_shampoo": {
+    "url": "https://www.refa.net/item/refa_milk_protein_white_line/images/img-product-shampoo-thumb.jpg",
+    "sourceUrl": "https://www.refa.net/item/refa_milk_protein_white_line/",
+    "sourceLabel": "ReFa／MTG 官方商品頁",
+    "alt": "ReFa Milk Protein 白瓶洗髮精 商品圖",
+    "match": "exact",
+    "matchNote": "官方白線500mL shampoo單瓶縮圖；圖片讀取cache miss，需前端載入驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "melt_moist_shampoo": {
+    "url": "https://kao-h.assetsadobe3.com/is/image/content/dam/sites/kao/www-kao-kirei-com/jp/ja/item/khg/melt/25342909/AS01.jpg",
+    "sourceUrl": "https://www.kao-kirei.com/ja/item/khg/melt/4901301434692/",
+    "sourceLabel": "melt／花王 官方商品頁",
+    "alt": "melt Moist 保濕洗髮精 商品圖",
+    "match": "exact",
+    "matchNote": "官方JAN4901301434692，Moist一般香480mlポンプ。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "cape_bangs_mascara": {
+    "url": "https://kao-h.assetsadobe3.com/is/image/content/dam/sites/kao/www-kao-kirei-com/jp/ja/item/khg/cape/25500497/GG01.jpg",
+    "sourceUrl": "https://www.kao-kirei.com/ja/item/khg/cape/4901301431462/",
+    "sourceLabel": "ケープ／花王 官方商品頁",
+    "alt": "Cape FOR ACTIVE 瀏海定型刷 商品圖",
+    "match": "exact",
+    "matchNote": "官方JAN4901301431462，前髪ホールドマスカラ9g。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "refa_lock_light": {
+    "url": "https://www.refa.net/item/refa_lock_oil/images/img-product-02-thumb.jpg",
+    "sourceUrl": "https://www.refa.net/item/refa_lock_oil/",
+    "sourceLabel": "ReFa／MTG 官方商品頁",
+    "alt": "ReFa Lock Oil Light 輕盈造型髮油 商品圖",
+    "match": "exact",
+    "matchNote": "官方圖片alt確認LOCK OIL LIGHT，100mL；非BLOOM LIGHT。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "marna-aquashine-bath-sponge": {
+    "url": "https://marna.jp/img/goods/L/W686GY.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gW686GY/",
+    "sourceLabel": "marna 官方商品頁",
+    "alt": "marna 水ピカ 雙面浴室海綿 商品圖",
+    "match": "exact",
+    "matchNote": "官方灰色W686GY，已從公開DOM灰色產品圖currentSrc確認。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "muji-waterless": {
+    "url": "https://www.muji.com/public/media/img/item/4550583648817_01_org.jpg?im=Resize%2Ctype%3Ddownsize%2Cwidth%3D3840",
+    "sourceUrl": "https://www.muji.com/jp/ja/store/cmdty/detail/4550583648817",
+    "sourceLabel": "MUJI 官方商品頁",
+    "alt": "MUJI 無水香氛機 商品圖",
+    "match": "exact",
+    "matchNote": "官方MJ-HBAL1／83648817圖片連結；圖片工具讀取錯誤，需前端載入驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "panasonic-fgmu01": {
+    "url": "https://panasonic.jp/content/experience-fragments/panasonic/jp/ja/content/nanoe_h/products/F-GMU01/lp4_ind1_F-GMU01_cxf/master/_jcr_content/root/c_lay014/c_lay001_copy_copy_c_491562513/item/c_lay002/c_gen003/mobileFile.coreimg.png/1707281516553/mv-sp.png",
+    "sourceUrl": "https://panasonic.jp/nanoe_h/products/F-GMU01.html",
+    "sourceLabel": "Panasonic 官方商品頁",
+    "alt": "Panasonic nanoe X 發生器 商品圖",
+    "match": "representative",
+    "matchNote": "官方F-GMU01主視覺商品照；有背景的宣傳圖，非頁面截圖；需前端載入驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "rosyrosa_multi_puff": {
+    "url": null,
+    "sourceUrl": "https://www.chantilly.co.jp/brand/rosyrosa/products/4901604457077/",
+    "sourceLabel": "ロージーローザ 官方商品頁",
+    "alt": "ROSY ROSA 多用途粉撲 2入 商品圖",
+    "match": "unverified",
+    "matchNote": "官方商品頁403，未繞過限制；尚未核實可用圖片。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方頁回應403，未下載或繞過。"
+  },
+  "kingjim_kitta": {
+    "url": "https://kingjim.com/cdn/shop/files/kit068_front_c3dfd785-e9ff-419f-9115-e50983f00b81_1024x.jpg?v=1711691694",
+    "sourceUrl": "https://kingjim.com/products/kit068",
+    "sourceLabel": "KING JIM 官方商品頁",
+    "alt": "KING JIM KITTA 隨身裁切紙膠帶 商品圖",
+    "match": "exact",
+    "matchNote": "官方商店KIT068フラワー7；公開DOM實際圖片連結，非猜測寬度占位符。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  },
+  "heavy_rotation_ex": {
+    "url": "https://www.isehan.co.jp/heavyrotation/assets/img/products/ceex_slide_bottle_tmb_04.png",
+    "sourceUrl": "https://www.isehan.co.jp/heavyrotation/products/coloring_eyebrow_ex/",
+    "sourceLabel": "Heavy Rotation／伊勢半 官方商品頁",
+    "alt": "Heavy Rotation EX 染眉膏 商品圖",
+    "match": "exact",
+    "matchNote": "官方カラーリングアイブロウEX 8g，04ナチュラルブラウン容器圖；需前端載入驗證。",
+    "checkedAt": "2026-10-03",
+    "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
+  }
+};
