@@ -50,7 +50,7 @@
     const dark=theme==='dark';
     themeButton.setAttribute('aria-label',dark?'切換淺色模式':'切換深色模式');
     themeButton.setAttribute('aria-pressed',String(dark));
-    document.querySelector('meta[name="theme-color"]').content=dark?'#192421':'#f8f7f2';
+    document.querySelector('meta[name="theme-color"]').content=dark?'#222c35':'#f8f8f5';
   }
   let theme='light';
   try { theme=localStorage.getItem('okinawa-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'); } catch {}

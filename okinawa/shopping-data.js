@@ -357,6 +357,490 @@ window.SHOPPING = {
       "conditional": false
     },
     {
+      "id": "kinto_travel_350",
+      "name": "KINTO TRAVEL TUMBLER 350ml 保溫隨行杯",
+      "brand": "KINTO",
+      "model": "トラベルタンブラー 350ml／No.20931 不鏽鋼色（其他色另有貨號）",
+      "category": "生活小物",
+      "why": "2025年實際使用者點名350ml版，分享一年到五年的使用經驗；喜歡保溫與喝水口感。小容量適合一杯咖啡或茶，不必帶巨大水壺。",
+      "caution": "杯蓋要整個旋下，單手邊走邊喝不方便；有人覺得矽膠圈留咖啡味，也有人完全不介意。官方明訂不可用洗碗機，不採用網友的相反說法。 若順便買備用膠圈，現場核對新舊款，兩代不能混搭。",
+      "portability": "直徑70×高170mm，約245g；350ml。",
+      "price": "¥3,300",
+      "priceNote": "日本KINTO官網含稅價，查閱2026-10-03；不含刻字。",
+      "where": "Hands 浦添西海岸 PARCO CITY 店；現貨未核實。",
+      "stores": [
+        {
+          "id": "hands_parco",
+          "name": "Hands 浦添西海岸 PARCO CITY 店",
+          "address": "沖繩縣浦添市西洲3丁目1番1，PARCO CITY 1F",
+          "url": "https://info.hands.net/ch2/list/urasoe/",
+          "stock": "未核實"
+        }
+      ],
+      "evidenceNote": "同350ml系列，未列顏色貨號或新舊杯蓋；TRAVEL TUMBLER系列",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/JamesHoffmann/comments/1ktph3b/travel_mug_recommendations/",
+          "label": "Travel Mug Recommendations",
+          "date": "2025-05-23",
+          "kind": "Reddit 實際使用者",
+          "summary": "明確使用350ml杯，多位回覆說長期使用沒有味道問題；其中有人用約五年。"
+        },
+        {
+          "url": "https://www.reddit.com/r/pourover/comments/1kg3hgv/comment/mqvkugi/",
+          "label": "Insulated tumbler without metallic taste or retained flavour",
+          "date": "2025-05-06",
+          "kind": "Reddit 實際使用者，正文可讀",
+          "summary": "使用者滿意且提到可購替換膠圈，但分離式杯蓋較適合坐下喝；同串對殘味有不同經驗。"
+        }
+      ],
+      "officialURL": "https://kinto.co.jp/collections/travel-tumbler/products/20931",
+      "officials": [
+        {
+          "title": "KINTO 350ml 官方規格、含稅價及保養限制",
+          "url": "https://kinto.co.jp/collections/travel-tumbler/products/20931"
+        },
+        {
+          "title": "官方2024-05杯蓋改版：新舊蓋／飲口／膠圈不得混搭",
+          "url": "https://kinto.co.jp/blogs/news/specification-change-notice-travel-tumbler-day-off-tumbler"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "montbell_travel50",
+      "name": "mont-bell Travel Umbrella 50 超輕折傘",
+      "brand": "mont-bell",
+      "model": "トラベルアンブレラ 50／#1128694",
+      "category": "生活小物",
+      "why": "2025年戶外使用者分享在阿帕拉契山徑使用的經驗，喜歡不到約3oz的重量，願意平時常備。適合把重量放第一位的小包族。",
+      "caution": "傘面偏小，每次開傘要手動伸直各節傘骨，沒有一按即開的便利；官方禁止強風使用。不適合拿來對抗沖繩颱風。 店內親自試開一次；此款不是官方標示的Sun Block遮陽專用款。",
+      "portability": "官方現款90g，直徑88cm、6骨、骨長50cm；收折23cm、連袋26cm。",
+      "price": "¥6,820",
+      "priceNote": "日本mont-bell官方含稅價，查閱2026-10-03。",
+      "where": "mont-bell 沖繩 RYCOM 店；現貨未核實。",
+      "stores": [
+        {
+          "id": "montbell_rycom",
+          "name": "mont-bell 沖繩 RYCOM 店",
+          "address": "沖繩縣中頭郡北中城村字ライカム1，AEON MALL 沖繩 RYCOM 2F",
+          "url": "https://store.montbell.jp/search/shopinfo/?shop_no=678533",
+          "stock": "未核實"
+        }
+      ],
+      "evidenceNote": "Travel輕量系列；心得為約88g／3oz舊版，現行50款90g，不能當同一批次耐用測試",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/Ultralight/comments/1nfajgz/comment/ndxi57x/",
+          "label": "Umbrella thoughts",
+          "date": "2025-09-13",
+          "kind": "Reddit 實際戶外使用者，正文可讀",
+          "summary": "喜歡Montbell Travel的超輕與小尺寸，也抱怨傘面小、收開要重新整理傘骨；有人摔倒壓到傘後損壞。"
+        }
+      ],
+      "officialURL": "https://webshop.montbell.jp/goods/disp.php?product_id=1128694",
+      "officials": [
+        {
+          "title": "mont-bell Travel Umbrella 50 官方規格／含稅價／強風禁用警語",
+          "url": "https://webshop.montbell.jp/goods/disp.php?product_id=1128694"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "muji_travel_bottle50",
+      "name": "MUJI 50ml 軟式分裝瓶（掀蓋）",
+      "brand": "MUJI",
+      "model": "ポリエチレン小分けボトル ワンタッチキャップ・50ml／18994182，JAN4548718994182",
+      "category": "生活小物",
+      "why": "2025年社群使用者說多年旅行使用MUJI分裝容器可靠；2026年9月同款官網買家分享柔軟、方便攜帶且使用時未漏。便宜小件，也容易真正用完。",
+      "caution": "官方禁止裝高酒精含量液體；不可把分裝瓶当成任意配方都能用的萬用瓶。個人未漏經驗不能保證所有行李環境，出發前先裝水測試。",
+      "portability": "50ml小容量、可擠壓；買空瓶不占液體重量。",
+      "price": "¥150",
+      "priceNote": "MUJI日本官網單個含稅價，查閱2026-10-03。",
+      "where": "無印良品 浦添西海岸 PARCO CITY；現貨未核實。",
+      "stores": [
+        {
+          "id": "muji_parco",
+          "name": "無印良品 浦添西海岸 PARCO CITY",
+          "address": "沖繩縣浦添市西洲3丁目1番地1，3F",
+          "url": "https://www.muji.com/jp/ja/shop/detail/061759",
+          "stock": "未核實"
+        }
+      ],
+      "evidenceNote": "MUJI分裝容器品牌系列，未指定50ml；本貨號50ml完全相符",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/SkincareAddictionLux/comments/1jaa7g7/favorite_travel_containers/",
+          "label": "Favorite travel containers?",
+          "date": "2025-03-13",
+          "kind": "Reddit 實際使用者",
+          "summary": "使用者說MUJI容器種類多，多年旅行使用沒有記得發生大問題。"
+        },
+        {
+          "url": "https://www.muji.com/jp/ja/store/cmdty/detail/4548718994182",
+          "label": "MUJI 50ml分裝瓶顧客評論",
+          "date": "2026-09-25、2026-09-30",
+          "kind": "品牌官網顧客評論，不是員工文章",
+          "summary": "買家ぽぽ喜歡軟瓶且放在袋內未漏；Qちゃん先買一個試用後再買。"
+        }
+      ],
+      "officialURL": "https://www.muji.com/jp/ja/store/cmdty/detail/4548718994182",
+      "officials": [
+        {
+          "title": "MUJI 50ml 官方價格與高酒精液體禁用說明",
+          "url": "https://www.muji.com/jp/ja/store/cmdty/detail/4548718994182"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "muji_double_cube_s",
+      "name": "MUJI 雙層可折收行李整理袋 S",
+      "brand": "MUJI",
+      "model": "ポリエステルたためる仕分けケース／ダブルタイプS グレー，44457856，JAN4550344457856",
+      "category": "生活小物",
+      "why": "2026年8月三週東南亞旅行回顧推薦MUJI雙面收納袋；同款官方7月評論也分享旅行、出差與線材分類時方便，摺起不占空間。",
+      "caution": "不是壓縮袋，不能指望減少衣物體積；2026年8月同款買家覺得若價格再親切才會給滿分。",
+      "portability": "約20×26×10cm，輕薄可折收、雙層分類。",
+      "price": "¥1,090",
+      "priceNote": "MUJI官網此灰色雙層S款含稅價，查閱2026-10-03；勿把單層S款990元當成此款價格。",
+      "where": "無印良品 浦添西海岸 PARCO CITY；現貨未核實。",
+      "stores": [
+        {
+          "id": "muji_parco",
+          "name": "無印良品 浦添西海岸 PARCO CITY",
+          "address": "沖繩縣浦添市西洲3丁目1番地1，3F",
+          "url": "https://www.muji.com/jp/ja/shop/detail/061759",
+          "stock": "未核實"
+        }
+      ],
+      "evidenceNote": "同雙面系列，未指定S或顏色；完全相符貨號",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/onebag/comments/1vry3wk/follow_up_on_3_weeks_in_sea_with_an_and_wander/",
+          "label": "Follow up on 3 weeks in SEA with an And Wander Ecopak 30l",
+          "date": "2026-08-18",
+          "kind": "Reddit 三週旅程實用回顧",
+          "summary": "明確推薦MUJI雙面packing cubes，並指出沒有其他款的壓縮功能。"
+        },
+        {
+          "url": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344457856",
+          "label": "MUJI雙層S灰色顧客評論",
+          "date": "2026-07-13、2026-07-17、2026-08-13",
+          "kind": "品牌官網顧客評論",
+          "summary": "Tomo喜歡兩格分類、可摺、輕薄；另一位用來收充電線；8月買家喜歡雙面拉鏈但嫌價格。"
+        }
+      ],
+      "officialURL": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344457856",
+      "officials": [
+        {
+          "title": "MUJI雙層S灰色官方規格／含稅價",
+          "url": "https://www.muji.com/jp/ja/store/cmdty/detail/4550344457856"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "hario_v60",
+      "name": "HARIO V60 01 透明樹脂咖啡濾杯",
+      "brand": "HARIO",
+      "model": "VDR-01-T／01透明，一至二杯用",
+      "category": "生活小物",
+      "why": "2025年手沖使用者明說喜愛塑膠V60且大量使用；輕、無電壓問題，適合已有磨豆機與手沖習慣的人。",
+      "caution": "需要匹配01濾紙與沖煮技巧；已經有濾杯、只喝即溶或不想學手沖者可跳過。樹脂觸感與材質偏好因人而異。",
+      "portability": "115×100×82mm；官方含盒約120g。",
+      "price": "¥550",
+      "priceNote": "HARIO日本官方頁01入門款顯示¥550；含稅性質另由Hands官方2026-02-19門市文章確認。",
+      "where": "Hands 浦添西海岸 PARCO CITY 店；現貨未核實。",
+      "stores": [
+        {
+          "id": "hands_parco",
+          "name": "Hands 浦添西海岸 PARCO CITY 店",
+          "address": "沖繩縣浦添市西洲3丁目1番1，PARCO CITY 1F",
+          "url": "https://info.hands.net/ch2/list/urasoe/",
+          "stock": "未核實"
+        }
+      ],
+      "evidenceNote": "網友實際使用塑膠 V60 系列；此處按一至二杯需求選 01，原作者未指定尺寸。",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/pourover/comments/1hxp4rf/which_brewer_when_i_already_have_a_v60/",
+          "label": "Which brewer when I already have a V60?",
+          "date": "2025-01-09",
+          "kind": "Reddit 實際使用者，已成功開正文",
+          "summary": "發文者說喜歡塑膠HARIO V60且使用很多次，想找另一種風格的濾杯。"
+        }
+      ],
+      "officialURL": "https://shop.hariocorp.co.jp/products/vd-01t",
+      "officials": [
+        {
+          "title": "HARIO樹脂V60官方規格／價錢",
+          "url": "https://shop.hariocorp.co.jp/products/vd-01t"
+        },
+        {
+          "title": "Hands 2026-02-19介紹01透明¥550（税込）",
+          "url": "https://shopblog.dmdepart.jp/tokyo/detail/?cd=026487&scd=000230"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "muji_sacoche",
+      "name": "MUJI 撥水扁平斜背小包",
+      "brand": "MUJI",
+      "model": "撥水 再生ポリエステル サコッシュ／黑色76172536，JAN4548076172536",
+      "category": "生活小物",
+      "why": "順路有貨再試背。2025年使用者喜歡MUJI橫式Sacoche，另有年末回顧說因它而精簡每日攜帶物。2026年同款買家也用來放手機、錢包和手帕，適合作為旅行副包。",
+      "caution": "薄而無厚底，裝太多不舒服；只有部分潑水加工，不能當防水袋。黑色官網目前無貨，別特地繞路追這一色。 日本網店無貨，不代表沖繩門市售罄或停產。",
+      "portability": "高20×寬26cm，可拆肩帶當收納袋；不需箱內立體空間。",
+      "price": "¥1,490",
+      "priceNote": "MUJI官方黑色頁含稅標價，查閱2026-10-03；該頁同時顯示網店無貨。",
+      "where": "無印良品 浦添西海岸 PARCO CITY；現貨未核實。",
+      "stores": [
+        {
+          "id": "muji_parco",
+          "name": "無印良品 浦添西海岸 PARCO CITY",
+          "address": "沖繩縣浦添市西洲3丁目1番地1，3F",
+          "url": "https://www.muji.com/jp/ja/shop/detail/061759",
+          "stock": "未核實"
+        }
+      ],
+      "evidenceNote": "橫式Sacoche系列，未列本貨號；Sacoche系列，未列型號；本貨號完全相符",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/handbags/comments/1jt3w6m/muji_mini_sacoche_crossbody_bag/",
+          "label": "Muji mini sacoche crossbody bag",
+          "date": "2025-04-24",
+          "kind": "Reddit 實際使用者",
+          "summary": "回覆者澄清自己用的是稍大的橫式款，喜歡它；不是提问者的直式mini。"
+        },
+        {
+          "url": "https://www.reddit.com/r/ManyBaggers/comments/1pwqsl7/your_year_in_bags_2025/",
+          "label": "Your Year in Bags / 2025",
+          "date": "2025-12-28",
+          "kind": "Reddit 年度實用回顧",
+          "summary": "三月買了MUJI Sacoche，使用滿意，為了配合容量而精簡EDC。"
+        },
+        {
+          "url": "https://www.muji.com/jp/ja/store/cmdty/detail/4548076172536",
+          "label": "MUJI黑色再生聚酯Sacoche顧客評論",
+          "date": "2026-08-17、2026-08-18、2026-09-13",
+          "kind": "品牌官網顧客評論",
+          "summary": "買家用作袋中袋及臨時外出小包；手機、手巾、錢包可裝。9月有人疑問是否停售，那只是顧客推測，不當作官方停產公告。"
+        }
+      ],
+      "officialURL": "https://www.muji.com/jp/ja/store/cmdty/detail/4548076172536",
+      "officials": [
+        {
+          "title": "MUJI現行列示規格與標價／黑色網店無貨",
+          "url": "https://www.muji.com/jp/ja/store/cmdty/detail/4548076172536"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "fino-hair-mask",
+      "name": "fino Premium Touch 濃厚美容液髮膜",
+      "brand": "fino／FineToday（ファイントゥデイ）",
+      "model": "フィーノ プレミアムタッチ 濃厚美容液ヘアマスク 230g 本體",
+      "category": "個人保養",
+      "why": "2025 年赴日旅客說捲髮用後柔軟、有光澤且不覺得厚重；適合本來就有沖洗護髮習慣、想試柔順手感的人。",
+      "caution": "2026 年另一位粗直長髮使用者說變柔軟但毛躁仍在；同串也有人覺得細髮被壓塌。有花香，髮質與用量會影響感受，不值得只因熱門就囤三罐。現品牌是 FineToday，勿沿用網友的舊公司稱呼。",
+      "portability": "230g 圓罐，比精華乳或小油瓶佔空間；不建議初次就買 700g 補充包。",
+      "price": "¥1,062",
+      "priceNote": "230g 本體；FineToday 官方網店參考價，非門市保證價；官方含稅參考價。",
+      "where": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問；現貨未核實。",
+      "stores": [
+        {
+          "name": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問",
+          "url": "https://www.parcocity.jp/floorguide/detail/?scd=000075",
+          "note": "官方商場頁確認門市存在；該款庫存未核實。"
+        }
+      ],
+      "evidenceNote": "心得明確為 fino 髮膜，但未提供日本包裝批次；現行商品名與外裝已更新。",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/AsianBeauty/comments/1jjjw6e/to_anyone_who_loves_what_the_fino_hair_mask_does/",
+          "label": "Reddit 第一人稱赴日購物後使用心得",
+          "date": "2025-03-25",
+          "kind": "使用者評論",
+          "summary": "作者赴日購入後喜歡捲髮柔軟、光澤及輕盈感；屬個人感受。"
+        },
+        {
+          "url": "https://www.reddit.com/r/AsianBeauty/comments/1v324e5/fino_hair_mask_review/",
+          "label": "Reddit 第一人稱使用心得與反面體驗",
+          "date": "2026-07-22",
+          "kind": "使用者評論",
+          "summary": "粗直長髮作者說洗後柔軟，但毛躁並未消失；留言另有細髮使用者覺得太厚重。"
+        }
+      ],
+      "officialURL": "https://brand.finetoday.com/jp/fino/mask/",
+      "officials": [
+        {
+          "title": "FineToday fino 現行髮膜名稱、230g 規格與香味",
+          "url": "https://brand.finetoday.com/jp/fino/mask/"
+        },
+        {
+          "title": "FineToday 官方網店含稅價",
+          "url": "https://onlineshop.finetoday.com/collections/fino-%E3%83%98%E3%82%A2%E3%83%9E%E3%82%B9%E3%82%AF"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "heroine-speedy-remover",
+      "name": "Heroine Make 快速睫毛膏卸除液",
+      "brand": "Heroine Make／伊勢半 ISEHAN",
+      "model": "スピーディーマスカラリムーバー 6.6mL（水藍瓶一般版）",
+      "category": "個人保養",
+      "why": "2025 年實際使用者說配合 Maybelline Sky High 能很快卸乾淨；梳型刷頭直接塗睫毛，小支便攜。",
+      "caution": "是睫毛膏專用卸除液，仍需依官方步驟接續卸妝／沖洗或擦除。若日常睫毛膏已容易卸除，這支未必必要；網友說的速度不是保證。選無香一般版，勿混同其他限定香味或眼唇卸妝液。",
+      "portability": "6.6mL，細管梳型刷頭，化妝包負擔小。",
+      "price": "¥924",
+      "priceNote": "6.6mL，官方建議售價；水藍與粉紅瓶內容相同；官方含稅參考價。",
+      "where": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問；現貨未核實。",
+      "stores": [
+        {
+          "name": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問",
+          "url": "https://www.parcocity.jp/floorguide/detail/?scd=000075",
+          "note": "官方商場頁確認門市存在；該款庫存未核實。"
+        }
+      ],
+      "evidenceNote": "使用者明確寫 Speedy Mascara Remover，但未指明外瓶顏色；官方確認水藍／粉紅一般版內容相同。",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/IndianBeautyTalks/comments/1pne13w/how_to_remove_this_mascara/",
+          "label": "Reddit 第一人稱留言",
+          "date": "2025-12-15",
+          "kind": "使用者評論",
+          "summary": "nocturnalzebra0 表示自己也用 Sky High，這支是常用卸睫毛產品，能迅速清掉；為單一使用者經驗。"
+        }
+      ],
+      "officialURL": "https://www.isehan.co.jp/heroine/product/care_remover/speedymascararemover/",
+      "officials": [
+        {
+          "title": "伊勢半官方 6.6mL／¥924／水藍與粉紅同內容／使用步驟",
+          "url": "https://www.isehan.co.jp/heroine/product/care_remover/speedymascararemover/"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "canmake-cream-cheek",
+      "name": "CANMAKE Cream Cheek 腮紅膏",
+      "brand": "CANMAKE／井田ラボラトリーズ",
+      "model": "クリームチーク 16 アーモンドテラコッタ；另可比較 21 タンジェリンティー（一般款）",
+      "category": "個人保養",
+      "why": "2025 年有使用者直接比較 16 與 21，兩色都偏透；16 在作者中等橄欖膚色上呈暖紅感，適合想找薄透頰彩的人參考。",
+      "caution": "同一色會受膚色影響：作者原本期待 16 偏棕，實擦卻偏暖紅；21 在其膚色上幾乎不顯色。不要只照網路手臂試色買；一般 Cream Cheek 與珠光款、Tint 款不能當同款。",
+      "portability": "小圓盤，可用手指薄拍；比大盤腮紅省化妝包空間。",
+      "price": "¥638",
+      "priceNote": "一般 Cream Cheek，每色官方含稅價；官方含稅參考價。",
+      "where": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問；現貨未核實。",
+      "stores": [
+        {
+          "name": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問",
+          "url": "https://www.parcocity.jp/floorguide/detail/?scd=000075",
+          "note": "官方商場頁確認門市存在；品牌、色號與現貨皆需現場詢問。"
+        }
+      ],
+      "evidenceNote": "心得明確試用 16、21 色，官網仍列這兩個色號。",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/OliveMUA/comments/1lymekj/finally_got_the_canmake_cream_cheek_16_and_21/",
+          "label": "Reddit 第一人稱購入與試色",
+          "date": "2025-07-13",
+          "kind": "使用者評論",
+          "summary": "作者中等、偏暖中性的橄欖膚色；16 比預期偏紅，21 比預期淡，兩色均透。"
+        }
+      ],
+      "officialURL": "https://www.canmake.com/item/detail/cream-cheek/",
+      "officials": [
+        {
+          "title": "CANMAKE 一般 Cream Cheek 色號 16／21 與含稅價",
+          "url": "https://www.canmake.com/item/detail/cream-cheek/"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "canmake-marshmallow-powder",
+      "name": "CANMAKE Marshmallow Finish Powder 棉花糖蜜粉餅",
+      "brand": "CANMAKE／井田ラボラトリーズ",
+      "model": "マシュマロフィニッシュパウダー 10g，一般單色款 ML マットライトオークル",
+      "category": "個人保養",
+      "why": "2025 年長期使用者針對 Matte Light 說喜歡柔焦妝感與可疊加的淡遮蓋力；適合偏好柔霧修飾、已有基本化妝習慣的人。",
+      "caution": "同一位作者明說控油能力有限；ML 是淺色，不能當所有膚色的通用透明蜜粉。官網並列新舊配方，心得未交代配方批次，不能視為新版保證；本項不是多色 Abloom 或迷你版。",
+      "portability": "10g 壓粉餅便於補妝；旅行要防壓、防摔。",
+      "price": "¥1,034",
+      "priceNote": "10g 含盒一般版；補充粉芯 ¥770；官方含稅參考價。",
+      "where": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問；現貨未核實。",
+      "stores": [
+        {
+          "name": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問",
+          "url": "https://www.parcocity.jp/floorguide/detail/?scd=000075",
+          "note": "官方商場頁確認門市存在；品牌、色號與現貨皆需現場詢問。"
+        }
+      ],
+      "evidenceNote": "使用者指定 Matte Light，對應 ML；未提供配方批次。",
+      "reviews": [
+        {
+          "url": "https://www.reddit.com/r/AsianBeauty/comments/1if9daq/my_2o25_core_makeup_collection_with_mini_reviews/",
+          "label": "Reddit 第一人稱長期使用心得",
+          "date": "2025-02-01",
+          "kind": "使用者評論",
+          "summary": "softhorns 的 Matte Light 評價偏好柔焦、輕至中等遮蓋，並提醒控油不強；作者自述淺膚色。"
+        }
+      ],
+      "officialURL": "https://www.canmake.com/item/detail/marshmallow-finish-powder/",
+      "officials": [
+        {
+          "title": "CANMAKE 10g／ML 色號／含稅價／新舊配方註記",
+          "url": "https://www.canmake.com/item/detail/marshmallow-finish-powder/"
+        }
+      ],
+      "conditional": false
+    },
+    {
+      "id": "canmake-creamy-touch-liner",
+      "name": "CANMAKE Creamy Touch Liner 眼線膠筆（有條件候選）",
+      "brand": "CANMAKE／井田ラボラトリーズ",
+      "model": "クリーミータッチライナー 02 ミディアムブラウン，一般款 1.5mm",
+      "category": "個人保養",
+      "why": "2025 年 02 色使用者即使最終不推薦，仍肯定筆芯很細、滑順易畫、顏色漂亮；可作重視畫線手感者的有條件候選。",
+      "caution": "同位油性肌使用者說通勤後就暈，即使搭配定妝噴霧與粉仍無法改善。筆芯旋出後不能收回，官方提醒只轉出約 1mm，別一次轉太多。不能把防水宣稱寫成所有眼皮都不暈。",
+      "portability": "細筆型、無需削筆；軟芯應輕用。",
+      "price": "¥715",
+      "priceNote": "一般 Creamy Touch Liner，非 Sheer 款；官方含稅參考價。",
+      "where": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問；現貨未核實。",
+      "stores": [
+        {
+          "name": "松本清 浦添西海岸 PARCO CITY 店（1F）可詢問",
+          "url": "https://www.parcocity.jp/floorguide/detail/?scd=000075",
+          "note": "官方商場頁確認門市存在；品牌、色號與現貨皆需現場詢問。"
+        }
+      ],
+      "evidenceNote": "這篇近期使用者心得最終不推薦；僅保留細芯、滑順手感作比較，不當作好評共識。Female Daily 頁明確為 02 Medium Brown，2025-12-25 的負面心得是近期實測；沒有將同頁較舊好評當近兩年證據。",
+      "reviews": [
+        {
+          "url": "https://reviews.femaledaily.com/products/eyes/eyeliner/canmake/creamy-touch-liner",
+          "label": "Female Daily 第一人稱 3–6 個月使用心得",
+          "date": "2025-12-25",
+          "kind": "使用者評論",
+          "summary": "nagikusama_ 喜歡滑順細芯與顏色，但自己非常油性的皮膚通勤後即暈，因此不推薦。"
+        }
+      ],
+      "officialURL": "https://www.canmake.com/item/detail/creamy-touch-liner/",
+      "officials": [
+        {
+          "title": "CANMAKE 02 色／¥715／1.5mm 與不可收回筆芯",
+          "url": "https://www.canmake.com/item/detail/creamy-touch-liner/"
+        }
+      ],
+      "conditional": true
+    },
+    {
       "id": "muji-waterless",
       "name": "MUJI 無水香氛機",
       "brand": "MUJI",
