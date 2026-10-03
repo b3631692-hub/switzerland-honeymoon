@@ -791,22 +791,22 @@ window.SHOPPING_IMAGES = {
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
   "dejavu_fine_liner": {
-    "url": "https://www.dejavu-net.jp/items/eyeliner/gcp/img/cvdb.webp",
+    "url": null,
     "sourceUrl": "https://www.dejavu-net.jp/items/eyeliner/gcp/",
     "sourceLabel": "dejavu／イミュ 官方商品頁",
     "alt": "dejavu 極細柔滑眼線筆 商品圖",
-    "match": "exact",
-    "matchNote": "官方ラスティンファイン極細クリームペンシル、ダークブラウン色區對应商品圖。",
+    "match": "unverified",
+    "matchNote": "圖片正在重新核對，暫不展示。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
   "dejavu_brow_film": {
-    "url": "https://www.dejavu-net.jp/items/eyebrow/ebc/img/cvNb.webp?v=3",
+    "url": null,
     "sourceUrl": "https://www.dejavu-net.jp/items/eyebrow/ebc/",
     "sourceLabel": "dejavu／イミュ 官方商品頁",
     "alt": "dejavu 薄膜染眉膏 商品圖",
-    "match": "exact",
-    "matchNote": "官方フィルム眉カラー、ナチュラルブラウン色區對應商品圖。",
+    "match": "unverified",
+    "matchNote": "圖片正在重新核對，暫不展示。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
@@ -831,12 +831,12 @@ window.SHOPPING_IMAGES = {
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
   "lunasol_mono_eye": {
-    "url": "https://www.lunasol-official.com/medias/ls-collection-2408-pickup-color-mono-eye-coloration-03.png?context=bWFzdGVyfGltYWdlc3wxMzk1M3xpbWFnZS9wbmd8YURZeUwyaGhaUzg1TnpZeU5qQXlOekV6TVRFNEwyeHpMV052Ykd4bFkzUnBiMjR0TWpRd09DMXdhV05yZFhBdFkyOXNiM0l0Ylc5dWJ5MWxlV1V0WTI5c2IzSmhkR2x2Ymkwd015NXdibWN8MDY2MDExOWNjYTFhZDRlMGRjN2JlOTU4YzkwZDViYzU2MjcwNWU1ZWRiZDdkYzYyZGNiODdmMmViZjQ1OTA3ZQ",
+    "url": null,
     "sourceUrl": "https://www.lunasol-official.com/categories/pointmake/eye-shadow/p/4973167081402",
     "sourceLabel": "LUNASOL／カネボウ化粧品 官方商品頁",
     "alt": "LUNASOL Mono Eye Coloration 單色眼影 商品圖",
-    "match": "exact",
-    "matchNote": "官方Mono Eye Coloration 03 Mirror Ash色區圖片。",
+    "match": "unverified",
+    "matchNote": "圖片正在重新核對，暫不展示。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
@@ -851,12 +851,12 @@ window.SHOPPING_IMAGES = {
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
   "chifure_lip_cheek": {
-    "url": "https://www.chifure.co.jp/wp/wp-content/uploads/2025/01/PK40.jpg",
+    "url": null,
     "sourceUrl": "https://www.chifure.co.jp/products/lip/8046",
     "sourceLabel": "ちふれ／ちふれ化粧品 官方商品頁",
     "alt": "CHIFURE 唇頰兩用膏 商品圖",
-    "match": "exact",
-    "matchNote": "官方リップ＆チークバームPK40色區圖。",
+    "match": "unverified",
+    "matchNote": "圖片正在重新核對，暫不展示。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。"
   },
