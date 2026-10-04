@@ -1,7 +1,33 @@
 # PROJECT_STATE
 
 ```json
-{"schema_version":1,"project_id":"switzerland-honeymoon","updated_at":"2026-10-04T15:00:00+08:00","updated_by":"claude","status":"done","repo":{"path":"/Users/user/Claude文件/Projects/switzerland-honeymoon","branch":"main","head":"de606ff","dirty_files":[]},"current_work":{"owner":"none","task":"2026-10-04 接手阿點沖繩購物圖 final-candidate-04：商品圖 74→93（75 exact／18 representative／7 unverified 不顯示），圖片直連原站並標來源；sw.js 升 v57，已 push 上線","started_at":null},"verification":{"last_run":"2026-10-04T14:55:00+08:00","command":"本機 http.server 開 okinawa 頁，以瀏覽器 Image() 載入 shopping-images.js 全部 93 個圖片網址；curl 正式站 shopping-images.js 比對 SHA256","result":"pass","evidence":"93/93 載入成功、無水平溢出；線上 shopping-images.js SHA256 40da5987… 與本機一致；手機實機外觀 UNVERIFIED（截圖工具失效未目視）"}}
+{
+  "schema_version": 1,
+  "project_id": "switzerland-honeymoon",
+  "updated_at": "2026-10-04T18:00:00+08:00",
+  "updated_by": "claude",
+  "status": "done",
+  "repo": {
+    "path": "/Users/user/Claude文件/Projects/switzerland-honeymoon",
+    "branch": "main",
+    "head": "04a0369af662d791e6273c78c73f5e51383f5871",
+    "dirty_files": []
+  },
+  "current_work": {
+    "owner": "none",
+    "task": "App 圖示換成新版 3D 軟質風。",
+    "started_at": null,
+    "status": "done",
+    "updated_at": "2026-10-04T18:00:00+08:00",
+    "summary": "瑞士旅遊 icon-180／192／512 與 okinawa 淺藍版 okinawa-user-selected-180／192／512 換成新圖，icon.svg 為內嵌 PNG 的 SVG，sw.js 升至 honeymoon-v58，已 push 至 GitHub Pages。實機圖示 UNVERIFIED，已加入主畫面者需刪除重加。"
+  },
+  "verification": {
+    "last_run": "2026-10-04T18:00:00+08:00",
+    "command": "本機 http.server 開 okinawa 頁，以瀏覽器 Image() 載入 shopping-images.js 全部 93 個圖片網址；curl 正式站 shopping-images.js 比對 SHA256",
+    "result": "pass",
+    "evidence": "sonnet verifier 逐條 PASS：檔案存在、PNG 尺寸、sw.js node --check、JSON 解析；Claude 讀過 Codex diff。實機圖示 UNVERIFIED。"
+  }
+}
 ```
 
 ## 現況摘要
@@ -35,3 +61,7 @@
 ## 接棒
 - read_next：本檔、swiss-honeymoon-site skill、`進度.md`。
 - resume_from：先查證哥的新需求來源，再修改並跑固定驗證。
+
+## 2026-10-04 App 圖示更換
+
+- 瑞士旅遊 icon-180／192／512 與 okinawa 淺藍版 okinawa-user-selected-180／192／512 換成新圖，icon.svg 為內嵌 PNG 的 SVG，sw.js 升至 honeymoon-v58，已 push 至 GitHub Pages。實機圖示 UNVERIFIED，已加入主畫面者需刪除重加。
