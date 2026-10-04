@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const views = ['overview', 'plan', 'budget', 'bookings', 'notes', 'shopping'];
+  const views = ['overview', 'plan', 'budget', 'bookings', 'notes', 'options', 'shopping'];
   const panels = views.map(id => document.getElementById(id));
   const tabs = document.querySelector('.daytabs');
   const panel = document.getElementById('day-panel');
