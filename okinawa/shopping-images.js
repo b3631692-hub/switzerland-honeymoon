@@ -45,15 +45,17 @@ window.SHOPPING_IMAGES = {
     "pixelVerified": true
   },
   "one_p": {
-    "url": "",
-    "sourceUrl": "https://digitalpr.jp/r/68362",
-    "sourceLabel": "三菱鉛筆 uni 官方商品頁",
+    "url": "https://www.loft.co.jp/shop_assets/img/goods/L/4902778302903-L.jpg",
+    "sourceUrl": "https://www.loft.co.jp/store/g/g4902778302903/",
+    "sourceLabel": "LOFT 官方商城（零售商）",
     "alt": "uni-ball one P 短胖中性筆 0.38mm",
-    "match": "unverified",
-    "matchNote": "現有官方發布圖含0.38與0.5系列，尚未找到可分辨0.38款的單品照。",
+    "match": "representative",
+    "matchNote": "JAN4902778302903、0.38mmみかん款；目視確認單支橘色短胖筆。清單一般色未固定顏色，圖片為其列舉みかん示例，非0.5mm。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "orbis-hair-milk": {
     "url": "https://www.orbis.co.jp/cms/small/1452050/images/1452050_800_42.jpg",
@@ -83,21 +85,23 @@ window.SHOPPING_IMAGES = {
     "sourceLabel": "KOSE 官方商品頁",
     "alt": "KOSE Softymo Speedy 快速卸妝油（粉瓶）",
     "match": "unverified",
-    "matchNote": "已取得官方Speedy系列圖，但未目視核實240mL包裝；瀏覽器安全檢查無法完成，暫不展示。",
+    "matchNote": "KOSE官方商城WSPD主圖實為黃色Pokémon聯名包裝，非清單粉瓶；已目視剔除，不以聯名圖冒充普通版。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
     "pixelVerified": false
   },
   "kinto_travel_350": {
-    "url": "",
-    "sourceUrl": "https://kinto.co.jp/collections/travel-tumbler/products/20931",
-    "sourceLabel": "KINTO 官方商品頁",
+    "url": "https://kinto-europe.com/cdn/shop/products/20931.jpg?v=1718868104&width=1024",
+    "sourceUrl": "https://kinto-europe.com/products/20931?variant=18332013822010",
+    "sourceLabel": "KINTO Europe 官方商品頁",
     "alt": "KINTO TRAVEL TUMBLER 350ml 保溫隨行杯",
-    "match": "unverified",
-    "matchNote": "現有官方HTML主圖為20932顏色，尚未核實20931不鏽鋼色單品圖。",
+    "match": "exact",
+    "matchNote": "官方頁明示350ml stainless steel No.20931，圖片alt及檔名一致；目視確認不鏽鋼銀色瓶身與深灰瓶頸，非白色20932。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "montbell_travel50": {
     "url": "https://webshop.montbell.jp/common/images/product/prod_c/c_1128694_wt.jpg",
@@ -133,15 +137,17 @@ window.SHOPPING_IMAGES = {
     "pixelVerified": true
   },
   "hario_v60": {
-    "url": "",
-    "sourceUrl": "https://shop.hariocorp.co.jp/products/vd-01t",
-    "sourceLabel": "HARIO 官方商品頁",
+    "url": "https://www.hario.co.uk/cdn/shop/files/VD-01T_6552f4c4-4c95-4ab8-9d07-7b378aba8820_1000x1000.jpg?v=1705667165",
+    "sourceUrl": "https://www.hario.co.uk/products/hario-v60-coffee-dripper-plastic-size-01-clear-1",
+    "sourceLabel": "HARIO UK 官方商品頁",
     "alt": "HARIO V60 01 透明樹脂咖啡濾杯",
-    "match": "unverified",
-    "matchNote": "官方圖檔為VD-01T，現行品番為VDR-01-T；缺明確同品更新證據，暫不展示。",
+    "match": "exact",
+    "matchNote": "官方現行商品頁SKU與Article No.均為VDR-01-T；HARIO官方Yahoo店明示VDR-01-T舊VD-01T，支持沿用圖檔名稱。目視確認透明塑膠01字樣濾杯。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "muji_sacoche": {
     "url": "https://www.muji.com/public/media/img/item/4548076172536_org.jpg",
@@ -225,66 +231,78 @@ window.SHOPPING_IMAGES = {
     "sourceUrl": "https://marna.jp/shop/g/gK674CL/",
     "sourceLabel": "marna 官方商品頁",
     "alt": "marna 極 Premium 不沾飯匙",
-    "match": "unverified",
-    "matchNote": "官方圖alt為極しゃもじプレミアム透明normal，K674CL吻合。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "exact",
+    "matchNote": "K674CL透明正常款單支飯匙；目視確認完整透明飯匙本體與細顆粒表面。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "aux_fingertip_tong": {
     "url": "https://www.aux-ltd.co.jp/products/item_img/yubisakitong-thumb.jpg",
     "sourceUrl": "https://www.aux-ltd.co.jp/products/tongs/yubisakitong.html",
     "sourceLabel": "AUX 官方商品頁",
     "alt": "AUX leye 指尖料理夾",
-    "match": "unverified",
-    "matchNote": "官方LS1505ゆびさきトング商品主圖。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "exact",
+    "matchNote": "LS1505官方商品主圖；目視確認單件不鏽鋼指尖料理夾。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "aux_miso_muddler": {
     "url": "https://www.aux-ltd.co.jp/products/item_img/misomuddler-thumb.jpg",
     "sourceUrl": "https://www.aux-ltd.co.jp/products/kitchen-tools/misomuddler.html",
     "sourceLabel": "AUX 官方商品頁",
     "alt": "AUX leye 味噌計量攪拌匙",
-    "match": "unverified",
-    "matchNote": "官方LS1500計量みそマドラー商品主圖。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "exact",
+    "matchNote": "LS1500官方商品主圖；目視確認雙頭金屬味噌計量攪拌匙。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "akebono_clear_teapot": {
-    "url": "",
-    "sourceUrl": "https://www.akebono-sa.co.jp/html/template/akebono/img/catalog/catalog4.pdf",
+    "url": "https://www.akebono-sa.co.jp/html/upload/save_image/0917110400_66e8e3904d3aa.jpg",
+    "sourceUrl": "https://www.akebono-sa.co.jp/products/detail/118",
     "sourceLabel": "曙產業 官方商品頁",
     "alt": "曙產業 透明輕量茶壺 L",
-    "match": "unverified",
-    "matchNote": "現有來源為官方PDF型錄，未找到可核實的獨立商品圖網址。",
+    "match": "exact",
+    "matchNote": "官方L款頁明示480ml；型錄TW-3717透明款吻合。目視確認透明壺身、透明濾網及側把，非急須或網篩版。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "marna_bread_freezer_bag": {
     "url": "https://marna.jp/img/goods/L/K766BE.jpg",
     "sourceUrl": "https://marna.jp/shop/g/gK766BE/",
     "sourceLabel": "marna 官方商品頁",
     "alt": "marna 吐司冷凍保存袋 半條兩入",
-    "match": "unverified",
-    "matchNote": "官方K766BE圖alt明示半斤、兩枚入、米色。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "exact",
+    "matchNote": "K766BE半斤兩入米色；目視確認兩個米色麵包保存袋。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "takeya_freshlok_300": {
-    "url": "",
-    "sourceUrl": "https://takeyajp.com/products/freshlok-s300-3p",
+    "url": "https://takeyajp.com/cdn/shop/files/300_3_W-100_re_1024x.jpg?v=1776411992",
+    "sourceUrl": "https://takeyajp.com/products/freshlok-s300-1p",
     "sourceLabel": "TAKEYA 官方商品頁",
     "alt": "TAKEYA Freshlok 300ml 方形乾貨罐",
-    "match": "unverified",
-    "matchNote": "現有官方頁為3個組，清單指定單罐；未拿組合照冒充單罐。",
+    "match": "representative",
+    "matchNote": "官方單罐300ml白色示例；清單顏色店頭選。目視確認一個300標籤方罐與白色贈匙，非3個組。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "richell_colander_m": {
     "url": "https://www.richell.co.jp/lifeplus/wp-content/uploads/2024/05/12932-edited.jpg",
@@ -302,77 +320,91 @@ window.SHOPPING_IMAGES = {
     "sourceUrl": "https://shop.hariocorp.co.jp/products/fib-75-w",
     "sourceLabel": "HARIO 官方商品頁",
     "alt": "HARIO 750ml 冷泡茶濾網瓶",
-    "match": "unverified",
-    "matchNote": "官方FIB-75-W 750mL白色款；清單未指定顏色。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "representative",
+    "matchNote": "FIB-75-W 750ml同型號白色示例；清單未指定顏色，原評價為橄欖綠。目視確認白色瓶蓋與完整玻璃瓶。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "marna_seasoning_pot": {
-    "url": "",
-    "sourceUrl": "https://item.rakuten.co.jp/shopmarna/k736/",
+    "url": "https://marna.jp/img/goods/L/K736W.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gK736W/",
     "sourceLabel": "marna 官方商品頁",
     "alt": "marna 單手開蓋調味罐 370ml",
-    "match": "unverified",
-    "matchNote": "官方樂天頁主圖可能含多色，尚未核對K736W白色單品。",
+    "match": "exact",
+    "matchNote": "官方DOM調味料ポット ホワイト圖片；K736W、370ml吻合，目視確認白蓋單罐與內附匙。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "marna_cooking_chopsticks": {
     "url": "https://marna.jp/img/goods/L/K801GY.jpg",
     "sourceUrl": "https://marna.jp/shop/g/gK801GY/",
     "sourceLabel": "marna 官方商品頁",
     "alt": "marna 防滑料理長筷 31cm",
-    "match": "unverified",
-    "matchNote": "官方K801GY圖alt明示31cm灰色，同清單K801系列。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "representative",
+    "matchNote": "K801GY 31cm同型號灰色示例；清單未指定色碼。目視確認成對灰色長筷。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "hario_measure_cup_250": {
-    "url": "",
-    "sourceUrl": "https://item.rakuten.co.jp/hario-onlinestore/v_31679532925006/",
-    "sourceLabel": "HARIO 官方商品頁",
+    "url": "https://www.hario-usa.com/cdn/shop/products/IMG_7311.jpg?v=1644867926&width=1946",
+    "sourceUrl": "https://www.hario-usa.com/products/measuring-cup",
+    "sourceLabel": "HARIO USA 官方商品頁",
     "alt": "HARIO 耐熱玻璃量杯 250ml",
-    "match": "unverified",
-    "matchNote": "官方樂天頁包含250與500mL，尚未確定單圖對應MJP-250-GR。",
+    "match": "exact",
+    "matchNote": "HARIO USA官方MJP-250-GR頁主圖；目視可讀250ml刻度，單個玻璃量杯，非500ml或組合照。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "tower_trivet": {
     "url": "https://www.yamajitsu.co.jp/cdn/shop/files/2251_primary_image.jpg?v=1777006062&width=1120",
     "sourceUrl": "https://www.yamajitsu.co.jp/products/240899",
     "sourceLabel": "山崎実業 官方商品頁",
     "alt": "山崎實業 tower 鋼製鍋墊",
-    "match": "unverified",
-    "matchNote": "官方頁選取BK後確認頁面顯示ブラック/SKU2251，主圖DOM同步更新為2251。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "exact",
+    "matchNote": "2251黑色；官方頁選色為BK，目視確認黑色十字鋼製鍋墊與四個腳套。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "iwatani_iwrap": {
     "url": "https://www.iwatani-i-collect.com/img/goods/kitchen/2000004119_m.jpg",
     "sourceUrl": "https://www.iwatani-i-collect.com/shop/g/g2000004119/",
     "sourceLabel": "岩谷マテリアル 官方商品頁",
     "alt": "岩谷 I-WRAP 食品保存調理袋 60入",
-    "match": "unverified",
-    "matchNote": "Iwatani官方商品圖alt明示家庭用60枚入り。 尚未完成像素核驗，瀏覽器工具受限或超時，暫不展示。",
+    "match": "exact",
+    "matchNote": "官方家庭用60枚包裝；目視可讀60枚及25cm×35cm，非夾鏈袋。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "ziploc_freezer_m": {
-    "url": "",
-    "sourceUrl": "https://www.asahi-kasei.co.jp/saran/products/ziploc/freezer.html",
-    "sourceLabel": "旭化成ホームプロダクツ 官方商品頁",
+    "url": "https://www.seims.co.jp/img/goods/L/4901670117592.jpg",
+    "sourceUrl": "https://www.seims.co.jp/shop/g/g4901670117592/",
+    "sourceLabel": "SEIMS 富士藥品官方商城（零售商）",
     "alt": "Ziploc 日本版冷凍夾鏈袋 M 45入",
-    "match": "unverified",
-    "matchNote": "官方現行頁圖alt為M16枚，清單指定M45枚，包裝不一致不展示。",
+    "match": "exact",
+    "matchNote": "零售商JAN4901670117592；目視確認日版Ziplocフリーザーバッグ M45 BAGS外盒，不使用16入或40入圖。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "官方公開商品圖；未取得重製或商用授權，未全面審查網站條款。僅提供原站URL與來源，不下載再託管；公開可讀不等於授權。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "kureha_krewrap": {
     "url": "",
@@ -412,15 +444,17 @@ window.SHOPPING_IMAGES = {
     "pixelNote": "已實際查看圖像像素：可辨識完整對應商品本體或商品包裝，非Logo、色票或局部效果圖。"
   },
   "cookper_frying_foil": {
-    "url": "",
-    "sourceUrl": "https://www.asahi-kasei.co.jp/saran/products/cookper/fryingpan.html",
-    "sourceLabel": "旭化成ホームプロダクツ 官方商品頁",
+    "url": "https://www.seims.co.jp/img/goods/L/4901670115437.jpg",
+    "sourceUrl": "https://www.seims.co.jp/shop/g/g4901670115437/",
+    "sourceLabel": "SEIMS 富士藥品官方商城（零售商）",
     "alt": "旭化成 Cookper 不沾煎鍋鋁箔 25cm×20m商品照",
-    "match": "unverified",
-    "matchNote": "官方商品頁僅核對到25cm×3m圖，不符合此清單25cm×20m；不展示。",
+    "match": "exact",
+    "matchNote": "零售商JAN4901670115437商品頁；目視確認25cm×20m包裝，不使用製造商3m主圖。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "muji-travel-lint": {
     "url": "https://www.muji.com/public/media/img/item/4550344832059_org.jpg",
@@ -540,15 +574,17 @@ window.SHOPPING_IMAGES = {
     "pixelNote": "已實際查看圖像像素：可辨識完整對應商品本體或商品包裝，非Logo、色票或局部效果圖。"
   },
   "marna-glass-cloth": {
-    "url": "",
-    "sourceUrl": "https://item.rakuten.co.jp/shopmarna/w640/",
+    "url": "https://marna.jp/img/goods/L/W640GY.jpg",
+    "sourceUrl": "https://marna.jp/shop/g/gW640GY/",
     "sourceLabel": "marna 官方商品頁",
     "alt": "marna 玻璃鏡面清潔布 2入商品照",
-    "match": "unverified",
-    "matchNote": "原官方商店頁目前主圖是WEB限定黃/藍色並混合1入與2入選項，不能當作指定W640GY灰色2入商品圖，故不展示。",
+    "match": "exact",
+    "matchNote": "官方頁另列W640GY灰色2入圖片，非主圖藍黃款；目視確認兩片灰色清潔布。",
     "checkedAt": "2026-10-03",
-    "rightsNote": "圖片版權歸原權利人；公開網址不代表授權商用或轉載。",
-    "pixelVerified": false
+    "rightsNote": "公開商品圖直連；圖片版權歸原權利人，未取得重製或商用授權，未全面審查網站條款；不下載再託管。",
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "muji-reversible-laundry-net": {
     "url": "https://www.muji.com/public/media/img/item/4550583932381_org.jpg",
@@ -996,15 +1032,17 @@ window.SHOPPING_IMAGES = {
     "pixelVerified": true
   },
   "chifure_lip_cheek": {
-    "url": null,
-    "sourceUrl": "https://www.chifure.co.jp/products/lip/8046",
-    "sourceLabel": "ちふれ／ちふれ化粧品 官方商品頁",
+    "url": "https://onlineshop.chifure-group.jp/img/goods/L/8046_f2ce8c706a414777a57c9b0c43bde4eb.jpg",
+    "sourceUrl": "https://onlineshop.chifure-group.jp/shop/chifure/g/g8046/",
+    "sourceLabel": "CHIFURE 官方商城",
     "alt": "CHIFURE 唇頰兩用膏 商品圖",
-    "match": "unverified",
-    "matchNote": "PK40.jpg為色票已剔除；另有官方實物主圖但標RD40受賞，非清單PK40示例，暫不展示。實物為方形盒，資料小圓盒敘述需修正。",
+    "match": "exact",
+    "matchNote": "官方商城8046頁明示PK40ピンク系；目視確認完整方形透明盒粉紅唇頰膏，非色票或RD40。",
     "checkedAt": "2026-10-03",
     "rightsNote": "官方商品頁公開圖片直連；未取得另行授權，不代表授權重製或轉售；不下載重存。",
-    "pixelVerified": false
+    "pixelVerified": true,
+    "pixelVerifiedAt": "2026-10-03",
+    "pixelNote": "於dot雲端瀏覽器直接開啟來源圖URL，實際目視核對商品像素；未進行本地或公開網站版面驗收。"
   },
   "the_answer_shampoo": {
     "url": "https://www.theanswer-official.com/assets/img/common/card_product_shampoo.png",
