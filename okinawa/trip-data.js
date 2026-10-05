@@ -1,5 +1,5 @@
 window.TRIP = {
-  "updated": "2026-10-02",
+  "updated": "2026-10-05",
   "travellers": 2,
   "paid": 25555.41,
   "flight": 20723.41,
@@ -41,8 +41,9 @@ window.TRIP = {
           "time": "19:00",
           "name": "SKY 那霸機場店取車",
           "type": "已訂",
-          "note": "11-B 附近搭 SKY 接駁，店面取車時付 ¥16,200；ETC 裝置不等於附 ETC 卡。",
-          "map": "スカイレンタカー 那覇空港店"
+          "note": "11-B 附近搭 SKY 接駁，店面取車時付 ¥16,200；ETC 裝置不等於附 ETC 卡。取車時拍四角、輪圈、玻璃、油表與里程，有刮痕先請店員記錄。",
+          "map": "スカイレンタカー 那覇空港店",
+          "links": [{"label":"SKY 接駁官方","url":"https://www.skyrent.jp/okinawa/naha-airport/sougei/"},{"label":"取車／事故操作","url":"https://www.skyrent.jp/tenpo-guide/naha-airport/"}]
         },
         {
           "time": "19:30–21:20",
@@ -98,8 +99,9 @@ window.TRIP = {
           "time": "14:00–16:15",
           "name": "沖繩美麗海水族館",
           "type": "預排",
-          "note": "含古宇利到水族館約 35–50 分鐘及停車步行。以館內為主，不硬塞整個海洋博公園；最晚約 16:30 上車。",
-          "map": "沖繩美麗海水族館"
+          "note": "含古宇利到水族館約 35–50 分鐘。停車入口先找海洋博公園 P7／P6；館方時間另看官方頁（08:30–18:30、17:30 止入），我們以 16:30 上車離開、保留南下緩衝為目標。",
+          "map": "沖繩美麗海水族館 P7 駐車場",
+          "links": [{"label":"P7／P6 官方交通","url":"https://ipv4.churaumi.okinawa/sp/guide/access/"},{"label":"館方時間／止入","url":"https://ipv4.churaumi.okinawa/sp/guide/hour/"}]
         },
         {
           "time": "約 18:15–18:45",
@@ -147,9 +149,9 @@ window.TRIP = {
         },
         {
           "time": "中午至下午",
-          "name": "婚紗拍攝／自助拍照時段",
+          "name": "自架腳架拍攝候選時段",
           "type": "待確認",
-          "note": "中段先保留。地點、預約時間與費用待確認；若為正式攝影，須依集合及結束時間重排行程，不能預設兩三小時足夠。"
+          "note": "中段先保留自架腳架拍攝候選。地點、是否需許可、換裝位置與天候待核；沒有正式攝影預約或費用。強風、雷雨不要在海邊架腳，若之後有正式預約才依集合及結束時間重排行程。"
         },
         {
           "time": "約 15:30–17:00",
@@ -212,14 +214,15 @@ window.TRIP = {
           "time": "14:00–15:30",
           "name": "南下、加滿油、抵達租車店",
           "type": "建議",
-          "note": "三連休與那霸祭典可能影響車流；行程以已加滿油、15:30 到店為規劃目標。",
+          "note": "三連休與那霸祭典可能影響車流；已加滿油、15:30 到店是規劃目標，原訂單 17:00 未變更。",
           "map": "スカイレンタカー 那覇空港店"
         },
         {
           "time": "15:30",
           "name": "建議提早實際還車",
           "type": "建議",
-          "note": "原訂單仍是 17:00，未替你改約。SKY 指引要求航班前 90 分鐘還車，即 16:50；17:00 晚於這項指引。"
+          "note": "原訂單仍是 17:00，未替你改約。依 SKY 官方不同頁面分別核對送機與返車提醒，15:30 是我們的保守目標，不把單一分鐘數當唯一規則。",
+          "links": [{"label":"SKY 送迎官方","url":"https://www.skyrent.jp/okinawa/naha-airport/sougei/"},{"label":"SKY 那霸店操作","url":"https://www.skyrent.jp/tenpo-guide/naha-airport/"},{"label":"免責／事故官方","url":"https://www.skyrent.jp/guide/menseki/"}]
         },
         {
           "time": "16:00–16:20",

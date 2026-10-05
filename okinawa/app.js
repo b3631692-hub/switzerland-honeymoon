@@ -7,6 +7,33 @@
   const themeButton = document.getElementById('theme-toggle');
   let selectedDay = 0;
   const esc = text => String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const checklistKey = 'okinawa-departure-checklist-v1';
+  const checklistInputs = [...document.querySelectorAll('[data-check-item]')];
+  const checklistStatuses = [...document.querySelectorAll('[data-checklist-status]')];
+  function readChecklist() {
+    try {
+      const value = JSON.parse(localStorage.getItem(checklistKey) || '{}');
+      return value && typeof value === 'object' ? value : {};
+    } catch { return {}; }
+  }
+  function applyChecklist(state = readChecklist()) {
+    checklistInputs.forEach(input => { input.checked = state[input.dataset.checkItem] === true; });
+    const done = checklistInputs.filter(input => input.checked).length;
+    checklistStatuses.forEach(status => { status.textContent = `${done} / 8 已勾選`; });
+  }
+  function saveChecklist() {
+    const keys = [...new Set(checklistInputs.map(input => input.dataset.checkItem))];
+    const state = Object.fromEntries(keys.map(key => [key, checklistInputs.some(input => input.dataset.checkItem === key && input.checked)]));
+    try { localStorage.setItem(checklistKey, JSON.stringify(state)); } catch {}
+    applyChecklist(state);
+  }
+  checklistInputs.forEach(input => input.addEventListener('change', saveChecklist));
+  document.querySelectorAll('[data-checklist-reset]').forEach(button => button.addEventListener('click', () => {
+    try { localStorage.removeItem(checklistKey); } catch {}
+    applyChecklist({});
+  }));
+  window.addEventListener('storage', event => { if (event.key === checklistKey) applyChecklist(); });
+  applyChecklist();
   const kind = type => type === '已訂' ? 'confirmed' : (['待選','待確認'].includes(type) ? 'pending' : 'planned');
   function setHash(hash) { if (location.hash !== hash) history.pushState(null, '', hash); }
   function showView(name, scroll = true, writeHash = true) {
@@ -26,7 +53,7 @@
     const day = TRIP.days[index];
     tabs.querySelectorAll('button').forEach((b,i) => { b.setAttribute('aria-selected',String(i === index)); b.tabIndex = i === index ? 0 : -1; });
     panel.setAttribute('aria-labelledby', `day-tab-${index}`);
-    panel.innerHTML = `<div class="dayhead"><span class="daynumber" aria-hidden="true">${String(index + 1).padStart(2,'0')}</span><div><h2>${esc(day.title)}</h2><p>${esc(day.subtitle)}</p></div></div><p class="day-distance">${esc(day.distance)}</p><ol class="timeline">${day.events.map(e => `<li class="event"><div class="eventtime">${esc(e.time)}</div><div class="eventbody"><div class="eventtitle"><h3>${esc(e.name)}</h3><span class="tag ${kind(e.type)}">${esc(e.type)}</span></div><p>${esc(e.note)}</p>${e.map ? `<a class="maplink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.map)}" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖開啟${esc(e.name)}">開啟地圖</a>` : ''}</div></li>`).join('')}</ol><div class="hotelbar">${index === TRIP.days.length-1 ? '旅程終點' : '今晚住宿'}<strong>${esc(day.hotel)}</strong></div><div class="day-controls" aria-label="切換行程日期"><button type="button" data-step="-1" ${index === 0 ? 'disabled' : ''}>← 前一天</button><button type="button" data-step="1" ${index === TRIP.days.length-1 ? 'disabled' : ''}>下一天 →</button></div>`;
+    panel.innerHTML = `<div class="dayhead"><span class="daynumber" aria-hidden="true">${String(index + 1).padStart(2,'0')}</span><div><h2>${esc(day.title)}</h2><p>${esc(day.subtitle)}</p></div></div><p class="day-distance">${esc(day.distance)}</p><ol class="timeline">${day.events.map(e => `<li class="event"><div class="eventtime">${esc(e.time)}</div><div class="eventbody"><div class="eventtitle"><h3>${esc(e.name)}</h3><span class="tag ${kind(e.type)}">${esc(e.type)}</span></div><p>${esc(e.note)}</p>${e.map ? `<a class="maplink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.map)}" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖開啟${esc(e.name)}">開啟地圖</a>` : ''}${Array.isArray(e.links) ? `<div class="event-links">${e.links.map(link => `<a href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)} ↗</a>`).join('')}</div>` : ''}</div></li>`).join('')}</ol><div class="hotelbar">${index === TRIP.days.length-1 ? '旅程終點' : '今晚住宿'}<strong>${esc(day.hotel)}</strong></div><div class="day-controls" aria-label="切換行程日期"><button type="button" data-step="-1" ${index === 0 ? 'disabled' : ''}>← 前一天</button><button type="button" data-step="1" ${index === TRIP.days.length-1 ? 'disabled' : ''}>下一天 →</button></div>`;
     if (writeHash && !document.getElementById('plan').hidden) setHash(`#day-${index+1}`);
     if (focus) tabs.children[index].focus({preventScroll:true});
   }
